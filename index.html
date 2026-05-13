@@ -61,6 +61,22 @@
         "billingIncrement": "P1M",
         "name": "Pro Plan",
         "description": "AI predictions, unlimited tracking"
+      },
+      {
+        "@type": "Offer",
+        "price": "24",
+        "priceCurrency": "USD",
+        "billingIncrement": "P1M",
+        "name": "Family Plan",
+        "description": "Everything in Pro for up to 5 family members"
+      },
+      {
+        "@type": "Offer",
+        "price": "49",
+        "priceCurrency": "USD",
+        "billingIncrement": "P1M",
+        "name": "Elite Plan",
+        "description": "AI Shopping Assistant, price crash alerts, API access"
       }
     ],
     "aggregateRating": {
@@ -842,13 +858,13 @@
     }
 
     .pricing-inner {
-      max-width: 960px;
+      max-width: 1100px;
       margin: 0 auto;
     }
 
     .pricing-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 20px;
     }
 
@@ -1287,6 +1303,12 @@
     }
 
     /* ─── RESPONSIVE ──────────────── */
+    @media (max-width: 1100px) {
+      .pricing-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
     @media (max-width: 900px) {
       nav { padding: 14px 24px; }
       .nav-links { display: none; }
@@ -1821,6 +1843,8 @@
     </div>
 
     <div class="pricing-grid">
+
+      <!-- FREE -->
       <div class="price-card">
         <div class="price-plan">Free</div>
         <div class="price-number">$0</div>
@@ -1843,10 +1867,8 @@
         </a>
       </div>
 
-      <div class="price-card featured">
-        <div class="featured-badge">
-          Most Popular
-        </div>
+      <!-- PRO -->
+      <div class="price-card">
         <div class="price-plan">Pro</div>
         <div class="price-number">$14</div>
         <div class="price-period">
@@ -1871,7 +1893,7 @@
           <li>Instant email alerts</li>
         </ul>
         <a href="CHROME_STORE_URL_HERE"
-          class="btn-gold"
+          class="btn-outline"
           style="display:block;
           text-align:center;
           font-size:14px;
@@ -1880,6 +1902,42 @@
         </a>
       </div>
 
+      <!-- FAMILY — MOST POPULAR -->
+      <div class="price-card featured">
+        <div class="featured-badge">
+          Most Popular
+        </div>
+        <div class="price-plan">Family</div>
+        <div class="price-number">$24</div>
+        <div class="price-period">
+          per month
+        </div>
+        <ul class="price-list">
+          <li>Everything in Pro</li>
+          <li class="pro-only">
+            Up to 5 family members
+          </li>
+          <li class="pro-only">
+            Shared price alerts
+          </li>
+          <li class="pro-only">
+            Family savings dashboard
+          </li>
+          <li>Unlimited tracking</li>
+          <li>AI drop predictions</li>
+          <li>Works on 15+ sites</li>
+        </ul>
+        <a href="CHROME_STORE_URL_HERE"
+          class="btn-gold"
+          style="display:block;
+          text-align:center;
+          font-size:14px;
+          padding:12px;">
+          Get Family
+        </a>
+      </div>
+
+      <!-- ELITE -->
       <div class="price-card">
         <div class="price-plan">Elite</div>
         <div class="price-number">$49</div>
@@ -1912,6 +1970,7 @@
           Get Elite
         </a>
       </div>
+
     </div>
   </div>
 </section>
@@ -2032,23 +2091,22 @@
         </div>
       </a>
 
-      <a href="/blog/best-time-to-buy-amazon"
+      <a href="/blog/keepa-alternative"
         class="blog-card">
-        <div class="blog-thumb t2">⏰</div>
+        <div class="blog-thumb t2">⚔️</div>
         <div class="blog-body">
-          <div class="blog-category">Research</div>
+          <div class="blog-category">Comparison</div>
           <h3>
-            Best Time To Buy on Amazon: 
-            AI Analysis of 10 Products
+            Keepa vs CamelCamelCamel vs 
+            Zroppix: Which Is Best in 2026?
           </h3>
           <p>
-            We analyzed thousands of price 
-            points to find the best days, 
-            months and times to buy the 
-            most popular products.
+            An honest breakdown of the three 
+            biggest Amazon price trackers so 
+            you can pick the right one.
           </p>
           <div class="blog-meta">
-            <span>8 min read</span>
+            <span>6 min read</span>
             <span>May 2026</span>
           </div>
         </div>
