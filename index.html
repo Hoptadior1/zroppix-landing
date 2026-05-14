@@ -802,7 +802,7 @@
           <li>Unlimited tracking</li>
           <li>Instant email alerts</li>
         </ul>
-        <a href="https://buy.paddle.com/product/pro_01krkm7zq3ysgwvcqm9tgt703p"
+        <a href="#" onclick="openCheckout('pri_01krkmfh45bs9q5zhasvcdfpnb'); return false;"
           class="btn-outline" style="display:block;text-align:center;font-size:14px;padding:12px;">
           Get Pro
         </a>
@@ -822,7 +822,7 @@
           <li>AI drop predictions</li>
           <li>Works on 15+ sites</li>
         </ul>
-        <a href="https://buy.paddle.com/product/pro_01krkm91ebjssyfb1x14mc86y6"
+        <a href="#" onclick="openCheckout('pri_01krkmjj5xxns1egknqgkgt3hb'); return false;"
           class="btn-gold" style="display:block;text-align:center;font-size:14px;padding:12px;">
           Get Family
         </a>
@@ -841,7 +841,7 @@
           <li>API access</li>
           <li>Priority support</li>
         </ul>
-        <a href="https://buy.paddle.com/product/pro_01krkm9wcfjsqmgdffmxzywcy1"
+        <a href="#" onclick="openCheckout('pri_01krkmkf66j5wychvkn0tmy6ky'); return false;"
           class="btn-outline" style="display:block;text-align:center;font-size:14px;padding:12px;">
           Get Elite
         </a>
@@ -1016,6 +1016,21 @@
     </ul>
   </div>
 </footer>
+
+<!-- Paddle.js -->
+<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+<script>
+  // Initialize Paddle
+  Paddle.Initialize({
+    token: 'live_f1eda9271a93d8a241d6446b64c'
+  });
+
+  function openCheckout(priceId) {
+    Paddle.Checkout.open({
+      items: [{ priceId: priceId, quantity: 1 }]
+    });
+  }
+</script>
 
 <script>
   document.querySelectorAll('.faq-question').forEach(q => {
