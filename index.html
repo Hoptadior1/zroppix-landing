@@ -155,6 +155,8 @@
       font-size: 16px;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      max-width: 100vw;
     }
 
     a { text-decoration: none; color: inherit; }
@@ -972,6 +974,12 @@
     ✓ Works on Chrome and Brave &nbsp;·&nbsp; ✓ Free forever &nbsp;·&nbsp; ✓ 10 second install
   </p>
 </section>
+
+<!-- OVERFLOW FIX -->
+<style>
+  html, body { overflow-x: hidden !important; max-width: 100% !important; }
+  * { max-width: 100%; }
+</style>
 
 <!-- NEWSLETTER SECTION -->
 <section style="background:#12121A; border-top:1px solid #22223A; border-bottom:1px solid #22223A; padding:60px 20px;">
