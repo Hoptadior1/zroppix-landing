@@ -980,55 +980,15 @@
     <h2 style="font-size:28px; font-weight:900; color:#fff; margin-bottom:12px; line-height:1.2;">Get Weekly Amazon Deal Alerts</h2>
     <p style="font-size:15px; color:#7A78A0; margin-bottom:32px;">We verify which Amazon deals are actually good so you don't have to. Free every Friday. No spam. Unsubscribe anytime.</p>
 
-    <!-- Brevo Form -->
-    <style>
-      #sib-container input::placeholder { color:#7A78A0; }
-      #sib-container { background:transparent !important; border:none !important; max-width:100% !important; }
-      .sib-form { background:transparent !important; }
-      #sib-form-container { background:transparent !important; }
-      .sib-form-block p { color:#7A78A0 !important; font-size:14px !important; }
-      .entry__label { display:none !important; }
-      .entry__specification { display:none !important; }
-      .sib-form-block__button { width:100% !important; padding:14px !important; font-size:16px !important; font-weight:800 !important; border-radius:10px !important; background-color:#C9A84C !important; color:#0D0D14 !important; cursor:pointer; }
-      .sib-form-block__button:hover { background-color:#D4B864 !important; }
-      .input { width:100% !important; padding:14px 16px !important; border-radius:10px !important; border:1px solid #22223A !important; background:#1A1A2E !important; color:#fff !important; font-size:15px !important; margin-bottom:12px !important; box-sizing:border-box !important; }
-      .form__entry { text-align:left !important; }
-      .sib-form-block { text-align:left !important; }
-      .entry__error { display:block; margin-top:8px; }
-    </style>
-    <link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css">
-
-    <div class="sib-form" style="text-align:center; background-color:transparent;">
-      <div id="sib-form-container" class="sib-form-container">
-        <div id="sib-container" class="sib-container--large sib-container--vertical" style="max-width:100%; text-align:center; background-color:transparent; border:none;">
-          <form id="sib-form" method="POST" action="https://2cefce9c.sibforms.com/serve/MUIFAGJbT-Bsz-ZMKlj82E16XTa2DvOSH3ZM_R8MxgM9A_NpwW9YBX7LRi2j7iHlBd3tnI5I7dGsSTmJDd8JRWqyrYCkUi83DR0bpb7vFs2jiEs3NXJlQeJ25oVxBlIO1JV9g6Z_MnP5A3irPY_uRLFo4GD7d2CcOyS2RsMPKYB8qGy8TNriWq6UNkesDOTDPXqbntwvlDJtEBfZOw==">
-            <div style="padding:8px 0;">
-              <div class="sib-input sib-form-block">
-                <div class="form__entry entry_block">
-                  <div class="form__label-row">
-                    <div class="entry__field">
-                      <input class="input" type="text" id="EMAIL" name="EMAIL" autocomplete="off" value="" placeholder="your@email.com" data-required="true" required />
-                    </div>
-                  </div>
-                  <label class="entry__error entry__error--primary" style="font-size:14px; color:#E24B4A; text-align:left; display:none;"></label>
-                </div>
-              </div>
-            </div>
-            <div style="padding:8px 0;">
-              <div class="sib-form-block" style="text-align:center;">
-                <button class="sib-form-block__button sib-form-block__button-with-loader" style="font-family:-apple-system,sans-serif; font-size:16px; font-weight:800; color:#0D0D14; background-color:#C9A84C; border:none; border-radius:10px; padding:14px 32px; width:100%; cursor:pointer;" form="sib-form" type="submit">
-                  Get Free Weekly Alerts →
-                </button>
-              </div>
-            </div>
-            <input type="text" name="email_address_check" value="" class="input--hidden" style="display:none;">
-            <input type="hidden" name="locale" value="en">
-            <input type="hidden" name="html_type" value="simple">
-          </form>
-        </div>
-      </div>
-    </div>
-    <!-- End Brevo Form -->
+    <!-- Newsletter Form — no external CSS to avoid conflicts -->
+    <form id="zroppix-newsletter" method="POST" action="https://2cefce9c.sibforms.com/serve/MUIFAGJbT-Bsz-ZMKlj82E16XTa2DvOSH3ZM_R8MxgM9A_NpwW9YBX7LRi2j7iHlBd3tnI5I7dGsSTmJDd8JRWqyrYCkUi83DR0bpb7vFs2jiEs3NXJlQeJ25oVxBlIO1JV9g6Z_MnP5A3irPY_uRLFo4GD7d2CcOyS2RsMPKYB8qGy8TNriWq6UNkesDOTDPXqbntwvlDJtEBfZOw==" style="width:100%; max-width:480px; margin:0 auto; display:block;">
+      <input type="text" name="EMAIL" placeholder="your@email.com" required style="width:100%; padding:14px 16px; border-radius:10px; border:1px solid #22223A; background:#1A1A2E; color:#fff; font-size:15px; margin-bottom:12px; box-sizing:border-box; font-family:-apple-system,sans-serif; outline:none;">
+      <input type="text" name="email_address_check" value="" style="display:none;">
+      <input type="hidden" name="locale" value="en">
+      <input type="hidden" name="html_type" value="simple">
+      <button type="submit" style="width:100%; padding:14px 32px; background:#C9A84C; color:#0D0D14; border:none; border-radius:10px; font-size:16px; font-weight:800; cursor:pointer; font-family:-apple-system,sans-serif;">Get Free Weekly Alerts →</button>
+    </form>
+    <!-- End Newsletter Form -->
 
     <p style="font-size:12px; color:#3A3A5C; margin-top:16px;">Join Amazon shoppers who never overpay. Verified deals every Friday.</p>
   </div>
