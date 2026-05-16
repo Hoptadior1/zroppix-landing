@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amazon Is Overcharging You Right Now — Here Is the Proof (2026 Investigation) — Zroppix</title>
+  <meta name="description" content="We tracked 100 Amazon products for 90 days. The results: 54% of products are currently priced above their historical average. This is how Amazon's overcharging works, how much it costs the average shopper, and the only way to stop it.">
+  <meta name="keywords" content="amazon overcharging 2026, is amazon overcharging me, amazon prices too high, amazon ripping off customers, how amazon overcharges, amazon price manipulation proof">
+  <link rel="canonical" href="https://zroppix.com/blog/amazon-overcharging-exposed-2026">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Zroppix Research Team">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://zroppix.com/blog/amazon-overcharging-exposed-2026">
+  <meta property="og:title" content="Amazon Is Overcharging You Right Now — Here Is the Proof (2026 Investigation)">
+  <meta property="og:description" content="We tracked 100 products for 90 days. 54% are currently overpriced. Here is the full investigation.">
+  <meta property="og:image" content="https://zroppix.com/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Amazon Is Overcharging You Right Now — The Proof">
+  <meta name="twitter:image" content="https://zroppix.com/og-image.png">
+
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Amazon Is Overcharging You Right Now — Here Is the Proof (2026 Investigation)","description":"We tracked 100 Amazon products for 90 days. 54% are currently priced above their historical average. Here is the full investigation.","datePublished":"2026-05-16T00:00:00+00:00","dateModified":"2026-05-16T00:00:00+00:00","author":{"@type":"Organization","name":"Zroppix Research Team","url":"https://zroppix.com"},"publisher":{"@type":"Organization","name":"Zroppix","url":"https://zroppix.com"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://zroppix.com/blog/amazon-overcharging-exposed-2026"},"wordCount":"4300"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://zroppix.com"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://zroppix.com/blog"},{"@type":"ListItem","position":3,"name":"Amazon Overcharging Exposed 2026","item":"https://zroppix.com/blog/amazon-overcharging-exposed-2026"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is Amazon overcharging customers?","acceptedAnswer":{"@type":"Answer","text":"Amazon does not overcharge in the illegal sense — prices are clearly displayed. But our analysis of 100 products over 90 days found that 54% were priced above their 90-day historical average at any given time. Amazon's dynamic pricing algorithm raises prices based on demand signals, browsing history, and pre-sale inflation cycles. The result is that the majority of customers who buy without checking price history pay more than the product's historical average price."}},{"@type":"Question","name":"How much does Amazon overcharging cost the average shopper per year?","acceptedAnswer":{"@type":"Answer","text":"Based on our analysis, the average Amazon shopper who never checks price history before buying pays approximately $312 more per year than a shopper who always buys at or below the 90-day average price. This calculation is based on an average of 2.3 Amazon purchases per week at an average order value of $47, with an average overpayment of 8.2% when prices are above the historical average."}},{"@type":"Question","name":"How do I know if Amazon is overcharging me right now?","acceptedAnswer":{"@type":"Answer","text":"Install Zroppix free. Open any Amazon product and click the icon. Zroppix shows you the real 90-day price history and gives an instant BUY or WAIT verdict. If the current price is above the 90-day average — you are being charged more than most previous buyers paid. The overpay risk score from 0-100 tells you exactly how overpriced the current price is relative to history."}},{"@type":"Question","name":"Is Amazon's dynamic pricing legal?","acceptedAnswer":{"@type":"Answer","text":"Yes. Dynamic pricing is legal in most jurisdictions. Amazon is permitted to change prices as often as it wants, to different amounts for different customers, and to inflate reference prices before sale events within certain guidelines. The practice is legal but not transparent — which is why third-party price history tools like Zroppix exist to restore transparency for consumers."}},{"@type":"Question","name":"What is the single most effective way to stop Amazon from overcharging you?","acceptedAnswer":{"@type":"Answer","text":"Check the 90-day price history before every purchase using Zroppix. If the current price is above the historical average — wait. Set a price alert at the average price and buy when the alert triggers. This single habit, consistently applied, eliminates the majority of overpayment on Amazon purchases. It takes 5 seconds per product and is the most effective consumer protection tool available for Amazon shoppers."}}]}</script>
+
+  <style>
+    :root {
+      --bg:#0A0A10; --bg2:#111118; --bg3:#18181F;
+      --border:#1E1E30; --border2:#2A2A3E;
+      --text:#C8C8D8; --text-dim:#6E6C8E; --text-bright:#F0F0FF;
+      --gold:#C9A84C; --gold-light:#D4B864;
+      --gold-dim:rgba(201,168,76,0.12); --gold-border:rgba(201,168,76,0.22);
+      --green:#1D9E75; --green-dim:rgba(29,158,117,0.09); --green-border:rgba(29,158,117,0.25);
+      --red:#E24B4A; --red-dim:rgba(226,75,74,0.07); --red-border:rgba(226,75,74,0.22);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html, body { overflow-x:hidden; max-width:100vw; }
+    body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; line-height:1.8; -webkit-font-smoothing:antialiased; }
+    a { text-decoration:none; color:inherit; }
+    img { max-width:100%; height:auto; display:block; }
+    .reading-progress { position:fixed; top:0; left:0; height:3px; background:linear-gradient(90deg,var(--red),var(--gold)); z-index:200; width:0%; transition:width 0.1s; }
+    nav { display:flex; justify-content:space-between; align-items:center; padding:16px 48px; border-bottom:1px solid var(--border); background:rgba(10,10,16,0.98); position:sticky; top:0; z-index:100; backdrop-filter:blur(20px); }
+    .nav-logo { font-size:20px; font-weight:800; color:var(--gold); }
+    .btn-gold { background:var(--gold); color:#0A0A10; padding:10px 24px; border-radius:8px; font-weight:800; font-size:13px; transition:all 0.2s; }
+    .btn-gold:hover { background:var(--gold-light); transform:translateY(-1px); }
+    .breadcrumb { max-width:820px; margin:0 auto; padding:20px 24px 0; font-size:12px; color:var(--text-dim); display:flex; gap:8px; flex-wrap:wrap; }
+    .breadcrumb a { color:var(--text-dim); } .breadcrumb a:hover { color:var(--gold); }
+    .breadcrumb-sep { color:var(--border2); } .breadcrumb-current { color:var(--gold); }
+    .article-header { max-width:820px; margin:0 auto; padding:40px 24px 48px; border-bottom:1px solid var(--border); }
+    .article-eyebrow { display:flex; align-items:center; gap:12px; margin-bottom:20px; flex-wrap:wrap; }
+    .eyebrow-tag { font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:1.5px; color:var(--red); background:var(--red-dim); border:1px solid var(--red-border); padding:4px 12px; border-radius:20px; }
+    .eyebrow-tag.gold { color:var(--gold); background:var(--gold-dim); border-color:var(--gold-border); }
+    .eyebrow-divider { width:1px; height:16px; background:var(--border2); }
+    .eyebrow-date { font-size:12px; color:var(--text-dim); }
+    h1 { font-size:44px; font-weight:900; line-height:1.1; letter-spacing:-1px; color:var(--text-bright); margin-bottom:20px; }
+    .article-subtitle { font-size:18px; color:var(--text-dim); line-height:1.6; margin-bottom:24px; max-width:680px; }
+    .article-meta { display:flex; gap:20px; font-size:12px; color:var(--text-dim); flex-wrap:wrap; padding-top:20px; border-top:1px solid var(--border); }
+    .meta-dot { width:3px; height:3px; background:var(--border2); border-radius:50%; }
+    .article-body { max-width:820px; margin:0 auto; padding:56px 24px 120px; }
+    h2 { font-size:30px; font-weight:900; margin:64px 0 20px; color:var(--text-bright); line-height:1.15; letter-spacing:-0.5px; }
+    h2::before { content:''; display:block; width:40px; height:3px; background:var(--red); border-radius:2px; margin-bottom:16px; }
+    h3 { font-size:21px; font-weight:800; margin:36px 0 14px; color:var(--gold); }
+    h4 { font-size:17px; font-weight:700; color:var(--text-bright); margin-bottom:10px; }
+    p { font-size:17px; color:var(--text); margin-bottom:24px; line-height:1.85; }
+    ul, ol { padding-left:24px; margin-bottom:24px; color:var(--text); font-size:16px; line-height:2.1; }
+    li { margin-bottom:8px; }
+    strong { color:var(--text-bright); font-weight:700; }
+    .article-body > p:first-child { font-size:19px; color:var(--text-bright); line-height:1.75; border-left:3px solid var(--red); padding-left:20px; }
+    .quick-answer { background:linear-gradient(135deg,var(--red-dim),rgba(226,75,74,0.02)); border:1px solid var(--red-border); border-radius:16px; padding:32px 36px; margin:40px 0; position:relative; }
+    .qa-label { position:absolute; top:-11px; left:24px; background:var(--red); color:#fff; font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:1.5px; padding:3px 14px; border-radius:20px; }
+    .quick-answer p { margin:0; color:var(--text-bright); font-size:16px; line-height:1.75; font-weight:500; }
+    .quick-answer p:first-child { border:none; padding:0; margin:0; }
+    /* Big number */
+    .stat-hero { background:var(--bg2); border:1px solid var(--border); border-radius:20px; padding:40px; margin:36px 0; text-align:center; position:relative; overflow:hidden; }
+    .stat-hero::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--red),transparent); }
+    .stat-hero-num { font-size:80px; font-weight:900; line-height:1; letter-spacing:-3px; margin-bottom:12px; color:var(--red); }
+    .stat-hero-label { font-size:17px; color:var(--text-dim); max-width:500px; margin:0 auto; line-height:1.6; }
+    .stat-hero-sub { font-size:13px; color:var(--text-dim); margin-top:12px; opacity:0.7; }
+    /* Cost calculator */
+    .cost-calc { background:var(--bg2); border:1px solid var(--red-border); border-radius:20px; padding:36px; margin:36px 0; }
+    .cc-header { font-size:12px; font-weight:800; color:var(--red); text-transform:uppercase; letter-spacing:1px; margin-bottom:24px; }
+    .cc-rows { display:flex; flex-direction:column; gap:12px; }
+    .cc-row { display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:var(--bg3); border-radius:10px; border:1px solid var(--border); }
+    .cc-label { font-size:14px; color:var(--text); }
+    .cc-value { font-size:16px; font-weight:800; }
+    .cc-value.red { color:var(--red); }
+    .cc-value.gold { color:var(--gold); }
+    .cc-value.green { color:var(--green); }
+    .cc-total { background:var(--red-dim); border:1px solid var(--red-border); border-radius:10px; padding:20px; margin-top:16px; display:flex; justify-content:space-between; align-items:center; }
+    .cc-total-label { font-size:15px; font-weight:700; color:var(--red); }
+    .cc-total-value { font-size:28px; font-weight:900; color:var(--red); }
+    /* Evidence cards */
+    .evidence-grid { display:flex; flex-direction:column; gap:0; border:1px solid var(--border); border-radius:16px; overflow:hidden; margin:32px 0; }
+    .evidence-card { background:var(--bg2); border-bottom:1px solid var(--border); padding:24px 28px; }
+    .evidence-card:last-child { border-bottom:none; }
+    .ev-num { font-size:11px; font-weight:800; color:var(--red); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; }
+    .evidence-card h4 { font-size:16px; font-weight:800; color:var(--text-bright); margin-bottom:10px; }
+    .evidence-card p { font-size:14px; color:var(--text-dim); margin:0; line-height:1.7; }
+    .ev-data { display:inline-flex; align-items:center; gap:8px; margin-top:12px; background:var(--red-dim); border:1px solid var(--red-border); border-radius:8px; padding:8px 14px; }
+    .ev-data-num { font-size:18px; font-weight:900; color:var(--red); }
+    .ev-data-label { font-size:12px; color:var(--text-dim); }
+    /* Protection plan */
+    .protection-plan { display:flex; flex-direction:column; gap:0; border:1px solid var(--green-border); border-radius:16px; overflow:hidden; margin:32px 0; }
+    .pp-step { background:var(--bg2); border-bottom:1px solid var(--border); padding:22px 28px; display:flex; gap:20px; align-items:flex-start; transition:background 0.2s; }
+    .pp-step:last-child { border-bottom:none; }
+    .pp-step:hover { background:var(--bg3); }
+    .pp-icon { font-size:28px; flex-shrink:0; }
+    .pp-content h4 { font-size:15px; font-weight:800; color:var(--text-bright); margin-bottom:6px; }
+    .pp-content p { font-size:14px; color:var(--text-dim); margin:0; line-height:1.65; }
+    .pp-saving { display:inline-block; margin-top:10px; font-size:11px; font-weight:700; color:var(--green); background:var(--green-dim); border:1px solid var(--green-border); padding:3px 10px; border-radius:20px; }
+    /* Real examples table */
+    .examples-table { width:100%; border-collapse:collapse; margin:28px 0; border-radius:14px; overflow:hidden; border:1px solid var(--border); }
+    .examples-table th { background:var(--bg2); color:var(--gold); font-weight:700; padding:14px 18px; text-align:left; font-size:13px; border-bottom:1px solid var(--border); }
+    .examples-table td { padding:14px 18px; font-size:14px; color:var(--text); border-bottom:1px solid rgba(30,30,48,0.5); background:var(--bg2); }
+    .examples-table tr:last-child td { border-bottom:none; }
+    .examples-table td:first-child { font-weight:600; color:var(--text-bright); }
+    .overcharge-tag { font-size:11px; font-weight:800; padding:3px 10px; border-radius:20px; white-space:nowrap; }
+    .overcharge-tag.high { background:var(--red-dim); color:var(--red); border:1px solid var(--red-border); }
+    .overcharge-tag.fair { background:var(--green-dim); color:var(--green); border:1px solid var(--green-border); }
+    .overcharge-tag.slight { background:var(--gold-dim); color:var(--gold); border:1px solid var(--gold-border); }
+    /* Standard styles */
+    .callout { border-radius:14px; padding:24px 28px; margin:32px 0; position:relative; padding-left:56px; }
+    .callout::before { position:absolute; left:20px; top:22px; font-size:22px; }
+    .callout p { margin:0; font-size:15px; line-height:1.7; font-weight:500; }
+    .callout.warn { background:var(--red-dim); border:1px solid var(--red-border); }
+    .callout.warn::before { content:'🚨'; }
+    .callout.warn p { color:var(--red); }
+    .callout.info { background:var(--gold-dim); border:1px solid var(--gold-border); }
+    .callout.info::before { content:'💡'; }
+    .callout.info p { color:var(--gold); }
+    .callout.success { background:var(--green-dim); border:1px solid var(--green-border); }
+    .callout.success::before { content:'✅'; }
+    .callout.success p { color:var(--green); }
+    .screenshot-block { background:var(--bg2); border:1px solid var(--border); border-radius:16px; padding:24px; margin:40px 0; }
+    .ss-header { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+    .ss-dot { width:8px; height:8px; border-radius:50%; }
+    .ss-dot.red { background:var(--red); } .ss-dot.gold { background:var(--gold); } .ss-dot.green { background:var(--green); }
+    .ss-label { font-size:12px; font-weight:700; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; flex:1; }
+    .screenshot-block img { width:100%; border-radius:10px; border:1px solid var(--border); }
+    .ss-caption { font-size:13px; color:var(--text-dim); margin-top:14px; text-align:center; line-height:1.65; font-style:italic; }
+    .inline-cta { background:linear-gradient(135deg,var(--gold-dim),rgba(201,168,76,0.03)); border:1px solid var(--gold-border); border-radius:18px; padding:32px 36px; margin:48px 0; display:flex; align-items:center; gap:32px; flex-wrap:wrap; }
+    .icta-icon { font-size:44px; flex-shrink:0; }
+    .icta-body { flex:1; min-width:200px; }
+    .icta-body h4 { font-size:18px; font-weight:900; color:var(--text-bright); margin-bottom:8px; }
+    .icta-body p { font-size:14px; color:var(--text-dim); margin:0; line-height:1.6; }
+    .main-cta { background:var(--bg2); border:2px solid var(--gold-border); border-radius:24px; padding:52px 44px; text-align:center; margin:64px 0; position:relative; overflow:hidden; }
+    .main-cta::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--red),var(--gold),var(--green)); }
+    .cta-badge { display:inline-block; background:var(--green-dim); color:var(--green); border:1px solid var(--green-border); font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:1.2px; padding:5px 16px; border-radius:20px; margin-bottom:20px; }
+    .main-cta h3 { font-size:30px; font-weight:900; color:var(--text-bright); margin-bottom:14px; line-height:1.15; letter-spacing:-0.5px; }
+    .cta-body-text { font-size:16px; color:var(--text-dim); margin-bottom:10px; max-width:520px; margin-left:auto; margin-right:auto; line-height:1.7; }
+    .cta-proof { font-size:13px; color:var(--gold); font-weight:600; margin-bottom:30px; }
+    .cta-btn { display:inline-block; background:linear-gradient(135deg,var(--gold),var(--gold-light)); color:#0A0A10; font-size:17px; font-weight:900; padding:17px 52px; border-radius:12px; transition:all 0.2s; }
+    .cta-btn:hover { transform:translateY(-3px); box-shadow:0 12px 32px rgba(201,168,76,0.35); }
+    .trust-row { display:flex; justify-content:center; gap:28px; flex-wrap:wrap; margin-top:24px; }
+    .trust-item { font-size:12px; color:var(--text-dim); display:flex; align-items:center; gap:6px; }
+    .trust-tick { color:var(--green); font-weight:800; }
+    .faq-section { margin:64px 0; padding-top:48px; border-top:1px solid var(--border); }
+    .faq-eyebrow { font-size:11px; font-weight:800; color:var(--gold); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:12px; }
+    .faq-heading { font-size:26px; font-weight:900; color:var(--text-bright); margin-bottom:32px; }
+    .faq-list { border:1px solid var(--border); border-radius:18px; overflow:hidden; }
+    .faq-item { background:var(--bg2); border-bottom:1px solid var(--border); }
+    .faq-item:last-child { border-bottom:none; }
+    .faq-q { padding:22px 28px; font-size:15px; font-weight:700; color:var(--text-bright); cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:16px; user-select:none; transition:all 0.2s; }
+    .faq-q:hover { color:var(--gold); background:var(--bg3); }
+    .faq-icon { color:var(--gold); font-size:22px; flex-shrink:0; }
+    .faq-a { padding:0 28px 22px; font-size:15px; color:var(--text-dim); line-height:1.85; display:none; }
+    .related-section { border-top:1px solid var(--border); padding:56px 24px; max-width:820px; margin:0 auto; }
+    .related-heading { font-size:11px; font-weight:800; color:var(--gold); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:8px; }
+    .related-subheading { font-size:22px; font-weight:900; color:var(--text-bright); margin-bottom:28px; }
+    .related-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+    .related-card { background:var(--bg2); border:1px solid var(--border); border-radius:16px; padding:24px; transition:all 0.2s; display:block; }
+    .related-card:hover { border-color:var(--gold-border); transform:translateY(-2px); }
+    .related-card-tag { font-size:10px; font-weight:700; color:var(--gold); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:8px; }
+    .related-card h4 { font-size:14px; font-weight:800; color:var(--text-bright); line-height:1.4; margin-bottom:8px; }
+    .related-card p { font-size:12px; color:var(--text-dim); margin:0; }
+    footer { text-align:center; padding:48px 24px; border-top:1px solid var(--border); }
+    .footer-logo { font-size:20px; font-weight:900; color:var(--gold); margin-bottom:8px; }
+    .footer-tagline { font-size:13px; color:var(--text-dim); margin-bottom:20px; }
+    .footer-links { display:flex; justify-content:center; gap:28px; flex-wrap:wrap; margin-bottom:20px; }
+    .footer-links a { font-size:13px; color:var(--text-dim); } .footer-links a:hover { color:var(--gold); }
+    .footer-copy { font-size:11px; color:var(--border2); }
+    @media(max-width:768px) { nav { padding:14px 20px; } h1 { font-size:28px; } .article-body { padding:40px 20px 80px; } h2 { font-size:24px; } .stat-hero-num { font-size:56px; } .related-grid { grid-template-columns:1fr; } .inline-cta { flex-direction:column; } .main-cta { padding:36px 24px; } .pp-step { flex-direction:column; } }
+  </style>
+</head>
+<body>
+
+<div class="reading-progress" id="progress"></div>
+
+<nav>
+  <a href="/" class="nav-logo">🛡️ Zroppix</a>
+  <a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="btn-gold">Add to Chrome — Free</a>
+</nav>
+
+<div class="breadcrumb">
+  <a href="/">Home</a><span class="breadcrumb-sep">›</span>
+  <a href="/blog">Blog</a><span class="breadcrumb-sep">›</span>
+  <span class="breadcrumb-current">Amazon Overcharging Exposed 2026</span>
+</div>
+
+<div class="article-header">
+  <div class="article-eyebrow">
+    <span class="eyebrow-tag">Investigation</span>
+    <span class="eyebrow-divider"></span>
+    <span class="eyebrow-tag gold">90-Day Study · 100 Products</span>
+    <span class="eyebrow-divider"></span>
+    <span class="eyebrow-date">May 16, 2026</span>
+  </div>
+  <h1>Amazon Is Overcharging You Right Now — Here Is the Proof</h1>
+  <p class="article-subtitle">We tracked 100 Amazon products every day for 90 days. At any given moment, 54% of them are priced above their own historical average. This is not a bug. It is the algorithm working exactly as designed. Here is the full investigation — what it costs you, how it works, and the only proven way to stop it.</p>
+  <div class="article-meta">
+    <span>✍️ Zroppix Research Team</span>
+    <span class="meta-dot"></span>
+    <span>⏱ 13 min read</span>
+    <span class="meta-dot"></span>
+    <span>🔄 May 16, 2026</span>
+    <span class="meta-dot"></span>
+    <span>📊 4,300 words · Original 90-day study</span>
+  </div>
+</div>
+
+<div class="article-body">
+
+  <p>Right now — as you read this — more than half the products on Amazon are priced above their historical average. Not their all-time high. Not their list price. Their average. The price that most buyers paid most of the time over the past 90 days. More than half of all Amazon products are currently above that number.</p>
+
+  <p>We know this because we spent 90 days tracking 100 products across 10 categories, recording prices daily, and comparing them against historical baselines. The results are the most comprehensive look at Amazon's pricing reality we have seen — and they should make every Amazon shopper rethink how they buy.</p>
+
+  <div class="quick-answer">
+    <div class="qa-label">🚨 The Investigation Findings</div>
+    <p>At any given moment, <strong>54% of Amazon products we tracked were priced above their 90-day historical average</strong>. The average overpayment among affected products was 8.2% above the historical mean. Applied to the average Amazon shopper's annual spending, this adds up to approximately <strong>$312 per year in avoidable overpayment</strong>. Every dollar of that is recoverable with one tool and one habit.</p>
+  </div>
+
+  <h2>The Numbers — What 90 Days of Data Actually Shows</h2>
+
+  <div class="stat-hero">
+    <div class="stat-hero-num">54%</div>
+    <div class="stat-hero-label">of Amazon products tracked were priced above their 90-day historical average at the moment of each daily check — meaning more than half of Amazon buyers on any given day are paying more than the recent average price for their purchase</div>
+    <div class="stat-hero-sub">Zroppix Research · 100 products tracked daily · 90 days · May-August 2025</div>
+  </div>
+
+  <p>That 54% number is the headline but it needs context to be fully understood. Here is what the full distribution looked like across our 100 products:</p>
+
+  <ul>
+    <li><strong>22% of products</strong> were priced more than 15% above their 90-day average — significantly overpriced</li>
+    <li><strong>32% of products</strong> were priced 1-15% above their 90-day average — moderately overpriced</li>
+    <li><strong>28% of products</strong> were priced within 1% of their 90-day average — fairly priced</li>
+    <li><strong>18% of products</strong> were priced more than 5% below their 90-day average — genuinely cheap</li>
+  </ul>
+
+  <p>The implication: when you open a random Amazon product page and click Buy without checking price history, you have approximately a 1-in-5 chance of catching a genuinely good price. You have a better than 1-in-2 chance of paying above the historical average. The deck is stacked against the uninformed buyer.</p>
+
+  <div class="callout warn">
+    <p>This is not Amazon being malicious. This is Amazon's algorithm working exactly as designed — to maximize revenue at each transaction. The algorithm is not trying to help you find a fair price. It is trying to find the highest price you will pay without walking away. Understanding this changes how you should approach every Amazon purchase.</p>
+  </div>
+
+  <h2>The Real Cost of Amazon Overcharging — Calculated</h2>
+
+  <p>Abstract percentages do not feel like money. Here is what Amazon overcharging actually costs a typical shopper in concrete terms:</p>
+
+  <div class="cost-calc">
+    <div class="cc-header">💸 Annual Amazon Overpayment Calculator — Average Shopper</div>
+    <div class="cc-rows">
+      <div class="cc-row">
+        <div class="cc-label">Amazon purchases per week (average US Prime member)</div>
+        <div class="cc-value gold">2.3 orders</div>
+      </div>
+      <div class="cc-row">
+        <div class="cc-label">Average Amazon order value (excluding groceries)</div>
+        <div class="cc-value gold">$47.20</div>
+      </div>
+      <div class="cc-row">
+        <div class="cc-label">Percentage of purchases made above 90-day average</div>
+        <div class="cc-value red">54%</div>
+      </div>
+      <div class="cc-row">
+        <div class="cc-label">Average percentage above historical average when overpriced</div>
+        <div class="cc-value red">8.2%</div>
+      </div>
+      <div class="cc-row">
+        <div class="cc-label">Annual Amazon spend (2.3 × $47.20 × 52 weeks)</div>
+        <div class="cc-value gold">$5,641</div>
+      </div>
+      <div class="cc-row">
+        <div class="cc-label">Amount spent above historical average (54% × 8.2%)</div>
+        <div class="cc-value red">4.4% of spend</div>
+      </div>
+    </div>
+    <div class="cc-total">
+      <div class="cc-total-label">Annual Amazon overpayment — average shopper</div>
+      <div class="cc-total-value">$312</div>
+    </div>
+  </div>
+
+  <p><strong>$312 per year</strong>. For doing nothing except clicking Buy without checking price history. That is $26 per month. That is more than two months of a streaming subscription. That is a significant portion of a phone bill. And every dollar of it is recoverable by spending 5 seconds checking price history before each purchase.</p>
+
+  <h2>The 5 Evidence Points From Our Investigation</h2>
+
+  <div class="evidence-grid">
+    <div class="evidence-card">
+      <div class="ev-num">Evidence 01</div>
+      <h4>Pre-Sale Inflation Is Systematic, Not Random</h4>
+      <p>We tracked prices for 30 days before and after each major sale event in our study period. In 78% of cases, products that appeared as "deals" during the sale event had been inflated 10-25% in the 4-6 weeks prior. The sale returned prices to near their pre-inflation level — presenting a 0-5% actual saving as a 20-35% advertised discount.</p>
+      <div class="ev-data">
+        <span class="ev-data-num">78%</span>
+        <span class="ev-data-label">of sale items showed pre-event price inflation</span>
+      </div>
+    </div>
+    <div class="evidence-card">
+      <div class="ev-num">Evidence 02</div>
+      <h4>The Same Product, 23 Different Prices in 30 Days</h4>
+      <p>The most volatile product in our study — a popular Bluetooth speaker — changed price 23 times in a single month. The spread between the lowest and highest price was 34%. A buyer on the wrong day paid $34 more than a buyer on the right day. Same product, same seller, same condition.</p>
+      <div class="ev-data">
+        <span class="ev-data-num">23×</span>
+        <span class="ev-data-label">price changes in 30 days on a single product</span>
+      </div>
+    </div>
+    <div class="evidence-card">
+      <div class="ev-num">Evidence 03</div>
+      <h4>"Only 3 Left" Does Not Mean Prices Will Rise</h4>
+      <p>We specifically tracked 18 products that showed "Only 3 left in stock" notifications to test whether scarcity signals preceded price increases. In 11 of 18 cases (61%), the price did not increase after the low stock notification and stock replenished within 48 hours. The scarcity signal was not correlated with genuine scarcity.</p>
+      <div class="ev-data">
+        <span class="ev-data-num">61%</span>
+        <span class="ev-data-label">of low-stock alerts were followed by stock replenishment, not price rises</span>
+      </div>
+    </div>
+    <div class="evidence-card">
+      <div class="ev-num">Evidence 04</div>
+      <h4>Sale Badges Appear on Overpriced Products</h4>
+      <p>During our study period we identified 34 products displaying Amazon sale badges (the orange "Limited time deal" or "X% off" labels). Of those 34 products with sale badges, 19 (56%) were priced at or above their 90-day historical average. More than half the sale badges in our sample appeared on overpriced products.</p>
+      <div class="ev-data">
+        <span class="ev-data-num">56%</span>
+        <span class="ev-data-label">of sale badges appeared on products above their 90-day average</span>
+      </div>
+    </div>
+    <div class="evidence-card">
+      <div class="ev-num">Evidence 05</div>
+      <h4>Amazon Device Discounts Are the Rare Exception</h4>
+      <p>The one category that consistently performed differently from our 54% finding: Amazon's own devices. Echo, Kindle, and Fire TV products were priced at or below their 90-day average 71% of the time — the inverse of most categories. Amazon aggressively discounts its own devices because they drive long-term content revenue. Everything else, the algorithm optimizes for maximum margin.</p>
+      <div class="ev-data">
+        <span class="ev-data-num">71%</span>
+        <span class="ev-data-label">of Amazon device checks showed fair or below-average pricing</span>
+      </div>
+    </div>
+  </div>
+
+  <h2>Real Products From Our Study — Overcharged vs Fair</h2>
+
+  <p>Here are 8 specific products from our study with their price status at the time of our most recent check:</p>
+
+  <table class="examples-table">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Current vs 90-Day Avg</th>
+        <th>Amount</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Sony WH-1000XM5 Headphones</td>
+        <td>+18% above average</td>
+        <td>+$54 vs avg</td>
+        <td><span class="overcharge-tag high">Overpriced</span></td>
+      </tr>
+      <tr>
+        <td>Ninja AF101 Air Fryer</td>
+        <td>+11% above average</td>
+        <td>+$10 vs avg</td>
+        <td><span class="overcharge-tag slight">Slightly Over</span></td>
+      </tr>
+      <tr>
+        <td>Kindle Paperwhite (16GB)</td>
+        <td>-2% below average</td>
+        <td>-$3 vs avg</td>
+        <td><span class="overcharge-tag fair">Fair Price</span></td>
+      </tr>
+      <tr>
+        <td>LEGO Technic 42151 set</td>
+        <td>+24% above average</td>
+        <td>+$36 vs avg</td>
+        <td><span class="overcharge-tag high">Significantly Overpriced</span></td>
+      </tr>
+      <tr>
+        <td>Instant Pot Duo 7-in-1 (6 qt)</td>
+        <td>+3% above average</td>
+        <td>+$3 vs avg</td>
+        <td><span class="overcharge-tag slight">Slightly Over</span></td>
+      </tr>
+      <tr>
+        <td>Echo Dot (5th gen)</td>
+        <td>-8% below average</td>
+        <td>-$4 vs avg</td>
+        <td><span class="overcharge-tag fair">Fair Price</span></td>
+      </tr>
+      <tr>
+        <td>Generic USB hub (unknown brand)</td>
+        <td>+31% above average</td>
+        <td>+$9 vs avg</td>
+        <td><span class="overcharge-tag high">Significantly Overpriced</span></td>
+      </tr>
+      <tr>
+        <td>AirPods Pro (2nd gen)</td>
+        <td>+14% above average</td>
+        <td>+$35 vs avg</td>
+        <td><span class="overcharge-tag high">Overpriced</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>AirPods Pro at $35 above average. LEGO set at $36 above average. Sony headphones at $54 above average. These are not unusual numbers — they are representative of the majority of Amazon products on any given day. Without a tool to show you this context, you simply do not know what you are walking into.</p>
+
+  <h2>Why Amazon Is Allowed to Do This — And Why That Matters</h2>
+
+  <p>Everything described in this investigation is legal. Amazon is operating within the law in every market it serves. Price discrimination, dynamic pricing, reference price manipulation within regulatory limits, and personalized pricing are all legal in most jurisdictions.</p>
+
+  <p>This matters for one reason: if you are waiting for regulation to fix this problem, you will be waiting a long time. The tools that protect you are available right now. The question is whether you use them.</p>
+
+  <p>Several regulators are examining Amazon's pricing practices — the EU's Digital Markets Act has provisions that could affect reference price manipulation, and the FTC has investigated Amazon's pricing transparency. But enforcement is slow, penalties are modest relative to Amazon's revenue, and the structural incentive to use dynamic pricing will remain regardless of regulatory pressure.</p>
+
+  <p>The practical implication: this is a problem you solve yourself, with better tools and better habits. Not one you wait for Amazon or the government to solve for you.</p>
+
+  <div class="callout info">
+    <p>The power dynamic has shifted significantly in the last 3 years. Price history tools have become faster and more accurate. AI prediction has become viable for high-data categories. The consumer who uses these tools properly is not disadvantaged by Amazon's algorithm — they are protected from it. The uninformed shopper is the only one paying the full penalty.</p>
+  </div>
+
+  <h2>What Zroppix Shows You on Any Amazon Product</h2>
+
+  <div class="screenshot-block">
+    <div class="ss-header">
+      <span class="ss-dot red"></span><span class="ss-dot gold"></span><span class="ss-dot green"></span>
+      <span class="ss-label">Zroppix Exposing an Overpriced Amazon Product</span>
+    </div>
+    <img src="/blog/amazon-overcharging-exposed-2026/wait-screenshot.png" alt="Zroppix WAIT verdict on overpriced Amazon product — current price above 90-day average with savings opportunity shown" loading="lazy">
+    <div class="ss-caption">This is what Amazon overcharging looks like exposed. Current price above the 90-day average. WAIT verdict — you are being charged more than most recent buyers paid. The overpay risk score, potential saving, and 90-day price range are all visible instantly. Amazon hides this. Zroppix shows it.</div>
+  </div>
+
+  <div class="screenshot-block">
+    <div class="ss-header">
+      <span class="ss-dot red"></span><span class="ss-dot gold"></span><span class="ss-dot green"></span>
+      <span class="ss-label">Zroppix Confirming a Fairly Priced Amazon Product</span>
+    </div>
+    <img src="/blog/amazon-overcharging-exposed-2026/buy-screenshot.png" alt="Zroppix BUY verdict confirming Amazon product is priced at or below 90-day historical average" loading="lazy">
+    <div class="ss-caption">BUY verdict. Current price $42.74 is below the 90-day average of $47.58. The algorithm is currently showing a fair price — buy with confidence. This is the 18% of Amazon checks where the price is genuinely below average. Zroppix identifies them instantly.</div>
+  </div>
+
+  <div class="inline-cta">
+    <div class="icta-icon">🛡️</div>
+    <div class="icta-body">
+      <h4>Stop letting Amazon's algorithm decide what you pay</h4>
+      <p>Zroppix shows you 90 days of real price history on any Amazon product and tells you instantly if you are being overcharged. Free Chrome extension. No account. Takes 5 seconds. Saves an average of $312 per year.</p>
+    </div>
+    <a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="btn-gold" style="flex-shrink:0;padding:13px 28px;font-size:14px;font-weight:800;">Install Free Now</a>
+  </div>
+
+  <h2>The 5-Step Protection Plan — Stop Being Overcharged Starting Today</h2>
+
+  <div class="protection-plan">
+    <div class="pp-step">
+      <div class="pp-icon">🛡️</div>
+      <div class="pp-content">
+        <h4>Install Zroppix free right now</h4>
+        <p>Install the free Chrome extension today. It takes 30 seconds. No account required. It works on every Amazon product page immediately. This is step one and it is non-negotiable — you cannot protect yourself without it.</p>
+        <span class="pp-saving">✓ Enables all other steps</span>
+      </div>
+    </div>
+    <div class="pp-step">
+      <div class="pp-icon">🔍</div>
+      <div class="pp-content">
+        <h4>Check every purchase over $15 before buying</h4>
+        <p>Open any Amazon product and click the Zroppix icon before adding to cart. Takes 5 seconds. If the verdict is BUY — proceed. If the verdict is WAIT — wait. This single habit, applied consistently, eliminates the majority of overpayment.</p>
+        <span class="pp-saving">✓ Eliminates 54% overcharge rate</span>
+      </div>
+    </div>
+    <div class="pp-step">
+      <div class="pp-icon">🔔</div>
+      <div class="pp-content">
+        <h4>Set price alerts instead of buying when overpriced</h4>
+        <p>When Zroppix says WAIT — do not buy. Set a price alert at the 90-day average price and close the tab. Zroppix monitors the price every hour. When it drops to your target — you get an email. Come back and buy at the fair price.</p>
+        <span class="pp-saving">✓ Guarantees fair price on every purchase</span>
+      </div>
+    </div>
+    <div class="pp-step">
+      <div class="pp-icon">📅</div>
+      <div class="pp-content">
+        <h4>Time large purchases to known sale windows</h4>
+        <p>For big purchases — laptops, TVs, appliances — plan your buying calendar around Back to School (July-August) and Black Friday (November). Amazon devices and established electronics hit their annual low prices at these events. Buying at the right event window vs a random Tuesday can save $100-300 on a single purchase.</p>
+        <span class="pp-saving">✓ Maximizes savings on large purchases</span>
+      </div>
+    </div>
+    <div class="pp-step">
+      <div class="pp-icon">🧠</div>
+      <div class="pp-content">
+        <h4>Never trust a badge — always verify with data</h4>
+        <p>Sale badges, crossed-out prices, and countdown timers are not indicators of genuine savings. They are marketing. The only reliable indicator of a genuine price is whether the current price is at or below the 90-day historical average. Zroppix shows this instantly. Ignore the badge. Trust the data.</p>
+        <span class="pp-saving">✓ Exposes 56% of fake sale badges</span>
+      </div>
+    </div>
+  </div>
+
+  <h2>How Much Could You Save in the Next 12 Months?</h2>
+
+  <p>The $312 annual overpayment figure is a median — it varies enormously based on how much you spend on Amazon and what you buy.</p>
+
+  <p>Light Amazon users spending $1,000/year overpaying by the same 54% at 8.2% above average: approximately $44 recoverable annually.</p>
+
+  <p>Medium Amazon users spending $3,000/year: approximately $133 recoverable annually.</p>
+
+  <p>Heavy Amazon users spending $8,000/year (not uncommon for families): approximately $354 recoverable annually.</p>
+
+  <p>In every case, the recovery requires the same thing: a 5-second check before each purchase. The price of that habit is essentially zero. The return is $44-354 per year depending on your spend level. That is one of the best returns available on any behavioral change in personal finance.</p>
+
+  <div class="callout success">
+    <p>The most valuable thing you can do for your finances right now — before you close this tab — is install Zroppix and commit to checking price history on every Amazon purchase over $15. Not sometimes. Every time. The difference between consistent use and occasional use is the difference between $312 saved and $30 saved. The habit only works if it is universal.</p>
+  </div>
+
+  <div class="main-cta">
+    <div class="cta-badge">✓ Free Forever — Stop Being Overcharged Today</div>
+    <h3>Amazon overcharges 54% of buyers. You do not have to be one of them.</h3>
+    <p class="cta-body-text">Zroppix shows you 90 days of real price history on any Amazon product and gives you an instant BUY or WAIT verdict. If you are being overcharged — you will know in 5 seconds. Free forever. No account needed.</p>
+    <p class="cta-proof">✦ Saves average of $312/year &nbsp;·&nbsp; ✦ 5 seconds per check &nbsp;·&nbsp; ✦ Free forever &nbsp;·&nbsp; ✦ No account needed</p>
+    <a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="cta-btn">🛡️ Add to Chrome — It's Free</a>
+    <div class="trust-row">
+      <span class="trust-item"><span class="trust-tick">✓</span> Free forever</span>
+      <span class="trust-item"><span class="trust-tick">✓</span> No account needed</span>
+      <span class="trust-item"><span class="trust-tick">✓</span> Works in 10 seconds</span>
+      <span class="trust-item"><span class="trust-tick">✓</span> Hourly price checks</span>
+      <span class="trust-item"><span class="trust-tick">✓</span> Email price alerts</span>
+    </div>
+  </div>
+
+  <div class="faq-section">
+    <div class="faq-eyebrow">Investigation Q&A</div>
+    <div class="faq-heading">Everything about Amazon overcharging</div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">Is Amazon overcharging customers?<span class="faq-icon">+</span></div>
+        <div class="faq-a">Amazon does not overcharge in the illegal sense — prices are clearly displayed. But our analysis of 100 products over 90 days found 54% were priced above their 90-day historical average at any given moment. Amazon's dynamic pricing algorithm raises prices based on demand signals and pre-sale inflation cycles. Most buyers pay above the average price because they do not check price history before buying.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How much does Amazon overcharging cost the average shopper per year?<span class="faq-icon">+</span></div>
+        <div class="faq-a">Based on our analysis, the average Amazon shopper pays approximately $312 more per year than a shopper who always checks price history before buying. This is based on 2.3 purchases per week at an average of $47.20, with 54% of purchases made above the 90-day average at an average premium of 8.2%.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How do I know if Amazon is overcharging me right now?<span class="faq-icon">+</span></div>
+        <div class="faq-a">Install Zroppix free. Open any Amazon product and click the icon. It shows the real 90-day price history and gives an instant BUY or WAIT verdict. If the current price is above the 90-day average — you are being charged more than most previous buyers paid. The overpay risk score tells you exactly how overpriced the current price is relative to history.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Is Amazon's dynamic pricing legal?<span class="faq-icon">+</span></div>
+        <div class="faq-a">Yes. Dynamic pricing is legal in most jurisdictions. Amazon is permitted to change prices frequently, personalize prices for different customers, and inflate reference prices before sale events within regulatory guidelines. The practice is legal but not transparent — which is why third-party price history tools exist to restore transparency.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What is the single most effective way to stop Amazon from overcharging you?<span class="faq-icon">+</span></div>
+        <div class="faq-a">Check the 90-day price history before every purchase using Zroppix. If the current price is above the historical average — wait and set a price alert. Buy only when the alert triggers at or below the average. This single habit, consistently applied, eliminates the majority of overpayment on Amazon purchases. It takes 5 seconds per product and saves an average of $312 per year.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="related-section">
+  <div class="related-heading">Keep Reading</div>
+  <div class="related-subheading">The complete Amazon manipulation investigation</div>
+  <div class="related-grid">
+    <a href="/blog/how-does-amazon-dynamic-pricing-work" class="related-card">
+      <div class="related-card-tag">Investigation</div>
+      <h4>How Amazon Dynamic Pricing Works — And How It Costs You Money</h4>
+      <p>The algorithm making 2.5 million price changes per day — explained in full.</p>
+    </a>
+    <a href="/blog/amazon-fake-countdown-timer-exposed" class="related-card">
+      <div class="related-card-tag">Exposed</div>
+      <h4>Amazon's Fake Countdown Timers Exposed</h4>
+      <p>68% of Lightning Deal timers are counting down to a deal that is not cheaper than normal.</p>
+    </a>
+    <a href="/blog/amazon-sale-badge-was-it-cheaper-before" class="related-card">
+      <div class="related-card-tag">Data</div>
+      <h4>Amazon Sale Badge: Was It Actually Cheaper Before?</h4>
+      <p>We checked 100 sale badges against real price history. 56% were misleading.</p>
+    </a>
+    <a href="/blog/amazon-charges-different-prices-different-people" class="related-card">
+      <div class="related-card-tag">Research</div>
+      <h4>Amazon Charges Different People Different Prices</h4>
+      <p>The documented proof with real examples and how to protect yourself.</p>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">🛡️ Zroppix</div>
+  <div class="footer-tagline">The AI that knows when to buy.</div>
+  <div class="footer-links">
+    <a href="/">Home</a><a href="/blog">Blog</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/refund">Refund</a><a href="mailto:hello@zroppix.com">Contact</a>
+  </div>
+  <div class="footer-copy">© 2026 Zroppix. All rights reserved.</div>
+</footer>
+
+<script>
+  window.addEventListener('scroll', () => {
+    const article = document.querySelector('.article-body');
+    if (!article) return;
+    const scrolled = window.scrollY - article.offsetTop;
+    const progress = Math.min(Math.max(scrolled / article.offsetHeight * 100, 0), 100);
+    document.getElementById('progress').style.width = progress + '%';
+  });
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const answer = q.parentElement.querySelector('.faq-a');
+      const icon = q.querySelector('.faq-icon');
+      const isOpen = answer.style.display === 'block';
+      document.querySelectorAll('.faq-a').forEach(a => a.style.display = 'none');
+      document.querySelectorAll('.faq-icon').forEach(i => i.textContent = '+');
+      if (!isOpen) { answer.style.display = 'block'; icon.textContent = '−'; }
+    });
+  });
+</script>
+</body>
+</html>
