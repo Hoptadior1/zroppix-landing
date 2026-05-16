@@ -2,135 +2,107 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-    content="width=device-width,
-    initial-scale=1.0">
-  <title>Blog — Zroppix | 
-    Amazon Price Tips and Guides</title>
-  <meta name="description"
-    content="Guides, comparisons and research 
-    to help you never overpay on Amazon again. 
-    Price history, deal alerts, and smart 
-    shopping tips from the Zroppix team.">
-  <meta name="keywords"
-    content="amazon price tips, amazon deals blog,
-    price history guides, smart shopping,
-    amazon price tracker tips">
-  <link rel="canonical"
-    href="https://zroppix.com/blog">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog — Zroppix | Amazon Price Tips and Guides</title>
+  <meta name="description" content="Amazon price history guides, deal analysis, and research to help you always buy at the right price. Never overpay on Amazon again.">
+  <link rel="canonical" href="https://zroppix.com/blog">
   <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zroppix.com/blog">
+  <meta property="og:title" content="Blog — Zroppix | Amazon Price Tips and Guides">
+  <meta property="og:description" content="Guides, comparisons and research to help you always buy at the right price on Amazon.">
+  <meta property="og:image" content="https://zroppix.com/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+
   <style>
-    * { margin:0; padding:0;
-      box-sizing:border-box; }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
       --bg: #0D0D14;
       --bg2: #12121A;
-      --bg3: #0A0A10;
+      --bg3: #1A1A26;
       --border: #22223A;
-      --gold: #C9A84C;
-      --green: #1D9E75;
-      --red: #E24B4A;
-      --text: #ffffff;
+      --text: #cccccc;
       --muted: #7A78A0;
-      --subtle: #cccccc;
+      --bright: #ffffff;
+      --gold: #C9A84C;
+      --gold-light: #D4B864;
+      --gold-dim: rgba(201,168,76,0.1);
+      --gold-border: rgba(201,168,76,0.22);
+      --green: #1D9E75;
+      --green-dim: rgba(29,158,117,0.1);
+      --red: #E24B4A;
+      --red-dim: rgba(226,75,74,0.08);
     }
+
+    html, body { overflow-x: hidden; max-width: 100%; }
 
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: -apple-system,
-        BlinkMacSystemFont,
-        'Segoe UI', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
     }
 
-    a { text-decoration: none;
-      color: inherit; }
+    a { text-decoration: none; color: inherit; }
 
     /* NAV */
     nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 16px 48px;
+      padding: 16px 40px;
       border-bottom: 1px solid var(--border);
+      background: rgba(13,13,20,0.97);
       position: sticky;
       top: 0;
-      background: rgba(13,13,20,0.96);
-      backdrop-filter: blur(12px);
       z-index: 100;
+      backdrop-filter: blur(16px);
     }
-
-    .nav-logo {
-      font-size: 20px;
-      font-weight: 800;
-      color: var(--gold);
-    }
-
+    .nav-logo { font-size: 20px; font-weight: 800; color: var(--gold); }
     .nav-links {
       display: flex;
       align-items: center;
       gap: 32px;
       list-style: none;
     }
-
-    .nav-links a {
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: var(--text);
-    }
-
+    .nav-links a { font-size: 14px; color: var(--muted); transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--bright); }
     .btn-gold {
       background: var(--gold);
-      color: #0D0D14;
-      padding: 9px 20px;
+      color: #0D0D14 !important;
+      padding: 9px 22px;
       border-radius: 8px;
       font-weight: 700;
       font-size: 13px;
       transition: all 0.2s;
+      white-space: nowrap;
     }
-
-    .btn-gold:hover {
-      background: #D4B864;
-      transform: translateY(-1px);
-    }
+    .btn-gold:hover { background: var(--gold-light) !important; transform: translateY(-1px); }
 
     /* HERO */
     .blog-hero {
       text-align: center;
-      padding: 72px 20px 56px;
+      padding: 72px 24px 56px;
       border-bottom: 1px solid var(--border);
       position: relative;
+      overflow: hidden;
     }
-
     .blog-hero::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 50%;
+      top: 0; left: 50%;
       transform: translateX(-50%);
-      width: 600px;
-      height: 300px;
-      background: radial-gradient(
-        ellipse at center,
-        rgba(201,168,76,0.05) 0%,
-        transparent 70%
-      );
+      width: 600px; height: 300px;
+      background: radial-gradient(ellipse at center, rgba(201,168,76,0.06) 0%, transparent 70%);
       pointer-events: none;
     }
-
     .blog-tag {
       display: inline-block;
-      background: rgba(201,168,76,0.08);
-      border: 1px solid rgba(201,168,76,0.2);
+      background: var(--gold-dim);
+      border: 1px solid var(--gold-border);
       color: var(--gold);
       padding: 5px 16px;
       border-radius: 20px;
@@ -140,32 +112,25 @@
       letter-spacing: 0.8px;
       margin-bottom: 20px;
     }
-
     .blog-hero h1 {
       font-size: 48px;
       font-weight: 900;
       line-height: 1.1;
       margin-bottom: 14px;
       letter-spacing: -1px;
+      color: var(--bright);
     }
+    .blog-hero p { font-size: 17px; color: var(--muted); max-width: 500px; margin: 0 auto; }
 
-    .blog-hero p {
-      font-size: 17px;
-      color: var(--muted);
-      max-width: 500px;
-      margin: 0 auto;
-    }
-
-    /* FILTER TABS */
+    /* FILTER BAR */
     .filter-bar {
-      max-width: 1060px;
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 32px 20px 0;
+      padding: 32px 24px 0;
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
     }
-
     .filter-btn {
       background: var(--bg2);
       border: 1px solid var(--border);
@@ -176,73 +141,72 @@
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
+      white-space: nowrap;
     }
-
-    .filter-btn:hover,
-    .filter-btn.active {
+    .filter-btn:hover, .filter-btn.active {
       border-color: var(--gold);
       color: var(--gold);
-      background: rgba(201,168,76,0.06);
+      background: var(--gold-dim);
     }
 
     /* BLOG GRID */
     .blog-container {
-      max-width: 1060px;
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 36px 20px 80px;
+      padding: 36px 24px 80px;
+      width: 100%;
     }
-
     .blog-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
+      gap: 20px;
+      width: 100%;
     }
 
+    /* SECTION DIVIDER */
+    .section-divider {
+      grid-column: 1 / -1;
+      padding: 16px 0 6px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 4px;
+    }
+
+    /* BLOG CARD */
     .blog-card {
       background: var(--bg2);
       border: 1px solid var(--border);
       border-radius: 14px;
       overflow: hidden;
       transition: all 0.2s;
-      display: block;
-      color: inherit;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
     }
-
     .blog-card:hover {
-      border-color: rgba(201,168,76,0.3);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 32px
-        rgba(0,0,0,0.3);
+      border-color: var(--gold-border);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
     }
-
     .blog-thumb {
-      height: 130px;
+      height: 120px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 40px;
+      font-size: 38px;
+      flex-shrink: 0;
     }
+    .t1 { background: linear-gradient(135deg, rgba(201,168,76,0.12), rgba(201,168,76,0.03)); }
+    .t2 { background: linear-gradient(135deg, rgba(29,158,117,0.12), rgba(29,158,117,0.03)); }
+    .t3 { background: linear-gradient(135deg, rgba(226,75,74,0.12), rgba(226,75,74,0.03)); }
+    .t4 { background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(99,102,241,0.03)); }
+    .t5 { background: linear-gradient(135deg, rgba(245,166,35,0.12), rgba(245,166,35,0.03)); }
 
-    .t1 { background: linear-gradient(135deg,
-      rgba(201,168,76,0.12),
-      rgba(201,168,76,0.03)); }
-    .t2 { background: linear-gradient(135deg,
-      rgba(29,158,117,0.12),
-      rgba(29,158,117,0.03)); }
-    .t3 { background: linear-gradient(135deg,
-      rgba(226,75,74,0.12),
-      rgba(226,75,74,0.03)); }
-    .t4 { background: linear-gradient(135deg,
-      rgba(99,102,241,0.12),
-      rgba(99,102,241,0.03)); }
-    .t5 { background: linear-gradient(135deg,
-      rgba(245,166,35,0.12),
-      rgba(245,166,35,0.03)); }
-
-    .blog-body {
-      padding: 20px;
-    }
-
+    .blog-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
     .blog-category {
       font-size: 11px;
       color: var(--gold);
@@ -251,569 +215,523 @@
       letter-spacing: 0.5px;
       margin-bottom: 8px;
     }
-
     .blog-card h3 {
       font-size: 15px;
       font-weight: 700;
       margin-bottom: 8px;
       line-height: 1.4;
-      color: var(--text);
+      color: var(--bright);
+      flex: 1;
     }
-
     .blog-card p {
       font-size: 13px;
       color: var(--muted);
-      line-height: 1.65;
+      line-height: 1.6;
       margin-bottom: 14px;
     }
-
     .blog-meta {
       font-size: 11px;
       color: var(--muted);
       display: flex;
-      gap: 12px;
+      gap: 10px;
       align-items: center;
+      margin-top: auto;
     }
+    .blog-meta-dot { width: 3px; height: 3px; background: var(--muted); border-radius: 50%; flex-shrink: 0; }
 
-    .blog-meta-dot {
-      width: 3px;
-      height: 3px;
-      background: var(--muted);
-      border-radius: 50%;
-    }
-
-    /* SECTION DIVIDER */
-    .section-divider {
-      grid-column: 1 / -1;
-      padding: 12px 0 4px;
-      font-size: 12px;
-      font-weight: 700;
+    /* NEW badge */
+    .badge-new {
+      display: inline-block;
+      background: var(--green-dim);
+      color: var(--green);
+      border: 1px solid rgba(29,158,117,0.25);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 20px;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--muted);
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 4px;
+      letter-spacing: 0.5px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    .badge-hot {
+      display: inline-block;
+      background: var(--red-dim);
+      color: var(--red);
+      border: 1px solid rgba(226,75,74,0.25);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-left: 6px;
+      vertical-align: middle;
     }
 
     /* CTA BANNER */
     .cta-banner {
       background: var(--bg2);
-      border: 1px solid rgba(201,168,76,0.2);
-      border-radius: 16px;
-      padding: 40px 48px;
+      border: 1px solid var(--gold-border);
+      border-radius: 20px;
+      padding: 48px;
       text-align: center;
-      margin-top: 56px;
+      margin-top: 64px;
+      position: relative;
+      overflow: hidden;
     }
-
-    .cta-banner h2 {
-      font-size: 26px;
-      font-weight: 900;
-      margin-bottom: 10px;
+    .cta-banner::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
     }
-
-    .cta-banner p {
-      color: var(--muted);
-      font-size: 15px;
-      margin-bottom: 24px;
+    .cta-banner h2 { font-size: 28px; font-weight: 900; margin-bottom: 10px; color: var(--bright); }
+    .cta-banner p { color: var(--muted); font-size: 15px; margin-bottom: 28px; }
+    .cta-btn {
+      display: inline-block;
+      background: var(--gold);
+      color: #0D0D14;
+      font-size: 16px;
+      font-weight: 800;
+      padding: 14px 36px;
+      border-radius: 10px;
+      transition: all 0.2s;
     }
+    .cta-btn:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.3); }
 
     /* FOOTER */
     footer {
       text-align: center;
-      padding: 32px 20px;
+      padding: 40px 24px;
       border-top: 1px solid var(--border);
       color: var(--muted);
       font-size: 13px;
     }
+    .footer-logo { font-size: 18px; font-weight: 800; color: var(--gold); margin-bottom: 8px; }
+    .footer-links { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin: 12px 0; }
+    .footer-links a { color: var(--muted); transition: color 0.2s; }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-copy { font-size: 11px; color: var(--border); margin-top: 12px; }
 
-    @media(max-width: 900px) {
+    /* RESPONSIVE */
+    @media(max-width: 960px) {
       nav { padding: 14px 20px; }
       .nav-links { display: none; }
       .blog-hero h1 { font-size: 32px; }
-      .blog-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      .blog-grid { grid-template-columns: repeat(2, 1fr); }
     }
-
     @media(max-width: 580px) {
-      .blog-grid {
-        grid-template-columns: 1fr;
-      }
+      .blog-grid { grid-template-columns: 1fr; }
       .blog-hero h1 { font-size: 26px; }
       .cta-banner { padding: 28px 20px; }
+      .filter-bar { padding: 20px 20px 0; }
     }
   </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
-  <a href="/" class="nav-logo">
-    🛡️ Zroppix
-  </a>
+  <a href="/" class="nav-logo">🛡️ Zroppix</a>
   <ul class="nav-links">
     <li><a href="/#features">Features</a></li>
     <li><a href="/#pricing">Pricing</a></li>
-    <li><a href="/blog"
-      class="active">Blog</a></li>
-    <li>
-      <a href=" https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf"
-        class="btn-gold">
-        Add to Chrome — Free
-      </a>
-    </li>
+    <li><a href="/blog" class="active">Blog</a></li>
+    <li><a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="btn-gold">Add to Chrome — Free</a></li>
   </ul>
 </nav>
 
-<!-- HERO -->
 <div class="blog-hero">
-  <div class="blog-tag">
-    📚 Zroppix Blog
-  </div>
-  <h1>Shop smarter.<br>
-    Never overpay again.</h1>
-  <p>
-    Guides, comparisons and research to 
-    help you always buy at the right price 
-    on Amazon.
-  </p>
+  <div class="blog-tag">📚 Zroppix Blog</div>
+  <h1>Shop smarter.<br>Never overpay again.</h1>
+  <p>Guides, comparisons and research to help you always buy at the right price on Amazon.</p>
 </div>
 
-<!-- BLOG GRID -->
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filterPosts('all')">All Posts</button>
+  <button class="filter-btn" onclick="filterPosts('guide')">Guides</button>
+  <button class="filter-btn" onclick="filterPosts('investigation')">Investigations</button>
+  <button class="filter-btn" onclick="filterPosts('buying-guide')">Buying Guides</button>
+  <button class="filter-btn" onclick="filterPosts('comparison')">Comparisons</button>
+  <button class="filter-btn" onclick="filterPosts('deal-guide')">Deal Guides</button>
+</div>
+
 <div class="blog-container">
-  <div class="blog-grid">
+  <div class="blog-grid" id="blogGrid">
 
-    <!-- DIVIDER 1 -->
-    <div class="section-divider">
-      🔥 Most Popular
-    </div>
+    <!-- ── SECTION 1: INVESTIGATIONS ── -->
+    <div class="section-divider">🔥 Investigations — Amazon Exposed</div>
 
-    <!-- POST 1 -->
-    <a href="/blog/amazon-price-history"
-      class="blog-card">
+    <a href="/blog/amazon-overcharging-exposed-2026" class="blog-card" data-cat="investigation">
+      <div class="blog-thumb t3">🚨</div>
+      <div class="blog-body">
+        <div class="blog-category">Investigation <span class="badge-hot">Hot</span></div>
+        <h3>Amazon Is Overcharging You Right Now — Here Is the Proof</h3>
+        <p>We tracked 100 products for 90 days. 54% are currently above their historical average. Here is what it costs you.</p>
+        <div class="blog-meta"><span>13 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <a href="/blog/how-does-amazon-dynamic-pricing-work" class="blog-card" data-cat="investigation">
+      <div class="blog-thumb t4">⚙️</div>
+      <div class="blog-body">
+        <div class="blog-category">Investigation <span class="badge-new">New</span></div>
+        <h3>How Amazon Dynamic Pricing Works — And How It's Costing You Money</h3>
+        <p>Amazon makes 2.5 million price changes per day. Here is exactly how the algorithm decides what you pay.</p>
+        <div class="blog-meta"><span>12 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <a href="/blog/amazon-fake-countdown-timer-exposed" class="blog-card" data-cat="investigation">
+      <div class="blog-thumb t3">⏱️</div>
+      <div class="blog-body">
+        <div class="blog-category">Investigation <span class="badge-new">New</span></div>
+        <h3>Amazon's Fake Countdown Timers Exposed — The Urgency Trick Costing You Money</h3>
+        <p>We analyzed 100 Lightning Deals. 68% were priced above the 90-day average. The countdown is real. The deal often isn't.</p>
+        <div class="blog-meta"><span>11 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <a href="/blog/amazon-charges-different-prices-different-people" class="blog-card" data-cat="investigation">
+      <div class="blog-thumb t5">👥</div>
+      <div class="blog-body">
+        <div class="blog-category">Investigation</div>
+        <h3>Amazon Charges Different People Different Prices — Here Is the Proof</h3>
+        <p>The same product, same day, three different prices. Documented evidence of personalized pricing and how to protect yourself.</p>
+        <div class="blog-meta"><span>7 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <a href="/blog/amazon-sale-badge-was-it-cheaper-before" class="blog-card" data-cat="investigation">
+      <div class="blog-thumb t3">🏷️</div>
+      <div class="blog-body">
+        <div class="blog-category">Investigation</div>
+        <h3>Amazon Sale Badge: Was It Actually Cheaper Before?</h3>
+        <p>54% of Amazon sale badges appear on products priced above their historical average. How to check in 5 seconds.</p>
+        <div class="blog-meta"><span>6 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <a href="/blog/amazon-psychology-tricks" class="blog-card" data-cat="investigation">
+      <div class="blog-thumb t4">🧠</div>
+      <div class="blog-body">
+        <div class="blog-category">Investigation</div>
+        <h3>Amazon's 7 Psychology Tricks That Make You Overspend</h3>
+        <p>Every dark pattern Amazon uses to bypass your rational thinking and make you spend more than you planned.</p>
+        <div class="blog-meta"><span>8 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <a href="/blog/amazon-price-manipulation" class="blog-card" data-cat="investigation">
+      <div class="blog-thumb t3">🎭</div>
+      <div class="blog-body">
+        <div class="blog-category">Investigation</div>
+        <h3>How Amazon Manipulates Prices — And How To Beat It</h3>
+        <p>The tactics Amazon uses to make you think you're getting a deal — and exactly how to fight back.</p>
+        <div class="blog-meta"><span>6 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <a href="/blog/amazon-overcharging-you" class="blog-card" data-cat="investigation">
+      <div class="blog-thumb t3">💸</div>
+      <div class="blog-body">
+        <div class="blog-category">Investigation</div>
+        <h3>Is Amazon Overcharging You? How To Tell in 30 Seconds</h3>
+        <p>A simple test to find out if you are paying more than you should on any Amazon product right now.</p>
+        <div class="blog-meta"><span>5 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <!-- ── SECTION 2: BUYING GUIDES ── -->
+    <div class="section-divider">🛍️ Buying Guides — When To Buy</div>
+
+    <a href="/blog/best-time-to-buy-airpods-on-amazon" class="blog-card" data-cat="buying-guide">
+      <div class="blog-thumb t4">🎧</div>
+      <div class="blog-body">
+        <div class="blog-category">Buying Guide <span class="badge-new">New</span></div>
+        <h3>Best Time To Buy AirPods on Amazon in 2026 (Month-by-Month Data)</h3>
+        <p>AirPods Pro drops to $179 during Prime Day. Here is the full price calendar and exactly when to buy each model.</p>
+        <div class="blog-meta"><span>10 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <a href="/blog/best-time-to-buy-kindle-on-amazon" class="blog-card" data-cat="buying-guide">
+      <div class="blog-thumb t1">📖</div>
+      <div class="blog-body">
+        <div class="blog-category">Buying Guide <span class="badge-new">New</span></div>
+        <h3>Best Time To Buy a Kindle on Amazon in 2026 (Month-by-Month Data)</h3>
+        <p>Kindle Paperwhite drops from $159 to $99 during Prime Day every year. Here is the complete buying calendar.</p>
+        <div class="blog-meta"><span>9 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <a href="/blog/best-time-to-buy-laptop-on-amazon" class="blog-card" data-cat="buying-guide">
+      <div class="blog-thumb t2">💻</div>
+      <div class="blog-body">
+        <div class="blog-category">Buying Guide <span class="badge-new">New</span></div>
+        <h3>Best Time To Buy a Laptop on Amazon in 2026 (Month-by-Month Data)</h3>
+        <p>MacBook, Dell, HP, Lenovo, ASUS — 12 months of price data across every major brand. Save $100-300 on timing alone.</p>
+        <div class="blog-meta"><span>11 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <a href="/blog/should-i-buy-airpods-now-or-wait" class="blog-card" data-cat="buying-guide">
+      <div class="blog-thumb t4">🤔</div>
+      <div class="blog-body">
+        <div class="blog-category">Buying Guide</div>
+        <h3>Should I Buy AirPods Now or Wait? (2026 Answer With Real Data)</h3>
+        <p>The definitive answer based on 90 days of real price history. Spoiler: it depends on the month.</p>
+        <div class="blog-meta"><span>6 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <a href="/blog/best-time-to-buy-amazon" class="blog-card" data-cat="buying-guide">
+      <div class="blog-thumb t2">⏰</div>
+      <div class="blog-body">
+        <div class="blog-category">Buying Guide</div>
+        <h3>Best Time To Buy on Amazon: AI Analysis of 10 Popular Products</h3>
+        <p>We analyzed thousands of price points to find the best days and months to buy the most popular Amazon products.</p>
+        <div class="blog-meta"><span>8 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <a href="/blog/bought-something-amazon-price-dropped" class="blog-card" data-cat="buying-guide">
+      <div class="blog-thumb t3">😤</div>
+      <div class="blog-body">
+        <div class="blog-category">Buying Guide</div>
+        <h3>Bought Something on Amazon and the Price Dropped? Here Is What To Do</h3>
+        <p>Your options when Amazon drops the price after you buy — refund policy, price match, and what actually works.</p>
+        <div class="blog-meta"><span>5 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <!-- ── SECTION 3: DEAL GUIDES ── -->
+    <div class="section-divider">⚡ Deal Guides — Prime Day &amp; Sales</div>
+
+    <a href="/blog/amazon-prime-day-2026-guide" class="blog-card" data-cat="deal-guide">
+      <div class="blog-thumb t5">🛒</div>
+      <div class="blog-body">
+        <div class="blog-category">Deal Guide <span class="badge-hot">Hot</span></div>
+        <h3>Amazon Prime Day 2026: Complete Guide to Getting Real Deals</h3>
+        <p>Only 39% of Prime Day deals are genuine. Here is which categories are real and which are manufactured discounts.</p>
+        <div class="blog-meta"><span>11 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <a href="/blog/amazon-prime-day-2026" class="blog-card" data-cat="deal-guide">
+      <div class="blog-thumb t5">⚡</div>
+      <div class="blog-body">
+        <div class="blog-category">Deal Guide</div>
+        <h3>Amazon Prime Day 2026: Which Deals Are Actually Worth It?</h3>
+        <p>How to tell real Prime Day deals from fake markdowns — before you click buy.</p>
+        <div class="blog-meta"><span>6 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <a href="/blog/are-amazon-prime-day-deals-worth-it" class="blog-card" data-cat="deal-guide">
+      <div class="blog-thumb t1">🔍</div>
+      <div class="blog-body">
+        <div class="blog-category">Deal Guide</div>
+        <h3>Are Amazon Prime Day Deals Actually Worth It? We Checked 50 of Them.</h3>
+        <p>Data-driven analysis of 50 Prime Day deals. Which categories consistently deliver and which are always fake.</p>
+        <div class="blog-meta"><span>8 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <a href="/blog/amazon-deal-checker" class="blog-card" data-cat="deal-guide">
+      <div class="blog-thumb t2">✅</div>
+      <div class="blog-body">
+        <div class="blog-category">Deal Guide</div>
+        <h3>How To Check If an Amazon Deal Is Actually Real (In 5 Seconds)</h3>
+        <p>The fastest way to verify any Amazon deal before buying — no guesswork, no spreadsheets, just the truth.</p>
+        <div class="blog-meta"><span>4 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <a href="/blog/best-free-amazon-deal-checker" class="blog-card" data-cat="deal-guide">
+      <div class="blog-thumb t1">🆓</div>
+      <div class="blog-body">
+        <div class="blog-category">Deal Guide</div>
+        <h3>Best Free Amazon Deal Checker in 2026 (No Account Needed)</h3>
+        <p>Every free tool for checking Amazon deals compared. Which one is fastest, most accurate, and easiest to use.</p>
+        <div class="blog-meta"><span>6 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <!-- ── SECTION 4: COMPARISONS ── -->
+    <div class="section-divider">⚔️ Tool Comparisons</div>
+
+    <a href="/blog/amazon-price-history-chrome-extension-2026" class="blog-card" data-cat="comparison">
+      <div class="blog-thumb t2">🏆</div>
+      <div class="blog-body">
+        <div class="blog-category">Comparison <span class="badge-new">New</span></div>
+        <h3>Best Amazon Price History Chrome Extension in 2026 (Full Comparison)</h3>
+        <p>Zroppix vs Keepa vs CamelCamelCamel vs Honey — we tested all of them. Here is the honest verdict.</p>
+        <div class="blog-meta"><span>10 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <a href="/blog/keepa-alternative-free-2026" class="blog-card" data-cat="comparison">
+      <div class="blog-thumb t4">📊</div>
+      <div class="blog-body">
+        <div class="blog-category">Comparison <span class="badge-new">New</span></div>
+        <h3>Best Free Keepa Alternative in 2026 (Simpler, Faster, Tells You What To Do)</h3>
+        <p>Keepa is powerful but overwhelming. Here is the alternative that gives you an instant BUY or WAIT verdict instead.</p>
+        <div class="blog-meta"><span>9 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <a href="/blog/keepa-alternative" class="blog-card" data-cat="comparison">
+      <div class="blog-thumb t4">⚔️</div>
+      <div class="blog-body">
+        <div class="blog-category">Comparison</div>
+        <h3>Keepa vs CamelCamelCamel vs Zroppix: Which Is Best in 2026?</h3>
+        <p>An honest breakdown of the three biggest Amazon price trackers so you can pick the right one.</p>
+        <div class="blog-meta"><span>6 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <a href="/blog/camelcamelcamel-alternative" class="blog-card" data-cat="comparison">
+      <div class="blog-thumb t3">🐪</div>
+      <div class="blog-body">
+        <div class="blog-category">Comparison</div>
+        <h3>CamelCamelCamel Alternative: Why Zroppix Is Better in 2026</h3>
+        <p>CamelCamelCamel shows you graphs. Zroppix tells you what to do. Full honest comparison of both tools.</p>
+        <div class="blog-meta"><span>6 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <a href="/blog/camelcamelcamel-alternative-tells-you-what-to-do" class="blog-card" data-cat="comparison">
+      <div class="blog-thumb t3">💬</div>
+      <div class="blog-body">
+        <div class="blog-category">Comparison</div>
+        <h3>CamelCamelCamel Alternative That Actually Tells You What To Do</h3>
+        <p>Why showing graphs is not enough — and the tool that gives you a clear answer instead of a chart to interpret.</p>
+        <div class="blog-meta"><span>5 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <a href="/blog/honey-not-working-alternative" class="blog-card" data-cat="comparison">
+      <div class="blog-thumb t5">🍯</div>
+      <div class="blog-body">
+        <div class="blog-category">Comparison</div>
+        <h3>Honey Extension Not Working? Here Is the Better Alternative (2026)</h3>
+        <p>Creator-safe, no affiliate link manipulation, actually tells you if a price is good. The Honey replacement you need.</p>
+        <div class="blog-meta"><span>6 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <a href="/blog/amazon-price-history-chrome-extension" class="blog-card" data-cat="comparison">
+      <div class="blog-thumb t2">🔌</div>
+      <div class="blog-body">
+        <div class="blog-category">Comparison</div>
+        <h3>Amazon Price History Chrome Extensions: Top 5 Compared</h3>
+        <p>We tested every major Amazon price history Chrome extension so you don't have to. Full honest breakdown.</p>
+        <div class="blog-meta"><span>6 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <!-- ── SECTION 5: GUIDES ── -->
+    <div class="section-divider">📖 Guides — How It Works</div>
+
+    <a href="/blog/amazon-price-drop-prediction" class="blog-card" data-cat="guide">
+      <div class="blog-thumb t4">🤖</div>
+      <div class="blog-body">
+        <div class="blog-category">Research <span class="badge-new">New</span></div>
+        <h3>Amazon Price Drop Prediction: Can AI Actually Tell You When Prices Will Fall?</h3>
+        <p>We tested AI prediction on 200 products over 90 days. 76% accuracy on established products. Here is the full study.</p>
+        <div class="blog-meta"><span>12 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <a href="/blog/amazon-price-history" class="blog-card" data-cat="guide">
       <div class="blog-thumb t1">📊</div>
       <div class="blog-body">
         <div class="blog-category">Guide</div>
-        <h3>How To See Amazon Price 
-          History for Free (2026)</h3>
-        <p>The complete guide to tracking 
-          Amazon prices and knowing exactly 
-          when any product is at its 
-          lowest price.</p>
-        <div class="blog-meta">
-          <span>5 min read</span>
-          <div class="blog-meta-dot"></div>
-          <span>May 2026</span>
-        </div>
+        <h3>How To See Amazon Price History for Free (2026)</h3>
+        <p>The complete guide to tracking Amazon prices and knowing exactly when any product is at its lowest price.</p>
+        <div class="blog-meta"><span>5 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
       </div>
     </a>
 
-    <!-- POST 2 -->
-    <a href="/blog/camelcamelcamel-alternative"
-      class="blog-card">
-      <div class="blog-thumb t3">🐪</div>
-      <div class="blog-body">
-        <div class="blog-category">
-          Comparison</div>
-        <h3>CamelCamelCamel Alternative: 
-          Why Zroppix Is Better in 2026</h3>
-        <p>CamelCamelCamel shows you graphs. 
-          Zroppix tells you what to do. 
-          Full comparison of both tools.</p>
-        <div class="blog-meta">
-          <span>6 min read</span>
-          <div class="blog-meta-dot"></div>
-          <span>May 2026</span>
-        </div>
-      </div>
-    </a>
-
-    <!-- POST 3 -->
-    <a href="/blog/keepa-alternative"
-      class="blog-card">
-      <div class="blog-thumb t4">⚔️</div>
-      <div class="blog-body">
-        <div class="blog-category">
-          Comparison</div>
-        <h3>Keepa vs CamelCamelCamel vs 
-          Zroppix: Which Is Best in 2026?</h3>
-        <p>An honest breakdown of the three 
-          biggest Amazon price trackers so 
-          you can pick the right one.</p>
-        <div class="blog-meta">
-          <span>6 min read</span>
-          <div class="blog-meta-dot"></div>
-          <span>May 2026</span>
-        </div>
-      </div>
-    </a>
-
-    <!-- POST 4 -->
-    <a href="/blog/amazon-price-history-chrome-extension"
-      class="blog-card">
-      <div class="blog-thumb t2">🔌</div>
-      <div class="blog-body">
-        <div class="blog-category">
-          Comparison</div>
-        <h3>Amazon Price History Chrome 
-          Extension: Top 5 Compared (2026)</h3>
-        <p>We tested every major Amazon 
-          price history Chrome extension 
-          so you don't have to.</p>
-        <div class="blog-meta">
-          <span>6 min read</span>
-          <div class="blog-meta-dot"></div>
-          <span>May 2026</span>
-        </div>
-      </div>
-    </a>
-
-    <!-- POST 5 -->
-    <a href="/blog/never-overpay-amazon"
-      class="blog-card">
-      <div class="blog-thumb t5">💡</div>
-      <div class="blog-body">
-        <div class="blog-category">Tips</div>
-        <h3>7 Ways To Never Overpay 
-          on Amazon Again</h3>
-        <p>Practical, proven strategies 
-          that smart Amazon shoppers use 
-          to always get the best price.</p>
-        <div class="blog-meta">
-          <span>5 min read</span>
-          <div class="blog-meta-dot"></div>
-          <span>May 2026</span>
-        </div>
-      </div>
-    </a>
-
-    <!-- POST 6 -->
-    <a href="/blog/best-time-to-buy-amazon"
-      class="blog-card">
-      <div class="blog-thumb t2">⏰</div>
-      <div class="blog-body">
-        <div class="blog-category">Research</div>
-        <h3>Best Time To Buy on Amazon: 
-          AI Analysis of 10 Products</h3>
-        <p>We analyzed thousands of price 
-          points to find the best days and 
-          months to buy popular products.</p>
-        <div class="blog-meta">
-          <span>8 min read</span>
-          <div class="blog-meta-dot"></div>
-          <span>May 2026</span>
-        </div>
-      </div>
-    </a>
-
-    <!-- DIVIDER 2 -->
-    <div class="section-divider">
-      📖 How-To Guides
-    </div>
-
-    <!-- POST 7 -->
-    <a href="/blog/amazon-price-drop-alert"
-      class="blog-card">
-      <div class="blog-thumb t1">🔔</div>
-      <div class="blog-body">
-        <div class="blog-category">How-To</div>
-        <h3>How To Get Amazon Price Drop 
-          Alerts for Free in 2026</h3>
-        <p>Every method to get notified 
-          when an Amazon price drops — 
-          explained step by step.</p>
-        <div class="blog-meta">
-          <span>4 min read</span>
-          <div class="blog-meta-dot"></div>
-          <span>May 2026</span>
-        </div>
-      </div>
-    </a>
-
-    <!-- POST 8 -->
-    <a href="/blog/amazon-price-alert-app"
-      class="blog-card">
-      <div class="blog-thumb t3">📱</div>
-      <div class="blog-body">
-        <div class="blog-category">How-To</div>
-        <h3>How To Set Amazon Price Alerts 
-          on iPhone and Android (2026)</h3>
-        <p>Step-by-step guide to getting 
-          Amazon price alerts straight 
-          to your phone.</p>
-        <div class="blog-meta">
-          <span>5 min read</span>
-          <div class="blog-meta-dot"></div>
-          <span>May 2026</span>
-        </div>
-      </div>
-    </a>
-
-    <!-- POST 9 -->
-    <a href="/blog/amazon-price-drop"
-      class="blog-card">
-      <div class="blog-thumb t5">⏳</div>
-      <div class="blog-body">
-        <div class="blog-category">How-To</div>
-        <h3>Amazon Price Drop: How Long 
-          Should You Wait?</h3>
-        <p>How to know exactly how long 
-          to wait before a price drops 
-          on any Amazon product.</p>
-        <div class="blog-meta">
-          <span>5 min read</span>
-          <div class="blog-meta-dot"></div>
-          <span>May 2026</span>
-        </div>
-      </div>
-    </a>
-
-    <!-- POST 10 -->
-    <a href="/blog/does-amazon-change-prices"
-      class="blog-card">
+    <a href="/blog/does-amazon-change-prices" class="blog-card" data-cat="guide">
       <div class="blog-thumb t4">🔄</div>
       <div class="blog-body">
-        <div class="blog-category">Research</div>
-        <h3>Does Amazon Change Prices? 
-          Everything You Need To Know</h3>
-        <p>How Amazon's dynamic pricing 
-          works and how to use it 
-          to your advantage.</p>
-        <div class="blog-meta">
-          <span>5 min read</span>
-          <div class="blog-meta-dot"></div>
-          <span>May 2026</span>
-        </div>
+        <div class="blog-category">Guide</div>
+        <h3>Does Amazon Change Prices? Everything You Need To Know</h3>
+        <p>How Amazon's dynamic pricing works, how often prices change, and how to use it to your advantage.</p>
+        <div class="blog-meta"><span>5 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
       </div>
     </a>
 
-    <!-- DIVIDER 3 -->
-    <div class="section-divider">
-      ⚔️ Tool Comparisons
-    </div>
-
-    <!-- POST 11 -->
-    <a href="/blog/amazon-price-history-chrome-extension"
-      class="blog-card">
-      <div class="blog-thumb t2">🏆</div>
+    <a href="/blog/amazon-price-drop" class="blog-card" data-cat="guide">
+      <div class="blog-thumb t5">⏳</div>
       <div class="blog-body">
-        <div class="blog-category">
-          Comparison</div>
-        <h3>Amazon Price History Chrome 
-          Extension: Top 5 Compared</h3>
-        <p>Keepa, CamelCamelCamel, Honey, 
-          PriceBlink and Zroppix — 
-          which one wins?</p>
-        <div class="blog-meta">
-          <span>6 min read</span>
-          <div class="blog-meta-dot"></div>
-          <span>May 2026</span>
-        </div>
+        <div class="blog-category">Guide</div>
+        <h3>Amazon Price Drop: How Long Should You Actually Wait?</h3>
+        <p>How to know exactly how long to wait before a price drops on any Amazon product — with real data.</p>
+        <div class="blog-meta"><span>5 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
       </div>
     </a>
 
-    <!-- POST 12 -->
-    <a href="/blog/honey-extension-alternative"
-      class="blog-card">
-      <div class="blog-thumb t5">🍯</div>
-      <div class="blog-body">
-        <div class="blog-category">
-          Comparison</div>
-        <h3>Honey Extension vs Zroppix: 
-          Which Saves You More Money?</h3>
-        <p>Coupon codes vs AI price 
-          predictions — which approach 
-          actually saves you more?</p>
-        <div class="blog-meta">
-          <span>5 min read</span>
-          <div class="blog-meta-dot"></div>
-          <span>May 2026</span>
-        </div>
-      </div>
-    </a>
-
-    <!-- POST 13 -->
-    <a href="/blog/best-chrome-extensions-shopping"
-      class="blog-card">
-      <div class="blog-thumb t1">🛒</div>
-      <div class="blog-body">
-        <div class="blog-category">
-          Comparison</div>
-        <h3>10 Best Chrome Extensions 
-          For Shopping in 2026</h3>
-        <p>The definitive list of Chrome 
-          extensions every smart shopper 
-          needs installed right now.</p>
-        <div class="blog-meta">
-          <span>7 min read</span>
-          <div class="blog-meta-dot"></div>
-          <span>May 2026</span>
-        </div>
-      </div>
-    </a>
-
-    <!-- POST 14 -->
-    <a href="/blog/capital-one-shopping-alternative"
-      class="blog-card">
-      <div class="blog-thumb t3">💳</div>
-      <div class="blog-body">
-        <div class="blog-category">
-          Comparison</div>
-        <h3>Capital One Shopping vs Zroppix: 
-          Honest Comparison (2026)</h3>
-        <p>Two very different ways to save 
-          money on Amazon — which one 
-          is right for you?</p>
-        <div class="blog-meta">
-          <span>5 min read</span>
-          <div class="blog-meta-dot"></div>
-          <span>May 2026</span>
-        </div>
-      </div>
-    </a>
-
-    <!-- DIVIDER 4 -->
-    <div class="section-divider">
-      💰 Saving Money on Amazon
-    </div>
-
-    <!-- POST 15 -->
-    <a href="/blog/how-to-save-money-amazon"
-      class="blog-card">
+    <a href="/blog/save-1000-amazon-year" class="blog-card" data-cat="guide">
       <div class="blog-thumb t2">💰</div>
       <div class="blog-body">
         <div class="blog-category">Guide</div>
-        <h3>15 Genius Ways To Save Money 
-          on Amazon in 2026</h3>
-        <p>Every trick, tool and strategy 
-          to spend less and get more 
-          every time you shop on Amazon.</p>
-        <div class="blog-meta">
-          <span>8 min read</span>
-          <div class="blog-meta-dot"></div>
-          <span>May 2026</span>
-        </div>
+        <h3>How To Save $1,000 on Amazon This Year (Real Strategies)</h3>
+        <p>Every proven strategy to spend significantly less on Amazon without buying less. Real numbers, real methods.</p>
+        <div class="blog-meta"><span>8 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
       </div>
     </a>
 
-    <!-- POST 16 -->
-    <a href="/blog/amazon-price-manipulation"
-      class="blog-card">
-      <div class="blog-thumb t3">🎭</div>
-      <div class="blog-body">
-        <div class="blog-category">Research</div>
-        <h3>How Amazon Manipulates Prices 
-          (And How To Beat It)</h3>
-        <p>The tactics Amazon uses to make 
-          you think you're getting a deal 
-          — and exactly how to fight back.</p>
-        <div class="blog-meta">
-          <span>6 min read</span>
-          <div class="blog-meta-dot"></div>
-          <span>May 2026</span>
-        </div>
-      </div>
-    </a>
-
-    <!-- POST 17 -->
-    <a href="/blog/amazon-hidden-deals"
-      class="blog-card">
-      <div class="blog-thumb t4">🔍</div>
-      <div class="blog-body">
-        <div class="blog-category">Tips</div>
-        <h3>9 Amazon Hidden Deals Most 
-          Shoppers Never Find</h3>
-        <p>Secret sections, hidden 
-          discounts and pricing tricks 
-          Amazon doesn't advertise.</p>
-        <div class="blog-meta">
-          <span>5 min read</span>
-          <div class="blog-meta-dot"></div>
-          <span>May 2026</span>
-        </div>
-      </div>
-    </a>
-
-    <!-- POST 18 -->
-    <a href="/blog/overpaying-amazon"
-      class="blog-card">
-      <div class="blog-thumb t1">😬</div>
+    <a href="/blog/how-to-never-overpay-amazon" class="blog-card" data-cat="guide">
+      <div class="blog-thumb t5">💡</div>
       <div class="blog-body">
         <div class="blog-category">Guide</div>
-        <h3>Are You Overpaying on Amazon 
-          Right Now? Here's How To Check</h3>
-        <p>A simple test to find out if 
-          you are paying more than you 
-          should on Amazon today.</p>
-        <div class="blog-meta">
-          <span>4 min read</span>
-          <div class="blog-meta-dot"></div>
-          <span>May 2026</span>
-        </div>
+        <h3>How To Never Overpay on Amazon Again (The Complete 2026 System)</h3>
+        <p>The complete system for always buying at the right price. Step by step, product by product.</p>
+        <div class="blog-meta"><span>7 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
       </div>
     </a>
 
-    <!-- DIVIDER 5 -->
-    <div class="section-divider">
-      🛍️ Deals and Sale Events
-    </div>
-
-    <!-- POST 19 -->
-    <a href="/blog/amazon-prime-day-2026"
-      class="blog-card">
-      <div class="blog-thumb t5">⚡</div>
+    <a href="/blog/never-overpay-amazon" class="blog-card" data-cat="guide">
+      <div class="blog-thumb t5">🛡️</div>
       <div class="blog-body">
-        <div class="blog-category">
-          Deal Guide</div>
-        <h3>Amazon Prime Day 2026: Which 
-          Deals Are Actually Worth It?</h3>
-        <p>How to tell real Prime Day deals 
-          from fake markdowns — before 
-          you click buy.</p>
-        <div class="blog-meta">
-          <span>6 min read</span>
-          <div class="blog-meta-dot"></div>
-          <span>May 2026</span>
-        </div>
+        <div class="blog-category">Guide</div>
+        <h3>7 Ways To Never Overpay on Amazon Again</h3>
+        <p>Practical, proven strategies that smart Amazon shoppers use to always get the best price.</p>
+        <div class="blog-meta"><span>5 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
       </div>
     </a>
 
-    <!-- POST 20 -->
-    <a href="/blog/black-friday-amazon-2026"
-      class="blog-card">
-      <div class="blog-thumb t3">🖤</div>
+    <a href="/blog/amazon-price-drop-alert" class="blog-card" data-cat="guide">
+      <div class="blog-thumb t1">🔔</div>
       <div class="blog-body">
-        <div class="blog-category">
-          Deal Guide</div>
-        <h3>Black Friday Amazon 2026: How 
-          To Know Which Deals Are Real</h3>
-        <p>Amazon inflates prices before 
-          Black Friday. Here is how to 
-          spot every fake deal instantly.</p>
-        <div class="blog-meta">
-          <span>6 min read</span>
-          <div class="blog-meta-dot"></div>
-          <span>May 2026</span>
-        </div>
+        <div class="blog-category">Guide</div>
+        <h3>How To Get Amazon Price Drop Alerts for Free in 2026</h3>
+        <p>Every method to get notified when an Amazon price drops — explained step by step.</p>
+        <div class="blog-meta"><span>4 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
       </div>
     </a>
 
-    <!-- POST 21 - BONUS -->
-    <a href="/blog/amazon-lightning-deals-worth-it"
-      class="blog-card">
-      <div class="blog-thumb t1">⚡</div>
+    <a href="/blog/amazon-price-alert-app" class="blog-card" data-cat="guide">
+      <div class="blog-thumb t3">📱</div>
       <div class="blog-body">
-        <div class="blog-category">Research</div>
-        <h3>Are Amazon Lightning Deals 
-          Actually Worth It? The Truth</h3>
-        <p>We analyzed hundreds of lightning 
-          deals to find out if the urgency 
-          is real or manufactured.</p>
-        <div class="blog-meta">
-          <span>5 min read</span>
-          <div class="blog-meta-dot"></div>
-          <span>May 2026</span>
-        </div>
+        <div class="blog-category">Guide</div>
+        <h3>How To Set Amazon Price Alerts on iPhone and Android (2026)</h3>
+        <p>Step-by-step guide to getting Amazon price alerts straight to your phone for any product.</p>
+        <div class="blog-meta"><span>5 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <a href="/blog/free-amazon-price-tracker-no-account" class="blog-card" data-cat="guide">
+      <div class="blog-thumb t2">🆓</div>
+      <div class="blog-body">
+        <div class="blog-category">Guide</div>
+        <h3>Free Amazon Price Tracker With No Account Required (2026)</h3>
+        <p>Track any Amazon price with zero signup, zero email, zero friction. Works in 10 seconds.</p>
+        <div class="blog-meta"><span>4 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
       </div>
     </a>
 
@@ -821,47 +739,61 @@
 
   <!-- CTA BANNER -->
   <div class="cta-banner">
-    <h2>
-      🛡️ Ready to stop overpaying?
-    </h2>
-    <p>
-      Install Zroppix free and get an 
-      instant BUY or WAIT verdict on 
-      any Amazon product in seconds.
-    </p>
-    <a href=" https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf"
-      class="btn-gold"
-      style="display:inline-block;
-      font-size:15px;padding:13px 32px;
-      border-radius:10px;">
-      Add to Chrome — It's Free
-    </a>
+    <h2>🛡️ Ready to stop overpaying?</h2>
+    <p>Install Zroppix free and get an instant BUY or WAIT verdict on any Amazon product in 5 seconds.</p>
+    <a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="cta-btn">Add to Chrome — It's Free</a>
   </div>
-
 </div>
 
-<!-- FOOTER -->
 <footer>
-  <p style="font-size:17px;font-weight:800;
-    color:#C9A84C;margin-bottom:8px;">
-    🛡️ Zroppix
-  </p>
+  <div class="footer-logo">🛡️ Zroppix</div>
   <p>The AI that knows when to buy.</p>
-  <p style="margin-top:12px;">
-    <a href="/" style="color:#7A78A0;
-      margin:0 12px;">Home</a>
-    <a href="/blog" style="color:#7A78A0;
-      margin:0 12px;">Blog</a>
-    <a href="mailto:hello@zroppix.com"
-      style="color:#7A78A0;margin:0 12px;">
-      Contact
-    </a>
-  </p>
-  <p style="margin-top:12px;
-    font-size:11px;">
-    © 2026 Zroppix. All rights reserved.
-  </p>
+  <div class="footer-links">
+    <a href="/">Home</a>
+    <a href="/blog">Blog</a>
+    <a href="/privacy">Privacy</a>
+    <a href="/terms">Terms</a>
+    <a href="/refund">Refund</a>
+    <a href="mailto:hello@zroppix.com">Contact</a>
+  </div>
+  <div class="footer-copy">© 2026 Zroppix. All rights reserved.</div>
 </footer>
+
+<script>
+  function filterPosts(cat) {
+    // Update active button
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+
+    // Show/hide cards
+    document.querySelectorAll('.blog-card').forEach(card => {
+      if (cat === 'all' || card.dataset.cat === cat) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    // Show/hide section dividers — hide if all cards in section hidden
+    document.querySelectorAll('.section-divider').forEach(div => {
+      if (cat === 'all') {
+        div.style.display = 'block';
+        return;
+      }
+      // Check if next siblings have any visible cards
+      let next = div.nextElementSibling;
+      let hasVisible = false;
+      while (next && !next.classList.contains('section-divider')) {
+        if (next.classList.contains('blog-card') && next.style.display !== 'none') {
+          hasVisible = true;
+          break;
+        }
+        next = next.nextElementSibling;
+      }
+      div.style.display = hasVisible ? 'block' : 'none';
+    });
+  }
+</script>
 
 </body>
 </html>
