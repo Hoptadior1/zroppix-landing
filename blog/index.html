@@ -48,7 +48,6 @@
 
     a { text-decoration: none; color: inherit; }
 
-    /* NAV */
     nav {
       display: flex;
       justify-content: space-between;
@@ -82,7 +81,6 @@
     }
     .btn-gold:hover { background: var(--gold-light) !important; transform: translateY(-1px); }
 
-    /* HERO */
     .blog-hero {
       text-align: center;
       padding: 72px 24px 56px;
@@ -122,7 +120,6 @@
     }
     .blog-hero p { font-size: 17px; color: var(--muted); max-width: 500px; margin: 0 auto; }
 
-    /* FILTER BAR */
     .filter-bar {
       max-width: 1100px;
       margin: 0 auto;
@@ -149,7 +146,6 @@
       background: var(--gold-dim);
     }
 
-    /* BLOG GRID */
     .blog-container {
       max-width: 1100px;
       margin: 0 auto;
@@ -163,7 +159,6 @@
       width: 100%;
     }
 
-    /* SECTION DIVIDER */
     .section-divider {
       grid-column: 1 / -1;
       padding: 16px 0 6px;
@@ -176,7 +171,6 @@
       margin-bottom: 4px;
     }
 
-    /* BLOG CARD */
     .blog-card {
       background: var(--bg2);
       border: 1px solid var(--border);
@@ -239,7 +233,6 @@
     }
     .blog-meta-dot { width: 3px; height: 3px; background: var(--muted); border-radius: 50%; flex-shrink: 0; }
 
-    /* NEW badge */
     .badge-new {
       display: inline-block;
       background: var(--green-dim);
@@ -269,7 +262,6 @@
       vertical-align: middle;
     }
 
-    /* CTA BANNER */
     .cta-banner {
       background: var(--bg2);
       border: 1px solid var(--gold-border);
@@ -301,7 +293,6 @@
     }
     .cta-btn:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.3); }
 
-    /* FOOTER */
     footer {
       text-align: center;
       padding: 40px 24px;
@@ -315,7 +306,6 @@
     .footer-links a:hover { color: var(--gold); }
     .footer-copy { font-size: 11px; color: var(--border); margin-top: 12px; }
 
-    /* RESPONSIVE */
     @media(max-width: 960px) {
       nav { padding: 14px 20px; }
       .nav-links { display: none; }
@@ -562,6 +552,16 @@
     <!-- ── SECTION 4: COMPARISONS ── -->
     <div class="section-divider">⚔️ Tool Comparisons</div>
 
+    <a href="/blog/amazon-price-history-checker" class="blog-card" data-cat="comparison">
+      <div class="blog-thumb t4">🔬</div>
+      <div class="blog-body">
+        <div class="blog-category">Comparison <span class="badge-new">New</span></div>
+        <h3>Amazon Price History Checker: Best Free Tools in 2026 (Compared)</h3>
+        <p>Every free Amazon price history checker ranked honestly — which is fastest, clearest, and most useful.</p>
+        <div class="blog-meta"><span>12 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
     <a href="/blog/amazon-price-history-chrome-extension-2026" class="blog-card" data-cat="comparison">
       <div class="blog-thumb t2">🏆</div>
       <div class="blog-body">
@@ -634,6 +634,46 @@
 
     <!-- ── SECTION 5: GUIDES ── -->
     <div class="section-divider">📖 Guides — How It Works</div>
+
+    <a href="/blog/amazon-price-watch" class="blog-card" data-cat="guide">
+      <div class="blog-thumb t1">👁️</div>
+      <div class="blog-body">
+        <div class="blog-category">Guide <span class="badge-new">New</span></div>
+        <h3>Amazon Price Watch: The Complete Guide to Monitoring Any Product (2026)</h3>
+        <p>How to watch any Amazon price and get emailed the instant it drops. Free tools, exact setup, target price guide.</p>
+        <div class="blog-meta"><span>14 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <a href="/blog/track-amazon-prices-over-time" class="blog-card" data-cat="guide">
+      <div class="blog-thumb t2">📈</div>
+      <div class="blog-body">
+        <div class="blog-category">Guide <span class="badge-new">New</span></div>
+        <h3>Track Amazon Prices Over Time: The Complete 2026 Guide</h3>
+        <p>What 90-day price history reveals that Amazon hides — and how to use it to always buy at the right moment.</p>
+        <div class="blog-meta"><span>13 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <a href="/blog/check-amazon-prices" class="blog-card" data-cat="guide">
+      <div class="blog-thumb t5">✅</div>
+      <div class="blog-body">
+        <div class="blog-category">Guide <span class="badge-new">New</span></div>
+        <h3>How To Check Amazon Prices Before You Buy (Complete 2026 Guide)</h3>
+        <p>54% of Amazon products are overpriced right now. Check any price in 5 seconds and never buy blind again.</p>
+        <div class="blog-meta"><span>12 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
+
+    <a href="/blog/price-watch-amazon" class="blog-card" data-cat="guide">
+      <div class="blog-thumb t1">🔔</div>
+      <div class="blog-body">
+        <div class="blog-category">Guide <span class="badge-new">New</span></div>
+        <h3>Price Watch Amazon: How To Get Notified When Any Price Drops (2026)</h3>
+        <p>Set a price watch on any Amazon product in 30 seconds and get emailed the instant it drops to your target.</p>
+        <div class="blog-meta"><span>13 min read</span><div class="blog-meta-dot"></div><span>May 2026</span></div>
+      </div>
+    </a>
 
     <a href="/blog/amazon-price-drop-prediction" class="blog-card" data-cat="guide">
       <div class="blog-thumb t4">🤖</div>
@@ -737,7 +777,6 @@
 
   </div>
 
-  <!-- CTA BANNER -->
   <div class="cta-banner">
     <h2>🛡️ Ready to stop overpaying?</h2>
     <p>Install Zroppix free and get an instant BUY or WAIT verdict on any Amazon product in 5 seconds.</p>
@@ -761,11 +800,8 @@
 
 <script>
   function filterPosts(cat) {
-    // Update active button
     document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
     event.target.classList.add('active');
-
-    // Show/hide cards
     document.querySelectorAll('.blog-card').forEach(card => {
       if (cat === 'all' || card.dataset.cat === cat) {
         card.style.display = 'flex';
@@ -773,21 +809,12 @@
         card.style.display = 'none';
       }
     });
-
-    // Show/hide section dividers — hide if all cards in section hidden
     document.querySelectorAll('.section-divider').forEach(div => {
-      if (cat === 'all') {
-        div.style.display = 'block';
-        return;
-      }
-      // Check if next siblings have any visible cards
+      if (cat === 'all') { div.style.display = 'block'; return; }
       let next = div.nextElementSibling;
       let hasVisible = false;
       while (next && !next.classList.contains('section-divider')) {
-        if (next.classList.contains('blog-card') && next.style.display !== 'none') {
-          hasVisible = true;
-          break;
-        }
+        if (next.classList.contains('blog-card') && next.style.display !== 'none') { hasVisible = true; break; }
         next = next.nextElementSibling;
       }
       div.style.display = hasVisible ? 'block' : 'none';
