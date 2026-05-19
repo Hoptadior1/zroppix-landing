@@ -1,66 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <!-- Main pages -->
-  <url><loc>https://zroppix.com/</loc><lastmod>2026-05-17</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://zroppix.com/blog</loc><lastmod>2026-05-17</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://zroppix.com/privacy</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.3</priority></url>
-  <url><loc>https://zroppix.com/terms</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.3</priority></url>
-  <url><loc>https://zroppix.com/refund</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.3</priority></url>
+<!-- Main pages -->
+<url><loc>https://zroppix.com/</loc><lastmod>2026-05-19</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+<url><loc>https://zroppix.com/blog</loc><lastmod>2026-05-19</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/privacy</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.3</priority></url>
+<url><loc>https://zroppix.com/terms</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.3</priority></url>
+<url><loc>https://zroppix.com/refund</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.3</priority></url>
 
-  <!-- Original 6 posts -->
-  <url><loc>https://zroppix.com/blog/amazon-price-history</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://zroppix.com/blog/best-time-to-buy-amazon</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://zroppix.com/blog/camelcamelcamel-alternative</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://zroppix.com/blog/amazon-price-drop-alert</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://zroppix.com/blog/does-amazon-change-prices</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://zroppix.com/blog/never-overpay-amazon</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<!-- ── TIER S — Highest priority content (just rewritten or premium quality) ── -->
+<url><loc>https://zroppix.com/blog/amazon-price-history</loc><lastmod>2026-05-19</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+<url><loc>https://zroppix.com/blog/how-does-amazon-dynamic-pricing-work</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/blog/amazon-overcharging-exposed-2026</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/blog/amazon-price-increase-before-prime-day</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/blog/how-amazon-algorithm-sets-your-price</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/blog/amazon-fake-countdown-timer-exposed</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/blog/amazon-price-drop-prediction</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/blog/amazon-return-policy-secrets</loc><lastmod>2026-05-17</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/blog/amazon-price-watch</loc><lastmod>2026-05-17</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/blog/price-watch-amazon</loc><lastmod>2026-05-17</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/blog/best-time-to-buy-airpods-on-amazon</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/blog/bought-something-amazon-price-dropped</loc><lastmod>2026-05-19</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
 
-  <!-- Batch 2 posts 7-12 -->
-  <url><loc>https://zroppix.com/blog/amazon-price-history-chrome-extension</loc><lastmod>2026-05-14</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://zroppix.com/blog/amazon-price-alert-app</loc><lastmod>2026-05-14</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://zroppix.com/blog/keepa-alternative</loc><lastmod>2026-05-14</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://zroppix.com/blog/amazon-prime-day-2026</loc><lastmod>2026-05-14</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://zroppix.com/blog/amazon-deal-checker</loc><lastmod>2026-05-14</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://zroppix.com/blog/amazon-price-drop</loc><lastmod>2026-05-14</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<!-- ── TIER A — Strong quality content ── -->
+<url><loc>https://zroppix.com/blog/best-time-to-buy-kindle-on-amazon</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/blog/best-time-to-buy-laptop-on-amazon</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/blog/amazon-prime-day-2026-guide</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/blog/keepa-alternative-free-2026</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://zroppix.com/blog/amazon-price-history-chrome-extension-2026</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://zroppix.com/blog/amazon-price-history-checker</loc><lastmod>2026-05-17</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/blog/check-amazon-prices</loc><lastmod>2026-05-17</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/blog/track-amazon-prices-over-time</loc><lastmod>2026-05-17</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/blog/is-amazon-prime-worth-it-2026</loc><lastmod>2026-05-17</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/blog/amazon-vs-walmart-prices</loc><lastmod>2026-05-17</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/blog/how-to-never-overpay-amazon</loc><lastmod>2026-05-19</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/blog/are-amazon-prime-day-deals-worth-it</loc><lastmod>2026-05-19</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/blog/honey-not-working-alternative</loc><lastmod>2026-05-19</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/blog/camelcamelcamel-alternative-tells-you-what-to-do</loc><lastmod>2026-05-19</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://zroppix.com/blog/amazon-charges-different-prices-different-people</loc><lastmod>2026-05-19</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
 
-  <!-- Viral posts 13-16 -->
-  <url><loc>https://zroppix.com/blog/amazon-psychology-tricks</loc><lastmod>2026-05-14</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://zroppix.com/blog/amazon-overcharging-you</loc><lastmod>2026-05-14</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://zroppix.com/blog/save-1000-amazon-year</loc><lastmod>2026-05-14</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://zroppix.com/blog/amazon-price-manipulation</loc><lastmod>2026-05-14</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+<!-- ── TIER B/C — Solid supporting content ── -->
+<url><loc>https://zroppix.com/blog/should-i-buy-airpods-now-or-wait</loc><lastmod>2026-05-15</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://zroppix.com/blog/free-amazon-price-tracker-no-account</loc><lastmod>2026-05-15</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://zroppix.com/blog/amazon-sale-badge-was-it-cheaper-before</loc><lastmod>2026-05-15</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://zroppix.com/blog/best-free-amazon-deal-checker</loc><lastmod>2026-05-15</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://zroppix.com/blog/amazon-psychology-tricks</loc><lastmod>2026-05-14</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://zroppix.com/blog/amazon-overcharging-you</loc><lastmod>2026-05-14</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://zroppix.com/blog/save-1000-amazon-year</loc><lastmod>2026-05-14</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://zroppix.com/blog/amazon-price-manipulation</loc><lastmod>2026-05-14</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
-  <!-- Blitz batch posts 17-26 -->
-  <url><loc>https://zroppix.com/blog/should-i-buy-airpods-now-or-wait</loc><lastmod>2026-05-15</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://zroppix.com/blog/bought-something-amazon-price-dropped</loc><lastmod>2026-05-15</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://zroppix.com/blog/are-amazon-prime-day-deals-worth-it</loc><lastmod>2026-05-15</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://zroppix.com/blog/camelcamelcamel-alternative-tells-you-what-to-do</loc><lastmod>2026-05-15</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://zroppix.com/blog/free-amazon-price-tracker-no-account</loc><lastmod>2026-05-15</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://zroppix.com/blog/amazon-charges-different-prices-different-people</loc><lastmod>2026-05-15</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://zroppix.com/blog/how-to-never-overpay-amazon</loc><lastmod>2026-05-15</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://zroppix.com/blog/amazon-sale-badge-was-it-cheaper-before</loc><lastmod>2026-05-15</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://zroppix.com/blog/honey-not-working-alternative</loc><lastmod>2026-05-15</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://zroppix.com/blog/best-free-amazon-deal-checker</loc><lastmod>2026-05-15</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-
-  <!-- High quality batch 2 posts 27-31 -->
-  <url><loc>https://zroppix.com/blog/best-time-to-buy-airpods-on-amazon</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://zroppix.com/blog/best-time-to-buy-kindle-on-amazon</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://zroppix.com/blog/amazon-prime-day-2026-guide</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://zroppix.com/blog/keepa-alternative-free-2026</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://zroppix.com/blog/amazon-price-history-chrome-extension-2026</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-
-  <!-- Batch 2b posts 32-36 -->
-  <url><loc>https://zroppix.com/blog/how-does-amazon-dynamic-pricing-work</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://zroppix.com/blog/amazon-fake-countdown-timer-exposed</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://zroppix.com/blog/best-time-to-buy-laptop-on-amazon</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://zroppix.com/blog/amazon-price-drop-prediction</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://zroppix.com/blog/amazon-overcharging-exposed-2026</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-
-  <!-- Batch 3 posts 37-41 -->
-  <url><loc>https://zroppix.com/blog/amazon-price-watch</loc><lastmod>2026-05-17</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://zroppix.com/blog/track-amazon-prices-over-time</loc><lastmod>2026-05-17</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://zroppix.com/blog/amazon-price-history-checker</loc><lastmod>2026-05-17</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://zroppix.com/blog/check-amazon-prices</loc><lastmod>2026-05-17</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://zroppix.com/blog/price-watch-amazon</loc><lastmod>2026-05-17</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+<!-- ── TIER D/E — Original thinner content (still indexed, lower priority) ── -->
+<url><loc>https://zroppix.com/blog/best-time-to-buy-amazon</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+<url><loc>https://zroppix.com/blog/amazon-price-drop-alert</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+<url><loc>https://zroppix.com/blog/does-amazon-change-prices</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+<url><loc>https://zroppix.com/blog/amazon-price-alert-app</loc><lastmod>2026-05-14</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+<url><loc>https://zroppix.com/blog/amazon-deal-checker</loc><lastmod>2026-05-14</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+<url><loc>https://zroppix.com/blog/amazon-price-drop</loc><lastmod>2026-05-14</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
 
 </urlset>

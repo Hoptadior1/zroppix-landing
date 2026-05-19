@@ -4,6 +4,31 @@
       "source": "/welcome",
       "destination": "/",
       "permanent": false
+    },
+    {
+      "source": "/blog/camelcamelcamel-alternative",
+      "destination": "/blog/camelcamelcamel-alternative-tells-you-what-to-do",
+      "permanent": true
+    },
+    {
+      "source": "/blog/never-overpay-amazon",
+      "destination": "/blog/how-to-never-overpay-amazon",
+      "permanent": true
+    },
+    {
+      "source": "/blog/keepa-alternative",
+      "destination": "/blog/keepa-alternative-free-2026",
+      "permanent": true
+    },
+    {
+      "source": "/blog/amazon-price-history-chrome-extension",
+      "destination": "/blog/amazon-price-history-chrome-extension-2026",
+      "permanent": true
+    },
+    {
+      "source": "/blog/amazon-prime-day-2026",
+      "destination": "/blog/amazon-prime-day-2026-guide",
+      "permanent": true
     }
   ],
   "headers": [
