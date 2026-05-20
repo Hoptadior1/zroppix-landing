@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You're all set — Zroppix</title>
+<meta name="robots" content="noindex">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:#0D0D14;
+  --bg2:#12121A;
+  --border:#22223A;
+  --gold:#C9A84C;
+  --gold2:#D4B864;
+  --gold-dim:rgba(201,168,76,0.08);
+  --gold-border:rgba(201,168,76,0.2);
+  --green:#1D9E75;
+  --green-dim:rgba(29,158,117,0.08);
+  --red:#E24B4A;
+  --muted:#7A78A0;
+  --text:#cccccc;
+  --white:#fff;
+}
+
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  line-height:1.6;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* Background glow */
+body::before{
+  content:'';
+  position:fixed;
+  top:-200px;left:50%;
+  transform:translateX(-50%);
+  width:800px;height:500px;
+  background:radial-gradient(ellipse,rgba(201,168,76,0.07) 0%,transparent 70%);
+  pointer-events:none;
+  z-index:0;
+}
+
+a{text-decoration:none;color:inherit;}
+
+/* NAV */
+nav{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:18px 40px;
+  border-bottom:1px solid var(--border);
+  background:rgba(13,13,20,0.95);
+  backdrop-filter:blur(16px);
+  position:sticky;top:0;z-index:100;
+}
+.nav-logo{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--gold);}
+
+/* HERO */
+.hero{
+  max-width:760px;margin:0 auto;
+  padding:80px 24px 60px;
+  text-align:center;
+  position:relative;z-index:1;
+}
+
+.success-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--green-dim);
+  border:1px solid rgba(29,158,117,0.25);
+  color:var(--green);
+  padding:8px 20px;border-radius:100px;
+  font-size:13px;font-weight:600;
+  margin-bottom:28px;
+  animation:fadeUp 0.5s ease both;
+}
+
+.hero h1{
+  font-family:'Syne',sans-serif;
+  font-size:52px;font-weight:900;
+  line-height:1.1;letter-spacing:-1px;
+  color:var(--white);
+  margin-bottom:20px;
+  animation:fadeUp 0.5s 0.1s ease both;
+}
+.hero h1 span{color:var(--gold);}
+
+.hero p{
+  font-size:18px;color:var(--muted);
+  max-width:500px;margin:0 auto 40px;
+  line-height:1.7;
+  animation:fadeUp 0.5s 0.2s ease both;
+}
+
+/* STEPS */
+.steps{
+  max-width:760px;margin:0 auto;
+  padding:0 24px 80px;
+  position:relative;z-index:1;
+}
+
+.steps-title{
+  font-family:'Syne',sans-serif;
+  font-size:13px;font-weight:800;
+  text-transform:uppercase;letter-spacing:1.5px;
+  color:var(--muted);
+  text-align:center;
+  margin-bottom:32px;
+}
+
+.step{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:28px 32px;
+  margin-bottom:16px;
+  display:flex;gap:24px;align-items:flex-start;
+  transition:border-color 0.2s;
+  animation:fadeUp 0.5s ease both;
+}
+.step:hover{border-color:var(--gold-border);}
+.step:nth-child(2){animation-delay:0.1s;}
+.step:nth-child(3){animation-delay:0.2s;}
+.step:nth-child(4){animation-delay:0.3s;}
+
+.step-num{
+  width:48px;height:48px;flex-shrink:0;
+  background:var(--gold-dim);
+  border:1px solid var(--gold-border);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;
+  font-size:20px;font-weight:900;
+  color:var(--gold);
+}
+.step-content h3{
+  font-family:'Syne',sans-serif;
+  font-size:18px;font-weight:700;
+  color:var(--white);
+  margin-bottom:6px;
+}
+.step-content p{
+  font-size:15px;color:var(--muted);
+  line-height:1.65;margin:0;
+}
+.step-content .hint{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(201,168,76,0.06);
+  border:1px solid var(--gold-border);
+  border-radius:8px;
+  padding:8px 14px;
+  margin-top:12px;
+  font-size:13px;color:var(--gold);font-weight:500;
+}
+
+/* DEMO CARD */
+.demo-section{
+  max-width:760px;margin:0 auto;
+  padding:0 24px 80px;
+  position:relative;z-index:1;
+}
+.demo-label{
+  font-size:13px;font-weight:700;
+  text-transform:uppercase;letter-spacing:1px;
+  color:var(--muted);
+  text-align:center;margin-bottom:24px;
+}
+
+.demo-card{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:20px;
+  overflow:hidden;
+}
+.demo-card-header{
+  background:#1A1A26;
+  padding:12px 20px;
+  display:flex;align-items:center;gap:8px;
+  border-bottom:1px solid var(--border);
+}
+.demo-dot{width:10px;height:10px;border-radius:50%;}
+.demo-dot.red{background:#E24B4A;}
+.demo-dot.yellow{background:#C9A84C;}
+.demo-dot.green{background:#1D9E75;}
+.demo-url{
+  flex:1;text-align:center;
+  font-size:12px;color:var(--muted);
+  background:rgba(255,255,255,0.04);
+  border-radius:6px;padding:4px 12px;
+}
+
+.demo-body{padding:28px 32px;}
+.demo-product{
+  display:flex;gap:20px;align-items:center;
+  margin-bottom:24px;
+  padding-bottom:24px;
+  border-bottom:1px solid var(--border);
+}
+.demo-product-img{
+  width:72px;height:72px;
+  background:linear-gradient(135deg,rgba(201,168,76,0.1),rgba(201,168,76,0.03));
+  border:1px solid var(--border);
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;flex-shrink:0;
+}
+.demo-product-info h4{
+  font-size:15px;font-weight:600;color:var(--white);
+  margin-bottom:4px;
+}
+.demo-product-info p{font-size:22px;font-weight:700;color:var(--white);}
+.demo-product-info span{font-size:13px;color:var(--muted);}
+
+.verdict-wait{
+  background:rgba(226,75,74,0.06);
+  border:1px solid rgba(226,75,74,0.2);
+  border-radius:14px;
+  padding:20px 24px;
+  margin-bottom:20px;
+  text-align:center;
+}
+.verdict-wait .verdict-label{
+  font-family:'Syne',sans-serif;
+  font-size:32px;font-weight:900;
+  color:#E24B4A;letter-spacing:4px;
+  margin-bottom:4px;
+}
+.verdict-wait .verdict-sub{
+  font-size:14px;color:var(--muted);
+}
+.verdict-wait .verdict-save{
+  font-size:22px;font-weight:700;color:var(--gold);
+  margin:8px 0 4px;
+}
+
+.demo-stats{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+.demo-stat{
+  background:rgba(255,255,255,0.02);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:12px;text-align:center;
+}
+.demo-stat-label{font-size:11px;color:var(--muted);margin-bottom:4px;}
+.demo-stat-value{font-size:16px;font-weight:700;color:var(--white);}
+.demo-stat-value.green{color:var(--green);}
+.demo-stat-value.red{color:#E24B4A;}
+
+/* CTA */
+.cta-section{
+  max-width:760px;margin:0 auto;
+  padding:0 24px 100px;
+  text-align:center;
+  position:relative;z-index:1;
+}
+
+.btn-primary{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--gold);
+  color:#0D0D14;
+  font-family:'Syne',sans-serif;
+  font-size:17px;font-weight:800;
+  padding:18px 44px;
+  border-radius:12px;
+  border:none;cursor:pointer;
+  transition:all 0.2s;
+  text-decoration:none;
+}
+.btn-primary:hover{
+  background:var(--gold2);
+  transform:translateY(-2px);
+  box-shadow:0 12px 32px rgba(201,168,76,0.25);
+}
+
+.cta-sub{
+  font-size:13px;color:var(--muted);
+  margin-top:14px;
+}
+
+.trust-row{
+  display:flex;justify-content:center;gap:24px;
+  flex-wrap:wrap;
+  margin-top:20px;
+}
+.trust-item{
+  font-size:13px;color:var(--muted);
+  display:flex;align-items:center;gap:6px;
+}
+.trust-item .tick{color:var(--green);}
+
+/* ANIMATIONS */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+@media(max-width:600px){
+  nav{padding:14px 20px;}
+  .hero{padding:60px 20px 40px;}
+  .hero h1{font-size:36px;}
+  .step{flex-direction:column;gap:16px;padding:22px 20px;}
+  .demo-stats{grid-template-columns:repeat(3,1fr);}
+  .demo-body{padding:20px;}
+  .btn-primary{font-size:15px;padding:15px 32px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">🛡️ Zroppix</a>
+</nav>
+
+<div class="hero">
+  <div class="success-badge">
+    <span>✓</span> Extension installed successfully
+  </div>
+  <h1>You're ready to stop<br><span>overpaying on Amazon.</span></h1>
+  <p>Here's exactly how to use Zroppix in 3 steps — takes 10 seconds and works on any Amazon product.</p>
+</div>
+
+<div class="steps">
+  <div class="steps-title">How to use Zroppix</div>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <h3>Go to any Amazon product page</h3>
+      <p>Open Amazon and find any product you're thinking about buying — a laptop, headphones, kitchen appliance, anything. Zroppix works on every Amazon product page.</p>
+      <a href="https://www.amazon.com/s?k=headphones" target="_blank" class="hint">
+        → Try it on Amazon now
+      </a>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <h3>Click the Zroppix icon in your toolbar</h3>
+      <p>Look for the 🛡️ shield icon in your Chrome toolbar — top right of your browser. If you don't see it, click the puzzle piece icon and pin Zroppix. Then click the shield on any Amazon product page.</p>
+      <div class="hint">
+        🧩 Can't find it? Click the puzzle piece → pin Zroppix → done
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <h3>Get your instant BUY or WAIT verdict</h3>
+      <p>In 5 seconds you'll see exactly where today's price sits in the 90-day history — how much you could save by waiting, what % of buyers paid less, and the lowest price this product has been. One clear answer. No graphs.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="demo-section">
+  <div class="demo-label">Here's what you'll see</div>
+  <div class="demo-card">
+    <div class="demo-card-header">
+      <div class="demo-dot red"></div>
+      <div class="demo-dot yellow"></div>
+      <div class="demo-dot green"></div>
+      <div class="demo-url">amazon.com/dp/B08N5WRWNW</div>
+    </div>
+    <div class="demo-body">
+      <div class="demo-product">
+        <div class="demo-product-img">🎧</div>
+        <div class="demo-product-info">
+          <h4>Sony WH-1000XM5 Wireless Headphones</h4>
+          <p>$348.00 <span>today's price</span></p>
+        </div>
+      </div>
+      <div class="verdict-wait">
+        <div class="verdict-label">WAIT</div>
+        <div class="verdict-save">You could save $67</div>
+        <div class="verdict-sub">73% of buyers paid less than this price</div>
+      </div>
+      <div class="demo-stats">
+        <div class="demo-stat">
+          <div class="demo-stat-label">90-day low</div>
+          <div class="demo-stat-value green">$281</div>
+        </div>
+        <div class="demo-stat">
+          <div class="demo-stat-label">Average</div>
+          <div class="demo-stat-value">$310</div>
+        </div>
+        <div class="demo-stat">
+          <div class="demo-stat-label">Today</div>
+          <div class="demo-stat-value red">$348</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cta-section">
+  <a href="https://www.amazon.com/s?k=headphones" target="_blank" class="btn-primary">
+    🛡️ Try Zroppix on Amazon now →
+  </a>
+  <p class="cta-sub">Opens Amazon in a new tab — click the shield icon in your toolbar</p>
+  <div class="trust-row">
+    <div class="trust-item"><span class="tick">✓</span> Free forever</div>
+    <div class="trust-item"><span class="tick">✓</span> No account needed</div>
+    <div class="trust-item"><span class="tick">✓</span> Works on all Amazon products</div>
+    <div class="trust-item"><span class="tick">✓</span> 90 days of real price data</div>
+  </div>
+</div>
+
+</body>
+</html>
