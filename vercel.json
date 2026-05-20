@@ -1,11 +1,6 @@
 {
   "redirects": [
     {
-      "source": "/welcome",
-      "destination": "/",
-      "permanent": false
-    },
-    {
       "source": "/blog/camelcamelcamel-alternative",
       "destination": "/blog/camelcamelcamel-alternative-tells-you-what-to-do",
       "permanent": true
