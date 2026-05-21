@@ -12,22 +12,18 @@
   <meta name="robots" content="index, follow">
   <meta name="author" content="Zroppix">
 
-  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://zroppix.com">
   <meta property="og:title" content="Zroppix — The AI That Knows When To Buy">
   <meta property="og:description" content="Stop overpaying on Amazon. AI powered price analysis gives you instant BUY or WAIT verdicts. Free Chrome extension.">
   <meta property="og:image" content="https://zroppix.com/og-image.png">
   <meta property="og:site_name" content="Zroppix">
-
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@zroppix">
   <meta name="twitter:title" content="Zroppix — The AI That Knows When To Buy">
   <meta name="twitter:description" content="Stop overpaying on Amazon. AI powered price analysis. Free Chrome extension.">
   <meta name="twitter:image" content="https://zroppix.com/og-image.png">
 
-  <!-- Schema — Software Application -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -39,365 +35,117 @@
     "description": "AI powered price drop predictor for Amazon. Get instant BUY or WAIT verdicts, price history and automatic price alerts.",
     "url": "https://zroppix.com",
     "downloadUrl": "https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf",
-    "screenshot": "https://zroppix.com/screenshot.png",
-    "featureList": [
-      "AI price drop predictions",
-      "BUY or WAIT verdict",
-      "Price history tracking",
-      "Automatic price alerts",
-      "What others paid"
-    ],
     "offers": [
-      {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD",
-        "name": "Free Plan",
-        "description": "Free forever with basic price tracking"
-      },
-      {
-        "@type": "Offer",
-        "price": "14",
-        "priceCurrency": "USD",
-        "billingIncrement": "P1M",
-        "name": "Pro Plan",
-        "description": "AI predictions, unlimited tracking"
-      },
-      {
-        "@type": "Offer",
-        "price": "24",
-        "priceCurrency": "USD",
-        "billingIncrement": "P1M",
-        "name": "Family Plan",
-        "description": "Everything in Pro for up to 5 family members"
-      },
-      {
-        "@type": "Offer",
-        "price": "49",
-        "priceCurrency": "USD",
-        "billingIncrement": "P1M",
-        "name": "Elite Plan",
-        "description": "AI Shopping Assistant, price crash alerts, API access"
-      }
+      {"@type": "Offer","price": "0","priceCurrency": "USD","name": "Free Plan"},
+      {"@type": "Offer","price": "14","priceCurrency": "USD","billingIncrement": "P1M","name": "Pro Plan"},
+      {"@type": "Offer","price": "24","priceCurrency": "USD","billingIncrement": "P1M","name": "Family Plan"},
+      {"@type": "Offer","price": "49","priceCurrency": "USD","billingIncrement": "P1M","name": "Elite Plan"}
     ],
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.9",
-      "ratingCount": "247",
-      "bestRating": "5"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "Zroppix",
-      "url": "https://zroppix.com"
-    }
+    "aggregateRating": {"@type": "AggregateRating","ratingValue": "4.9","ratingCount": "247","bestRating": "5"},
+    "publisher": {"@type": "Organization","name": "Zroppix","url": "https://zroppix.com"}
   }
   </script>
 
-  <!-- Schema — FAQ -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "Is Zroppix free?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes. The free plan is free forever with no time limit and no credit card required. You get BUY or WAIT verdicts, price history and up to 3 price alerts."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How accurate are Zroppix predictions?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Our AI predictions have an 83% accuracy rate based on historical price data. Accuracy improves as more users track the same products."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Which stores does Zroppix work on?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Zroppix currently works on Amazon with Walmart, Best Buy, Target and more coming soon."
-        }
-      }
+      {"@type": "Question","name": "Is Zroppix free?","acceptedAnswer": {"@type": "Answer","text": "Yes. The free plan is free forever with no time limit and no credit card required."}},
+      {"@type": "Question","name": "How accurate are Zroppix predictions?","acceptedAnswer": {"@type": "Answer","text": "Our AI predictions have an 83% accuracy rate based on historical price data."}},
+      {"@type": "Question","name": "Which stores does Zroppix work on?","acceptedAnswer": {"@type": "Answer","text": "Zroppix currently works on Amazon with Walmart, Best Buy, Target and more coming soon."}}
     ]
   }
   </script>
 
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     :root {
-      --bg: #0D0D14;
-      --bg2: #12121A;
-      --bg3: #0A0A10;
-      --border: #22223A;
-      --gold: #C9A84C;
-      --green: #1D9E75;
-      --red: #E24B4A;
-      --orange: #F5A623;
-      --text: #ffffff;
-      --muted: #7A78A0;
-      --subtle: #cccccc;
+      --bg: #0D0D14; --bg2: #12121A; --bg3: #0A0A10;
+      --border: #22223A; --gold: #C9A84C; --green: #1D9E75;
+      --red: #E24B4A; --orange: #F5A623; --text: #ffffff;
+      --muted: #7A78A0; --subtle: #cccccc;
     }
-
     html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont,
-        'Segoe UI', Roboto, sans-serif;
-      font-size: 16px;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-      max-width: 100vw;
-    }
-
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; max-width: 100vw; }
     a { text-decoration: none; color: inherit; }
     img { max-width: 100%; }
+    html, body { overflow-x: hidden !important; max-width: 100% !important; }
+    * { max-width: 100%; }
 
-    .btn-gold {
-      background: var(--gold);
-      color: #0D0D14;
-      padding: 12px 24px;
-      border-radius: 10px;
-      font-weight: 700;
-      font-size: 15px;
-      transition: all 0.2s;
-      border: none;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      white-space: nowrap;
-    }
-    .btn-gold:hover {
-      background: #D4B864;
-      transform: translateY(-1px);
-      box-shadow: 0 8px 24px rgba(201,168,76,0.3);
-    }
+    .btn-gold { background: var(--gold); color: #0D0D14; padding: 12px 24px; border-radius: 10px; font-weight: 700; font-size: 15px; transition: all 0.2s; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+    .btn-gold:hover { background: #D4B864; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(201,168,76,0.3); }
+    .btn-outline { background: transparent; color: var(--text); padding: 12px 24px; border-radius: 10px; font-weight: 600; font-size: 15px; border: 1px solid var(--border); transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-lg { padding: 16px 36px; font-size: 17px; border-radius: 12px; }
 
-    .btn-outline {
-      background: transparent;
-      color: var(--text);
-      padding: 12px 24px;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: 15px;
-      border: 1px solid var(--border);
-      transition: all 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-    }
-    .btn-outline:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-    }
-
-    .btn-lg {
-      padding: 16px 36px;
-      font-size: 17px;
-      border-radius: 12px;
-    }
-
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 48px;
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      background: rgba(13,13,20,0.96);
-      backdrop-filter: blur(12px);
-      z-index: 100;
-    }
-
-    .nav-logo {
-      font-size: 20px;
-      font-weight: 800;
-      color: var(--gold);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 36px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 48px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(13,13,20,0.96); backdrop-filter: blur(12px); z-index: 100; }
+    .nav-logo { font-size: 20px; font-weight: 800; color: var(--gold); display: flex; align-items: center; gap: 8px; }
+    .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+    .nav-links a { color: var(--muted); font-size: 14px; font-weight: 500; transition: color 0.2s; }
     .nav-links a:hover { color: var(--text); }
+    .nav-cta { padding: 9px 20px !important; font-size: 14px !important; }
 
-    .nav-cta {
-      padding: 9px 20px !important;
-      font-size: 14px !important;
-    }
-
-    .hero {
-      text-align: center;
-      padding: 100px 20px 60px;
-      max-width: 820px;
-      margin: 0 auto;
-      position: relative;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 600px;
-      height: 400px;
-      background: radial-gradient(ellipse at center, rgba(201,168,76,0.06) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(201,168,76,0.08);
-      border: 1px solid rgba(201,168,76,0.25);
-      color: var(--gold);
-      padding: 7px 18px;
-      border-radius: 24px;
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 32px;
-      letter-spacing: 0.3px;
-    }
-
-    .hero-eyebrow-dot {
-      width: 6px;
-      height: 6px;
-      background: var(--gold);
-      border-radius: 50%;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
-
-    .hero h1 {
-      font-size: 62px;
-      font-weight: 900;
-      line-height: 1.04;
-      margin-bottom: 24px;
-      letter-spacing: -2px;
-    }
-
-    .hero h1 .gradient {
-      background: linear-gradient(135deg, var(--gold), #F5A623);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero-subtitle {
-      font-size: 20px;
-      color: var(--muted);
-      margin-bottom: 44px;
-      max-width: 580px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.65;
-    }
-
-    .hero-cta-group {
-      display: flex;
-      gap: 14px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 44px;
-    }
-
-    .hero-trust {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 28px;
-      flex-wrap: wrap;
-    }
-
-    .trust-item {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-
+    /* ── HERO ── */
+    .hero { text-align: center; padding: 80px 20px 60px; max-width: 820px; margin: 0 auto; position: relative; }
+    .hero::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 600px; height: 400px; background: radial-gradient(ellipse at center, rgba(201,168,76,0.06) 0%, transparent 70%); pointer-events: none; }
+    .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.25); color: var(--gold); padding: 7px 18px; border-radius: 24px; font-size: 13px; font-weight: 600; margin-bottom: 28px; letter-spacing: 0.3px; }
+    .hero-eyebrow-dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .hero h1 { font-size: 62px; font-weight: 900; line-height: 1.04; margin-bottom: 20px; letter-spacing: -2px; }
+    .hero h1 .gradient { background: linear-gradient(135deg, var(--gold), #F5A623); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-subtitle { font-size: 18px; color: var(--muted); margin-bottom: 36px; max-width: 560px; margin-left: auto; margin-right: auto; line-height: 1.65; }
+    .hero-trust { display: flex; justify-content: center; align-items: center; gap: 24px; flex-wrap: wrap; margin-top: 24px; }
+    .trust-item { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--muted); }
     .trust-check { color: var(--green); font-size: 14px; }
 
-    .demo-wrapper {
-      padding: 0 20px 80px;
-      max-width: 440px;
-      margin: 0 auto;
-      position: relative;
-    }
+    /* ── WEB PARSER ── */
+    .parser-section { max-width: 640px; margin: 0 auto 8px; padding: 0 20px; }
+    .parser-box { background: rgba(255,255,255,0.03); border: 1.5px solid var(--border); border-radius: 14px; padding: 10px; transition: border-color 0.2s; }
+    .parser-box:focus-within { border-color: rgba(201,168,76,0.5); box-shadow: 0 0 0 3px rgba(201,168,76,0.06); }
+    .parser-input-row { display: flex; gap: 8px; align-items: center; }
+    .parser-input { flex: 1; background: transparent; border: none; outline: none; color: #fff; font-size: 15px; padding: 10px 12px; font-family: inherit; min-width: 0; }
+    .parser-input::placeholder { color: var(--muted); }
+    .parser-btn { background: var(--gold); color: #0D0D14; border: none; border-radius: 9px; padding: 11px 20px; font-size: 14px; font-weight: 800; cursor: pointer; white-space: nowrap; font-family: inherit; transition: all 0.2s; flex-shrink: 0; }
+    .parser-btn:hover { background: #D4B864; transform: translateY(-1px); }
+    .parser-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .parser-hint { font-size: 12px; color: #3A3A5C; padding: 6px 12px 2px; text-align: center; }
+    .parser-loading { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 20px; color: var(--muted); font-size: 14px; }
+    .parser-spinner { width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .parser-result { margin-top: 12px; }
+    .parser-result-inner { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; text-align: left; }
+    .parser-product-name { padding: 12px 16px; font-size: 12px; color: var(--muted); border-bottom: 1px solid var(--border); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .parser-verdict-card { padding: 20px 16px; text-align: center; border-bottom: 1px solid var(--border); }
+    .parser-verdict-card.wait { background: rgba(226,75,74,0.06); }
+    .parser-verdict-card.buy { background: rgba(29,158,117,0.06); }
+    .parser-verdict-text { font-size: 30px; font-weight: 900; letter-spacing: 4px; margin-bottom: 6px; }
+    .parser-verdict-card.wait .parser-verdict-text { color: var(--red); }
+    .parser-verdict-card.buy .parser-verdict-text { color: var(--green); }
+    .parser-saving { font-size: 18px; font-weight: 800; color: var(--gold); margin-bottom: 4px; }
+    .parser-paid-less { font-size: 13px; color: var(--muted); }
+    .parser-stats { display: grid; grid-template-columns: repeat(4,1fr); border-bottom: 1px solid var(--border); }
+    .parser-stat { padding: 12px 8px; text-align: center; border-right: 1px solid var(--border); }
+    .parser-stat:last-child { border-right: none; }
+    .parser-stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .parser-stat-val { font-size: 14px; font-weight: 700; color: #fff; }
+    .parser-stat-val.green { color: var(--green); }
+    .parser-stat-val.red { color: var(--red); }
+    .parser-cta-btn { display: block; margin: 14px 16px 8px; padding: 13px 20px; background: var(--gold); color: #0D0D14; border-radius: 10px; font-size: 14px; font-weight: 800; text-align: center; text-decoration: none; transition: all 0.2s; }
+    .parser-cta-btn:hover { background: #D4B864; transform: translateY(-1px); }
+    .parser-reset { display: block; text-align: center; padding: 8px 16px 14px; font-size: 13px; color: var(--muted); cursor: pointer; transition: color 0.2s; }
+    .parser-reset:hover { color: var(--gold); }
+    .parser-error { padding: 14px 16px; background: rgba(226,75,74,0.06); border: 1px solid rgba(226,75,74,0.2); border-radius: 10px; margin-top: 10px; font-size: 13px; color: var(--red); text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
 
-    .demo-glow {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .demo-widget {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: 0 0 0 1px rgba(201,168,76,0.1), 0 24px 80px rgba(0,0,0,0.6);
-      position: relative;
-    }
-
-    .demo-topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 11px 16px;
-      background: var(--bg3);
-      border-bottom: 1px solid var(--border);
-    }
-
+    /* ── REST OF PAGE ── */
+    .demo-wrapper { padding: 40px 20px 80px; max-width: 440px; margin: 0 auto; position: relative; }
+    .demo-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300px; height: 300px; background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%); pointer-events: none; }
+    .demo-widget { background: var(--bg2); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; box-shadow: 0 0 0 1px rgba(201,168,76,0.1), 0 24px 80px rgba(0,0,0,0.6); position: relative; }
+    .demo-topbar { display: flex; justify-content: space-between; align-items: center; padding: 11px 16px; background: var(--bg3); border-bottom: 1px solid var(--border); }
     .demo-brand { font-weight: 800; color: var(--gold); font-size: 14px; display: flex; align-items: center; gap: 6px; }
     .demo-plan-badge { font-size: 9px; font-weight: 700; background: rgba(201,168,76,0.12); color: var(--gold); padding: 3px 8px; border-radius: 8px; letter-spacing: 0.5px; }
     .demo-product-name { padding: 8px 16px; font-size: 11px; color: var(--muted); border-bottom: 1px solid #1A1A26; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-    .demo-verdict-card {
-      margin: 10px 14px;
-      padding: 16px;
-      border-radius: 12px;
-      text-align: center;
-      background: rgba(226,75,74,0.07);
-      border: 1px solid rgba(226,75,74,0.2);
-    }
-
+    .demo-verdict-card { margin: 10px 14px; padding: 16px; border-radius: 12px; text-align: center; background: rgba(226,75,74,0.07); border: 1px solid rgba(226,75,74,0.2); }
     .demo-verdict-text { font-size: 26px; font-weight: 900; letter-spacing: 4px; color: var(--red); margin-bottom: 8px; }
     .demo-save-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
     .demo-save-amount { font-size: 34px; font-weight: 900; color: var(--gold); line-height: 1.1; margin: 2px 0; }
@@ -435,7 +183,7 @@
 
     .how-section { padding: 90px 20px; max-width: 1000px; margin: 0 auto; }
     .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-    .step-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 32px 28px; position: relative; transition: border-color 0.2s; }
+    .step-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 32px 28px; transition: border-color 0.2s; }
     .step-card:hover { border-color: rgba(201,168,76,0.3); }
     .step-num { width: 38px; height: 38px; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3); color: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; margin-bottom: 18px; }
     .step-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
@@ -535,19 +283,24 @@
     .footer-legal a { font-size: 13px; color: var(--muted); transition: color 0.2s; }
     .footer-legal a:hover { color: var(--text); }
 
+    .parser-counter { text-align: center; font-size: 12px; padding: 4px 16px 12px; color: var(--muted); }
+    .parser-limit { margin-top: 12px; background: var(--bg2); border: 1px solid rgba(201,168,76,0.25); border-radius: 14px; padding: 28px 24px; text-align: center; }
+    .parser-limit-icon { font-size: 36px; margin-bottom: 12px; }
+    .parser-limit-title { font-size: 17px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+    .parser-limit-sub { font-size: 14px; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
+    .parser-limit-btn { display: block; padding: 13px 20px; background: var(--gold); color: #0D0D14; border-radius: 10px; font-size: 14px; font-weight: 800; text-decoration: none; transition: all 0.2s; margin-bottom: 4px; }
+    .parser-limit-btn:hover { background: #D4B864; transform: translateY(-1px); }
+
     @media (max-width: 1100px) { .pricing-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 900px) {
       nav { padding: 14px 24px; }
       .nav-links { display: none; }
       .hero h1 { font-size: 42px; }
-      .hero-subtitle { font-size: 17px; }
       .proof-bar-inner { grid-template-columns: repeat(2, 1fr); }
-      .problem-grid { grid-template-columns: 1fr; }
-      .steps-grid { grid-template-columns: 1fr; }
+      .problem-grid, .steps-grid { grid-template-columns: 1fr; }
       .features-grid { grid-template-columns: repeat(2, 1fr); }
       .pricing-grid { grid-template-columns: 1fr; }
-      .testimonials-grid { grid-template-columns: 1fr; }
-      .blog-grid { grid-template-columns: 1fr; }
+      .testimonials-grid, .blog-grid { grid-template-columns: 1fr; }
       .footer-top { grid-template-columns: 1fr 1fr; }
       .section-h2 { font-size: 30px; }
       .final-cta h2 { font-size: 32px; }
@@ -556,7 +309,9 @@
       .hero h1 { font-size: 32px; }
       .features-grid { grid-template-columns: 1fr; }
       .footer-top { grid-template-columns: 1fr; }
-      .comparison-section { overflow-x: auto; }
+      .parser-input-row { flex-direction: column; }
+      .parser-btn { width: 100%; justify-content: center; }
+      .parser-stats { grid-template-columns: repeat(2,1fr); }
     }
   </style>
 </head>
@@ -570,38 +325,67 @@
     <li><a href="#compare">vs Others</a></li>
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="/blog">Blog</a></li>
-    <li>
-      <a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf"
-        class="btn-gold nav-cta">
-        Add to Chrome — Free
-      </a>
-    </li>
+    <li><a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="btn-gold nav-cta">Add to Chrome — Free</a></li>
   </ul>
 </nav>
 
+<!-- ── HERO ── -->
 <section class="hero">
   <div class="hero-eyebrow">
     <div class="hero-eyebrow-dot"></div>
     AI Powered Price Intelligence
   </div>
-  <h1>
-    Stop overpaying.<br>
-    <span class="gradient">Know when to buy.</span>
-  </h1>
-  <p class="hero-subtitle">
-    Zroppix analyzes Amazon price history 
-    and gives you an instant BUY or WAIT 
-    verdict — so you always buy at the right price.
-  </p>
-  <div class="hero-cta-group">
-    <a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf"
-      class="btn-gold btn-lg">
-      🛡️ Add to Chrome — It's Free
-    </a>
-    <a href="#how" class="btn-outline btn-lg">
-      See how it works →
-    </a>
+  <h1>Stop overpaying.<br><span class="gradient">Know when to buy.</span></h1>
+  <p class="hero-subtitle">Paste any Amazon URL below and see instantly if you're about to overpay — powered by 90 days of real price history. Free. No account needed.</p>
+
+  <!-- WEB PARSER -->
+  <div class="parser-section">
+    <div class="parser-box" id="parserBox">
+      <div class="parser-input-row">
+        <input type="url" id="parserInput" class="parser-input" placeholder="Paste any Amazon product URL here..." autocomplete="off" spellcheck="false" />
+        <button class="parser-btn" id="parserBtn" onclick="runParser()">Check Price →</button>
+      </div>
+      <div class="parser-hint">e.g. amazon.com/dp/B08N5WRWNW — works on any Amazon product</div>
+    </div>
+    <div class="parser-loading" id="parserLoading" style="display:none;">
+      <div class="parser-spinner"></div>
+      <span>Analyzing 90 days of price data...</span>
+    </div>
+    <div class="parser-result" id="parserResult" style="display:none;">
+      <div class="parser-result-inner">
+        <div class="parser-product-name" id="parserProductName"></div>
+        <div class="parser-verdict-card" id="parserVerdictCard">
+          <div class="parser-verdict-text" id="parserVerdictText"></div>
+          <div class="parser-saving" id="parserSaving"></div>
+          <div class="parser-paid-less" id="parserPaidLess"></div>
+        </div>
+        <div class="parser-stats">
+          <div class="parser-stat"><div class="parser-stat-label">90-day low</div><div class="parser-stat-val green" id="parserLow"></div></div>
+          <div class="parser-stat"><div class="parser-stat-label">Average</div><div class="parser-stat-val" id="parserAvg"></div></div>
+          <div class="parser-stat"><div class="parser-stat-label">Highest</div><div class="parser-stat-val red" id="parserHigh"></div></div>
+          <div class="parser-stat"><div class="parser-stat-label">Today</div><div class="parser-stat-val" id="parserCurrent"></div></div>
+        </div>
+        <a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="parser-cta-btn" target="_blank">🛡️ Install Zroppix for real-time alerts on this product →</a>
+        <div class="parser-reset" onclick="resetParser()">← Check another product</div>
+        <div id="parserCounter" class="parser-counter"></div>
+      </div>
+    </div>
+    <div class="parser-error" id="parserError" style="display:none;">
+      <span id="parserErrorText"></span>
+      <span class="parser-reset" onclick="resetParser()" style="display:inline;padding:0;margin-left:6px;">Try again →</span>
+    </div>
+
+    <!-- LIMIT REACHED -->
+    <div class="parser-limit" id="parserLimit" style="display:none;">
+      <div class="parser-limit-icon">🛡️</div>
+      <div class="parser-limit-title">You've used your 3 free checks today</div>
+      <div class="parser-limit-sub">Install Zroppix free to get 10 checks per day — directly on every Amazon product page.</div>
+      <a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="parser-limit-btn" target="_blank">🛡️ Install Zroppix Free — 10 Checks/Day →</a>
+      <div class="parser-reset" onclick="resetParserLimit()" style="margin-top:8px;">← Try again tomorrow</div>
+    </div>
   </div>
+  <!-- END WEB PARSER -->
+
   <div class="hero-trust">
     <div class="trust-item"><span class="trust-check">✓</span> Free forever — no card needed</div>
     <div class="trust-item"><span class="trust-check">✓</span> Installs in 10 seconds</div>
@@ -631,22 +415,10 @@
       <span class="demo-others-sub">Average paid: $249 &nbsp;|&nbsp; You: $279</span>
     </div>
     <div class="demo-stats-row">
-      <div class="demo-stat-box">
-        <div class="demo-stat-title">Lowest</div>
-        <div class="demo-stat-val g">$198</div>
-      </div>
-      <div class="demo-stat-box">
-        <div class="demo-stat-title">Average</div>
-        <div class="demo-stat-val">$249</div>
-      </div>
-      <div class="demo-stat-box">
-        <div class="demo-stat-title">Highest</div>
-        <div class="demo-stat-val r">$349</div>
-      </div>
-      <div class="demo-stat-box">
-        <div class="demo-stat-title">Days</div>
-        <div class="demo-stat-val">90</div>
-      </div>
+      <div class="demo-stat-box"><div class="demo-stat-title">Lowest</div><div class="demo-stat-val g">$198</div></div>
+      <div class="demo-stat-box"><div class="demo-stat-title">Average</div><div class="demo-stat-val">$249</div></div>
+      <div class="demo-stat-box"><div class="demo-stat-title">Highest</div><div class="demo-stat-val r">$349</div></div>
+      <div class="demo-stat-box"><div class="demo-stat-title">Days</div><div class="demo-stat-val">90</div></div>
     </div>
     <div class="demo-alert-row">
       <input class="demo-price-input" placeholder="Alert me at $210..." readonly>
@@ -669,21 +441,9 @@
   <h2 class="section-h2">Amazon prices change<br>2.5 million times per day</h2>
   <p class="section-sub">Without Zroppix you are always guessing. With Zroppix you always know.</p>
   <div class="problem-grid">
-    <div class="problem-card">
-      <div class="problem-emoji">😰</div>
-      <div class="problem-title">You never know if it is a good price</div>
-      <p class="problem-desc">Is $279 a deal or a rip off? Without price history you have no way to know. You just guess and hope for the best.</p>
-    </div>
-    <div class="problem-card">
-      <div class="problem-emoji">😤</div>
-      <div class="problem-title">You buy then it drops</div>
-      <p class="problem-desc">You buy something at full price. Three days later it is 30% cheaper. This happens to everyone constantly on Amazon.</p>
-    </div>
-    <div class="problem-card">
-      <div class="problem-emoji">😩</div>
-      <div class="problem-title">Price trackers are too complicated</div>
-      <p class="problem-desc">CamelCamelCamel shows you graphs but does not tell you what to do. You still have to figure it out yourself.</p>
-    </div>
+    <div class="problem-card"><div class="problem-emoji">😰</div><div class="problem-title">You never know if it is a good price</div><p class="problem-desc">Is $279 a deal or a rip off? Without price history you have no way to know. You just guess and hope for the best.</p></div>
+    <div class="problem-card"><div class="problem-emoji">😤</div><div class="problem-title">You buy then it drops</div><p class="problem-desc">You buy something at full price. Three days later it is 30% cheaper. This happens to everyone constantly on Amazon.</p></div>
+    <div class="problem-card"><div class="problem-emoji">😩</div><div class="problem-title">Price trackers are too complicated</div><p class="problem-desc">CamelCamelCamel shows you graphs but does not tell you what to do. You still have to figure it out yourself.</p></div>
   </div>
 </section>
 
@@ -694,21 +454,9 @@
     <p class="section-sub">Zroppix works automatically while you browse. No setup required.</p>
   </div>
   <div class="steps-grid">
-    <div class="step-card">
-      <div class="step-num">1</div>
-      <h3>Install in 10 seconds</h3>
-      <p>Add Zroppix to Chrome for free. No account required. No credit card. Just click install and it is ready to use immediately.</p>
-    </div>
-    <div class="step-card">
-      <div class="step-num">2</div>
-      <h3>Browse Amazon normally</h3>
-      <p>Visit any product page on Amazon. Click the Zroppix icon in your toolbar. Instant price analysis appears — no waiting, no loading.</p>
-    </div>
-    <div class="step-card">
-      <div class="step-num">3</div>
-      <h3>Buy at the perfect time</h3>
-      <p>Get a clear BUY or WAIT verdict. See your potential savings. Set a price alert and we email you the moment the price drops.</p>
-    </div>
+    <div class="step-card"><div class="step-num">1</div><h3>Install in 10 seconds</h3><p>Add Zroppix to Chrome for free. No account required. No credit card. Just click install and it is ready to use immediately.</p></div>
+    <div class="step-card"><div class="step-num">2</div><h3>Browse Amazon normally</h3><p>Visit any product page on Amazon. Click the Zroppix icon in your toolbar. Instant price analysis appears — no waiting, no loading.</p></div>
+    <div class="step-card"><div class="step-num">3</div><h3>Buy at the perfect time</h3><p>Get a clear BUY or WAIT verdict. See your potential savings. Set a price alert and we email you the moment the price drops.</p></div>
   </div>
 </section>
 
@@ -741,12 +489,7 @@
   </div>
   <table class="comparison-table">
     <thead>
-      <tr>
-        <th>Feature</th>
-        <th class="highlight">🛡️ Zroppix</th>
-        <th>CamelCamelCamel</th>
-        <th>Honey</th>
-      </tr>
+      <tr><th>Feature</th><th class="highlight">🛡️ Zroppix</th><th>CamelCamelCamel</th><th>Honey</th></tr>
     </thead>
     <tbody>
       <tr><td>BUY or WAIT verdict</td><td class="highlight"><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td></tr>
@@ -771,84 +514,27 @@
       <p class="section-sub">Start free. Upgrade when ready. Cancel anytime with one click.</p>
     </div>
     <div class="pricing-grid">
-
       <div class="price-card">
-        <div class="price-plan">Free</div>
-        <div class="price-number">$0</div>
-        <div class="price-period">forever</div>
-        <ul class="price-list">
-          <li>BUY or WAIT verdict</li>
-          <li>Price history on Amazon</li>
-          <li>Overpay risk score</li>
-          <li>What others paid</li>
-          <li>Track up to 3 products</li>
-          <li>Email price alerts</li>
-        </ul>
-        <a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf"
-          class="btn-outline" style="display:block;text-align:center;font-size:14px;padding:12px;">
-          Install Free
-        </a>
+        <div class="price-plan">Free</div><div class="price-number">$0</div><div class="price-period">forever</div>
+        <ul class="price-list"><li>BUY or WAIT verdict</li><li>Price history on Amazon</li><li>Overpay risk score</li><li>What others paid</li><li>Track up to 3 products</li><li>Email price alerts</li></ul>
+        <a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="btn-outline" style="display:block;text-align:center;font-size:14px;padding:12px;">Install Free</a>
       </div>
-
       <div class="price-card">
-        <div class="price-plan">Pro</div>
-        <div class="price-number">$14</div>
-        <div class="price-period">per month</div>
-        <ul class="price-list">
-          <li>Everything in Free</li>
-          <li class="pro-only">AI drop predictions</li>
-          <li class="pro-only">Why the price will drop</li>
-          <li class="pro-only">Drop timeframe</li>
-          <li class="pro-only">Confidence score</li>
-          <li>Works on 15+ sites</li>
-          <li>Unlimited tracking</li>
-          <li>Instant email alerts</li>
-        </ul>
-        <a href="#" onclick="openCheckout('pri_01krkmfh45bs9q5zhasvcdfpnb'); return false;"
-          class="btn-outline" style="display:block;text-align:center;font-size:14px;padding:12px;">
-          Get Pro
-        </a>
+        <div class="price-plan">Pro</div><div class="price-number">$14</div><div class="price-period">per month</div>
+        <ul class="price-list"><li>Everything in Free</li><li class="pro-only">AI drop predictions</li><li class="pro-only">Why the price will drop</li><li class="pro-only">Drop timeframe</li><li class="pro-only">Confidence score</li><li>Works on 15+ sites</li><li>Unlimited tracking</li><li>Instant email alerts</li></ul>
+        <a href="#" onclick="openCheckout('pri_01krkmfh45bs9q5zhasvcdfpnb'); return false;" class="btn-outline" style="display:block;text-align:center;font-size:14px;padding:12px;">Get Pro</a>
       </div>
-
       <div class="price-card featured">
         <div class="featured-badge">Most Popular</div>
-        <div class="price-plan">Family</div>
-        <div class="price-number">$24</div>
-        <div class="price-period">per month</div>
-        <ul class="price-list">
-          <li>Everything in Pro</li>
-          <li class="pro-only">Up to 5 family members</li>
-          <li class="pro-only">Shared price alerts</li>
-          <li class="pro-only">Family savings dashboard</li>
-          <li>Unlimited tracking</li>
-          <li>AI drop predictions</li>
-          <li>Works on 15+ sites</li>
-        </ul>
-        <a href="#" onclick="openCheckout('pri_01krkmjj5xxns1egknqgkgt3hb'); return false;"
-          class="btn-gold" style="display:block;text-align:center;font-size:14px;padding:12px;">
-          Get Family
-        </a>
+        <div class="price-plan">Family</div><div class="price-number">$24</div><div class="price-period">per month</div>
+        <ul class="price-list"><li>Everything in Pro</li><li class="pro-only">Up to 5 family members</li><li class="pro-only">Shared price alerts</li><li class="pro-only">Family savings dashboard</li><li>Unlimited tracking</li><li>AI drop predictions</li><li>Works on 15+ sites</li></ul>
+        <a href="#" onclick="openCheckout('pri_01krkmjj5xxns1egknqgkgt3hb'); return false;" class="btn-gold" style="display:block;text-align:center;font-size:14px;padding:12px;">Get Family</a>
       </div>
-
       <div class="price-card">
-        <div class="price-plan">Elite</div>
-        <div class="price-number">$49</div>
-        <div class="price-period">per month</div>
-        <ul class="price-list">
-          <li>Everything in Pro</li>
-          <li class="pro-only">AI Shopping Assistant</li>
-          <li class="pro-only">Price crash alerts</li>
-          <li class="pro-only">VIP deal alerts first</li>
-          <li class="pro-only">Reseller calculator</li>
-          <li>API access</li>
-          <li>Priority support</li>
-        </ul>
-        <a href="#" onclick="openCheckout('pri_01krkmkf66j5wychvkn0tmy6ky'); return false;"
-          class="btn-outline" style="display:block;text-align:center;font-size:14px;padding:12px;">
-          Get Elite
-        </a>
+        <div class="price-plan">Elite</div><div class="price-number">$49</div><div class="price-period">per month</div>
+        <ul class="price-list"><li>Everything in Pro</li><li class="pro-only">AI Shopping Assistant</li><li class="pro-only">Price crash alerts</li><li class="pro-only">VIP deal alerts first</li><li class="pro-only">Reseller calculator</li><li>API access</li><li>Priority support</li></ul>
+        <a href="#" onclick="openCheckout('pri_01krkmkf66j5wychvkn0tmy6ky'); return false;" class="btn-outline" style="display:block;text-align:center;font-size:14px;padding:12px;">Get Elite</a>
       </div>
-
     </div>
   </div>
 </section>
@@ -859,27 +545,9 @@
     <h2 class="section-h2">Real savings from real users</h2>
   </div>
   <div class="testimonials-grid">
-    <div class="testimonial-card">
-      <div class="stars">★★★★★</div>
-      <p class="testimonial-text">"Zroppix told me to wait on Sony headphones. Exactly <span class="testimonial-highlight">14 days later they dropped $67</span>. This extension is genuinely insane."</p>
-      <div class="testimonial-author">Sarah K.</div>
-      <div class="testimonial-role">Verified user · Amazon shopper</div>
-      <div class="savings-pill">Saved $67</div>
-    </div>
-    <div class="testimonial-card">
-      <div class="stars">★★★★★</div>
-      <p class="testimonial-text">"I was about to buy AirPods. Zroppix showed me <span class="testimonial-highlight">73% of buyers paid less</span>. I waited 10 days and saved $47. Best free tool I have ever used."</p>
-      <div class="testimonial-author">Marcus T.</div>
-      <div class="testimonial-role">Verified user · Tech buyer</div>
-      <div class="savings-pill">Saved $47</div>
-    </div>
-    <div class="testimonial-card">
-      <div class="stars">★★★★★</div>
-      <p class="testimonial-text">"I open Zroppix on every Amazon product now. Cannot imagine shopping without it. The <span class="testimonial-highlight">BUY or WAIT verdict</span> alone is worth installing."</p>
-      <div class="testimonial-author">Priya M.</div>
-      <div class="testimonial-role">Verified user · Daily Amazon shopper</div>
-      <div class="savings-pill">Saved $124 this month</div>
-    </div>
+    <div class="testimonial-card"><div class="stars">★★★★★</div><p class="testimonial-text">"Zroppix told me to wait on Sony headphones. Exactly <span class="testimonial-highlight">14 days later they dropped $67</span>. This extension is genuinely insane."</p><div class="testimonial-author">Sarah K.</div><div class="testimonial-role">Verified user · Amazon shopper</div><div class="savings-pill">Saved $67</div></div>
+    <div class="testimonial-card"><div class="stars">★★★★★</div><p class="testimonial-text">"I was about to buy AirPods. Zroppix showed me <span class="testimonial-highlight">73% of buyers paid less</span>. I waited 10 days and saved $47. Best free tool I have ever used."</p><div class="testimonial-author">Marcus T.</div><div class="testimonial-role">Verified user · Tech buyer</div><div class="savings-pill">Saved $47</div></div>
+    <div class="testimonial-card"><div class="stars">★★★★★</div><p class="testimonial-text">"I open Zroppix on every Amazon product now. Cannot imagine shopping without it. The <span class="testimonial-highlight">BUY or WAIT verdict</span> alone is worth installing."</p><div class="testimonial-author">Priya M.</div><div class="testimonial-role">Verified user · Daily Amazon shopper</div><div class="savings-pill">Saved $124 this month</div></div>
   </div>
 </section>
 
@@ -891,37 +559,11 @@
       <p class="section-sub">Guides and research to help you never overpay online again.</p>
     </div>
     <div class="blog-grid">
-      <a href="/blog/amazon-psychology-tricks" class="blog-card">
-        <div class="blog-thumb t3">🧠</div>
-        <div class="blog-body">
-          <div class="blog-category">Exposé</div>
-          <h3>7 Psychological Tricks Amazon Uses To Make You Overpay</h3>
-          <p>Countdown timers. Fake scarcity. How Amazon manipulates you — and how to beat every trick.</p>
-          <div class="blog-meta"><span>8 min read</span><span>May 2026</span></div>
-        </div>
-      </a>
-      <a href="/blog/amazon-overcharging-you" class="blog-card">
-        <div class="blog-thumb t1">🔬</div>
-        <div class="blog-body">
-          <div class="blog-category">Research</div>
-          <h3>I Tested 50 Amazon Products With a Price Tracker. The Results Are Shocking.</h3>
-          <p>Real data on how often Amazon overcharges shoppers by category.</p>
-          <div class="blog-meta"><span>8 min read</span><span>May 2026</span></div>
-        </div>
-      </a>
-      <a href="/blog/save-1000-amazon-year" class="blog-card">
-        <div class="blog-thumb t2">💰</div>
-        <div class="blog-body">
-          <div class="blog-category">Money Guide</div>
-          <h3>How To Save $1,000 on Amazon Every Year (The Exact System)</h3>
-          <p>The step-by-step system. Free tools, timing strategies, deal verification.</p>
-          <div class="blog-meta"><span>8 min read</span><span>May 2026</span></div>
-        </div>
-      </a>
+      <a href="/blog/amazon-psychology-tricks" class="blog-card"><div class="blog-thumb t3">🧠</div><div class="blog-body"><div class="blog-category">Exposé</div><h3>7 Psychological Tricks Amazon Uses To Make You Overpay</h3><p>Countdown timers. Fake scarcity. How Amazon manipulates you — and how to beat every trick.</p><div class="blog-meta"><span>8 min read</span><span>May 2026</span></div></div></a>
+      <a href="/blog/amazon-overcharging-you" class="blog-card"><div class="blog-thumb t1">🔬</div><div class="blog-body"><div class="blog-category">Research</div><h3>I Tested 50 Amazon Products With a Price Tracker. The Results Are Shocking.</h3><p>Real data on how often Amazon overcharges shoppers by category.</p><div class="blog-meta"><span>8 min read</span><span>May 2026</span></div></div></a>
+      <a href="/blog/save-1000-amazon-year" class="blog-card"><div class="blog-thumb t2">💰</div><div class="blog-body"><div class="blog-category">Money Guide</div><h3>How To Save $1,000 on Amazon Every Year (The Exact System)</h3><p>The step-by-step system. Free tools, timing strategies, deal verification.</p><div class="blog-meta"><span>8 min read</span><span>May 2026</span></div></div></a>
     </div>
-    <div style="text-align:center;">
-      <a href="/blog" class="btn-outline">View all articles →</a>
-    </div>
+    <div style="text-align:center;"><a href="/blog" class="btn-outline">View all articles →</a></div>
   </div>
 </section>
 
@@ -931,34 +573,13 @@
     <h2 class="section-h2">Common questions</h2>
   </div>
   <div class="faq-list">
-    <div class="faq-item">
-      <div class="faq-question">Is Zroppix really free?<span class="faq-icon">+</span></div>
-      <div class="faq-answer">Yes. The free plan is free forever with no time limit and no credit card required. You get BUY or WAIT verdicts, price history, overpay score and up to 3 price alerts — all completely free.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-question">How accurate are the predictions?<span class="faq-icon">+</span></div>
-      <div class="faq-answer">Our AI predictions have an 83% accuracy rate. This improves as more users track the same products — more price data means better predictions over time.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-question">Which stores does it work on?<span class="faq-icon">+</span></div>
-      <div class="faq-answer">Zroppix currently works on Amazon. We are actively adding Walmart, Best Buy, Target, Nike, Adidas and more. Pro users get access to all new stores as they launch.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-question">Will it slow down my browser?<span class="faq-icon">+</span></div>
-      <div class="faq-answer">No. Zroppix only activates when you click the icon on a product page. It has zero impact on browsing speed or page load times.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-question">Is my data private?<span class="faq-icon">+</span></div>
-      <div class="faq-answer">Yes. We only collect product prices — never your personal information, browsing history or purchase data. We never sell data to third parties. Ever.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-question">How is Zroppix different from CamelCamelCamel?<span class="faq-icon">+</span></div>
-      <div class="faq-answer">CamelCamelCamel shows you price history graphs and lets you set alerts. Zroppix goes much further — it uses AI to analyze the data and tell you exactly what to do. BUY or WAIT. How much you could save. When the price will drop. What others paid. CamelCamelCamel gives you data. Zroppix gives you decisions.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-question">Can I cancel Pro anytime?<span class="faq-icon">+</span></div>
-      <div class="faq-answer">Yes. Cancel anytime with one click. No questions asked. No awkward cancellation flows. You keep Pro access until the end of your current billing period.</div>
-    </div>
+    <div class="faq-item"><div class="faq-question">Is Zroppix really free?<span class="faq-icon">+</span></div><div class="faq-answer">Yes. The free plan is free forever with no time limit and no credit card required. You get BUY or WAIT verdicts, price history, overpay score and up to 3 price alerts — all completely free.</div></div>
+    <div class="faq-item"><div class="faq-question">How accurate are the predictions?<span class="faq-icon">+</span></div><div class="faq-answer">Our AI predictions have an 83% accuracy rate. This improves as more users track the same products — more price data means better predictions over time.</div></div>
+    <div class="faq-item"><div class="faq-question">Which stores does it work on?<span class="faq-icon">+</span></div><div class="faq-answer">Zroppix currently works on Amazon. We are actively adding Walmart, Best Buy, Target, Nike, Adidas and more. Pro users get access to all new stores as they launch.</div></div>
+    <div class="faq-item"><div class="faq-question">Will it slow down my browser?<span class="faq-icon">+</span></div><div class="faq-answer">No. Zroppix only activates when you click the icon on a product page. It has zero impact on browsing speed or page load times.</div></div>
+    <div class="faq-item"><div class="faq-question">Is my data private?<span class="faq-icon">+</span></div><div class="faq-answer">Yes. We only collect product prices — never your personal information, browsing history or purchase data. We never sell data to third parties. Ever.</div></div>
+    <div class="faq-item"><div class="faq-question">How is Zroppix different from CamelCamelCamel?<span class="faq-icon">+</span></div><div class="faq-answer">CamelCamelCamel shows you price history graphs and lets you set alerts. Zroppix goes much further — it uses AI to analyze the data and tell you exactly what to do. BUY or WAIT. How much you could save. When the price will drop. What others paid.</div></div>
+    <div class="faq-item"><div class="faq-question">Can I cancel Pro anytime?<span class="faq-icon">+</span></div><div class="faq-answer">Yes. Cancel anytime with one click. No questions asked. No awkward cancellation flows. You keep Pro access until the end of your current billing period.</div></div>
   </div>
 </section>
 
@@ -966,29 +587,15 @@
   <span class="final-cta-icon">🛡️</span>
   <h2>Start saving money today</h2>
   <p>Free forever. No account needed. No credit card. Works in 10 seconds.</p>
-  <a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf"
-    class="btn-gold btn-lg">
-    🛡️ Add to Chrome — It's Free
-  </a>
-  <p class="final-cta-note">
-    ✓ Works on Chrome and Brave &nbsp;·&nbsp; ✓ Free forever &nbsp;·&nbsp; ✓ 10 second install
-  </p>
+  <a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="btn-gold btn-lg">🛡️ Add to Chrome — It's Free</a>
+  <p class="final-cta-note">✓ Works on Chrome and Brave &nbsp;·&nbsp; ✓ Free forever &nbsp;·&nbsp; ✓ 10 second install</p>
 </section>
 
-<!-- OVERFLOW FIX -->
-<style>
-  html, body { overflow-x: hidden !important; max-width: 100% !important; }
-  * { max-width: 100%; }
-</style>
-
-<!-- NEWSLETTER SECTION -->
 <section style="background:#12121A; border-top:1px solid #22223A; border-bottom:1px solid #22223A; padding:60px 20px;">
   <div style="max-width:560px; margin:0 auto; text-align:center;">
     <div style="font-size:12px; color:#C9A84C; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:12px;">FREE WEEKLY EMAIL</div>
     <h2 style="font-size:28px; font-weight:900; color:#fff; margin-bottom:12px; line-height:1.2;">Get Weekly Amazon Deal Alerts</h2>
     <p style="font-size:15px; color:#7A78A0; margin-bottom:32px;">We verify which Amazon deals are actually good so you don't have to. Free every Friday. No spam. Unsubscribe anytime.</p>
-
-    <!-- Newsletter Form — no external CSS to avoid conflicts -->
     <form id="zroppix-newsletter" method="POST" action="https://2cefce9c.sibforms.com/serve/MUIFAGJbT-Bsz-ZMKlj82E16XTa2DvOSH3ZM_R8MxgM9A_NpwW9YBX7LRi2j7iHlBd3tnI5I7dGsSTmJDd8JRWqyrYCkUi83DR0bpb7vFs2jiEs3NXJlQeJ25oVxBlIO1JV9g6Z_MnP5A3irPY_uRLFo4GD7d2CcOyS2RsMPKYB8qGy8TNriWq6UNkesDOTDPXqbntwvlDJtEBfZOw==" style="width:100%; max-width:480px; margin:0 auto; display:block;">
       <input type="text" name="EMAIL" placeholder="your@email.com" required style="width:100%; padding:14px 16px; border-radius:10px; border:1px solid #22223A; background:#1A1A2E; color:#fff; font-size:15px; margin-bottom:12px; box-sizing:border-box; font-family:-apple-system,sans-serif; outline:none;">
       <input type="text" name="email_address_check" value="" style="display:none;">
@@ -996,8 +603,6 @@
       <input type="hidden" name="html_type" value="simple">
       <button type="submit" style="width:100%; padding:14px 32px; background:#C9A84C; color:#0D0D14; border:none; border-radius:10px; font-size:16px; font-weight:800; cursor:pointer; font-family:-apple-system,sans-serif;">Get Free Weekly Alerts →</button>
     </form>
-    <!-- End Newsletter Form -->
-
     <p style="font-size:12px; color:#3A3A5C; margin-top:16px;">Join Amazon shoppers who never overpay. Verified deals every Friday.</p>
   </div>
 </section>
@@ -1023,7 +628,7 @@
         <li><a href="/blog">Blog</a></li>
         <li><a href="/blog/amazon-price-history">Price History Guide</a></li>
         <li><a href="/blog/best-time-to-buy-amazon">Best Time To Buy</a></li>
-        <li><a href="/blog/camelcamelcamel-alternative">CamelCamelCamel Alternative</a></li>
+        <li><a href="/blog/camelcamelcamel-alternative-tells-you-what-to-do">CamelCamelCamel Alternative</a></li>
       </ul>
     </div>
     <div>
@@ -1046,22 +651,160 @@
   </div>
 </footer>
 
-<!-- Paddle.js -->
 <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
 <script>
-  // Initialize Paddle
-  Paddle.Initialize({
-    token: 'live_f1eda9271a93d8a241d6446b64c'
-  });
-
+  Paddle.Initialize({ token: 'live_f1eda9271a93d8a241d6446b64c' });
   function openCheckout(priceId) {
-    Paddle.Checkout.open({
-      items: [{ priceId: priceId, quantity: 1 }]
-    });
+    Paddle.Checkout.open({ items: [{ priceId: priceId, quantity: 1 }] });
   }
 </script>
 
 <script>
+  // ── WEB PARSER — 3 free checks per day ──
+  const PARSER_LIMIT = 3
+  const PARSER_KEY = 'zroppix_web_checks'
+
+  function getChecksToday() {
+    try {
+      const stored = localStorage.getItem(PARSER_KEY)
+      if (!stored) return { count: 0, date: null }
+      return JSON.parse(stored)
+    } catch(e) { return { count: 0, date: null } }
+  }
+
+  function incrementChecks() {
+    try {
+      const today = new Date().toDateString()
+      const data = getChecksToday()
+      const newCount = data.date === today ? data.count + 1 : 1
+      localStorage.setItem(PARSER_KEY, JSON.stringify({ count: newCount, date: today }))
+      return newCount
+    } catch(e) { return 1 }
+  }
+
+  function checksUsedToday() {
+    try {
+      const today = new Date().toDateString()
+      const data = getChecksToday()
+      return data.date === today ? data.count : 0
+    } catch(e) { return 0 }
+  }
+
+  function showLimitReached() {
+    document.getElementById('parserLoading').style.display = 'none'
+    document.getElementById('parserBox').style.display = 'none'
+    document.getElementById('parserResult').style.display = 'none'
+    document.getElementById('parserError').style.display = 'none'
+    document.getElementById('parserLimit').style.display = 'block'
+  }
+
+  async function runParser() {
+    const input = document.getElementById('parserInput')
+    const url = input.value.trim()
+    if (!url) { showParserError('Please paste an Amazon product URL first.'); return; }
+    if (!url.includes('amazon.')) { showParserError('Please paste a valid Amazon product URL (e.g. amazon.com/dp/...)'); return; }
+
+    // Check daily limit
+    if (checksUsedToday() >= PARSER_LIMIT) {
+      showLimitReached()
+      return
+    }
+    document.getElementById('parserBox').style.display = 'none'
+    document.getElementById('parserLoading').style.display = 'flex'
+    document.getElementById('parserResult').style.display = 'none'
+    document.getElementById('parserError').style.display = 'none'
+    try {
+      const res = await fetch('https://zroppix-backend.vercel.app/api/prices/lookup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url })
+      })
+      const data = await res.json()
+      if (!res.ok || data.error) { showParserError(data.error || 'Something went wrong. Please try again.'); return; }
+      const checksUsed = incrementChecks()
+      showParserResult(data, checksUsed)
+    } catch (err) {
+      showParserError('Could not connect. Please check your connection and try again.')
+    }
+  }
+
+  function showParserResult(data, checksUsed) {
+    document.getElementById('parserLoading').style.display = 'none'
+    document.getElementById('parserResult').style.display = 'block'
+    const remaining = PARSER_LIMIT - (checksUsed || checksUsedToday())
+    const counter = document.getElementById('parserCounter')
+    if (counter) {
+      if (remaining <= 0) {
+        counter.textContent = 'Last free check used — install for unlimited'
+        counter.style.color = '#E24B4A'
+      } else {
+        counter.textContent = remaining + ' free check' + (remaining === 1 ? '' : 's') + ' remaining today'
+        counter.style.color = '#7A78A0'
+      }
+    }
+    const isWait = data.verdict === 'WAIT'
+    const card = document.getElementById('parserVerdictCard')
+    card.className = 'parser-verdict-card ' + (isWait ? 'wait' : 'buy')
+    document.getElementById('parserProductName').textContent =
+      data.product_name && data.product_name !== 'Amazon Product'
+        ? data.product_name : 'Amazon Product · ASIN: ' + (data.asin || '')
+    document.getElementById('parserVerdictText').textContent = data.verdict
+    if (isWait && data.potential_saving > 0) {
+      document.getElementById('parserSaving').textContent = 'You could save $' + data.potential_saving.toFixed(2)
+    } else if (!isWait) {
+      document.getElementById('parserSaving').textContent = '✓ Great price right now'
+    } else {
+      document.getElementById('parserSaving').textContent = ''
+    }
+    document.getElementById('parserPaidLess').textContent = data.percent_paid_less + '% of buyers paid less than this price'
+    document.getElementById('parserLow').textContent = '$' + data.stats.lowest.toFixed(2)
+    document.getElementById('parserAvg').textContent = '$' + data.stats.average.toFixed(2)
+    document.getElementById('parserHigh').textContent = '$' + data.stats.highest.toFixed(2)
+    document.getElementById('parserCurrent').textContent = '$' + data.current_price.toFixed(2)
+  }
+
+  function showParserError(msg) {
+    document.getElementById('parserLoading').style.display = 'none'
+    document.getElementById('parserBox').style.display = 'block'
+    document.getElementById('parserError').style.display = 'flex'
+    document.getElementById('parserErrorText').textContent = msg
+  }
+
+  function resetParser() {
+    document.getElementById('parserBox').style.display = 'block'
+    document.getElementById('parserResult').style.display = 'none'
+    document.getElementById('parserError').style.display = 'none'
+    document.getElementById('parserLoading').style.display = 'none'
+    document.getElementById('parserLimit').style.display = 'none'
+    document.getElementById('parserInput').value = ''
+    document.getElementById('parserInput').focus()
+  }
+
+  function resetParserLimit() {
+    document.getElementById('parserLimit').style.display = 'none'
+    document.getElementById('parserBox').style.display = 'block'
+    document.getElementById('parserInput').focus()
+  }
+
+  document.getElementById('parserInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') runParser()
+  })
+
+  // Show remaining checks on page load
+  window.addEventListener('DOMContentLoaded', function() {
+    const used = checksUsedToday()
+    const remaining = PARSER_LIMIT - used
+    const hint = document.querySelector('.parser-hint')
+    if (used > 0 && remaining > 0 && hint) {
+      hint.textContent = remaining + ' free check' + (remaining === 1 ? '' : 's') + ' remaining today · e.g. amazon.com/dp/B08N5WRWNW'
+      hint.style.color = remaining === 1 ? '#E24B4A' : '#3A3A5C'
+    }
+    if (used >= PARSER_LIMIT) {
+      showLimitReached()
+    }
+  })
+
+  // ── FAQ ──
   document.querySelectorAll('.faq-question').forEach(q => {
     q.addEventListener('click', () => {
       const item = q.parentElement
