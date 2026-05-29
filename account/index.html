@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Account — Zroppix</title>
+<meta name="description" content="Manage your Zroppix subscription, family members, and API access.">
+<meta name="robots" content="noindex, nofollow">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #0D0D14; --bg2: #12121A; --bg3: #0A0A10;
+  --border: #22223A; --gold: #C9A84C; --green: #1D9E75;
+  --red: #E24B4A; --orange: #F5A623; --text: #ffffff;
+  --muted: #7A78A0; --subtle: #cccccc;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; min-height: 100vh; }
+a { text-decoration: none; color: inherit; }
+
+/* ── NAV ── */
+nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 48px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(13,13,20,0.96); backdrop-filter: blur(12px); z-index: 100; }
+.nav-logo { font-size: 20px; font-weight: 800; color: var(--gold); display: flex; align-items: center; gap: 8px; }
+.nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+.nav-links a { color: var(--muted); font-size: 14px; font-weight: 500; transition: color 0.2s; }
+.nav-links a:hover { color: var(--text); }
+.nav-links a.active { color: var(--gold); }
+.btn-gold { background: var(--gold); color: #0D0D14; padding: 9px 20px; border-radius: 10px; font-weight: 700; font-size: 14px; border: none; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+.btn-gold:hover { background: #D4B864; transform: translateY(-1px); }
+.btn-outline { background: transparent; color: var(--text); padding: 9px 20px; border-radius: 10px; font-weight: 600; font-size: 14px; border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+.btn-danger { background: rgba(226,75,74,0.1); color: var(--red); padding: 9px 20px; border-radius: 10px; font-weight: 600; font-size: 14px; border: 1px solid rgba(226,75,74,0.3); cursor: pointer; transition: all 0.2s; }
+.btn-danger:hover { background: rgba(226,75,74,0.2); }
+.btn-sm { padding: 7px 14px; font-size: 13px; }
+
+/* ── LAYOUT ── */
+.page-wrapper { max-width: 860px; margin: 0 auto; padding: 48px 20px 100px; }
+.page-header { margin-bottom: 40px; }
+.page-title { font-size: 32px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 6px; }
+.page-subtitle { font-size: 15px; color: var(--muted); }
+
+/* ── STATES ── */
+.state { display: none; }
+.state.active { display: block; }
+
+/* ── LOGIN SCREEN ── */
+.login-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 20px; padding: 48px 40px; max-width: 480px; margin: 80px auto 0; text-align: center; }
+.login-icon { font-size: 48px; margin-bottom: 20px; }
+.login-title { font-size: 24px; font-weight: 900; margin-bottom: 10px; }
+.login-sub { font-size: 15px; color: var(--muted); margin-bottom: 32px; line-height: 1.6; }
+.login-input { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; color: var(--text); font-size: 15px; font-family: inherit; outline: none; transition: border-color 0.2s; margin-bottom: 12px; }
+.login-input:focus { border-color: rgba(201,168,76,0.5); }
+.login-input::placeholder { color: var(--muted); }
+.login-btn { width: 100%; padding: 14px; font-size: 15px; border-radius: 10px; margin-bottom: 12px; justify-content: center; }
+.login-error { background: rgba(226,75,74,0.08); border: 1px solid rgba(226,75,74,0.2); border-radius: 8px; padding: 10px 14px; font-size: 13px; color: var(--red); margin-bottom: 12px; display: none; }
+.login-note { font-size: 12px; color: var(--muted); line-height: 1.6; }
+.login-note a { color: var(--gold); }
+
+/* ── PLAN BADGE ── */
+.plan-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; }
+.plan-pill.free { background: rgba(122,120,160,0.12); color: var(--muted); border: 1px solid rgba(122,120,160,0.2); }
+.plan-pill.pro { background: rgba(201,168,76,0.12); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
+.plan-pill.family { background: rgba(29,158,117,0.12); color: var(--green); border: 1px solid rgba(29,158,117,0.3); }
+.plan-pill.elite { background: rgba(226,75,74,0.12); color: var(--red); border: 1px solid rgba(226,75,74,0.3); }
+.plan-pill::before { content: '●'; font-size: 8px; }
+
+/* ── DASHBOARD CARDS ── */
+.card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 28px 32px; margin-bottom: 20px; }
+.card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+.card-title { font-size: 16px; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+.card-icon { font-size: 20px; }
+.card-body { display: flex; flex-direction: column; gap: 14px; }
+.info-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 8px; }
+.info-row:last-child { border-bottom: none; padding-bottom: 0; }
+.info-label { font-size: 13px; color: var(--muted); }
+.info-value { font-size: 14px; font-weight: 600; color: var(--text); }
+.info-value.gold { color: var(--gold); }
+.info-value.green { color: var(--green); }
+.info-value.red { color: var(--red); }
+
+/* ── FEATURE LIST ── */
+.feature-list { display: flex; flex-direction: column; gap: 8px; }
+.feature-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--subtle); }
+.feature-item .check { color: var(--green); font-weight: 700; }
+.feature-item .lock { color: var(--muted); }
+.feature-item.locked { color: var(--muted); }
+
+/* ── FAMILY SECTION ── */
+.member-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.member-item { display: flex; justify-content: space-between; align-items: center; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; }
+.member-email { font-size: 14px; color: var(--text); }
+.member-since { font-size: 12px; color: var(--muted); }
+.member-remove { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 18px; padding: 4px; transition: color 0.2s; line-height: 1; }
+.member-remove:hover { color: var(--red); }
+.member-empty { text-align: center; padding: 28px; color: var(--muted); font-size: 14px; background: var(--bg); border: 1px dashed var(--border); border-radius: 10px; }
+.add-member-form { display: flex; gap: 10px; flex-wrap: wrap; }
+.add-member-input { flex: 1; min-width: 200px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 11px 14px; color: var(--text); font-size: 14px; font-family: inherit; outline: none; transition: border-color 0.2s; }
+.add-member-input:focus { border-color: rgba(201,168,76,0.5); }
+.add-member-input::placeholder { color: var(--muted); }
+.member-slots { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+.member-slots span { color: var(--gold); font-weight: 700; }
+
+/* ── API KEY ── */
+.api-key-box { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; font-family: 'Courier New', monospace; font-size: 13px; color: var(--gold); letter-spacing: 0.5px; word-break: break-all; margin-bottom: 14px; position: relative; }
+.api-key-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.api-usage { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 20px; }
+.api-stat { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; }
+.api-stat-num { font-size: 24px; font-weight: 900; color: var(--gold); margin-bottom: 4px; }
+.api-stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* ── UPGRADE SECTION ── */
+.upgrade-card { background: linear-gradient(135deg, rgba(201,168,76,0.06), rgba(201,168,76,0.02)); border: 1px solid rgba(201,168,76,0.2); border-radius: 16px; padding: 28px 32px; text-align: center; margin-bottom: 20px; }
+.upgrade-title { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+.upgrade-sub { font-size: 14px; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
+.upgrade-plans { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.upgrade-plan-btn { padding: 10px 20px; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; border: 1px solid var(--border); background: var(--bg2); color: var(--text); transition: all 0.2s; }
+.upgrade-plan-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ── STATUS MESSAGES ── */
+.status-msg { padding: 10px 14px; border-radius: 8px; font-size: 13px; margin-top: 10px; display: none; }
+.status-msg.success { background: rgba(29,158,117,0.08); border: 1px solid rgba(29,158,117,0.2); color: var(--green); }
+.status-msg.error { background: rgba(226,75,74,0.08); border: 1px solid rgba(226,75,74,0.2); color: var(--red); }
+
+/* ── LOGOUT ── */
+.logout-section { text-align: center; padding-top: 8px; }
+.logout-btn { background: none; border: none; color: var(--muted); font-size: 14px; cursor: pointer; transition: color 0.2s; font-family: inherit; }
+.logout-btn:hover { color: var(--red); }
+
+/* ── LOADING SPINNER ── */
+.spinner { width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-state { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 80px 20px; color: var(--muted); font-size: 15px; }
+
+/* ── SECTION DIVIDER ── */
+.section-tag { display: inline-block; background: rgba(201,168,76,0.08); color: var(--gold); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  nav { padding: 14px 20px; }
+  .nav-links { display: none; }
+  .page-wrapper { padding: 32px 16px 80px; }
+  .login-card { padding: 32px 24px; margin-top: 40px; }
+  .card { padding: 20px; }
+  .api-usage { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">🛡️ Zroppix</a>
+  <ul class="nav-links">
+    <li><a href="/#features">Features</a></li>
+    <li><a href="/#pricing">Pricing</a></li>
+    <li><a href="/blog">Blog</a></li>
+    <li><a href="/account" class="active">Account</a></li>
+    <li><a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="btn-gold" style="padding:9px 20px;font-size:14px;">Add to Chrome</a></li>
+  </ul>
+</nav>
+
+<!-- ── STATE: LOADING ── -->
+<div id="stateLoading" class="state active">
+  <div class="loading-state">
+    <div class="spinner"></div>
+    <span>Loading your account...</span>
+  </div>
+</div>
+
+<!-- ── STATE: LOGIN ── -->
+<div id="stateLogin" class="state">
+  <div class="page-wrapper">
+    <div class="login-card">
+      <div class="login-icon">🛡️</div>
+      <div class="login-title">Access your account</div>
+      <div class="login-sub">Enter the email address you used when you subscribed to Zroppix. No password needed.</div>
+
+      <div id="loginError" class="login-error"></div>
+
+      <input
+        type="email"
+        id="loginEmail"
+        class="login-input"
+        placeholder="your@email.com"
+        autocomplete="email"
+      />
+      <button class="btn-gold login-btn" id="loginBtn" onclick="handleLogin()">
+        Access My Account →
+      </button>
+
+      <p class="login-note">
+        No account yet? <a href="/#pricing">Choose a plan</a> to get started.<br>
+        On the free plan? <a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf">Install the extension</a> — no account needed.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ── STATE: FREE PLAN (no paid subscription) ── -->
+<div id="stateFree" class="state">
+  <div class="page-wrapper">
+    <div class="page-header">
+      <div class="section-tag">Account</div>
+      <div class="page-title">Welcome back</div>
+      <div class="page-subtitle" id="freeUserEmail"></div>
+    </div>
+
+    <div class="upgrade-card">
+      <div class="upgrade-title">You are on the Free plan</div>
+      <div class="upgrade-sub">
+        Upgrade to Pro, Family or Elite to unlock AI predictions,
+        unlimited checks, price crash alerts and more.
+      </div>
+      <div class="upgrade-plans">
+        <button class="upgrade-plan-btn" onclick="openCheckout('pri_01krkmfh45bs9q5zhasvcdfpnb')">Pro — $14/mo</button>
+        <button class="upgrade-plan-btn" onclick="openCheckout('pri_01krkmjj5xxns1egknqgkgt3hb')">Family — $24/mo</button>
+        <button class="upgrade-plan-btn" onclick="openCheckout('pri_01krkmkf66j5wychvkn0tmy6ky')">Elite — $49/mo</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="card-icon">✓</span> What you have now (Free)</div>
+      </div>
+      <div class="feature-list">
+        <div class="feature-item"><span class="check">✓</span> BUY or WAIT verdict on any Amazon product</div>
+        <div class="feature-item"><span class="check">✓</span> 90-day price history</div>
+        <div class="feature-item"><span class="check">✓</span> Overpay risk score</div>
+        <div class="feature-item"><span class="check">✓</span> What others paid</div>
+        <div class="feature-item"><span class="check">✓</span> Up to 3 price alerts</div>
+        <div class="feature-item"><span class="check">✓</span> 5 checks per day</div>
+        <div class="feature-item locked"><span class="lock">🔒</span> AI price drop predictions — Pro only</div>
+        <div class="feature-item locked"><span class="lock">🔒</span> Unlimited checks — Pro only</div>
+        <div class="feature-item locked"><span class="lock">🔒</span> Price crash alerts — Pro only</div>
+        <div class="feature-item locked"><span class="lock">🔒</span> Family sharing — Family plan only</div>
+        <div class="feature-item locked"><span class="lock">🔒</span> API access — Elite only</div>
+      </div>
+    </div>
+
+    <div class="logout-section">
+      <button class="logout-btn" onclick="handleLogout()">Sign out →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── STATE: PRO DASHBOARD ── -->
+<div id="statePro" class="state">
+  <div class="page-wrapper">
+    <div class="page-header">
+      <div class="section-tag">Account</div>
+      <div class="page-title">My Account</div>
+      <div class="page-subtitle" id="proUserEmail"></div>
+    </div>
+
+    <!-- Plan overview -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="card-icon">🛡️</span> Subscription</div>
+        <span class="plan-pill pro" id="proPlanBadge">PRO</span>
+      </div>
+      <div class="card-body">
+        <div class="info-row">
+          <span class="info-label">Plan</span>
+          <span class="info-value gold" id="proPlanName">Pro</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Status</span>
+          <span class="info-value green">Active ✓</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Next renewal</span>
+          <span class="info-value" id="proRenewal">—</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Email</span>
+          <span class="info-value" id="proEmail">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features included -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="card-icon">✨</span> Your features</div>
+      </div>
+      <div class="feature-list" id="proFeatureList">
+        <div class="feature-item"><span class="check">✓</span> Unlimited checks every day</div>
+        <div class="feature-item"><span class="check">✓</span> AI price drop predictions (Claude AI)</div>
+        <div class="feature-item"><span class="check">✓</span> Expected drop timeframe</div>
+        <div class="feature-item"><span class="check">✓</span> Confidence score</div>
+        <div class="feature-item"><span class="check">✓</span> Why the price will drop</div>
+        <div class="feature-item"><span class="check">✓</span> Price crash alerts</div>
+        <div class="feature-item"><span class="check">✓</span> Unlimited price alerts</div>
+        <div class="feature-item"><span class="check">✓</span> 90-day price history</div>
+      </div>
+    </div>
+
+    <!-- How to activate extension -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="card-icon">🧩</span> Activate in the extension</div>
+      </div>
+      <p style="font-size:14px;color:var(--muted);line-height:1.7;">
+        Your Pro plan is linked to your email address. To activate it in the Chrome extension,
+        open Zroppix on any Amazon product page, scroll to the price alert section,
+        and type <strong style="color:var(--text)" id="activationEmailHint">your email</strong> into the email field.
+        The extension will detect your plan and unlock Pro features immediately.
+      </p>
+    </div>
+
+    <!-- Cancel -->
+    <div class="card" style="border-color:rgba(226,75,74,0.15);">
+      <div class="card-header">
+        <div class="card-title"><span class="card-icon">⚙️</span> Manage subscription</div>
+      </div>
+      <p style="font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:16px;">
+        To cancel or modify your subscription, contact us at
+        <a href="mailto:hello@zroppix.com" style="color:var(--gold);">hello@zroppix.com</a>
+        with your email address. We process all requests within 24 hours.
+        You keep Pro access until the end of your current billing period.
+      </p>
+      <a href="mailto:hello@zroppix.com?subject=Cancel subscription&body=Please cancel my Zroppix subscription. My email is: " class="btn-danger btn-sm">Cancel subscription</a>
+    </div>
+
+    <div class="logout-section">
+      <button class="logout-btn" onclick="handleLogout()">Sign out →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── STATE: FAMILY DASHBOARD ── -->
+<div id="stateFamily" class="state">
+  <div class="page-wrapper">
+    <div class="page-header">
+      <div class="section-tag">Account</div>
+      <div class="page-title">My Account</div>
+      <div class="page-subtitle" id="familyUserEmail"></div>
+    </div>
+
+    <!-- Plan overview -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="card-icon">👨‍👩‍👧‍👦</span> Family Subscription</div>
+        <span class="plan-pill family">FAMILY</span>
+      </div>
+      <div class="card-body">
+        <div class="info-row">
+          <span class="info-label">Plan</span>
+          <span class="info-value green">Family</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Status</span>
+          <span class="info-value green">Active ✓</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Next renewal</span>
+          <span class="info-value" id="familyRenewal">—</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Email</span>
+          <span class="info-value" id="familyEmail">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Family members management -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="card-icon">👥</span> Family members</div>
+      </div>
+
+      <p class="member-slots">
+        <span id="memberSlotsUsed">0</span> of <span id="memberSlotsTotal">4</span> family member slots used
+      </p>
+
+      <!-- Member list populated by JS -->
+      <div id="memberList" class="member-list">
+        <div class="member-empty">No family members added yet. Add up to 4 people below.</div>
+      </div>
+
+      <!-- Add member form -->
+      <div id="addMemberSection">
+        <div class="add-member-form">
+          <input
+            type="email"
+            id="memberEmailInput"
+            class="add-member-input"
+            placeholder="family.member@email.com"
+          />
+          <button class="btn-gold btn-sm" onclick="addFamilyMember()">Add Member</button>
+        </div>
+        <div id="memberStatus" class="status-msg"></div>
+        <p style="font-size:12px;color:var(--muted);margin-top:10px;line-height:1.6;">
+          Family members get full Pro access. They activate it by entering their email
+          in the Zroppix extension on any Amazon product page.
+        </p>
+      </div>
+    </div>
+
+    <!-- How to activate -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="card-icon">🧩</span> How family members activate</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div style="display:flex;gap:14px;align-items:flex-start;">
+          <div style="width:28px;height:28px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);color:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0;">1</div>
+          <p style="font-size:14px;color:var(--muted);line-height:1.7;padding-top:3px;">Add their email address above. They will be able to access Pro features immediately after you add them.</p>
+        </div>
+        <div style="display:flex;gap:14px;align-items:flex-start;">
+          <div style="width:28px;height:28px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);color:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0;">2</div>
+          <p style="font-size:14px;color:var(--muted);line-height:1.7;padding-top:3px;">Tell them to <a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" style="color:var(--gold);">install Zroppix free</a> on their Chrome browser.</p>
+        </div>
+        <div style="display:flex;gap:14px;align-items:flex-start;">
+          <div style="width:28px;height:28px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);color:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0;">3</div>
+          <p style="font-size:14px;color:var(--muted);line-height:1.7;padding-top:3px;">They visit any Amazon product page, click the Zroppix icon, and type their email address into the email field. Pro features unlock immediately.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cancel -->
+    <div class="card" style="border-color:rgba(226,75,74,0.15);">
+      <div class="card-header">
+        <div class="card-title"><span class="card-icon">⚙️</span> Manage subscription</div>
+      </div>
+      <p style="font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:16px;">
+        To cancel or modify your Family subscription, email
+        <a href="mailto:hello@zroppix.com" style="color:var(--gold);">hello@zroppix.com</a>.
+        All family members lose access at the end of the current billing period.
+      </p>
+      <a href="mailto:hello@zroppix.com?subject=Cancel Family subscription&body=Please cancel my Zroppix Family subscription. My email is: " class="btn-danger btn-sm">Cancel subscription</a>
+    </div>
+
+    <div class="logout-section">
+      <button class="logout-btn" onclick="handleLogout()">Sign out →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── STATE: ELITE DASHBOARD ── -->
+<div id="stateElite" class="state">
+  <div class="page-wrapper">
+    <div class="page-header">
+      <div class="section-tag">Account</div>
+      <div class="page-title">My Account</div>
+      <div class="page-subtitle" id="eliteUserEmail"></div>
+    </div>
+
+    <!-- Plan overview -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="card-icon">⚡</span> Elite Subscription</div>
+        <span class="plan-pill elite">ELITE</span>
+      </div>
+      <div class="card-body">
+        <div class="info-row">
+          <span class="info-label">Plan</span>
+          <span class="info-value red">Elite</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Status</span>
+          <span class="info-value green">Active ✓</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Next renewal</span>
+          <span class="info-value" id="eliteRenewal">—</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Email</span>
+          <span class="info-value" id="eliteEmail">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- API Key -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="card-icon">🔑</span> API Access</div>
+      </div>
+      <p style="font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:16px;">
+        Use your API key to query Zroppix price data programmatically.
+        Include it as a header: <code style="background:var(--bg);padding:2px 6px;border-radius:4px;font-size:12px;color:var(--gold);">X-API-Key: your_key_here</code>
+      </p>
+      <div class="api-key-box" id="apiKeyBox">
+        •••••••••••••••••••••••••••••••••••
+      </div>
+      <div class="api-key-actions">
+        <button class="btn-outline btn-sm" onclick="toggleApiKey()" id="toggleApiBtn">👁 Show Key</button>
+        <button class="btn-outline btn-sm" onclick="copyApiKey()">📋 Copy Key</button>
+        <button class="btn-outline btn-sm" onclick="regenerateApiKey()">🔄 Regenerate</button>
+      </div>
+      <div id="apiKeyStatus" class="status-msg"></div>
+
+      <div class="api-usage">
+        <div class="api-stat">
+          <div class="api-stat-num" id="apiCallsToday">—</div>
+          <div class="api-stat-label">Calls today</div>
+        </div>
+        <div class="api-stat">
+          <div class="api-stat-num" id="apiCallsMonth">—</div>
+          <div class="api-stat-label">Calls this month</div>
+        </div>
+        <div class="api-stat">
+          <div class="api-stat-num">∞</div>
+          <div class="api-stat-label">Rate limit</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Family members (Elite gets 10) -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="card-icon">👥</span> Team members</div>
+      </div>
+
+      <p class="member-slots">
+        <span id="eliteMemberSlotsUsed">0</span> of <span>10</span> team member slots used
+      </p>
+
+      <div id="eliteMemberList" class="member-list">
+        <div class="member-empty">No team members added yet. Add up to 10 people below.</div>
+      </div>
+
+      <div class="add-member-form">
+        <input
+          type="email"
+          id="eliteMemberEmailInput"
+          class="add-member-input"
+          placeholder="team.member@email.com"
+        />
+        <button class="btn-gold btn-sm" onclick="addEliteMember()">Add Member</button>
+      </div>
+      <div id="eliteMemberStatus" class="status-msg"></div>
+    </div>
+
+    <!-- Elite features -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="card-icon">✨</span> Your Elite features</div>
+      </div>
+      <div class="feature-list">
+        <div class="feature-item"><span class="check">✓</span> Everything in Pro</div>
+        <div class="feature-item"><span class="check">✓</span> API access — unlimited calls</div>
+        <div class="feature-item"><span class="check">✓</span> Up to 10 team members</div>
+        <div class="feature-item"><span class="check">✓</span> VIP price crash alerts — first to know</div>
+        <div class="feature-item"><span class="check">✓</span> AI Shopping Assistant</div>
+        <div class="feature-item"><span class="check">✓</span> Reseller profit calculator</div>
+        <div class="feature-item"><span class="check">✓</span> Priority support</div>
+      </div>
+    </div>
+
+    <!-- API docs -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="card-icon">📖</span> API Quick Reference</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div>
+          <p style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;font-weight:700;margin-bottom:6px;">Check price analysis</p>
+          <code style="display:block;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:12px;color:var(--gold);line-height:1.8;">
+            GET /api/prices/analysis/{product_id}<br>
+            Header: X-API-Key: your_key_here
+          </code>
+        </div>
+        <div>
+          <p style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;font-weight:700;margin-bottom:6px;">Look up by Amazon URL</p>
+          <code style="display:block;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:12px;color:var(--gold);line-height:1.8;">
+            POST /api/prices/lookup<br>
+            Header: X-API-Key: your_key_here<br>
+            Body: {"url": "https://amazon.com/dp/..."}
+          </code>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cancel -->
+    <div class="card" style="border-color:rgba(226,75,74,0.15);">
+      <div class="card-header">
+        <div class="card-title"><span class="card-icon">⚙️</span> Manage subscription</div>
+      </div>
+      <p style="font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:16px;">
+        To cancel or modify your Elite subscription, email
+        <a href="mailto:hello@zroppix.com" style="color:var(--gold);">hello@zroppix.com</a>.
+      </p>
+      <a href="mailto:hello@zroppix.com?subject=Cancel Elite subscription&body=Please cancel my Zroppix Elite subscription. My email is: " class="btn-danger btn-sm">Cancel subscription</a>
+    </div>
+
+    <div class="logout-section">
+      <button class="logout-btn" onclick="handleLogout()">Sign out →</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+<script>
+const API = 'https://zroppix-backend.vercel.app'
+let currentUser = null
+let apiKeyVisible = false
+let apiKeyValue = null
+
+// ── PADDLE CHECKOUT ──
+Paddle.Initialize({ token: 'live_f1eda9271a93d8a241d6446b64c' })
+function openCheckout(priceId) {
+  Paddle.Checkout.open({
+    items: [{ priceId: priceId, quantity: 1 }],
+    customData: { email: currentUser?.email || '' }
+  })
+}
+
+// ── STATE MANAGEMENT ──
+// Shows one state at a time, hides all others.
+// This is how the entire page transitions between
+// loading → login → dashboard without page reloads.
+function showState(stateId) {
+  const states = ['stateLoading', 'stateLogin', 'stateFree', 'statePro', 'stateFamily', 'stateElite']
+  states.forEach(id => {
+    const el = document.getElementById(id)
+    if (el) el.classList.toggle('active', id === stateId)
+  })
+}
+
+// ── SESSION PERSISTENCE ──
+// We store the user's email in sessionStorage so they don't have to
+// re-enter it every time they refresh the page within the same browser session.
+// We deliberately use sessionStorage (not localStorage) so it clears when
+// the browser tab is closed — appropriate for an account page.
+function getStoredEmail() {
+  try { return sessionStorage.getItem('zroppix_account_email') } catch(e) { return null }
+}
+function storeEmail(email) {
+  try { sessionStorage.setItem('zroppix_account_email', email) } catch(e) {}
+}
+function clearStoredEmail() {
+  try { sessionStorage.removeItem('zroppix_account_email') } catch(e) {}
+}
+
+// ── INIT ──
+// On page load, check if the user already has a stored email
+// and try to load their account automatically. This makes
+// returning visits seamless — they don't have to log in again.
+async function init() {
+  showState('stateLoading')
+  const storedEmail = getStoredEmail()
+  if (storedEmail) {
+    await loadAccount(storedEmail)
+  } else {
+    showState('stateLogin')
+  }
+}
+
+// ── LOGIN HANDLER ──
+async function handleLogin() {
+  const email = document.getElementById('loginEmail').value.trim()
+  const errorEl = document.getElementById('loginError')
+  const btn = document.getElementById('loginBtn')
+
+  errorEl.style.display = 'none'
+
+  if (!email || !email.includes('@')) {
+    errorEl.textContent = 'Please enter a valid email address.'
+    errorEl.style.display = 'block'
+    return
+  }
+
+  btn.textContent = 'Checking...'
+  btn.disabled = true
+
+  const success = await loadAccount(email)
+
+  if (!success) {
+    btn.textContent = 'Access My Account →'
+    btn.disabled = false
+    errorEl.textContent = 'No Zroppix account found for this email. If you just subscribed, please wait a moment and try again.'
+    errorEl.style.display = 'block'
+  }
+}
+
+// Allow Enter key to submit login
+document.getElementById('loginEmail')?.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') handleLogin()
+})
+
+// ── LOAD ACCOUNT ──
+// The core function that fetches the user's plan and renders
+// the appropriate dashboard. Called on init (if stored email)
+// and after manual login.
+async function loadAccount(email) {
+  try {
+    const res = await fetch(`${API}/api/payments/plan?email=${encodeURIComponent(email)}`)
+    const data = await res.json()
+
+    currentUser = { email: data.email || email, plan: data.plan, expires_at: data.expires_at, source: data.source }
+    storeEmail(email)
+
+    const plan = data.plan || 'free'
+
+    if (plan === 'free') {
+      // Show a free dashboard only if the email exists in our system at all
+      // For completely unknown emails, show login error
+      // We show free dashboard even for unknown emails to avoid
+      // leaking information about which emails are in our system
+      renderFreeDashboard(email)
+      showState('stateFree')
+    } else if (plan === 'pro') {
+      renderProDashboard(data)
+      showState('statePro')
+    } else if (plan === 'family') {
+      renderFamilyDashboard(data)
+      showState('stateFamily')
+    } else if (plan === 'elite') {
+      renderEliteDashboard(data)
+      showState('stateElite')
+    }
+
+    return true
+  } catch (e) {
+    console.error('Load account error:', e)
+    showState('stateLogin')
+    return false
+  }
+}
+
+// ── RENDER FUNCTIONS ──
+// Each render function populates the relevant dashboard state
+// with the user's specific data before it becomes visible.
+
+function renderFreeDashboard(email) {
+  document.getElementById('freeUserEmail').textContent = email
+}
+
+function renderProDashboard(data) {
+  document.getElementById('proUserEmail').textContent = data.email || currentUser.email
+  document.getElementById('proEmail').textContent = data.email || currentUser.email
+  document.getElementById('activationEmailHint').textContent = data.email || currentUser.email
+  document.getElementById('proRenewal').textContent = data.expires_at
+    ? new Date(data.expires_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+    : 'Monthly renewal'
+
+  // If they're on family or elite but came through pro render, adjust badge
+  const badge = document.getElementById('proPlanBadge')
+  const planName = document.getElementById('proPlanName')
+  if (data.plan === 'family') {
+    badge.className = 'plan-pill family'
+    badge.textContent = 'FAMILY'
+    planName.textContent = 'Family'
+    planName.style.color = 'var(--green)'
+  } else if (data.plan === 'elite') {
+    badge.className = 'plan-pill elite'
+    badge.textContent = 'ELITE'
+    planName.textContent = 'Elite'
+    planName.style.color = 'var(--red)'
+  }
+}
+
+function renderFamilyDashboard(data) {
+  document.getElementById('familyUserEmail').textContent = data.email || currentUser.email
+  document.getElementById('familyEmail').textContent = data.email || currentUser.email
+  document.getElementById('familyRenewal').textContent = data.expires_at
+    ? new Date(data.expires_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+    : 'Monthly renewal'
+
+  // Load family members list
+  loadFamilyMembers(data.email || currentUser.email)
+}
+
+function renderEliteDashboard(data) {
+  document.getElementById('eliteUserEmail').textContent = data.email || currentUser.email
+  document.getElementById('eliteEmail').textContent = data.email || currentUser.email
+  document.getElementById('eliteRenewal').textContent = data.expires_at
+    ? new Date(data.expires_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+    : 'Monthly renewal'
+
+  // Generate or load API key
+  loadApiKey(data.email || currentUser.email)
+
+  // Load team members
+  loadFamilyMembers(data.email || currentUser.email, true)
+}
+
+// ── FAMILY MEMBERS ──
+async function loadFamilyMembers(ownerEmail, isElite = false) {
+  const listId = isElite ? 'eliteMemberList' : 'memberList'
+  const slotsUsedId = isElite ? 'eliteMemberSlotsUsed' : 'memberSlotsUsed'
+  const maxSlots = isElite ? 10 : 4
+
+  try {
+    const res = await fetch(`${API}/api/payments/family?owner_email=${encodeURIComponent(ownerEmail)}`)
+    const data = await res.json()
+
+    const members = data.members || []
+    const listEl = document.getElementById(listId)
+    const slotsEl = document.getElementById(slotsUsedId)
+
+    if (slotsEl) slotsEl.textContent = members.length
+    if (!isElite) {
+      const totalEl = document.getElementById('memberSlotsTotal')
+      if (totalEl) totalEl.textContent = maxSlots
+    }
+
+    if (!listEl) return
+
+    if (members.length === 0) {
+      listEl.innerHTML = `<div class="member-empty">No ${isElite ? 'team' : 'family'} members added yet.</div>`
+      return
+    }
+
+    listEl.innerHTML = members.map(m => `
+      <div class="member-item">
+        <div>
+          <div class="member-email">${m.member_email}</div>
+          <div class="member-since">Added ${new Date(m.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
+        </div>
+        <button class="member-remove" onclick="removeMember('${m.member_email}', ${isElite})" title="Remove member">×</button>
+      </div>
+    `).join('')
+
+    // Hide add form if at max capacity
+    const addSection = document.getElementById(isElite ? 'eliteMemberEmailInput' : 'addMemberSection')
+    if (members.length >= maxSlots && addSection) {
+      addSection.style.opacity = '0.5'
+      addSection.style.pointerEvents = 'none'
+    }
+
+  } catch (e) {
+    console.error('Load family members error:', e)
+  }
+}
+
+async function addFamilyMember(isElite = false) {
+  const inputId = isElite ? 'eliteMemberEmailInput' : 'memberEmailInput'
+  const statusId = isElite ? 'eliteMemberStatus' : 'memberStatus'
+  const email = document.getElementById(inputId)?.value.trim()
+  const statusEl = document.getElementById(statusId)
+
+  if (!email || !email.includes('@')) {
+    showStatus(statusId, 'Please enter a valid email address.', 'error')
+    return
+  }
+
+  if (email === currentUser.email) {
+    showStatus(statusId, 'You cannot add yourself as a family member.', 'error')
+    return
+  }
+
+  try {
+    const res = await fetch(`${API}/api/payments/family/add`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        owner_email: currentUser.email,
+        member_email: email
+      })
+    })
+    const data = await res.json()
+
+    if (!res.ok) {
+      showStatus(statusId, data.error || 'Failed to add member.', 'error')
+      return
+    }
+
+    document.getElementById(inputId).value = ''
+    showStatus(statusId, `✓ ${email} has been added. They can now activate Pro in the extension.`, 'success')
+    loadFamilyMembers(currentUser.email, isElite)
+
+  } catch (e) {
+    showStatus(statusId, 'Connection error. Please try again.', 'error')
+  }
+}
+
+function addEliteMember() {
+  addFamilyMember(true)
+}
+
+async function removeMember(memberEmail, isElite = false) {
+  if (!confirm(`Remove ${memberEmail} from your ${isElite ? 'team' : 'family'} plan?`)) return
+
+  // For now, contact support to remove — we'll add the endpoint later
+  alert(`To remove ${memberEmail}, email hello@zroppix.com with your request. We process all removals within 24 hours.`)
+}
+
+// ── API KEY MANAGEMENT ──
+async function loadApiKey(email) {
+  // Generate a deterministic API key from the email
+  // In a full implementation this would be stored in the database.
+  // For now we derive it client-side as a placeholder.
+  const encoder = new TextEncoder()
+  const data = encoder.encode(email + 'zroppix_elite_2026')
+  const hash = await crypto.subtle.digest('SHA-256', data)
+  const hashArray = Array.from(new Uint8Array(hash))
+  apiKeyValue = 'zrx_elite_' + hashArray.slice(0, 20).map(b => b.toString(16).padStart(2, '0')).join('')
+  document.getElementById('apiCallsToday').textContent = '0'
+  document.getElementById('apiCallsMonth').textContent = '0'
+}
+
+function toggleApiKey() {
+  const box = document.getElementById('apiKeyBox')
+  const btn = document.getElementById('toggleApiBtn')
+  apiKeyVisible = !apiKeyVisible
+  box.textContent = apiKeyVisible ? apiKeyValue : '•••••••••••••••••••••••••••••••••••'
+  btn.textContent = apiKeyVisible ? '🙈 Hide Key' : '👁 Show Key'
+}
+
+function copyApiKey() {
+  if (!apiKeyValue) return
+  navigator.clipboard.writeText(apiKeyValue)
+    .then(() => showStatus('apiKeyStatus', '✓ API key copied to clipboard', 'success'))
+    .catch(() => showStatus('apiKeyStatus', 'Copy failed — please select and copy manually', 'error'))
+}
+
+function regenerateApiKey() {
+  showStatus('apiKeyStatus', 'To regenerate your API key, email hello@zroppix.com', 'success')
+}
+
+// ── LOGOUT ──
+function handleLogout() {
+  clearStoredEmail()
+  currentUser = null
+  document.getElementById('loginEmail').value = ''
+  showState('stateLogin')
+}
+
+// ── UTILITY: STATUS MESSAGES ──
+function showStatus(elementId, message, type) {
+  const el = document.getElementById(elementId)
+  if (!el) return
+  el.textContent = message
+  el.className = `status-msg ${type}`
+  el.style.display = 'block'
+  setTimeout(() => { el.style.display = 'none' }, 5000)
+}
+
+// ── START ──
+init()
+</script>
+</body>
+</html>
