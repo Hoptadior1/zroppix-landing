@@ -220,7 +220,8 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .feature-card p { font-size: 13px; color: var(--muted); line-height: 1.65; }
 .feature-tag { display: inline-block; background: rgba(201,168,76,0.1); color: var(--gold); padding: 2px 8px; border-radius: 6px; font-size: 10px; font-weight: 700; margin-top: 10px; }
 .comparison-section { padding: 90px 20px; max-width: 800px; margin: 0 auto; }
-.comparison-table { width: 100%; border-collapse: collapse; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); }
+.comparison-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 14px; }
+.comparison-table { width: 100%; border-collapse: collapse; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); min-width: 560px; }
 .comparison-table th { padding: 16px 20px; font-size: 14px; font-weight: 700; text-align: center; background: var(--bg2); border-bottom: 1px solid var(--border); }
 .comparison-table th:first-child { text-align: left; }
 .comparison-table th.highlight { color: var(--gold); background: rgba(201,168,76,0.06); }
@@ -493,6 +494,7 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
     <h2 class="section-h2">Zroppix vs the alternatives</h2>
     <p class="section-sub">See how Zroppix compares to CamelCamelCamel and Honey.</p>
   </div>
+  <div class="comparison-table-wrap">
   <table class="comparison-table">
     <thead><tr><th>Feature</th><th class="highlight">🛡️ Zroppix</th><th>CamelCamelCamel</th><th>Honey</th></tr></thead>
     <tbody>
@@ -508,6 +510,7 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
       <tr><td>Free to use</td><td class="highlight"><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
     </tbody>
   </table>
+  </div>
 </section>
 
 <!-- PRICING -->
