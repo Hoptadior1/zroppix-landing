@@ -1,319 +1,326 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Zroppix — AI Price Drop Predictor | Never Overpay on Amazon Again</title>
-  <meta name="description" content="Zroppix uses AI to tell you exactly when to buy anything on Amazon. Get instant BUY or WAIT verdicts, price history and alerts when prices drop. Free Chrome extension.">
-  <meta name="keywords" content="amazon price tracker, price drop alert, price history amazon, when to buy amazon, camelcamelcamel alternative, amazon price drop, AI price predictor, chrome extension price tracker, best time to buy amazon, price drop notifier">
-  <link rel="canonical" href="https://zroppix.com">
-  <meta name="robots" content="index, follow">
-  <meta name="author" content="Zroppix">
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zroppix — AI Price Drop Predictor | Never Overpay on Amazon Again</title>
+<meta name="description" content="Zroppix uses AI to tell you exactly when to buy anything on Amazon. Get instant BUY or WAIT verdicts, price history and alerts when prices drop. Free Chrome extension.">
+<meta name="keywords" content="amazon price tracker, price drop alert, price history amazon, when to buy amazon, camelcamelcamel alternative, amazon price drop, AI price predictor, chrome extension price tracker, best time to buy amazon, price drop notifier">
+<link rel="canonical" href="https://zroppix.com">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Zroppix">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zroppix.com">
+<meta property="og:title" content="Zroppix — The AI That Knows When To Buy">
+<meta property="og:description" content="Stop overpaying on Amazon. AI powered price analysis gives you instant BUY or WAIT verdicts. Free Chrome extension.">
+<meta property="og:image" content="https://zroppix.com/og-image.png">
+<meta property="og:site_name" content="Zroppix">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@zroppix">
+<meta name="twitter:title" content="Zroppix — The AI That Knows When To Buy">
+<meta name="twitter:description" content="Stop overpaying on Amazon. AI powered price analysis. Free Chrome extension.">
+<meta name="twitter:image" content="https://zroppix.com/og-image.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Zroppix",
+  "applicationCategory": "BrowserApplication",
+  "applicationSubCategory": "ShoppingApplication",
+  "operatingSystem": "Chrome, Brave",
+  "description": "AI powered price drop predictor for Amazon. Get instant BUY or WAIT verdicts, price history and automatic price alerts.",
+  "url": "https://zroppix.com",
+  "downloadUrl": "https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf",
+  "offers": [
+    {"@type": "Offer","price": "0","priceCurrency": "USD","name": "Free Plan"},
+    {"@type": "Offer","price": "14","priceCurrency": "USD","billingIncrement": "P1M","name": "Pro Plan"},
+    {"@type": "Offer","price": "24","priceCurrency": "USD","billingIncrement": "P1M","name": "Family Plan"},
+    {"@type": "Offer","price": "49","priceCurrency": "USD","billingIncrement": "P1M","name": "Elite Plan"}
+  ],
+  "aggregateRating": {"@type": "AggregateRating","ratingValue": "4.9","ratingCount": "247","bestRating": "5"},
+  "publisher": {"@type": "Organization","name": "Zroppix","url": "https://zroppix.com"}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question","name": "Is Zroppix free?","acceptedAnswer": {"@type": "Answer","text": "Yes. The free plan is free forever with no time limit and no credit card required."}},
+    {"@type": "Question","name": "How accurate are Zroppix predictions?","acceptedAnswer": {"@type": "Answer","text": "Our AI predictions have an 83% accuracy rate based on historical price data."}},
+    {"@type": "Question","name": "Which stores does Zroppix work on?","acceptedAnswer": {"@type": "Answer","text": "Zroppix currently works on Amazon with Walmart, Best Buy, Target and more coming soon."}}
+  ]
+}
+</script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #0D0D14; --bg2: #12121A; --bg3: #0A0A10;
+  --border: #22223A; --gold: #C9A84C; --green: #1D9E75;
+  --red: #E24B4A; --orange: #F5A623; --text: #ffffff;
+  --muted: #7A78A0; --subtle: #cccccc;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; max-width: 100vw; }
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; }
+html, body { overflow-x: hidden !important; max-width: 100% !important; }
+* { max-width: 100%; }
+.btn-gold { background: var(--gold); color: #0D0D14; padding: 12px 24px; border-radius: 10px; font-weight: 700; font-size: 15px; transition: all 0.2s; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+.btn-gold:hover { background: #D4B864; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(201,168,76,0.3); }
+.btn-outline { background: transparent; color: var(--text); padding: 12px 24px; border-radius: 10px; font-weight: 600; font-size: 15px; border: 1px solid var(--border); transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+.btn-lg { padding: 16px 36px; font-size: 17px; border-radius: 12px; }
 
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://zroppix.com">
-  <meta property="og:title" content="Zroppix — The AI That Knows When To Buy">
-  <meta property="og:description" content="Stop overpaying on Amazon. AI powered price analysis gives you instant BUY or WAIT verdicts. Free Chrome extension.">
-  <meta property="og:image" content="https://zroppix.com/og-image.png">
-  <meta property="og:site_name" content="Zroppix">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@zroppix">
-  <meta name="twitter:title" content="Zroppix — The AI That Knows When To Buy">
-  <meta name="twitter:description" content="Stop overpaying on Amazon. AI powered price analysis. Free Chrome extension.">
-  <meta name="twitter:image" content="https://zroppix.com/og-image.png">
+/* NAV */
+nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 48px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(13,13,20,0.96); backdrop-filter: blur(12px); z-index: 100; }
+.nav-logo { font-size: 20px; font-weight: 800; color: var(--gold); display: flex; align-items: center; gap: 8px; }
+.nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+.nav-links a { color: var(--muted); font-size: 14px; font-weight: 500; transition: color 0.2s; }
+.nav-links a:hover { color: var(--text); }
+.nav-cta { padding: 9px 20px !important; font-size: 14px !important; }
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Zroppix",
-    "applicationCategory": "BrowserApplication",
-    "applicationSubCategory": "ShoppingApplication",
-    "operatingSystem": "Chrome, Brave",
-    "description": "AI powered price drop predictor for Amazon. Get instant BUY or WAIT verdicts, price history and automatic price alerts.",
-    "url": "https://zroppix.com",
-    "downloadUrl": "https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf",
-    "offers": [
-      {"@type": "Offer","price": "0","priceCurrency": "USD","name": "Free Plan"},
-      {"@type": "Offer","price": "14","priceCurrency": "USD","billingIncrement": "P1M","name": "Pro Plan"},
-      {"@type": "Offer","price": "24","priceCurrency": "USD","billingIncrement": "P1M","name": "Family Plan"},
-      {"@type": "Offer","price": "49","priceCurrency": "USD","billingIncrement": "P1M","name": "Elite Plan"}
-    ],
-    "aggregateRating": {"@type": "AggregateRating","ratingValue": "4.9","ratingCount": "247","bestRating": "5"},
-    "publisher": {"@type": "Organization","name": "Zroppix","url": "https://zroppix.com"}
-  }
-  </script>
+/* HERO */
+.hero { text-align: center; padding: 80px 20px 60px; max-width: 820px; margin: 0 auto; position: relative; }
+.hero::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 600px; height: 400px; background: radial-gradient(ellipse at center, rgba(201,168,76,0.06) 0%, transparent 70%); pointer-events: none; }
+.hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.25); color: var(--gold); padding: 7px 18px; border-radius: 24px; font-size: 13px; font-weight: 600; margin-bottom: 28px; letter-spacing: 0.3px; }
+.hero-eyebrow-dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; animation: pulse 2s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+.hero h1 { font-size: 62px; font-weight: 900; line-height: 1.04; margin-bottom: 20px; letter-spacing: -2px; }
+.hero h1 .gradient { background: linear-gradient(135deg, var(--gold), #F5A623); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.hero-subtitle { font-size: 18px; color: var(--muted); margin-bottom: 36px; max-width: 560px; margin-left: auto; margin-right: auto; line-height: 1.65; }
+.hero-trust { display: flex; justify-content: center; align-items: center; gap: 24px; flex-wrap: wrap; margin-top: 24px; }
+.trust-item { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--muted); }
+.trust-check { color: var(--green); font-size: 14px; }
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {"@type": "Question","name": "Is Zroppix free?","acceptedAnswer": {"@type": "Answer","text": "Yes. The free plan is free forever with no time limit and no credit card required."}},
-      {"@type": "Question","name": "How accurate are Zroppix predictions?","acceptedAnswer": {"@type": "Answer","text": "Our AI predictions have an 83% accuracy rate based on historical price data."}},
-      {"@type": "Question","name": "Which stores does Zroppix work on?","acceptedAnswer": {"@type": "Answer","text": "Zroppix currently works on Amazon with Walmart, Best Buy, Target and more coming soon."}}
-    ]
-  }
-  </script>
+/* WEB PARSER */
+.parser-section { max-width: 640px; margin: 0 auto 8px; padding: 0 20px; }
+.parser-box { background: rgba(255,255,255,0.03); border: 1.5px solid var(--border); border-radius: 14px; padding: 10px; transition: border-color 0.2s; }
+.parser-box:focus-within { border-color: rgba(201,168,76,0.5); box-shadow: 0 0 0 3px rgba(201,168,76,0.06); }
+.parser-input-row { display: flex; gap: 8px; align-items: center; }
+.parser-input { flex: 1; background: transparent; border: none; outline: none; color: #fff; font-size: 15px; padding: 10px 12px; font-family: inherit; min-width: 0; }
+.parser-input::placeholder { color: var(--muted); }
+.parser-btn { background: var(--gold); color: #0D0D14; border: none; border-radius: 9px; padding: 11px 20px; font-size: 14px; font-weight: 800; cursor: pointer; white-space: nowrap; font-family: inherit; transition: all 0.2s; flex-shrink: 0; }
+.parser-btn:hover { background: #D4B864; transform: translateY(-1px); }
+.parser-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+.parser-hint { font-size: 12px; color: #3A3A5C; padding: 6px 12px 2px; text-align: center; }
+.parser-loading { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 20px; color: var(--muted); font-size: 14px; }
+.parser-spinner { width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.parser-result { margin-top: 12px; }
+.parser-result-inner { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; text-align: left; }
+.parser-product-name { padding: 12px 16px; font-size: 12px; color: var(--muted); border-bottom: 1px solid var(--border); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.parser-verdict-card { padding: 20px 16px; text-align: center; border-bottom: 1px solid var(--border); }
+.parser-verdict-card.wait { background: rgba(226,75,74,0.06); }
+.parser-verdict-card.buy { background: rgba(29,158,117,0.06); }
+.parser-verdict-text { font-size: 30px; font-weight: 900; letter-spacing: 4px; margin-bottom: 6px; }
+.parser-verdict-card.wait .parser-verdict-text { color: var(--red); }
+.parser-verdict-card.buy .parser-verdict-text { color: var(--green); }
+.parser-saving { font-size: 18px; font-weight: 800; color: var(--gold); margin-bottom: 4px; }
+.parser-paid-less { font-size: 13px; color: var(--muted); }
+.parser-stats { display: grid; grid-template-columns: repeat(4,1fr); border-bottom: 1px solid var(--border); }
+.parser-stat { padding: 12px 8px; text-align: center; border-right: 1px solid var(--border); }
+.parser-stat:last-child { border-right: none; }
+.parser-stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+.parser-stat-val { font-size: 14px; font-weight: 700; color: #fff; }
+.parser-stat-val.green { color: var(--green); }
+.parser-stat-val.red { color: var(--red); }
+.parser-cta-btn { display: block; margin: 14px 16px 8px; padding: 13px 20px; background: var(--gold); color: #0D0D14; border-radius: 10px; font-size: 14px; font-weight: 800; text-align: center; text-decoration: none; transition: all 0.2s; }
+.parser-cta-btn:hover { background: #D4B864; transform: translateY(-1px); }
+.parser-reset { display: block; text-align: center; padding: 8px 16px 14px; font-size: 13px; color: var(--muted); cursor: pointer; transition: color 0.2s; }
+.parser-reset:hover { color: var(--gold); }
+.parser-error { padding: 14px 16px; background: rgba(226,75,74,0.06); border: 1px solid rgba(226,75,74,0.2); border-radius: 10px; margin-top: 10px; font-size: 13px; color: var(--red); text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
+.parser-counter { text-align: center; font-size: 12px; padding: 4px 16px 12px; color: var(--muted); }
+.parser-limit { margin-top: 12px; background: var(--bg2); border: 1px solid rgba(201,168,76,0.25); border-radius: 14px; padding: 28px 24px; text-align: center; }
+.parser-limit-icon { font-size: 36px; margin-bottom: 12px; }
+.parser-limit-title { font-size: 17px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+.parser-limit-sub { font-size: 14px; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
+.parser-limit-btn { display: block; padding: 13px 20px; background: var(--gold); color: #0D0D14; border-radius: 10px; font-size: 14px; font-weight: 800; text-decoration: none; transition: all 0.2s; margin-bottom: 4px; }
+.parser-limit-btn:hover { background: #D4B864; transform: translateY(-1px); }
 
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    :root {
-      --bg: #0D0D14; --bg2: #12121A; --bg3: #0A0A10;
-      --border: #22223A; --gold: #C9A84C; --green: #1D9E75;
-      --red: #E24B4A; --orange: #F5A623; --text: #ffffff;
-      --muted: #7A78A0; --subtle: #cccccc;
-    }
-    html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; max-width: 100vw; }
-    a { text-decoration: none; color: inherit; }
-    img { max-width: 100%; }
-    html, body { overflow-x: hidden !important; max-width: 100% !important; }
-    * { max-width: 100%; }
+/* DEMO */
+.demo-wrapper { padding: 40px 20px 80px; max-width: 440px; margin: 0 auto; position: relative; }
+.demo-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300px; height: 300px; background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%); pointer-events: none; }
+.demo-widget { background: var(--bg2); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; box-shadow: 0 0 0 1px rgba(201,168,76,0.1), 0 24px 80px rgba(0,0,0,0.6); position: relative; }
+.demo-topbar { display: flex; justify-content: space-between; align-items: center; padding: 11px 16px; background: var(--bg3); border-bottom: 1px solid var(--border); }
+.demo-brand { font-weight: 800; color: var(--gold); font-size: 14px; display: flex; align-items: center; gap: 6px; }
+.demo-plan-badge { font-size: 9px; font-weight: 700; background: rgba(201,168,76,0.12); color: var(--gold); padding: 3px 8px; border-radius: 8px; letter-spacing: 0.5px; }
+.demo-product-name { padding: 8px 16px; font-size: 11px; color: var(--muted); border-bottom: 1px solid #1A1A26; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.demo-verdict-card { margin: 10px 14px; padding: 16px; border-radius: 12px; text-align: center; background: rgba(226,75,74,0.07); border: 1px solid rgba(226,75,74,0.2); }
+.demo-verdict-text { font-size: 26px; font-weight: 900; letter-spacing: 4px; color: var(--red); margin-bottom: 8px; }
+.demo-save-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.demo-save-amount { font-size: 34px; font-weight: 900; color: var(--gold); line-height: 1.1; margin: 2px 0; }
+.demo-timeframe { display: inline-block; font-size: 11px; color: var(--subtle); padding: 3px 12px; background: rgba(255,255,255,0.04); border-radius: 20px; margin: 6px 0 4px; }
+.demo-confidence { font-size: 11px; color: var(--muted); margin-top: 4px; }
+.demo-confidence span { color: var(--gold); font-weight: 700; }
+.demo-overpay-bar { margin: 0 14px 8px; padding: 6px 12px; border-radius: 7px; font-size: 12px; font-weight: 700; text-align: center; background: rgba(226,75,74,0.08); color: var(--red); border: 1px solid rgba(226,75,74,0.15); }
+.demo-others-card { margin: 0 14px 10px; padding: 9px 12px; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; }
+.demo-others-headline { font-size: 12px; font-weight: 700; color: var(--red); display: block; margin-bottom: 3px; }
+.demo-others-sub { font-size: 10px; color: var(--muted); }
+.demo-stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; padding: 0 14px 10px; }
+.demo-stat-box { background: var(--bg3); border: 1px solid var(--border); border-radius: 7px; padding: 6px 4px; text-align: center; }
+.demo-stat-title { font-size: 8px; color: var(--muted); text-transform: uppercase; margin-bottom: 2px; }
+.demo-stat-val { font-size: 10px; font-weight: 700; }
+.demo-stat-val.g { color: var(--green); }
+.demo-stat-val.r { color: var(--red); }
+.demo-alert-row { display: flex; gap: 6px; padding: 0 14px 14px; }
+.demo-price-input { flex: 1; background: var(--bg3); border: 1px solid var(--border); border-radius: 7px; padding: 7px 10px; color: var(--muted); font-size: 11px; font-family: inherit; }
+.demo-alert-btn { background: var(--gold); color: #0D0D14; border: none; border-radius: 7px; padding: 7px 12px; font-size: 11px; font-weight: 700; cursor: pointer; font-family: inherit; }
 
-    .btn-gold { background: var(--gold); color: #0D0D14; padding: 12px 24px; border-radius: 10px; font-weight: 700; font-size: 15px; transition: all 0.2s; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
-    .btn-gold:hover { background: #D4B864; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(201,168,76,0.3); }
-    .btn-outline { background: transparent; color: var(--text); padding: 12px 24px; border-radius: 10px; font-weight: 600; font-size: 15px; border: 1px solid var(--border); transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
-    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
-    .btn-lg { padding: 16px 36px; font-size: 17px; border-radius: 12px; }
+/* PROOF BAR */
+.proof-bar { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 36px 20px; }
+.proof-bar-inner { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; text-align: center; }
+.proof-num { font-size: 38px; font-weight: 900; color: var(--gold); line-height: 1; margin-bottom: 6px; }
+.proof-label { font-size: 13px; color: var(--muted); }
 
-    nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 48px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(13,13,20,0.96); backdrop-filter: blur(12px); z-index: 100; }
-    .nav-logo { font-size: 20px; font-weight: 800; color: var(--gold); display: flex; align-items: center; gap: 8px; }
-    .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
-    .nav-links a { color: var(--muted); font-size: 14px; font-weight: 500; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--text); }
-    .nav-cta { padding: 9px 20px !important; font-size: 14px !important; }
+/* DEALS PREVIEW SECTION — NEW */
+.deals-preview { padding: 90px 20px; max-width: 1000px; margin: 0 auto; }
+.deals-preview-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 32px; }
+.deal-preview-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 20px; transition: all 0.2s; display: block; color: inherit; }
+.deal-preview-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-2px); }
+.deal-preview-verdict { font-size: 10px; font-weight: 800; letter-spacing: 1.5px; padding: 3px 10px; border-radius: 5px; display: inline-block; margin-bottom: 10px; }
+.deal-preview-verdict.buy { background: rgba(29,158,117,0.12); color: var(--green); border: 1px solid rgba(29,158,117,0.25); }
+.deal-preview-verdict.wait { background: rgba(226,75,74,0.12); color: var(--red); border: 1px solid rgba(226,75,74,0.25); }
+.deal-preview-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 8px; line-height: 1.4; }
+.deal-preview-saving { font-size: 20px; font-weight: 900; color: var(--gold); margin-bottom: 4px; }
+.deal-preview-label { font-size: 11px; color: var(--muted); margin-bottom: 12px; }
+.deal-preview-prices { display: flex; gap: 8px; }
+.deal-preview-price { background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; text-align: center; flex: 1; }
+.deal-preview-price-label { font-size: 9px; color: var(--muted); text-transform: uppercase; margin-bottom: 2px; }
+.deal-preview-price-val { font-size: 12px; font-weight: 700; }
+.deal-preview-price-val.green { color: var(--green); }
+.deal-preview-price-val.gold { color: var(--gold); }
+.deal-preview-price-val.red { color: var(--red); }
 
-    /* ── HERO ── */
-    .hero { text-align: center; padding: 80px 20px 60px; max-width: 820px; margin: 0 auto; position: relative; }
-    .hero::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 600px; height: 400px; background: radial-gradient(ellipse at center, rgba(201,168,76,0.06) 0%, transparent 70%); pointer-events: none; }
-    .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.25); color: var(--gold); padding: 7px 18px; border-radius: 24px; font-size: 13px; font-weight: 600; margin-bottom: 28px; letter-spacing: 0.3px; }
-    .hero-eyebrow-dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-    .hero h1 { font-size: 62px; font-weight: 900; line-height: 1.04; margin-bottom: 20px; letter-spacing: -2px; }
-    .hero h1 .gradient { background: linear-gradient(135deg, var(--gold), #F5A623); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .hero-subtitle { font-size: 18px; color: var(--muted); margin-bottom: 36px; max-width: 560px; margin-left: auto; margin-right: auto; line-height: 1.65; }
-    .hero-trust { display: flex; justify-content: center; align-items: center; gap: 24px; flex-wrap: wrap; margin-top: 24px; }
-    .trust-item { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--muted); }
-    .trust-check { color: var(--green); font-size: 14px; }
+/* SECTIONS */
+.problem-section { padding: 90px 20px; max-width: 900px; margin: 0 auto; text-align: center; }
+.section-tag { display: inline-block; background: rgba(201,168,76,0.08); color: var(--gold); padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 20px; }
+.section-h2 { font-size: 40px; font-weight: 900; line-height: 1.1; margin-bottom: 16px; letter-spacing: -0.5px; }
+.section-sub { font-size: 17px; color: var(--muted); margin-bottom: 52px; max-width: 540px; margin-left: auto; margin-right: auto; }
+.problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; text-align: left; }
+.problem-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 24px; }
+.problem-emoji { font-size: 28px; margin-bottom: 12px; }
+.problem-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--red); }
+.problem-desc { font-size: 14px; color: var(--muted); line-height: 1.65; }
+.how-section { padding: 90px 20px; max-width: 1000px; margin: 0 auto; }
+.steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.step-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 32px 28px; transition: border-color 0.2s; }
+.step-card:hover { border-color: rgba(201,168,76,0.3); }
+.step-num { width: 38px; height: 38px; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3); color: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; margin-bottom: 18px; }
+.step-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+.step-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+.features-section { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 90px 20px; }
+.features-inner { max-width: 1000px; margin: 0 auto; }
+.features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.feature-card { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 26px; transition: all 0.2s; }
+.feature-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-2px); }
+.feature-icon { font-size: 30px; margin-bottom: 14px; }
+.feature-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.feature-card p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+.feature-tag { display: inline-block; background: rgba(201,168,76,0.1); color: var(--gold); padding: 2px 8px; border-radius: 6px; font-size: 10px; font-weight: 700; margin-top: 10px; }
+.comparison-section { padding: 90px 20px; max-width: 800px; margin: 0 auto; }
+.comparison-table { width: 100%; border-collapse: collapse; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); }
+.comparison-table th { padding: 16px 20px; font-size: 14px; font-weight: 700; text-align: center; background: var(--bg2); border-bottom: 1px solid var(--border); }
+.comparison-table th:first-child { text-align: left; }
+.comparison-table th.highlight { color: var(--gold); background: rgba(201,168,76,0.06); }
+.comparison-table td { padding: 14px 20px; font-size: 13px; text-align: center; border-bottom: 1px solid #1A1A26; color: var(--muted); background: var(--bg2); }
+.comparison-table td:first-child { text-align: left; color: var(--text); font-weight: 500; }
+.comparison-table td.highlight { background: rgba(201,168,76,0.04); }
+.comparison-table tr:last-child td { border-bottom: none; }
+.check { color: var(--green); font-size: 16px; }
+.cross { color: var(--red); font-size: 16px; }
+.partial { color: var(--orange); font-size: 13px; }
+.pricing-section { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 90px 20px; }
+.pricing-inner { max-width: 1100px; margin: 0 auto; }
+.pricing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.price-card { background: var(--bg); border: 1px solid var(--border); border-radius: 18px; padding: 32px 24px; text-align: center; position: relative; }
+.price-card.featured { border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.03); }
+.featured-badge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: var(--gold); color: #0D0D14; padding: 4px 18px; border-radius: 20px; font-size: 11px; font-weight: 800; white-space: nowrap; letter-spacing: 0.3px; }
+.price-plan { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; font-weight: 600; }
+.price-number { font-size: 44px; font-weight: 900; line-height: 1; margin-bottom: 4px; }
+.price-period { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+.price-list { list-style: none; text-align: left; margin-bottom: 28px; }
+.price-list li { font-size: 13px; color: var(--subtle); padding: 7px 0; display: flex; gap: 10px; align-items: flex-start; border-bottom: 1px solid #1A1A26; line-height: 1.4; }
+.price-list li:last-child { border-bottom: none; }
+.price-list li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+.price-list li.pro-only { color: var(--gold); }
+.price-list li.pro-only::before { content: '★'; color: var(--gold); }
+.testimonials-section { padding: 90px 20px; max-width: 1000px; margin: 0 auto; }
+.testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.testimonial-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 26px; }
+.stars { color: var(--gold); font-size: 14px; letter-spacing: 2px; margin-bottom: 14px; }
+.testimonial-text { font-size: 14px; color: var(--subtle); line-height: 1.75; margin-bottom: 18px; font-style: italic; }
+.testimonial-highlight { color: var(--gold); font-weight: 700; font-style: normal; }
+.testimonial-author { font-size: 14px; font-weight: 700; }
+.testimonial-role { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.savings-pill { display: inline-block; background: rgba(29,158,117,0.1); color: var(--green); padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-top: 10px; }
+.blog-section { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 90px 20px; }
+.blog-inner { max-width: 1000px; margin: 0 auto; }
+.blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 36px; }
+.blog-card { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; transition: all 0.2s; display: block; color: inherit; }
+.blog-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-2px); }
+.blog-thumb { height: 140px; display: flex; align-items: center; justify-content: center; font-size: 44px; }
+.blog-thumb.t1 { background: linear-gradient(135deg, rgba(201,168,76,0.1), rgba(201,168,76,0.03)); }
+.blog-thumb.t2 { background: linear-gradient(135deg, rgba(29,158,117,0.1), rgba(29,158,117,0.03)); }
+.blog-thumb.t3 { background: linear-gradient(135deg, rgba(226,75,74,0.1), rgba(226,75,74,0.03)); }
+.blog-body { padding: 20px; }
+.blog-category { font-size: 11px; color: var(--gold); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+.blog-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; line-height: 1.4; color: var(--text); }
+.blog-card p { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
+.blog-meta { font-size: 11px; color: var(--muted); display: flex; gap: 12px; }
+.faq-section { padding: 90px 20px; max-width: 720px; margin: 0 auto; }
+.faq-list { border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+.faq-item { border-bottom: 1px solid var(--border); background: var(--bg2); }
+.faq-item:last-child { border-bottom: none; }
+.faq-question { padding: 20px 24px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; transition: color 0.2s; }
+.faq-question:hover { color: var(--gold); }
+.faq-icon { color: var(--gold); font-size: 18px; flex-shrink: 0; }
+.faq-answer { padding: 0 24px 20px; font-size: 14px; color: var(--muted); line-height: 1.75; }
+.final-cta { text-align: center; padding: 100px 20px; position: relative; overflow: hidden; }
+.final-cta::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 700px; height: 400px; background: radial-gradient(ellipse, rgba(201,168,76,0.06) 0%, transparent 70%); pointer-events: none; }
+.final-cta-icon { font-size: 56px; margin-bottom: 24px; display: block; }
+.final-cta h2 { font-size: 44px; font-weight: 900; margin-bottom: 16px; letter-spacing: -0.5px; }
+.final-cta p { color: var(--muted); font-size: 18px; margin-bottom: 40px; max-width: 480px; margin-left: auto; margin-right: auto; }
+.final-cta-note { margin-top: 20px; font-size: 13px; color: var(--muted); }
+footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 48px 48px 32px; }
+.footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 48px; }
+.footer-brand { font-size: 20px; font-weight: 800; color: var(--gold); margin-bottom: 12px; }
+.footer-tagline { font-size: 14px; color: var(--muted); line-height: 1.6; max-width: 260px; }
+.footer-col-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); margin-bottom: 16px; }
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-links a { font-size: 14px; color: var(--muted); transition: color 0.2s; }
+.footer-links a:hover { color: var(--text); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 24px; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 12px; }
+.footer-copy { font-size: 13px; color: var(--muted); }
+.footer-legal { display: flex; gap: 20px; list-style: none; }
+.footer-legal a { font-size: 13px; color: var(--muted); transition: color 0.2s; }
+.footer-legal a:hover { color: var(--text); }
 
-    /* ── WEB PARSER ── */
-    .parser-section { max-width: 640px; margin: 0 auto 8px; padding: 0 20px; }
-    .parser-box { background: rgba(255,255,255,0.03); border: 1.5px solid var(--border); border-radius: 14px; padding: 10px; transition: border-color 0.2s; }
-    .parser-box:focus-within { border-color: rgba(201,168,76,0.5); box-shadow: 0 0 0 3px rgba(201,168,76,0.06); }
-    .parser-input-row { display: flex; gap: 8px; align-items: center; }
-    .parser-input { flex: 1; background: transparent; border: none; outline: none; color: #fff; font-size: 15px; padding: 10px 12px; font-family: inherit; min-width: 0; }
-    .parser-input::placeholder { color: var(--muted); }
-    .parser-btn { background: var(--gold); color: #0D0D14; border: none; border-radius: 9px; padding: 11px 20px; font-size: 14px; font-weight: 800; cursor: pointer; white-space: nowrap; font-family: inherit; transition: all 0.2s; flex-shrink: 0; }
-    .parser-btn:hover { background: #D4B864; transform: translateY(-1px); }
-    .parser-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-    .parser-hint { font-size: 12px; color: #3A3A5C; padding: 6px 12px 2px; text-align: center; }
-    .parser-loading { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 20px; color: var(--muted); font-size: 14px; }
-    .parser-spinner { width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .parser-result { margin-top: 12px; }
-    .parser-result-inner { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; text-align: left; }
-    .parser-product-name { padding: 12px 16px; font-size: 12px; color: var(--muted); border-bottom: 1px solid var(--border); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .parser-verdict-card { padding: 20px 16px; text-align: center; border-bottom: 1px solid var(--border); }
-    .parser-verdict-card.wait { background: rgba(226,75,74,0.06); }
-    .parser-verdict-card.buy { background: rgba(29,158,117,0.06); }
-    .parser-verdict-text { font-size: 30px; font-weight: 900; letter-spacing: 4px; margin-bottom: 6px; }
-    .parser-verdict-card.wait .parser-verdict-text { color: var(--red); }
-    .parser-verdict-card.buy .parser-verdict-text { color: var(--green); }
-    .parser-saving { font-size: 18px; font-weight: 800; color: var(--gold); margin-bottom: 4px; }
-    .parser-paid-less { font-size: 13px; color: var(--muted); }
-    .parser-stats { display: grid; grid-template-columns: repeat(4,1fr); border-bottom: 1px solid var(--border); }
-    .parser-stat { padding: 12px 8px; text-align: center; border-right: 1px solid var(--border); }
-    .parser-stat:last-child { border-right: none; }
-    .parser-stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
-    .parser-stat-val { font-size: 14px; font-weight: 700; color: #fff; }
-    .parser-stat-val.green { color: var(--green); }
-    .parser-stat-val.red { color: var(--red); }
-    .parser-cta-btn { display: block; margin: 14px 16px 8px; padding: 13px 20px; background: var(--gold); color: #0D0D14; border-radius: 10px; font-size: 14px; font-weight: 800; text-align: center; text-decoration: none; transition: all 0.2s; }
-    .parser-cta-btn:hover { background: #D4B864; transform: translateY(-1px); }
-    .parser-reset { display: block; text-align: center; padding: 8px 16px 14px; font-size: 13px; color: var(--muted); cursor: pointer; transition: color 0.2s; }
-    .parser-reset:hover { color: var(--gold); }
-    .parser-error { padding: 14px 16px; background: rgba(226,75,74,0.06); border: 1px solid rgba(226,75,74,0.2); border-radius: 10px; margin-top: 10px; font-size: 13px; color: var(--red); text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
-
-    /* ── REST OF PAGE ── */
-    .demo-wrapper { padding: 40px 20px 80px; max-width: 440px; margin: 0 auto; position: relative; }
-    .demo-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300px; height: 300px; background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%); pointer-events: none; }
-    .demo-widget { background: var(--bg2); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; box-shadow: 0 0 0 1px rgba(201,168,76,0.1), 0 24px 80px rgba(0,0,0,0.6); position: relative; }
-    .demo-topbar { display: flex; justify-content: space-between; align-items: center; padding: 11px 16px; background: var(--bg3); border-bottom: 1px solid var(--border); }
-    .demo-brand { font-weight: 800; color: var(--gold); font-size: 14px; display: flex; align-items: center; gap: 6px; }
-    .demo-plan-badge { font-size: 9px; font-weight: 700; background: rgba(201,168,76,0.12); color: var(--gold); padding: 3px 8px; border-radius: 8px; letter-spacing: 0.5px; }
-    .demo-product-name { padding: 8px 16px; font-size: 11px; color: var(--muted); border-bottom: 1px solid #1A1A26; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .demo-verdict-card { margin: 10px 14px; padding: 16px; border-radius: 12px; text-align: center; background: rgba(226,75,74,0.07); border: 1px solid rgba(226,75,74,0.2); }
-    .demo-verdict-text { font-size: 26px; font-weight: 900; letter-spacing: 4px; color: var(--red); margin-bottom: 8px; }
-    .demo-save-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
-    .demo-save-amount { font-size: 34px; font-weight: 900; color: var(--gold); line-height: 1.1; margin: 2px 0; }
-    .demo-timeframe { display: inline-block; font-size: 11px; color: var(--subtle); padding: 3px 12px; background: rgba(255,255,255,0.04); border-radius: 20px; margin: 6px 0 4px; }
-    .demo-confidence { font-size: 11px; color: var(--muted); margin-top: 4px; }
-    .demo-confidence span { color: var(--gold); font-weight: 700; }
-    .demo-overpay-bar { margin: 0 14px 8px; padding: 6px 12px; border-radius: 7px; font-size: 12px; font-weight: 700; text-align: center; background: rgba(226,75,74,0.08); color: var(--red); border: 1px solid rgba(226,75,74,0.15); }
-    .demo-others-card { margin: 0 14px 10px; padding: 9px 12px; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; }
-    .demo-others-headline { font-size: 12px; font-weight: 700; color: var(--red); display: block; margin-bottom: 3px; }
-    .demo-others-sub { font-size: 10px; color: var(--muted); }
-    .demo-stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; padding: 0 14px 10px; }
-    .demo-stat-box { background: var(--bg3); border: 1px solid var(--border); border-radius: 7px; padding: 6px 4px; text-align: center; }
-    .demo-stat-title { font-size: 8px; color: var(--muted); text-transform: uppercase; margin-bottom: 2px; }
-    .demo-stat-val { font-size: 10px; font-weight: 700; }
-    .demo-stat-val.g { color: var(--green); }
-    .demo-stat-val.r { color: var(--red); }
-    .demo-alert-row { display: flex; gap: 6px; padding: 0 14px 14px; }
-    .demo-price-input { flex: 1; background: var(--bg3); border: 1px solid var(--border); border-radius: 7px; padding: 7px 10px; color: var(--muted); font-size: 11px; font-family: inherit; }
-    .demo-alert-btn { background: var(--gold); color: #0D0D14; border: none; border-radius: 7px; padding: 7px 12px; font-size: 11px; font-weight: 700; cursor: pointer; font-family: inherit; }
-
-    .proof-bar { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 36px 20px; }
-    .proof-bar-inner { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; text-align: center; }
-    .proof-num { font-size: 38px; font-weight: 900; color: var(--gold); line-height: 1; margin-bottom: 6px; }
-    .proof-label { font-size: 13px; color: var(--muted); }
-
-    .problem-section { padding: 90px 20px; max-width: 900px; margin: 0 auto; text-align: center; }
-    .section-tag { display: inline-block; background: rgba(201,168,76,0.08); color: var(--gold); padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 20px; }
-    .section-h2 { font-size: 40px; font-weight: 900; line-height: 1.1; margin-bottom: 16px; letter-spacing: -0.5px; }
-    .section-sub { font-size: 17px; color: var(--muted); margin-bottom: 52px; max-width: 540px; margin-left: auto; margin-right: auto; }
-    .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; text-align: left; }
-    .problem-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 24px; }
-    .problem-emoji { font-size: 28px; margin-bottom: 12px; }
-    .problem-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--red); }
-    .problem-desc { font-size: 14px; color: var(--muted); line-height: 1.65; }
-
-    .how-section { padding: 90px 20px; max-width: 1000px; margin: 0 auto; }
-    .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-    .step-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 32px 28px; transition: border-color 0.2s; }
-    .step-card:hover { border-color: rgba(201,168,76,0.3); }
-    .step-num { width: 38px; height: 38px; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3); color: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; margin-bottom: 18px; }
-    .step-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
-    .step-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
-
-    .features-section { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 90px 20px; }
-    .features-inner { max-width: 1000px; margin: 0 auto; }
-    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-    .feature-card { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 26px; transition: all 0.2s; }
-    .feature-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-2px); }
-    .feature-icon { font-size: 30px; margin-bottom: 14px; }
-    .feature-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
-    .feature-card p { font-size: 13px; color: var(--muted); line-height: 1.65; }
-    .feature-tag { display: inline-block; background: rgba(201,168,76,0.1); color: var(--gold); padding: 2px 8px; border-radius: 6px; font-size: 10px; font-weight: 700; margin-top: 10px; }
-
-    .comparison-section { padding: 90px 20px; max-width: 800px; margin: 0 auto; }
-    .comparison-table { width: 100%; border-collapse: collapse; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); }
-    .comparison-table th { padding: 16px 20px; font-size: 14px; font-weight: 700; text-align: center; background: var(--bg2); border-bottom: 1px solid var(--border); }
-    .comparison-table th:first-child { text-align: left; }
-    .comparison-table th.highlight { color: var(--gold); background: rgba(201,168,76,0.06); }
-    .comparison-table td { padding: 14px 20px; font-size: 13px; text-align: center; border-bottom: 1px solid #1A1A26; color: var(--muted); background: var(--bg2); }
-    .comparison-table td:first-child { text-align: left; color: var(--text); font-weight: 500; }
-    .comparison-table td.highlight { background: rgba(201,168,76,0.04); }
-    .comparison-table tr:last-child td { border-bottom: none; }
-    .check { color: var(--green); font-size: 16px; }
-    .cross { color: var(--red); font-size: 16px; }
-    .partial { color: var(--orange); font-size: 13px; }
-
-    .pricing-section { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 90px 20px; }
-    .pricing-inner { max-width: 1100px; margin: 0 auto; }
-    .pricing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-    .price-card { background: var(--bg); border: 1px solid var(--border); border-radius: 18px; padding: 32px 24px; text-align: center; position: relative; }
-    .price-card.featured { border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.03); }
-    .featured-badge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: var(--gold); color: #0D0D14; padding: 4px 18px; border-radius: 20px; font-size: 11px; font-weight: 800; white-space: nowrap; letter-spacing: 0.3px; }
-    .price-plan { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; font-weight: 600; }
-    .price-number { font-size: 44px; font-weight: 900; line-height: 1; margin-bottom: 4px; }
-    .price-period { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
-    .price-list { list-style: none; text-align: left; margin-bottom: 28px; }
-    .price-list li { font-size: 13px; color: var(--subtle); padding: 7px 0; display: flex; gap: 10px; align-items: flex-start; border-bottom: 1px solid #1A1A26; line-height: 1.4; }
-    .price-list li:last-child { border-bottom: none; }
-    .price-list li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
-    .price-list li.pro-only { color: var(--gold); }
-    .price-list li.pro-only::before { content: '★'; color: var(--gold); }
-
-    .testimonials-section { padding: 90px 20px; max-width: 1000px; margin: 0 auto; }
-    .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-    .testimonial-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 26px; }
-    .stars { color: var(--gold); font-size: 14px; letter-spacing: 2px; margin-bottom: 14px; }
-    .testimonial-text { font-size: 14px; color: var(--subtle); line-height: 1.75; margin-bottom: 18px; font-style: italic; }
-    .testimonial-highlight { color: var(--gold); font-weight: 700; font-style: normal; }
-    .testimonial-author { font-size: 14px; font-weight: 700; }
-    .testimonial-role { font-size: 12px; color: var(--muted); margin-top: 2px; }
-    .savings-pill { display: inline-block; background: rgba(29,158,117,0.1); color: var(--green); padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-top: 10px; }
-
-    .blog-section { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 90px 20px; }
-    .blog-inner { max-width: 1000px; margin: 0 auto; }
-    .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 36px; }
-    .blog-card { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; transition: all 0.2s; display: block; color: inherit; }
-    .blog-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-2px); }
-    .blog-thumb { height: 140px; display: flex; align-items: center; justify-content: center; font-size: 44px; }
-    .blog-thumb.t1 { background: linear-gradient(135deg, rgba(201,168,76,0.1), rgba(201,168,76,0.03)); }
-    .blog-thumb.t2 { background: linear-gradient(135deg, rgba(29,158,117,0.1), rgba(29,158,117,0.03)); }
-    .blog-thumb.t3 { background: linear-gradient(135deg, rgba(226,75,74,0.1), rgba(226,75,74,0.03)); }
-    .blog-body { padding: 20px; }
-    .blog-category { font-size: 11px; color: var(--gold); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
-    .blog-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; line-height: 1.4; color: var(--text); }
-    .blog-card p { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
-    .blog-meta { font-size: 11px; color: var(--muted); display: flex; gap: 12px; }
-
-    .faq-section { padding: 90px 20px; max-width: 720px; margin: 0 auto; }
-    .faq-list { border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
-    .faq-item { border-bottom: 1px solid var(--border); background: var(--bg2); }
-    .faq-item:last-child { border-bottom: none; }
-    .faq-question { padding: 20px 24px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; transition: color 0.2s; }
-    .faq-question:hover { color: var(--gold); }
-    .faq-icon { color: var(--gold); font-size: 18px; flex-shrink: 0; }
-    .faq-answer { padding: 0 24px 20px; font-size: 14px; color: var(--muted); line-height: 1.75; }
-
-    .final-cta { text-align: center; padding: 100px 20px; position: relative; overflow: hidden; }
-    .final-cta::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 700px; height: 400px; background: radial-gradient(ellipse, rgba(201,168,76,0.06) 0%, transparent 70%); pointer-events: none; }
-    .final-cta-icon { font-size: 56px; margin-bottom: 24px; display: block; }
-    .final-cta h2 { font-size: 44px; font-weight: 900; margin-bottom: 16px; letter-spacing: -0.5px; }
-    .final-cta p { color: var(--muted); font-size: 18px; margin-bottom: 40px; max-width: 480px; margin-left: auto; margin-right: auto; }
-    .final-cta-note { margin-top: 20px; font-size: 13px; color: var(--muted); }
-
-    footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 48px 48px 32px; }
-    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 48px; }
-    .footer-brand { font-size: 20px; font-weight: 800; color: var(--gold); margin-bottom: 12px; }
-    .footer-tagline { font-size: 14px; color: var(--muted); line-height: 1.6; max-width: 260px; }
-    .footer-col-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); margin-bottom: 16px; }
-    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-    .footer-links a { font-size: 14px; color: var(--muted); transition: color 0.2s; }
-    .footer-links a:hover { color: var(--text); }
-    .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 24px; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 12px; }
-    .footer-copy { font-size: 13px; color: var(--muted); }
-    .footer-legal { display: flex; gap: 20px; list-style: none; }
-    .footer-legal a { font-size: 13px; color: var(--muted); transition: color 0.2s; }
-    .footer-legal a:hover { color: var(--text); }
-
-    .parser-counter { text-align: center; font-size: 12px; padding: 4px 16px 12px; color: var(--muted); }
-    .parser-limit { margin-top: 12px; background: var(--bg2); border: 1px solid rgba(201,168,76,0.25); border-radius: 14px; padding: 28px 24px; text-align: center; }
-    .parser-limit-icon { font-size: 36px; margin-bottom: 12px; }
-    .parser-limit-title { font-size: 17px; font-weight: 800; color: #fff; margin-bottom: 8px; }
-    .parser-limit-sub { font-size: 14px; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
-    .parser-limit-btn { display: block; padding: 13px 20px; background: var(--gold); color: #0D0D14; border-radius: 10px; font-size: 14px; font-weight: 800; text-decoration: none; transition: all 0.2s; margin-bottom: 4px; }
-    .parser-limit-btn:hover { background: #D4B864; transform: translateY(-1px); }
-
-    @media (max-width: 1100px) { .pricing-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 900px) {
-      nav { padding: 14px 24px; }
-      .nav-links { display: none; }
-      .hero h1 { font-size: 42px; }
-      .proof-bar-inner { grid-template-columns: repeat(2, 1fr); }
-      .problem-grid, .steps-grid { grid-template-columns: 1fr; }
-      .features-grid { grid-template-columns: repeat(2, 1fr); }
-      .pricing-grid { grid-template-columns: 1fr; }
-      .testimonials-grid, .blog-grid { grid-template-columns: 1fr; }
-      .footer-top { grid-template-columns: 1fr 1fr; }
-      .section-h2 { font-size: 30px; }
-      .final-cta h2 { font-size: 32px; }
-    }
-    @media (max-width: 540px) {
-      .hero h1 { font-size: 32px; }
-      .features-grid { grid-template-columns: 1fr; }
-      .footer-top { grid-template-columns: 1fr; }
-      .parser-input-row { flex-direction: column; }
-      .parser-btn { width: 100%; justify-content: center; }
-      .parser-stats { grid-template-columns: repeat(2,1fr); }
-    }
-  </style>
+@media (max-width: 1100px) { .pricing-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 900px) {
+  nav { padding: 14px 24px; }
+  .nav-links { display: none; }
+  .hero h1 { font-size: 42px; }
+  .proof-bar-inner { grid-template-columns: repeat(2, 1fr); }
+  .problem-grid, .steps-grid { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .testimonials-grid, .blog-grid { grid-template-columns: 1fr; }
+  .deals-preview-grid { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  .section-h2 { font-size: 30px; }
+  .final-cta h2 { font-size: 32px; }
+}
+@media (max-width: 540px) {
+  .hero h1 { font-size: 32px; }
+  .features-grid { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr; }
+  .parser-input-row { flex-direction: column; }
+  .parser-btn { width: 100%; justify-content: center; }
+  .parser-stats { grid-template-columns: repeat(2,1fr); }
+}
+</style>
 </head>
 <body>
 
@@ -325,12 +332,13 @@
     <li><a href="#compare">vs Others</a></li>
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="/blog">Blog</a></li>
+    <li><a href="/deals">Deals</a></li>
     <li><a href="/account">Account</a></li>
     <li><a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="btn-gold nav-cta">Add to Chrome — Free</a></li>
   </ul>
 </nav>
 
-<!-- ── HERO ── -->
+<!-- HERO -->
 <section class="hero">
   <div class="hero-eyebrow">
     <div class="hero-eyebrow-dot"></div>
@@ -338,8 +346,6 @@
   </div>
   <h1>Stop overpaying.<br><span class="gradient">Know when to buy.</span></h1>
   <p class="hero-subtitle">Paste any Amazon URL below and see instantly if you're about to overpay — powered by 90 days of real price history. Free. No account needed.</p>
-
-  <!-- WEB PARSER -->
   <div class="parser-section">
     <div class="parser-box" id="parserBox">
       <div class="parser-input-row">
@@ -375,8 +381,6 @@
       <span id="parserErrorText"></span>
       <span class="parser-reset" onclick="resetParser()" style="display:inline;padding:0;margin-left:6px;">Try again →</span>
     </div>
-
-    <!-- LIMIT REACHED -->
     <div class="parser-limit" id="parserLimit" style="display:none;">
       <div class="parser-limit-icon">🛡️</div>
       <div class="parser-limit-title">You've used your 3 free checks today</div>
@@ -385,8 +389,6 @@
       <div class="parser-reset" onclick="resetParserLimit()" style="margin-top:8px;">← Try again tomorrow</div>
     </div>
   </div>
-  <!-- END WEB PARSER -->
-
   <div class="hero-trust">
     <div class="trust-item"><span class="trust-check">✓</span> Free forever — no card needed</div>
     <div class="trust-item"><span class="trust-check">✓</span> Installs in 10 seconds</div>
@@ -395,13 +397,11 @@
   </div>
 </section>
 
+<!-- DEMO WIDGET -->
 <div class="demo-wrapper">
   <div class="demo-glow"></div>
   <div class="demo-widget">
-    <div class="demo-topbar">
-      <span class="demo-brand">🛡️ Zroppix</span>
-      <span class="demo-plan-badge">FREE</span>
-    </div>
+    <div class="demo-topbar"><span class="demo-brand">🛡️ Zroppix</span><span class="demo-plan-badge">FREE</span></div>
     <div class="demo-product-name">Sony WH-1000XM5 Wireless Headphones</div>
     <div class="demo-verdict-card">
       <div class="demo-verdict-text">WAIT</div>
@@ -428,6 +428,7 @@
   </div>
 </div>
 
+<!-- PROOF BAR -->
 <div class="proof-bar">
   <div class="proof-bar-inner">
     <div><div class="proof-num">$0</div><div class="proof-label">To get started</div></div>
@@ -437,6 +438,7 @@
   </div>
 </div>
 
+<!-- PROBLEM -->
 <section class="problem-section">
   <div class="section-tag">The Problem</div>
   <h2 class="section-h2">Amazon prices change<br>2.5 million times per day</h2>
@@ -448,6 +450,7 @@
   </div>
 </section>
 
+<!-- HOW IT WORKS -->
 <section class="how-section" id="how">
   <div style="text-align:center;margin-bottom:52px;">
     <div class="section-tag">How it works</div>
@@ -461,6 +464,7 @@
   </div>
 </section>
 
+<!-- FEATURES -->
 <section class="features-section" id="features">
   <div class="features-inner">
     <div style="text-align:center;margin-bottom:52px;">
@@ -482,6 +486,7 @@
   </div>
 </section>
 
+<!-- COMPARISON -->
 <section class="comparison-section" id="compare">
   <div style="text-align:center;margin-bottom:44px;">
     <div class="section-tag">Comparison</div>
@@ -489,9 +494,7 @@
     <p class="section-sub">See how Zroppix compares to CamelCamelCamel and Honey.</p>
   </div>
   <table class="comparison-table">
-    <thead>
-      <tr><th>Feature</th><th class="highlight">🛡️ Zroppix</th><th>CamelCamelCamel</th><th>Honey</th></tr>
-    </thead>
+    <thead><tr><th>Feature</th><th class="highlight">🛡️ Zroppix</th><th>CamelCamelCamel</th><th>Honey</th></tr></thead>
     <tbody>
       <tr><td>BUY or WAIT verdict</td><td class="highlight"><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td></tr>
       <tr><td>AI price predictions</td><td class="highlight"><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td></tr>
@@ -507,6 +510,7 @@
   </table>
 </section>
 
+<!-- PRICING -->
 <section class="pricing-section" id="pricing">
   <div class="pricing-inner">
     <div style="text-align:center;margin-bottom:52px;">
@@ -540,6 +544,7 @@
   </div>
 </section>
 
+<!-- TESTIMONIALS -->
 <section class="testimonials-section">
   <div style="text-align:center;margin-bottom:52px;">
     <div class="section-tag">Reviews</div>
@@ -552,6 +557,54 @@
   </div>
 </section>
 
+<!-- DEALS PREVIEW — NEW SECTION -->
+<section class="deals-preview">
+  <div style="text-align:center;margin-bottom:48px;">
+    <div class="section-tag">Verified Deals</div>
+    <h2 class="section-h2">Amazon deals verified by<br>real price history</h2>
+    <p class="section-sub">Not Amazon's fake discounts. Real BUY or WAIT verdicts backed by 90 days of tracked price data.</p>
+  </div>
+  <div class="deals-preview-grid">
+    <a href="/deals/airpods-pro-3-price-history" class="deal-preview-card">
+      <span class="deal-preview-verdict buy">BUY</span>
+      <h3>Apple AirPods Pro 3</h3>
+      <div class="deal-preview-saving">Save $50</div>
+      <div class="deal-preview-label">vs $249 list price — best price of 2026</div>
+      <div class="deal-preview-prices">
+        <div class="deal-preview-price"><div class="deal-preview-price-label">All-Time Low</div><div class="deal-preview-price-val green">$185</div></div>
+        <div class="deal-preview-price"><div class="deal-preview-price-label">Today</div><div class="deal-preview-price-val gold">$199</div></div>
+        <div class="deal-preview-price"><div class="deal-preview-price-label">List</div><div class="deal-preview-price-val red">$249</div></div>
+      </div>
+    </a>
+    <a href="/deals/sony-wh1000xm5-price-history" class="deal-preview-card">
+      <span class="deal-preview-verdict buy">BUY</span>
+      <h3>Sony WH-1000XM5 Headphones</h3>
+      <div class="deal-preview-saving">Save $152</div>
+      <div class="deal-preview-label">38% below list price — $210 cheaper than XM6</div>
+      <div class="deal-preview-prices">
+        <div class="deal-preview-price"><div class="deal-preview-price-label">90-Day Low</div><div class="deal-preview-price-val green">$223</div></div>
+        <div class="deal-preview-price"><div class="deal-preview-price-label">Today</div><div class="deal-preview-price-val gold">$248</div></div>
+        <div class="deal-preview-price"><div class="deal-preview-price-label">List</div><div class="deal-preview-price-val red">$400</div></div>
+      </div>
+    </a>
+    <a href="/deals/echo-dot-5th-gen-prime-day" class="deal-preview-card">
+      <span class="deal-preview-verdict wait">WAIT</span>
+      <h3>Echo Dot 5th Gen</h3>
+      <div class="deal-preview-saving">Wait — Save $17</div>
+      <div class="deal-preview-label">Prime Day June 15th drops this to $22-25</div>
+      <div class="deal-preview-prices">
+        <div class="deal-preview-price"><div class="deal-preview-price-label">Prime Day</div><div class="deal-preview-price-val green">$22.99</div></div>
+        <div class="deal-preview-price"><div class="deal-preview-price-label">Today</div><div class="deal-preview-price-val red">$39.99</div></div>
+        <div class="deal-preview-price"><div class="deal-preview-price-label">List</div><div class="deal-preview-price-val">$49.99</div></div>
+      </div>
+    </a>
+  </div>
+  <div style="text-align:center;">
+    <a href="/deals" class="btn-outline">View all verified deals →</a>
+  </div>
+</section>
+
+<!-- BLOG -->
 <section class="blog-section">
   <div class="blog-inner">
     <div style="text-align:center;margin-bottom:48px;">
@@ -568,6 +621,7 @@
   </div>
 </section>
 
+<!-- FAQ -->
 <section class="faq-section" id="faq">
   <div style="text-align:center;margin-bottom:44px;">
     <div class="section-tag">FAQ</div>
@@ -584,6 +638,7 @@
   </div>
 </section>
 
+<!-- FINAL CTA -->
 <section class="final-cta">
   <span class="final-cta-icon">🛡️</span>
   <h2>Start saving money today</h2>
@@ -592,6 +647,7 @@
   <p class="final-cta-note">✓ Works on Chrome and Brave &nbsp;·&nbsp; ✓ Free forever &nbsp;·&nbsp; ✓ 10 second install</p>
 </section>
 
+<!-- NEWSLETTER -->
 <section style="background:#12121A; border-top:1px solid #22223A; border-bottom:1px solid #22223A; padding:60px 20px;">
   <div style="max-width:560px; margin:0 auto; text-align:center;">
     <div style="font-size:12px; color:#C9A84C; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:12px;">FREE WEEKLY EMAIL</div>
@@ -608,6 +664,7 @@
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
   <div class="footer-top">
     <div>
@@ -628,9 +685,11 @@
       <div class="footer-col-title">Resources</div>
       <ul class="footer-links">
         <li><a href="/blog">Blog</a></li>
+        <li><a href="/deals">Today's Deals</a></li>
+        <li><a href="/deals/electronics">Electronics Deals</a></li>
         <li><a href="/blog/amazon-price-history">Price History Guide</a></li>
-        <li><a href="/blog/best-time-to-buy-amazon">Best Time To Buy</a></li>
-        <li><a href="/blog/camelcamelcamel-alternative-tells-you-what-to-do">CamelCamelCamel Alternative</a></li>
+        <li><a href="/keepa-alternative">Keepa Alternative</a></li>
+        <li><a href="/camelcamelcamel-alternative">CamelCamel Alternative</a></li>
       </ul>
     </div>
     <div>
@@ -655,176 +714,81 @@
 
 <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
 <script>
-  Paddle.Initialize({ token: 'live_f1eda9271a93d8a241d6446b64c' });
-  function openCheckout(priceId) {
-    Paddle.Checkout.open({ items: [{ priceId: priceId, quantity: 1 }] });
-  }
+Paddle.Initialize({ token: 'live_f1eda9271a93d8a241d6446b64c' });
+function openCheckout(priceId) {
+  Paddle.Checkout.open({ items: [{ priceId: priceId, quantity: 1 }] });
+}
 </script>
-
 <script>
-  // ── WEB PARSER — 3 free checks per day ──
-  const PARSER_LIMIT = 3
-  const PARSER_KEY = 'zroppix_web_checks'
-
-  function getChecksToday() {
-    try {
-      const stored = localStorage.getItem(PARSER_KEY)
-      if (!stored) return { count: 0, date: null }
-      return JSON.parse(stored)
-    } catch(e) { return { count: 0, date: null } }
-  }
-
-  function incrementChecks() {
-    try {
-      const today = new Date().toDateString()
-      const data = getChecksToday()
-      const newCount = data.date === today ? data.count + 1 : 1
-      localStorage.setItem(PARSER_KEY, JSON.stringify({ count: newCount, date: today }))
-      return newCount
-    } catch(e) { return 1 }
-  }
-
-  function checksUsedToday() {
-    try {
-      const today = new Date().toDateString()
-      const data = getChecksToday()
-      return data.date === today ? data.count : 0
-    } catch(e) { return 0 }
-  }
-
-  function showLimitReached() {
-    document.getElementById('parserLoading').style.display = 'none'
-    document.getElementById('parserBox').style.display = 'none'
-    document.getElementById('parserResult').style.display = 'none'
-    document.getElementById('parserError').style.display = 'none'
-    document.getElementById('parserLimit').style.display = 'block'
-  }
-
-  async function runParser() {
-    const input = document.getElementById('parserInput')
-    const url = input.value.trim()
-    if (!url) { showParserError('Please paste an Amazon product URL first.'); return; }
-    if (!url.includes('amazon.')) { showParserError('Please paste a valid Amazon product URL (e.g. amazon.com/dp/...)'); return; }
-
-    if (checksUsedToday() >= PARSER_LIMIT) {
-      showLimitReached()
-      return
-    }
-    document.getElementById('parserBox').style.display = 'none'
-    document.getElementById('parserLoading').style.display = 'flex'
-    document.getElementById('parserResult').style.display = 'none'
-    document.getElementById('parserError').style.display = 'none'
-    try {
-      const res = await fetch('https://zroppix-backend.vercel.app/api/prices/lookup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url })
-      })
-      const data = await res.json()
-      if (!res.ok || data.error) { showParserError(data.error || 'Something went wrong. Please try again.'); return; }
-      const checksUsed = incrementChecks()
-      showParserResult(data, checksUsed)
-    } catch (err) {
-      showParserError('Could not connect. Please check your connection and try again.')
-    }
-  }
-
-  function showParserResult(data, checksUsed) {
-    document.getElementById('parserLoading').style.display = 'none'
-    document.getElementById('parserResult').style.display = 'block'
-    const remaining = PARSER_LIMIT - (checksUsed || checksUsedToday())
-    const counter = document.getElementById('parserCounter')
-    if (counter) {
-      if (remaining <= 0) {
-        counter.textContent = 'Last free check used — install for unlimited'
-        counter.style.color = '#E24B4A'
-      } else {
-        counter.textContent = remaining + ' free check' + (remaining === 1 ? '' : 's') + ' remaining today'
-        counter.style.color = '#7A78A0'
-      }
-    }
-    const isWait = data.verdict === 'WAIT'
-    const card = document.getElementById('parserVerdictCard')
-    card.className = 'parser-verdict-card ' + (isWait ? 'wait' : 'buy')
-    document.getElementById('parserProductName').textContent =
-      data.product_name && data.product_name !== 'Amazon Product'
-        ? data.product_name : 'Amazon Product · ASIN: ' + (data.asin || '')
-    document.getElementById('parserVerdictText').textContent = data.verdict
-    if (isWait && data.potential_saving > 0) {
-      document.getElementById('parserSaving').textContent = 'You could save $' + data.potential_saving.toFixed(2)
-    } else if (!isWait) {
-      document.getElementById('parserSaving').textContent = '✓ Great price right now'
-    } else {
-      document.getElementById('parserSaving').textContent = ''
-    }
-    document.getElementById('parserPaidLess').textContent = data.percent_paid_less + '% of buyers paid less than this price'
-    document.getElementById('parserLow').textContent = '$' + data.stats.lowest.toFixed(2)
-    document.getElementById('parserAvg').textContent = '$' + data.stats.average.toFixed(2)
-    document.getElementById('parserHigh').textContent = '$' + data.stats.highest.toFixed(2)
-    document.getElementById('parserCurrent').textContent = '$' + data.current_price.toFixed(2)
-  }
-
-  function showParserError(msg) {
-    document.getElementById('parserLoading').style.display = 'none'
-    document.getElementById('parserBox').style.display = 'block'
-    document.getElementById('parserError').style.display = 'flex'
-    document.getElementById('parserErrorText').textContent = msg
-  }
-
-  function resetParser() {
-    document.getElementById('parserBox').style.display = 'block'
-    document.getElementById('parserResult').style.display = 'none'
-    document.getElementById('parserError').style.display = 'none'
-    document.getElementById('parserLoading').style.display = 'none'
-    document.getElementById('parserLimit').style.display = 'none'
-    document.getElementById('parserInput').value = ''
-    document.getElementById('parserInput').focus()
-  }
-
-  function resetParserLimit() {
-    document.getElementById('parserLimit').style.display = 'none'
-    document.getElementById('parserBox').style.display = 'block'
-    document.getElementById('parserInput').focus()
-  }
-
-  document.getElementById('parserInput').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') runParser()
-  })
-
-  window.addEventListener('DOMContentLoaded', function() {
-    const used = checksUsedToday()
-    const remaining = PARSER_LIMIT - used
-    const hint = document.querySelector('.parser-hint')
-    if (used > 0 && remaining > 0 && hint) {
-      hint.textContent = remaining + ' free check' + (remaining === 1 ? '' : 's') + ' remaining today · e.g. amazon.com/dp/B08N5WRWNW'
-      hint.style.color = remaining === 1 ? '#E24B4A' : '#3A3A5C'
-    }
-    if (used >= PARSER_LIMIT) {
-      showLimitReached()
-    }
-  })
-
-  // ── FAQ ──
-  document.querySelectorAll('.faq-question').forEach(q => {
-    q.addEventListener('click', () => {
-      const item = q.parentElement
-      const answer = item.querySelector('.faq-answer')
-      const icon = q.querySelector('.faq-icon')
-      const isOpen = answer.style.display === 'block'
-      document.querySelectorAll('.faq-answer').forEach(a => a.style.display = 'none')
-      document.querySelectorAll('.faq-icon').forEach(i => { i.textContent = '+'; i.style.transform = 'rotate(0deg)' })
-      if (!isOpen) { answer.style.display = 'block'; icon.textContent = '−' }
-    })
-  })
-
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      e.preventDefault()
-      const target = document.querySelector(a.getAttribute('href'))
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    })
-  })
+const PARSER_LIMIT = 3
+const PARSER_KEY = 'zroppix_web_checks'
+function getChecksToday() { try { const s = localStorage.getItem(PARSER_KEY); if (!s) return { count: 0, date: null }; return JSON.parse(s); } catch(e) { return { count: 0, date: null }; } }
+function incrementChecks() { try { const today = new Date().toDateString(); const d = getChecksToday(); const n = d.date === today ? d.count + 1 : 1; localStorage.setItem(PARSER_KEY, JSON.stringify({ count: n, date: today })); return n; } catch(e) { return 1; } }
+function checksUsedToday() { try { const today = new Date().toDateString(); const d = getChecksToday(); return d.date === today ? d.count : 0; } catch(e) { return 0; } }
+function showLimitReached() { ['parserLoading','parserBox','parserResult','parserError'].forEach(id => document.getElementById(id).style.display = 'none'); document.getElementById('parserLimit').style.display = 'block'; }
+async function runParser() {
+  const input = document.getElementById('parserInput');
+  const url = input.value.trim();
+  if (!url) { showParserError('Please paste an Amazon product URL first.'); return; }
+  if (!url.includes('amazon.')) { showParserError('Please paste a valid Amazon product URL (e.g. amazon.com/dp/...)'); return; }
+  if (checksUsedToday() >= PARSER_LIMIT) { showLimitReached(); return; }
+  document.getElementById('parserBox').style.display = 'none';
+  document.getElementById('parserLoading').style.display = 'flex';
+  document.getElementById('parserResult').style.display = 'none';
+  document.getElementById('parserError').style.display = 'none';
+  try {
+    const res = await fetch('https://zroppix-backend.vercel.app/api/prices/lookup', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url }) });
+    const data = await res.json();
+    if (!res.ok || data.error) { showParserError(data.error || 'Something went wrong. Please try again.'); return; }
+    showParserResult(data, incrementChecks());
+  } catch (err) { showParserError('Could not connect. Please check your connection and try again.'); }
+}
+function showParserResult(data, checksUsed) {
+  document.getElementById('parserLoading').style.display = 'none';
+  document.getElementById('parserResult').style.display = 'block';
+  const remaining = PARSER_LIMIT - (checksUsed || checksUsedToday());
+  const counter = document.getElementById('parserCounter');
+  if (counter) { counter.textContent = remaining <= 0 ? 'Last free check used — install for unlimited' : remaining + ' free check' + (remaining === 1 ? '' : 's') + ' remaining today'; counter.style.color = remaining <= 0 ? '#E24B4A' : '#7A78A0'; }
+  const isWait = data.verdict === 'WAIT';
+  document.getElementById('parserVerdictCard').className = 'parser-verdict-card ' + (isWait ? 'wait' : 'buy');
+  document.getElementById('parserProductName').textContent = data.product_name && data.product_name !== 'Amazon Product' ? data.product_name : 'Amazon Product · ASIN: ' + (data.asin || '');
+  document.getElementById('parserVerdictText').textContent = data.verdict;
+  document.getElementById('parserSaving').textContent = isWait && data.potential_saving > 0 ? 'You could save $' + data.potential_saving.toFixed(2) : !isWait ? '✓ Great price right now' : '';
+  document.getElementById('parserPaidLess').textContent = data.percent_paid_less + '% of buyers paid less than this price';
+  document.getElementById('parserLow').textContent = '$' + data.stats.lowest.toFixed(2);
+  document.getElementById('parserAvg').textContent = '$' + data.stats.average.toFixed(2);
+  document.getElementById('parserHigh').textContent = '$' + data.stats.highest.toFixed(2);
+  document.getElementById('parserCurrent').textContent = '$' + data.current_price.toFixed(2);
+}
+function showParserError(msg) { document.getElementById('parserLoading').style.display = 'none'; document.getElementById('parserBox').style.display = 'block'; document.getElementById('parserError').style.display = 'flex'; document.getElementById('parserErrorText').textContent = msg; }
+function resetParser() { document.getElementById('parserBox').style.display = 'block'; ['parserResult','parserError','parserLoading','parserLimit'].forEach(id => document.getElementById(id).style.display = 'none'); document.getElementById('parserInput').value = ''; document.getElementById('parserInput').focus(); }
+function resetParserLimit() { document.getElementById('parserLimit').style.display = 'none'; document.getElementById('parserBox').style.display = 'block'; document.getElementById('parserInput').focus(); }
+document.getElementById('parserInput').addEventListener('keydown', function(e) { if (e.key === 'Enter') runParser(); });
+window.addEventListener('DOMContentLoaded', function() {
+  const used = checksUsedToday();
+  const remaining = PARSER_LIMIT - used;
+  const hint = document.querySelector('.parser-hint');
+  if (used > 0 && remaining > 0 && hint) { hint.textContent = remaining + ' free check' + (remaining === 1 ? '' : 's') + ' remaining today · e.g. amazon.com/dp/B08N5WRWNW'; hint.style.color = remaining === 1 ? '#E24B4A' : '#3A3A5C'; }
+  if (used >= PARSER_LIMIT) showLimitReached();
+});
+document.querySelectorAll('.faq-question').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.parentElement;
+    const answer = item.querySelector('.faq-answer');
+    const icon = q.querySelector('.faq-icon');
+    const isOpen = answer.style.display === 'block';
+    document.querySelectorAll('.faq-answer').forEach(a => a.style.display = 'none');
+    document.querySelectorAll('.faq-icon').forEach(i => { i.textContent = '+'; });
+    if (!isOpen) { answer.style.display = 'block'; icon.textContent = '−'; }
+  });
+});
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
 </script>
-
 </body>
 </html>

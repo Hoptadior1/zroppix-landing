@@ -23,21 +23,22 @@
   "name": "Amazon Deals Today — Verified by Real Price History",
   "description": "Only verified Amazon deals backed by 90-day price history data.",
   "url": "https://zroppix.com/deals",
-  "publisher": { "@type": "Organization", "name": "Zroppix", "url": "https://zroppix.com" }
+  "publisher": { "@type": "Organization", "name": "Zroppix", "url": "https://zroppix.com" },
+  "hasPart": [
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/electronics", "name": "Amazon Electronics Deals" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/kitchen", "name": "Amazon Kitchen Deals" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/airpods-pro-3-price-history", "name": "AirPods Pro 3 Price History" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/sony-wh1000xm5-price-history", "name": "Sony WH-1000XM5 Price History" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/kindle-paperwhite-price-history", "name": "Kindle Paperwhite Price History" }
+  ]
 }
 </script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-:root {
-  --bg: #0D0D14; --bg2: #12121A; --bg3: #0A0A10;
-  --border: #22223A; --gold: #C9A84C; --green: #1D9E75;
-  --red: #E24B4A; --orange: #F5A623; --text: #ffffff;
-  --muted: #7A78A0; --subtle: #cccccc;
-}
+:root { --bg: #0D0D14; --bg2: #12121A; --bg3: #0A0A10; --border: #22223A; --gold: #C9A84C; --green: #1D9E75; --red: #E24B4A; --orange: #F5A623; --text: #ffffff; --muted: #7A78A0; --subtle: #cccccc; }
 html { scroll-behavior: smooth; }
 body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 a { text-decoration: none; color: inherit; }
-img { max-width: 100%; }
 .btn-gold { background: var(--gold); color: #0D0D14; padding: 12px 24px; border-radius: 10px; font-weight: 700; font-size: 15px; transition: all 0.2s; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
 .btn-gold:hover { background: #D4B864; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(201,168,76,0.3); }
 .btn-outline { background: transparent; color: var(--text); padding: 12px 24px; border-radius: 10px; font-weight: 600; font-size: 15px; border: 1px solid var(--border); transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
@@ -48,19 +49,27 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .nav-links a { color: var(--muted); font-size: 14px; font-weight: 500; transition: color 0.2s; }
 .nav-links a:hover, .nav-links a.active { color: var(--text); }
 .nav-cta { background: var(--gold); color: #0D0D14 !important; padding: 9px 20px; border-radius: 8px; font-weight: 700 !important; font-size: 14px !important; }
-
-/* HERO */
-.deals-hero { text-align: center; padding: 60px 20px 40px; max-width: 800px; margin: 0 auto; }
+.breadcrumb { max-width: 1100px; margin: 0 auto; padding: 16px 20px 0; font-size: 13px; color: var(--muted); display: flex; gap: 8px; flex-wrap: wrap; }
+.breadcrumb a { color: var(--muted); transition: color 0.2s; }
+.breadcrumb a:hover { color: var(--gold); }
+.deals-hero { text-align: center; padding: 48px 20px 32px; max-width: 800px; margin: 0 auto; }
 .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: rgba(29,158,117,0.08); border: 1px solid rgba(29,158,117,0.25); color: var(--green); padding: 7px 18px; border-radius: 24px; font-size: 13px; font-weight: 600; margin-bottom: 24px; }
 .live-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 .deals-hero h1 { font-size: 48px; font-weight: 900; line-height: 1.08; margin-bottom: 16px; letter-spacing: -1.5px; }
 .deals-hero h1 span { background: linear-gradient(135deg, var(--gold), #F5A623); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.deals-hero p { font-size: 17px; color: var(--muted); margin-bottom: 32px; max-width: 540px; margin-left: auto; margin-right: auto; line-height: 1.65; }
+.deals-hero p { font-size: 17px; color: var(--muted); margin-bottom: 28px; max-width: 540px; margin-left: auto; margin-right: auto; line-height: 1.65; }
 .hero-stats { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; }
-.hero-stat { text-align: center; }
 .hero-stat-num { font-size: 24px; font-weight: 900; color: var(--gold); }
 .hero-stat-label { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+/* HUB & SPOKE — CATEGORY HUBS */
+.category-hubs { max-width: 1100px; margin: 0 auto 32px; padding: 0 20px; }
+.category-hubs-title { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 14px; }
+.category-hub-grid { display: flex; gap: 10px; flex-wrap: wrap; }
+.category-hub-link { background: var(--bg2); border: 1px solid var(--border); color: var(--muted); padding: 10px 20px; border-radius: 10px; font-size: 13px; font-weight: 600; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+.category-hub-link:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.06); }
+.category-hub-count { background: var(--bg3); color: var(--muted); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
 
 /* FILTERS */
 .filters-bar { max-width: 1100px; margin: 0 auto 32px; padding: 0 20px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
@@ -97,19 +106,12 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .deal-share-btn { background: var(--bg3); border: 1px solid var(--border); color: var(--muted); padding: 11px 14px; border-radius: 8px; font-size: 13px; cursor: pointer; transition: all 0.2s; }
 .deal-share-btn:hover { border-color: var(--gold); color: var(--gold); }
 .deal-updated { font-size: 11px; color: var(--muted); padding: 0 20px 16px; }
-
-/* VERIFIED BADGE */
 .verified-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--green); font-weight: 600; margin-bottom: 8px; }
-
-/* INSTALL CTA */
 .install-cta { background: var(--bg2); border: 1px solid rgba(201,168,76,0.2); border-radius: 16px; padding: 32px; text-align: center; margin: 0 20px 40px; max-width: 1060px; margin-left: auto; margin-right: auto; }
 .install-cta h3 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
 .install-cta p { font-size: 14px; color: var(--muted); margin-bottom: 20px; }
-
-/* EMPTY STATE */
-.empty-state { text-align: center; padding: 80px 20px; color: var(--muted); }
+.empty-state { text-align: center; padding: 80px 20px; color: var(--muted); grid-column: 1/-1; }
 .empty-state-icon { font-size: 48px; margin-bottom: 16px; }
-
 footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 48px 48px 32px; }
 .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 48px; }
 .footer-brand { font-size: 20px; font-weight: 800; color: var(--gold); margin-bottom: 12px; }
@@ -123,18 +125,8 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
 .footer-legal { display: flex; gap: 20px; list-style: none; }
 .footer-legal a { font-size: 13px; color: var(--muted); transition: color 0.2s; }
 .footer-legal a:hover { color: var(--text); }
-
-@media (max-width: 900px) {
-  nav { padding: 14px 24px; }
-  .nav-links { display: none; }
-  .deals-hero h1 { font-size: 32px; }
-  .deals-grid { grid-template-columns: 1fr; }
-  .footer-top { grid-template-columns: 1fr 1fr; }
-}
-@media (max-width: 540px) {
-  .deals-grid { grid-template-columns: 1fr; }
-  .footer-top { grid-template-columns: 1fr; }
-}
+@media (max-width: 900px) { nav { padding: 14px 24px; } .nav-links { display: none; } .deals-hero h1 { font-size: 32px; } .deals-grid { grid-template-columns: 1fr; } .footer-top { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 540px) { .footer-top { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -151,11 +143,11 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
   </ul>
 </nav>
 
+<!-- BREADCRUMB -->
+<div class="breadcrumb"><a href="/">Home</a> › Deals</div>
+
 <section class="deals-hero">
-  <div class="hero-eyebrow">
-    <div class="live-dot"></div>
-    Verified by 90-day price history
-  </div>
+  <div class="hero-eyebrow"><div class="live-dot"></div>Verified by 90-day price history</div>
   <h1>Amazon Deals That Are<br><span>Actually Worth Buying</span></h1>
   <p>Every deal here is verified against real 90-day price history. No manufactured discounts. No fake "was" prices. Just honest BUY verdicts backed by data.</p>
   <div class="hero-stats">
@@ -165,20 +157,32 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
   </div>
 </section>
 
+<!-- HUB & SPOKE — CATEGORY NAVIGATION -->
+<!-- These links pass equity down to category hub pages which then pass it to individual deal pages -->
+<div class="category-hubs">
+  <div class="category-hubs-title">Browse by category</div>
+  <div class="category-hub-grid">
+    <a href="/deals/electronics" class="category-hub-link">📱 Electronics <span class="category-hub-count" id="count-electronics">0</span></a>
+    <a href="/deals/kitchen" class="category-hub-link">🍳 Kitchen <span class="category-hub-count" id="count-kitchen">0</span></a>
+    <a href="/deals/fitness" class="category-hub-link">💪 Fitness <span class="category-hub-count" id="count-fitness">0</span></a>
+    <a href="/deals/home" class="category-hub-link">🏠 Home <span class="category-hub-count" id="count-home">0</span></div>
+    <a href="/deals/gaming" class="category-hub-link">🎮 Gaming <span class="category-hub-count" id="count-gaming">0</span></a>
+    <a href="/deals/smart-home" class="category-hub-link">💡 Smart Home <span class="category-hub-count" id="count-smart-home">0</span></a>
+  </div>
+</div>
+
 <div class="filters-bar">
   <span class="filter-label">Filter:</span>
-  <button class="filter-btn active" onclick="filterDeals('all', this)">All Deals</button>
-  <button class="filter-btn" onclick="filterDeals('electronics', this)">Electronics</button>
-  <button class="filter-btn" onclick="filterDeals('kitchen', this)">Kitchen</button>
-  <button class="filter-btn" onclick="filterDeals('fitness', this)">Fitness</button>
-  <button class="filter-btn" onclick="filterDeals('home', this)">Home</button>
-  <button class="filter-btn" onclick="filterDeals('gaming', this)">Gaming</button>
+  <button class="filter-btn active" onclick="filterDeals('all',this)">All Deals</button>
+  <button class="filter-btn" onclick="filterDeals('electronics',this)">Electronics</button>
+  <button class="filter-btn" onclick="filterDeals('kitchen',this)">Kitchen</button>
+  <button class="filter-btn" onclick="filterDeals('fitness',this)">Fitness</button>
+  <button class="filter-btn" onclick="filterDeals('home',this)">Home</button>
+  <button class="filter-btn" onclick="filterDeals('gaming',this)">Gaming</button>
 </div>
 
 <section class="deals-section">
-  <div class="deals-grid" id="dealsGrid">
-    <!-- Deal cards are injected here by JS from DEALS array below -->
-  </div>
+  <div class="deals-grid" id="dealsGrid"></div>
 </section>
 
 <div class="install-cta">
@@ -204,12 +208,13 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
       </ul>
     </div>
     <div>
-      <div class="footer-col-title">Resources</div>
+      <div class="footer-col-title">Deal Categories</div>
       <ul class="footer-links">
-        <li><a href="/blog">Blog</a></li>
-        <li><a href="/deals">Today's Deals</a></li>
-        <li><a href="/keepa-alternative">Keepa Alternative</a></li>
-        <li><a href="/camelcamelcamel-alternative">CamelCamel Alternative</a></li>
+        <li><a href="/deals/electronics">Electronics Deals</a></li>
+        <li><a href="/deals/kitchen">Kitchen Deals</a></li>
+        <li><a href="/deals/fitness">Fitness Deals</a></li>
+        <li><a href="/deals/home">Home Deals</a></li>
+        <li><a href="/deals/gaming">Gaming Deals</a></li>
       </ul>
     </div>
     <div>
@@ -223,7 +228,7 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
     </div>
   </div>
   <div class="footer-bottom">
-    <div class="footer-copy">© 2026 Zroppix. All rights reserved. The AI that knows when to buy.</div>
+    <div class="footer-copy">© 2026 Zroppix. All rights reserved. Affiliate disclosure: some links earn us a commission at no cost to you.</div>
     <ul class="footer-legal">
       <li><a href="/privacy">Privacy</a></li>
       <li><a href="/terms">Terms</a></li>
@@ -233,45 +238,96 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
 </footer>
 
 <script>
-// ─────────────────────────────────────────────
-// DEALS DATA
-// Add new deals here. Each deal gets its own
-// page at /deals/[slug]/index.html
-// ─────────────────────────────────────────────
 const DEALS = [
-  // EXAMPLE DEAL — replace with real deals from research
-  // {
-  //   slug: 'sony-wh1000xm5-price-history',
-  //   title: 'Sony WH-1000XM5 Wireless Headphones',
-  //   category: 'electronics',
-  //   verdict: 'buy',
-  //   headline: 'Sony WH-1000XM5 Just Hit Its Lowest Price in 90 Days',
-  //   currentPrice: 279,
-  //   lowestPrice: 248,
-  //   averagePrice: 295,
-  //   highestPrice: 349,
-  //   savings: 47,
-  //   savingsLabel: 'below 90-day average',
-  //   asin: 'B09XS7JWHH',
-  //   updatedDate: 'June 1, 2026',
-  // },
+  {
+    slug: 'airpods-pro-3-price-history',
+    title: 'Apple AirPods Pro 3',
+    category: 'electronics',
+    verdict: 'buy',
+    currentPrice: 199,
+    lowestPrice: 185,
+    averagePrice: 230,
+    highestPrice: 249,
+    savings: 50,
+    savingsLabel: 'vs the $249 list price',
+    asin: 'B0CHWRXH8B',
+    updatedDate: 'June 1, 2026',
+  },
+  {
+    slug: 'sony-wh1000xm5-price-history',
+    title: 'Sony WH-1000XM5 Headphones',
+    category: 'electronics',
+    verdict: 'buy',
+    currentPrice: 248,
+    lowestPrice: 223,
+    averagePrice: 355,
+    highestPrice: 400,
+    savings: 152,
+    savingsLabel: 'vs the $400 list price',
+    asin: 'B09XS7JWHH',
+    updatedDate: 'June 1, 2026',
+  },
+  {
+    slug: 'kindle-paperwhite-price-history',
+    title: 'Kindle Paperwhite 16GB',
+    category: 'electronics',
+    verdict: 'buy',
+    currentPrice: 134.99,
+    lowestPrice: 125,
+    averagePrice: 150,
+    highestPrice: 159.99,
+    savings: 25,
+    savingsLabel: 'vs the $159.99 list price',
+    asin: 'B0CFPJYX7P',
+    updatedDate: 'June 1, 2026',
+  },
+  {
+    slug: 'echo-dot-5th-gen-prime-day',
+    title: 'Echo Dot 5th Generation',
+    category: 'electronics',
+    verdict: 'wait',
+    currentPrice: 39.99,
+    lowestPrice: 22.99,
+    averagePrice: 45,
+    highestPrice: 49.99,
+    savings: 17,
+    savingsLabel: 'expected at Prime Day June 15th',
+    asin: 'B09B8V1LZ3',
+    updatedDate: 'June 1, 2026',
+  },
+  {
+    slug: 'ninja-air-fryer-prime-day',
+    title: 'Ninja Air Fryer AF101',
+    category: 'kitchen',
+    verdict: 'wait',
+    currentPrice: 99,
+    lowestPrice: 74.99,
+    averagePrice: 99,
+    highestPrice: 129.99,
+    savings: 24,
+    savingsLabel: 'expected at Prime Day June 15th',
+    asin: 'B07FDJMC9Q',
+    updatedDate: 'June 1, 2026',
+  },
 ]
+
+// Update category counts in hub links
+function updateCategoryCounts() {
+  const counts = {}
+  DEALS.forEach(d => { counts[d.category] = (counts[d.category] || 0) + 1 })
+  Object.entries(counts).forEach(([cat, count]) => {
+    const el = document.getElementById('count-' + cat)
+    if (el) el.textContent = count
+  })
+}
 
 function renderDeals(filter = 'all') {
   const grid = document.getElementById('dealsGrid')
   const filtered = filter === 'all' ? DEALS : DEALS.filter(d => d.category === filter)
-
   document.getElementById('dealCount').textContent = DEALS.length
 
   if (filtered.length === 0) {
-    grid.innerHTML = `
-      <div class="empty-state" style="grid-column:1/-1">
-        <div class="empty-state-icon">🔍</div>
-        <p>No deals in this category yet. Check back soon — we add new verified deals daily.</p>
-        <br>
-        <a href="/deals" class="btn-outline" style="margin-top:16px;">View All Deals →</a>
-      </div>
-    `
+    grid.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🔍</div><p>No deals in this category yet. Check back soon.</p></div>`
     return
   }
 
@@ -284,16 +340,16 @@ function renderDeals(filter = 'all') {
         </div>
         <div class="verified-badge">✓ Verified by price history</div>
         <h3><a href="/deals/${deal.slug}">${deal.title}</a></h3>
-        <div class="deal-savings">Save $${deal.savings}</div>
+        <div class="deal-savings">${deal.verdict === 'buy' ? 'Save' : 'Wait to Save'} $${deal.savings}</div>
         <div class="deal-savings-label">${deal.savingsLabel}</div>
         <div class="deal-price-row">
           <div class="deal-price-box">
-            <div class="deal-price-label">90-Day Low</div>
+            <div class="deal-price-label">${deal.verdict === 'wait' ? 'Prime Day Low' : '90-Day Low'}</div>
             <div class="deal-price-val green">$${deal.lowestPrice}</div>
           </div>
           <div class="deal-price-box">
             <div class="deal-price-label">Today</div>
-            <div class="deal-price-val gold">$${deal.currentPrice}</div>
+            <div class="deal-price-val ${deal.verdict === 'buy' ? 'gold' : 'red'}">$${deal.currentPrice}</div>
           </div>
           <div class="deal-price-box">
             <div class="deal-price-label">Average</div>
@@ -302,8 +358,11 @@ function renderDeals(filter = 'all') {
         </div>
       </div>
       <div class="deal-card-bottom">
-        <a href="https://www.amazon.com/dp/${deal.asin}?tag=zroppix-20" target="_blank" rel="nofollow" class="deal-amazon-btn">Buy on Amazon →</a>
-        <button class="deal-share-btn" onclick="shareDeall('${deal.slug}', '${deal.title}', ${deal.savings})">Share</button>
+        ${deal.verdict === 'buy'
+          ? `<a href="https://www.amazon.com/dp/${deal.asin}?tag=zroppix-20" target="_blank" rel="nofollow" class="deal-amazon-btn">Buy on Amazon →</a>`
+          : `<a href="/deals/${deal.slug}" class="deal-amazon-btn" style="background:var(--bg3);color:var(--muted);border:1px solid var(--border);">⏳ See Prime Day Analysis →</a>`
+        }
+        <button class="deal-share-btn" onclick="shareDeal('${deal.slug}','${deal.title}',${deal.savings})">Share</button>
       </div>
       <div class="deal-updated">Updated ${deal.updatedDate}</div>
     </div>
@@ -316,15 +375,16 @@ function filterDeals(category, btn) {
   renderDeals(category)
 }
 
-function shareDeall(slug, title, savings) {
-  const text = `Amazon deal alert: ${title} — save $${savings} right now. Verified by real price history 🛡️ zroppix.com/deals/${slug}`
+function shareDeal(slug, title, savings) {
+  const text = `Amazon deal: ${title} — verified by real price history 🛡️ zroppix.com/deals/${slug}`
   if (navigator.share) {
-    navigator.share({ title: title, text: text, url: `https://zroppix.com/deals/${slug}` })
+    navigator.share({ title, text, url: `https://zroppix.com/deals/${slug}` })
   } else {
-    navigator.clipboard.writeText(text).then(() => alert('Deal link copied to clipboard!'))
+    navigator.clipboard.writeText(`https://zroppix.com/deals/${slug}`).then(() => alert('Deal link copied!'))
   }
 }
 
+updateCategoryCounts()
 renderDeals()
 </script>
 </body>
