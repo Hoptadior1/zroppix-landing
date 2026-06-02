@@ -1,6 +1,12 @@
 {
   "redirects": [
     {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.zroppix.com" }],
+      "destination": "https://zroppix.com/:path*",
+      "permanent": true
+    },
+    {
       "source": "/blog/camelcamelcamel-alternative",
       "destination": "/blog/camelcamelcamel-alternative-tells-you-what-to-do",
       "permanent": true
