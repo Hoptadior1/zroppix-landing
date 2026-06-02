@@ -27,9 +27,13 @@
   "hasPart": [
     { "@type": "WebPage", "url": "https://zroppix.com/deals/electronics", "name": "Amazon Electronics Deals" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/kitchen", "name": "Amazon Kitchen Deals" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/gaming", "name": "Amazon Gaming Deals" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/airpods-pro-3-price-history", "name": "AirPods Pro 3 Price History" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/sony-wh1000xm5-price-history", "name": "Sony WH-1000XM5 Price History" },
-    { "@type": "WebPage", "url": "https://zroppix.com/deals/kindle-paperwhite-price-history", "name": "Kindle Paperwhite Price History" }
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/kindle-paperwhite-price-history", "name": "Kindle Paperwhite Price History" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/ps5-dualsense-controller-price-history", "name": "PS5 DualSense Controller Price History" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/nintendo-switch-oled-vs-switch-2", "name": "Nintendo Switch OLED vs Switch 2" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/logitech-g502x-lightspeed-price-history", "name": "Logitech G502 X Lightspeed Price History" }
   ]
 }
 </script>
@@ -62,22 +66,16 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .hero-stats { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; }
 .hero-stat-num { font-size: 24px; font-weight: 900; color: var(--gold); }
 .hero-stat-label { font-size: 12px; color: var(--muted); margin-top: 2px; }
-
-/* HUB & SPOKE — CATEGORY HUBS */
 .category-hubs { max-width: 1100px; margin: 0 auto 32px; padding: 0 20px; }
 .category-hubs-title { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 14px; }
 .category-hub-grid { display: flex; gap: 10px; flex-wrap: wrap; }
 .category-hub-link { background: var(--bg2); border: 1px solid var(--border); color: var(--muted); padding: 10px 20px; border-radius: 10px; font-size: 13px; font-weight: 600; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
 .category-hub-link:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.06); }
 .category-hub-count { background: var(--bg3); color: var(--muted); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
-
-/* FILTERS */
 .filters-bar { max-width: 1100px; margin: 0 auto 32px; padding: 0 20px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
 .filter-btn { background: var(--bg2); border: 1px solid var(--border); color: var(--muted); padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
 .filter-btn:hover, .filter-btn.active { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.06); }
 .filter-label { font-size: 13px; color: var(--muted); margin-right: 4px; }
-
-/* DEALS GRID */
 .deals-section { max-width: 1100px; margin: 0 auto; padding: 0 20px 80px; }
 .deals-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .deal-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: all 0.2s; display: block; color: inherit; }
@@ -87,6 +85,8 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .deal-verdict-badge { font-size: 11px; font-weight: 800; letter-spacing: 1.5px; padding: 4px 12px; border-radius: 6px; }
 .deal-verdict-badge.buy { background: rgba(29,158,117,0.12); color: var(--green); border: 1px solid rgba(29,158,117,0.25); }
 .deal-verdict-badge.wait { background: rgba(226,75,74,0.12); color: var(--red); border: 1px solid rgba(226,75,74,0.25); }
+.deal-verdict-badge.urgent { background: rgba(226,75,74,0.15); color: var(--red); border: 1px solid rgba(226,75,74,0.4); animation: urgentPulse 2s infinite; }
+@keyframes urgentPulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
 .deal-category { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
 .deal-card h3 { font-size: 15px; font-weight: 700; line-height: 1.4; margin-bottom: 12px; color: var(--text); }
 .deal-card h3 a { color: inherit; }
@@ -106,6 +106,7 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .deal-share-btn { background: var(--bg3); border: 1px solid var(--border); color: var(--muted); padding: 11px 14px; border-radius: 8px; font-size: 13px; cursor: pointer; transition: all 0.2s; }
 .deal-share-btn:hover { border-color: var(--gold); color: var(--gold); }
 .deal-updated { font-size: 11px; color: var(--muted); padding: 0 20px 16px; }
+.deal-expires { font-size: 11px; color: var(--red); font-weight: 700; padding: 0 20px 16px; }
 .verified-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--green); font-weight: 600; margin-bottom: 8px; }
 .install-cta { background: var(--bg2); border: 1px solid rgba(201,168,76,0.2); border-radius: 16px; padding: 32px; text-align: center; margin: 0 20px 40px; max-width: 1060px; margin-left: auto; margin-right: auto; }
 .install-cta h3 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
@@ -143,7 +144,6 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
   </ul>
 </nav>
 
-<!-- BREADCRUMB -->
 <div class="breadcrumb"><a href="/">Home</a> › Deals</div>
 
 <section class="deals-hero">
@@ -157,16 +157,14 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
   </div>
 </section>
 
-<!-- HUB & SPOKE — CATEGORY NAVIGATION -->
-<!-- These links pass equity down to category hub pages which then pass it to individual deal pages -->
 <div class="category-hubs">
   <div class="category-hubs-title">Browse by category</div>
   <div class="category-hub-grid">
     <a href="/deals/electronics" class="category-hub-link">📱 Electronics <span class="category-hub-count" id="count-electronics">0</span></a>
     <a href="/deals/kitchen" class="category-hub-link">🍳 Kitchen <span class="category-hub-count" id="count-kitchen">0</span></a>
-    <a href="/deals/fitness" class="category-hub-link">💪 Fitness <span class="category-hub-count" id="count-fitness">0</span></a>
-    <a href="/deals/home" class="category-hub-link">🏠 Home <span class="category-hub-count" id="count-home">0</span></div>
     <a href="/deals/gaming" class="category-hub-link">🎮 Gaming <span class="category-hub-count" id="count-gaming">0</span></a>
+    <a href="/deals/fitness" class="category-hub-link">💪 Fitness <span class="category-hub-count" id="count-fitness">0</span></a>
+    <a href="/deals/home" class="category-hub-link">🏠 Home <span class="category-hub-count" id="count-home">0</span></a>
     <a href="/deals/smart-home" class="category-hub-link">💡 Smart Home <span class="category-hub-count" id="count-smart-home">0</span></a>
   </div>
 </div>
@@ -176,9 +174,9 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
   <button class="filter-btn active" onclick="filterDeals('all',this)">All Deals</button>
   <button class="filter-btn" onclick="filterDeals('electronics',this)">Electronics</button>
   <button class="filter-btn" onclick="filterDeals('kitchen',this)">Kitchen</button>
+  <button class="filter-btn" onclick="filterDeals('gaming',this)">Gaming</button>
   <button class="filter-btn" onclick="filterDeals('fitness',this)">Fitness</button>
   <button class="filter-btn" onclick="filterDeals('home',this)">Home</button>
-  <button class="filter-btn" onclick="filterDeals('gaming',this)">Gaming</button>
 </div>
 
 <section class="deals-section">
@@ -212,9 +210,9 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
       <ul class="footer-links">
         <li><a href="/deals/electronics">Electronics Deals</a></li>
         <li><a href="/deals/kitchen">Kitchen Deals</a></li>
+        <li><a href="/deals/gaming">Gaming Deals</a></li>
         <li><a href="/deals/fitness">Fitness Deals</a></li>
         <li><a href="/deals/home">Home Deals</a></li>
-        <li><a href="/deals/gaming">Gaming Deals</a></li>
       </ul>
     </div>
     <div>
@@ -239,6 +237,66 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
 
 <script>
 const DEALS = [
+  // ── URGENT — Days of Play ends June 10th ──
+  {
+    slug: 'ps5-dualsense-controller-price-history',
+    title: 'PS5 DualSense Controller',
+    category: 'gaming',
+    verdict: 'urgent',
+    currentPrice: 54,
+    lowestPrice: 49,
+    averagePrice: 72,
+    highestPrice: 74.99,
+    savings: 21,
+    savingsLabel: 'vs $74.99 list — sale ends June 10th',
+    asin: 'B0BCNKKZ91',
+    updatedDate: 'June 2, 2026',
+    expires: 'June 10th',
+  },
+  {
+    slug: 'ps5-dualsense-edge-price-history',
+    title: 'PS5 DualSense Edge Pro Controller',
+    category: 'gaming',
+    verdict: 'urgent',
+    currentPrice: 169,
+    lowestPrice: 159,
+    averagePrice: 195,
+    highestPrice: 199.99,
+    savings: 30,
+    savingsLabel: 'vs $199.99 list — sale ends June 10th',
+    asin: 'B0BH9SMWB8',
+    updatedDate: 'June 2, 2026',
+    expires: 'June 10th',
+  },
+  // ── BUY NOW ──
+  {
+    slug: 'nintendo-switch-oled-vs-switch-2',
+    title: 'Nintendo Switch OLED',
+    category: 'gaming',
+    verdict: 'buy',
+    currentPrice: 299.99,
+    lowestPrice: 279,
+    averagePrice: 310,
+    highestPrice: 349.99,
+    savings: 150,
+    savingsLabel: 'vs Nintendo Switch 2 at $449.99',
+    asin: 'B098RKWHHZ',
+    updatedDate: 'June 2, 2026',
+  },
+  {
+    slug: 'logitech-g502x-lightspeed-price-history',
+    title: 'Logitech G502 X Lightspeed',
+    category: 'gaming',
+    verdict: 'buy',
+    currentPrice: 109.99,
+    lowestPrice: 84.99,
+    averagePrice: 137,
+    highestPrice: 159.99,
+    savings: 50,
+    savingsLabel: 'vs $159.99 list price — 31% off',
+    asin: 'B09ZWCYQTX',
+    updatedDate: 'June 2, 2026',
+  },
   {
     slug: 'airpods-pro-3-price-history',
     title: 'Apple AirPods Pro 3',
@@ -281,6 +339,21 @@ const DEALS = [
     asin: 'B0CFPJYX7P',
     updatedDate: 'June 1, 2026',
   },
+  // ── WAIT FOR PRIME DAY ──
+  {
+    slug: 'steelseries-arctis-nova-pro-prime-day',
+    title: 'SteelSeries Arctis Nova Pro Wireless',
+    category: 'gaming',
+    verdict: 'wait',
+    currentPrice: 299.99,
+    lowestPrice: 176.99,
+    averagePrice: 262,
+    highestPrice: 319.99,
+    savings: 100,
+    savingsLabel: 'expected saving at Prime Day June 15th',
+    asin: 'B09ZHLY4MX',
+    updatedDate: 'June 2, 2026',
+  },
   {
     slug: 'echo-dot-5th-gen-prime-day',
     title: 'Echo Dot 5th Generation',
@@ -311,7 +384,6 @@ const DEALS = [
   },
 ]
 
-// Update category counts in hub links
 function updateCategoryCounts() {
   const counts = {}
   DEALS.forEach(d => { counts[d.category] = (counts[d.category] || 0) + 1 })
@@ -331,25 +403,34 @@ function renderDeals(filter = 'all') {
     return
   }
 
-  grid.innerHTML = filtered.map(deal => `
+  grid.innerHTML = filtered.map(deal => {
+    const isUrgent = deal.verdict === 'urgent'
+    const isBuy = deal.verdict === 'buy' || isUrgent
+    const isWait = deal.verdict === 'wait'
+    const badgeClass = isUrgent ? 'urgent' : deal.verdict
+    const badgeText = isUrgent ? '⚡ BUY — ENDS ' + deal.expires.toUpperCase() : deal.verdict.toUpperCase()
+    const todayColor = isWait ? 'red' : 'gold'
+    const lowLabel = isWait ? 'Prime Day Low' : 'All-Time Low'
+
+    return `
     <div class="deal-card" data-category="${deal.category}">
       <div class="deal-card-top">
         <div class="deal-verdict-row">
-          <span class="deal-verdict-badge ${deal.verdict}">${deal.verdict.toUpperCase()}</span>
+          <span class="deal-verdict-badge ${badgeClass}">${badgeText}</span>
           <span class="deal-category">${deal.category}</span>
         </div>
         <div class="verified-badge">✓ Verified by price history</div>
         <h3><a href="/deals/${deal.slug}">${deal.title}</a></h3>
-        <div class="deal-savings">${deal.verdict === 'buy' ? 'Save' : 'Wait to Save'} $${deal.savings}</div>
+        <div class="deal-savings">${isBuy ? 'Save' : 'Wait to Save'} $${deal.savings}</div>
         <div class="deal-savings-label">${deal.savingsLabel}</div>
         <div class="deal-price-row">
           <div class="deal-price-box">
-            <div class="deal-price-label">${deal.verdict === 'wait' ? 'Prime Day Low' : '90-Day Low'}</div>
+            <div class="deal-price-label">${lowLabel}</div>
             <div class="deal-price-val green">$${deal.lowestPrice}</div>
           </div>
           <div class="deal-price-box">
             <div class="deal-price-label">Today</div>
-            <div class="deal-price-val ${deal.verdict === 'buy' ? 'gold' : 'red'}">$${deal.currentPrice}</div>
+            <div class="deal-price-val ${todayColor}">$${deal.currentPrice}</div>
           </div>
           <div class="deal-price-box">
             <div class="deal-price-label">Average</div>
@@ -358,15 +439,15 @@ function renderDeals(filter = 'all') {
         </div>
       </div>
       <div class="deal-card-bottom">
-        ${deal.verdict === 'buy'
-          ? `<a href="https://www.amazon.com/dp/${deal.asin}?tag=zroppix-20" target="_blank" rel="nofollow" class="deal-amazon-btn">Buy on Amazon →</a>`
+        ${isBuy
+          ? `<a href="https://www.amazon.com/dp/${deal.asin}?tag=zroppix-20" target="_blank" rel="nofollow" class="deal-amazon-btn">${isUrgent ? '⚡ Buy Now — Sale Ends Soon →' : 'Buy on Amazon →'}</a>`
           : `<a href="/deals/${deal.slug}" class="deal-amazon-btn" style="background:var(--bg3);color:var(--muted);border:1px solid var(--border);">⏳ See Prime Day Analysis →</a>`
         }
         <button class="deal-share-btn" onclick="shareDeal('${deal.slug}','${deal.title}',${deal.savings})">Share</button>
       </div>
-      <div class="deal-updated">Updated ${deal.updatedDate}</div>
+      ${isUrgent ? `<div class="deal-expires">⚡ Sale ends ${deal.expires} — don't wait</div>` : `<div class="deal-updated">Updated ${deal.updatedDate}</div>`}
     </div>
-  `).join('')
+  `}).join('')
 }
 
 function filterDeals(category, btn) {
