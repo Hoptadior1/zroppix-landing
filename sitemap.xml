@@ -2,35 +2,59 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <!-- Main pages -->
-<url><loc>https://zroppix.com/</loc><lastmod>2026-06-02</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
-<url><loc>https://zroppix.com/blog</loc><lastmod>2026-06-02</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/</loc><lastmod>2026-06-03</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+<url><loc>https://zroppix.com/blog</loc><lastmod>2026-06-03</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
 <url><loc>https://zroppix.com/account</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
 <url><loc>https://zroppix.com/privacy</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.3</priority></url>
 <url><loc>https://zroppix.com/terms</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.3</priority></url>
 <url><loc>https://zroppix.com/refund</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.3</priority></url>
 
 <!-- ── DEALS — Hub & Spoke ── -->
-<url><loc>https://zroppix.com/deals</loc><lastmod>2026-06-02</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
-<url><loc>https://zroppix.com/deals/electronics</loc><lastmod>2026-06-01</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
-<url><loc>https://zroppix.com/deals/kitchen</loc><lastmod>2026-06-01</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
-<url><loc>https://zroppix.com/deals/gaming</loc><lastmod>2026-06-02</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
-<url><loc>https://zroppix.com/deals/airpods-pro-3-price-history</loc><lastmod>2026-06-01</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
-<url><loc>https://zroppix.com/deals/sony-wh1000xm5-price-history</loc><lastmod>2026-06-01</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
-<url><loc>https://zroppix.com/deals/kindle-paperwhite-price-history</loc><lastmod>2026-06-01</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
-<url><loc>https://zroppix.com/deals/echo-dot-5th-gen-prime-day</loc><lastmod>2026-06-01</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
-<url><loc>https://zroppix.com/deals/ninja-air-fryer-prime-day</loc><lastmod>2026-06-01</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
-<url><loc>https://zroppix.com/deals/ps5-dualsense-controller-price-history</loc><lastmod>2026-06-02</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
-<url><loc>https://zroppix.com/deals/ps5-dualsense-edge-price-history</loc><lastmod>2026-06-02</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
-<url><loc>https://zroppix.com/deals/nintendo-switch-oled-vs-switch-2</loc><lastmod>2026-06-02</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
-<url><loc>https://zroppix.com/deals/logitech-g502x-lightspeed-price-history</loc><lastmod>2026-06-02</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
-<url><loc>https://zroppix.com/deals/steelseries-arctis-nova-pro-prime-day</loc><lastmod>2026-06-02</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/deals</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
+<url><loc>https://zroppix.com/deals/electronics</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/deals/kitchen</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/deals/gaming</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/deals/home</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+
+<!-- ── DEAL POSTS — Batch 1 (Gaming) ── -->
+<url><loc>https://zroppix.com/deals/ps5-dualsense-controller-price-history</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/deals/ps5-dualsense-edge-price-history</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/deals/nintendo-switch-oled-vs-switch-2</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/deals/logitech-g502x-lightspeed-price-history</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/deals/steelseries-arctis-nova-pro-prime-day</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+
+<!-- ── DEAL POSTS — Batch 2 (Electronics) ── -->
+<url><loc>https://zroppix.com/deals/airpods-pro-3-price-history</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/deals/sony-wh1000xm5-price-history</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/deals/kindle-paperwhite-price-history</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/deals/echo-dot-5th-gen-prime-day</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/deals/kindle-colorsoft-price-history</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/deals/apple-watch-se-prime-day</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/deals/amazon-fire-tv-stick-4k-prime-day</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+
+<!-- ── DEAL POSTS — Batch 3 (Kitchen & Home) ── -->
+<url><loc>https://zroppix.com/deals/ninja-air-fryer-prime-day</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/deals/instant-pot-duo-prime-day</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/deals/irobot-roomba-j7-prime-day</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+
+<!-- ── DEAL POSTS — Batch 4 (New — June 3) ── -->
+<url><loc>https://zroppix.com/deals/ipad-11-price-history</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/deals/ninja-creami-price-history</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/deals/dyson-v15-detect-price-history</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/deals/kitchenaid-stand-mixer-price-history</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/deals/samsung-65-inch-tv-prime-day</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/deals/ipad-air-m4-price-history</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/deals/shark-iq-robot-vacuum-prime-day</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/deals/ring-video-doorbell-pro-prime-day</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/deals/bose-quietcomfort-45-price-history</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/deals/stanley-quencher-price-history</loc><lastmod>2026-06-03</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
 
 <!-- ── COMPETITOR ALTERNATIVE PAGES ── -->
 <url><loc>https://zroppix.com/keepa-alternative</loc><lastmod>2026-05-22</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
 <url><loc>https://zroppix.com/camelcamelcamel-alternative</loc><lastmod>2026-05-22</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
 <url><loc>https://zroppix.com/honey-alternative</loc><lastmod>2026-05-22</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
 
-<!-- ── TIER S — Highest priority content ── -->
+<!-- ── TIER S — Highest priority blog content ── -->
 <url><loc>https://zroppix.com/blog/amazon-price-history</loc><lastmod>2026-05-19</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
 <url><loc>https://zroppix.com/blog/how-does-amazon-dynamic-pricing-work</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
 <url><loc>https://zroppix.com/blog/amazon-overcharging-exposed-2026</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
@@ -44,7 +68,7 @@
 <url><loc>https://zroppix.com/blog/best-time-to-buy-airpods-on-amazon</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
 <url><loc>https://zroppix.com/blog/bought-something-amazon-price-dropped</loc><lastmod>2026-05-19</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
 
-<!-- ── TIER A — Strong quality content ── -->
+<!-- ── TIER A — Strong blog content ── -->
 <url><loc>https://zroppix.com/blog/best-time-to-buy-kindle-on-amazon</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
 <url><loc>https://zroppix.com/blog/best-time-to-buy-laptop-on-amazon</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
 <url><loc>https://zroppix.com/blog/amazon-prime-day-2026-guide</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
@@ -57,16 +81,16 @@
 <url><loc>https://zroppix.com/blog/amazon-vs-walmart-prices</loc><lastmod>2026-05-17</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
 <url><loc>https://zroppix.com/blog/how-to-never-overpay-amazon</loc><lastmod>2026-05-19</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
 <url><loc>https://zroppix.com/blog/are-amazon-prime-day-deals-worth-it</loc><lastmod>2026-05-19</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-<url><loc>https://zroppix.com/blog/honey-not-working-alternative</loc><lastmod>2026-06-02</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/blog/honey-not-working-alternative</loc><lastmod>2026-06-03</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
 <url><loc>https://zroppix.com/blog/camelcamelcamel-alternative-tells-you-what-to-do</loc><lastmod>2026-05-19</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
 <url><loc>https://zroppix.com/blog/amazon-charges-different-prices-different-people</loc><lastmod>2026-05-19</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
 
-<!-- ── NEW BLOG POSTS — June 2, 2026 ── -->
-<url><loc>https://zroppix.com/blog/dont-buy-before-prime-day-2026</loc><lastmod>2026-06-02</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
-<url><loc>https://zroppix.com/blog/nintendo-switch-oled-vs-switch-2</loc><lastmod>2026-06-02</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
-<url><loc>https://zroppix.com/blog/ps5-dualsense-price-history</loc><lastmod>2026-06-02</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+<!-- ── NEW BLOG POSTS — June 3, 2026 ── -->
+<url><loc>https://zroppix.com/blog/dont-buy-before-prime-day-2026</loc><lastmod>2026-06-03</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/blog/nintendo-switch-oled-vs-switch-2</loc><lastmod>2026-06-03</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+<url><loc>https://zroppix.com/blog/ps5-dualsense-price-history</loc><lastmod>2026-06-03</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
 
-<!-- ── TIER B/C — Solid supporting content ── -->
+<!-- ── TIER B/C — Supporting blog content ── -->
 <url><loc>https://zroppix.com/blog/should-i-buy-airpods-now-or-wait</loc><lastmod>2026-05-15</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
 <url><loc>https://zroppix.com/blog/free-amazon-price-tracker-no-account</loc><lastmod>2026-05-15</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
 <url><loc>https://zroppix.com/blog/amazon-sale-badge-was-it-cheaper-before</loc><lastmod>2026-05-15</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -76,7 +100,7 @@
 <url><loc>https://zroppix.com/blog/save-1000-amazon-year</loc><lastmod>2026-05-14</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
 <url><loc>https://zroppix.com/blog/amazon-price-manipulation</loc><lastmod>2026-05-14</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
-<!-- ── TIER D/E — Supporting content ── -->
+<!-- ── TIER D/E — Supporting blog content ── -->
 <url><loc>https://zroppix.com/blog/best-time-to-buy-amazon</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
 <url><loc>https://zroppix.com/blog/amazon-price-drop-alert</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
 <url><loc>https://zroppix.com/blog/does-amazon-change-prices</loc><lastmod>2026-05-13</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
