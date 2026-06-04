@@ -33,7 +33,11 @@
     { "@type": "WebPage", "url": "https://zroppix.com/deals/kindle-paperwhite-price-history", "name": "Kindle Paperwhite Price History" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/ps5-dualsense-controller-price-history", "name": "PS5 DualSense Controller Price History" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/nintendo-switch-oled-vs-switch-2", "name": "Nintendo Switch OLED vs Switch 2" },
-    { "@type": "WebPage", "url": "https://zroppix.com/deals/logitech-g502x-lightspeed-price-history", "name": "Logitech G502 X Lightspeed Price History" }
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/kindle-colorsoft-price-history", "name": "Kindle Colorsoft Price History" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/irobot-roomba-j7-prime-day", "name": "iRobot Roomba j7+ Prime Day" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/instant-pot-duo-prime-day", "name": "Instant Pot Duo Prime Day" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/apple-watch-se-prime-day", "name": "Apple Watch SE Prime Day" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/amazon-fire-tv-stick-4k-prime-day", "name": "Fire TV Stick 4K Max Prime Day" }
   ]
 }
 </script>
@@ -45,8 +49,6 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, Bl
 a { text-decoration: none; color: inherit; }
 .btn-gold { background: var(--gold); color: #0D0D14; padding: 12px 24px; border-radius: 10px; font-weight: 700; font-size: 15px; transition: all 0.2s; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
 .btn-gold:hover { background: #D4B864; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(201,168,76,0.3); }
-.btn-outline { background: transparent; color: var(--text); padding: 12px 24px; border-radius: 10px; font-weight: 600; font-size: 15px; border: 1px solid var(--border); transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
-.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
 nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 48px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(13,13,20,0.96); backdrop-filter: blur(12px); z-index: 100; }
 .nav-logo { font-size: 20px; font-weight: 800; color: var(--gold); display: flex; align-items: center; gap: 8px; }
 .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
@@ -66,6 +68,16 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .hero-stats { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; }
 .hero-stat-num { font-size: 24px; font-weight: 900; color: var(--gold); }
 .hero-stat-label { font-size: 12px; color: var(--muted); margin-top: 2px; }
+/* PRIME DAY COUNTDOWN BANNER */
+.prime-day-site-banner { background: linear-gradient(135deg, rgba(226,75,74,0.1), rgba(201,168,76,0.06)); border: 1px solid rgba(226,75,74,0.25); border-radius: 14px; padding: 16px 24px; margin: 0 auto 24px; max-width: 1100px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.prime-day-site-banner .left { font-size: 14px; font-weight: 800; color: var(--red); }
+.prime-day-site-banner .sub { font-size: 13px; color: var(--subtle); margin-top: 2px; }
+.prime-day-site-banner .sub strong { color: var(--gold); }
+.prime-countdown { display: flex; gap: 10px; align-items: center; }
+.pc-unit { text-align: center; }
+.pc-num { font-size: 24px; font-weight: 900; color: var(--red); line-height: 1; }
+.pc-label { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.pc-sep { font-size: 20px; font-weight: 900; color: var(--red); padding-top:3px; }
 .category-hubs { max-width: 1100px; margin: 0 auto 32px; padding: 0 20px; }
 .category-hubs-title { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 14px; }
 .category-hub-grid { display: flex; gap: 10px; flex-wrap: wrap; }
@@ -126,7 +138,7 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
 .footer-legal { display: flex; gap: 20px; list-style: none; }
 .footer-legal a { font-size: 13px; color: var(--muted); transition: color 0.2s; }
 .footer-legal a:hover { color: var(--text); }
-@media (max-width: 900px) { nav { padding: 14px 24px; } .nav-links { display: none; } .deals-hero h1 { font-size: 32px; } .deals-grid { grid-template-columns: 1fr; } .footer-top { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 900px) { nav { padding: 14px 24px; } .nav-links { display: none; } .deals-hero h1 { font-size: 32px; } .deals-grid { grid-template-columns: 1fr; } .footer-top { grid-template-columns: 1fr 1fr; } .prime-day-site-banner { flex-direction: column; } }
 @media (max-width: 540px) { .footer-top { grid-template-columns: 1fr; } }
 </style>
 </head>
@@ -157,14 +169,29 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
   </div>
 </section>
 
+<!-- PRIME DAY COUNTDOWN BANNER -->
+<div class="prime-day-site-banner" style="padding: 16px 40px;" id="primeBanner">
+  <div>
+    <div class="left">⚡ Amazon Prime Day 2026 — June 23-26</div>
+    <div class="sub">Set price alerts now on products below and <strong>get notified the moment deals go live</strong></div>
+  </div>
+  <div class="prime-countdown">
+    <div class="pc-unit"><div class="pc-num" id="pc-days">19</div><div class="pc-label">Days</div></div>
+    <div class="pc-sep">:</div>
+    <div class="pc-unit"><div class="pc-num" id="pc-hours">00</div><div class="pc-label">Hours</div></div>
+    <div class="pc-sep">:</div>
+    <div class="pc-unit"><div class="pc-num" id="pc-mins">00</div><div class="pc-label">Mins</div></div>
+  </div>
+</div>
+
 <div class="category-hubs">
   <div class="category-hubs-title">Browse by category</div>
   <div class="category-hub-grid">
     <a href="/deals/electronics" class="category-hub-link">📱 Electronics <span class="category-hub-count" id="count-electronics">0</span></a>
     <a href="/deals/kitchen" class="category-hub-link">🍳 Kitchen <span class="category-hub-count" id="count-kitchen">0</span></a>
     <a href="/deals/gaming" class="category-hub-link">🎮 Gaming <span class="category-hub-count" id="count-gaming">0</span></a>
-    <a href="/deals/fitness" class="category-hub-link">💪 Fitness <span class="category-hub-count" id="count-fitness">0</span></a>
     <a href="/deals/home" class="category-hub-link">🏠 Home <span class="category-hub-count" id="count-home">0</span></a>
+    <a href="/deals/fitness" class="category-hub-link">💪 Fitness <span class="category-hub-count" id="count-fitness">0</span></a>
     <a href="/deals/smart-home" class="category-hub-link">💡 Smart Home <span class="category-hub-count" id="count-smart-home">0</span></a>
   </div>
 </div>
@@ -175,7 +202,6 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
   <button class="filter-btn" onclick="filterDeals('electronics',this)">Electronics</button>
   <button class="filter-btn" onclick="filterDeals('kitchen',this)">Kitchen</button>
   <button class="filter-btn" onclick="filterDeals('gaming',this)">Gaming</button>
-  <button class="filter-btn" onclick="filterDeals('fitness',this)">Fitness</button>
   <button class="filter-btn" onclick="filterDeals('home',this)">Home</button>
 </div>
 
@@ -211,7 +237,6 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
         <li><a href="/deals/electronics">Electronics Deals</a></li>
         <li><a href="/deals/kitchen">Kitchen Deals</a></li>
         <li><a href="/deals/gaming">Gaming Deals</a></li>
-        <li><a href="/deals/fitness">Fitness Deals</a></li>
         <li><a href="/deals/home">Home Deals</a></li>
       </ul>
     </div>
@@ -250,7 +275,7 @@ const DEALS = [
     savings: 21,
     savingsLabel: 'vs $74.99 list — sale ends June 10th',
     asin: 'B0BCNKKZ91',
-    updatedDate: 'June 2, 2026',
+    updatedDate: 'June 3, 2026',
     expires: 'June 10th',
   },
   {
@@ -265,7 +290,7 @@ const DEALS = [
     savings: 30,
     savingsLabel: 'vs $199.99 list — sale ends June 10th',
     asin: 'B0BH9SMWB8',
-    updatedDate: 'June 2, 2026',
+    updatedDate: 'June 3, 2026',
     expires: 'June 10th',
   },
   // ── BUY NOW ──
@@ -281,7 +306,7 @@ const DEALS = [
     savings: 150,
     savingsLabel: 'vs Nintendo Switch 2 at $449.99',
     asin: 'B098RKWHHZ',
-    updatedDate: 'June 2, 2026',
+    updatedDate: 'June 3, 2026',
   },
   {
     slug: 'logitech-g502x-lightspeed-price-history',
@@ -295,7 +320,7 @@ const DEALS = [
     savings: 50,
     savingsLabel: 'vs $159.99 list price — 31% off',
     asin: 'B09ZWCYQTX',
-    updatedDate: 'June 2, 2026',
+    updatedDate: 'June 3, 2026',
   },
   {
     slug: 'airpods-pro-3-price-history',
@@ -307,9 +332,9 @@ const DEALS = [
     averagePrice: 230,
     highestPrice: 249,
     savings: 50,
-    savingsLabel: 'vs the $249 list price',
+    savingsLabel: 'vs the $249 list price — already at Prime Day price',
     asin: 'B0CHWRXH8B',
-    updatedDate: 'June 1, 2026',
+    updatedDate: 'June 3, 2026',
   },
   {
     slug: 'sony-wh1000xm5-price-history',
@@ -321,9 +346,9 @@ const DEALS = [
     averagePrice: 355,
     highestPrice: 400,
     savings: 152,
-    savingsLabel: 'vs the $400 list price',
+    savingsLabel: 'vs the $400 list price — 38% off',
     asin: 'B09XS7JWHH',
-    updatedDate: 'June 1, 2026',
+    updatedDate: 'June 3, 2026',
   },
   {
     slug: 'kindle-paperwhite-price-history',
@@ -337,9 +362,79 @@ const DEALS = [
     savings: 25,
     savingsLabel: 'vs the $159.99 list price',
     asin: 'B0CFPJYX7P',
-    updatedDate: 'June 1, 2026',
+    updatedDate: 'June 3, 2026',
   },
-  // ── WAIT FOR PRIME DAY ──
+  // ── WAIT FOR PRIME DAY JUNE 23-26 ──
+  {
+    slug: 'kindle-colorsoft-price-history',
+    title: 'Kindle Colorsoft',
+    category: 'electronics',
+    verdict: 'wait',
+    currentPrice: 279.99,
+    lowestPrice: 169,
+    averagePrice: 279.99,
+    highestPrice: 279.99,
+    savings: 110,
+    savingsLabel: 'expected at Prime Day June 23-26 — first ever discount',
+    asin: 'B0CG3KLJNS',
+    updatedDate: 'June 3, 2026',
+  },
+  {
+    slug: 'irobot-roomba-j7-prime-day',
+    title: 'iRobot Roomba j7+',
+    category: 'home',
+    verdict: 'wait',
+    currentPrice: 449.99,
+    lowestPrice: 279,
+    averagePrice: 326,
+    highestPrice: 469.99,
+    savings: 150,
+    savingsLabel: 'expected saving at Prime Day June 23-26',
+    asin: 'B094NPRQBD',
+    updatedDate: 'June 3, 2026',
+  },
+  {
+    slug: 'instant-pot-duo-prime-day',
+    title: 'Instant Pot Duo 7-in-1',
+    category: 'kitchen',
+    verdict: 'wait',
+    currentPrice: 89.99,
+    lowestPrice: 49,
+    averagePrice: 79,
+    highestPrice: 99.99,
+    savings: 40,
+    savingsLabel: '10 consecutive Prime Day discounts — June 23-26',
+    asin: 'B00FLYWNYQ',
+    updatedDate: 'June 3, 2026',
+  },
+  {
+    slug: 'apple-watch-se-prime-day',
+    title: 'Apple Watch SE (2nd Gen)',
+    category: 'electronics',
+    verdict: 'wait',
+    currentPrice: 179,
+    lowestPrice: 149,
+    averagePrice: 174,
+    highestPrice: 199,
+    savings: 30,
+    savingsLabel: 'drops to $149-159 at Prime Day June 23-26',
+    asin: 'B0BDJ3TB1X',
+    updatedDate: 'June 3, 2026',
+  },
+  {
+    slug: 'amazon-fire-tv-stick-4k-prime-day',
+    title: 'Fire TV Stick 4K Max',
+    category: 'electronics',
+    verdict: 'wait',
+    currentPrice: 59.99,
+    lowestPrice: 24.99,
+    averagePrice: 44,
+    highestPrice: 64.99,
+    savings: 35,
+    savingsLabel: 'up to 65% off at Prime Day — all-time low $24.99',
+    asin: 'B0BP9SNVH9',
+    updatedDate: 'June 3, 2026',
+  },
   {
     slug: 'steelseries-arctis-nova-pro-prime-day',
     title: 'SteelSeries Arctis Nova Pro Wireless',
@@ -352,7 +447,7 @@ const DEALS = [
     savings: 100,
     savingsLabel: 'expected saving at Prime Day June 23-26',
     asin: 'B09ZHLY4MX',
-    updatedDate: 'June 2, 2026',
+    updatedDate: 'June 3, 2026',
   },
   {
     slug: 'echo-dot-5th-gen-prime-day',
@@ -364,9 +459,9 @@ const DEALS = [
     averagePrice: 45,
     highestPrice: 49.99,
     savings: 17,
-    savingsLabel: 'expected at Prime Day June 23-26',
+    savingsLabel: 'drops to $22-25 at Prime Day June 23-26',
     asin: 'B09B8V1LZ3',
-    updatedDate: 'June 1, 2026',
+    updatedDate: 'June 3, 2026',
   },
   {
     slug: 'ninja-air-fryer-prime-day',
@@ -378,11 +473,27 @@ const DEALS = [
     averagePrice: 99,
     highestPrice: 129.99,
     savings: 24,
-    savingsLabel: 'expected at Prime Day June 23-26',
+    savingsLabel: 'drops to $74-79 at Prime Day June 23-26',
     asin: 'B07FDJMC9Q',
-    updatedDate: 'June 1, 2026',
+    updatedDate: 'June 3, 2026',
   },
 ]
+
+// Prime Day countdown
+function updatePrimeCountdown() {
+  const end = new Date('2026-06-23T00:00:00')
+  const now = new Date()
+  const diff = end - now
+  if (diff <= 0) {
+    document.getElementById('primeBanner').innerHTML = '<div style="width:100%;text-align:center;font-size:15px;font-weight:800;color:var(--gold)">🎉 Amazon Prime Day is Live — Check All Deals Now</div>'
+    return
+  }
+  document.getElementById('pc-days').textContent = Math.floor(diff / 86400000)
+  document.getElementById('pc-hours').textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0')
+  document.getElementById('pc-mins').textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0')
+}
+updatePrimeCountdown()
+setInterval(updatePrimeCountdown, 60000)
 
 function updateCategoryCounts() {
   const counts = {}
@@ -410,7 +521,7 @@ function renderDeals(filter = 'all') {
     const badgeClass = isUrgent ? 'urgent' : deal.verdict
     const badgeText = isUrgent ? '⚡ BUY — ENDS ' + deal.expires.toUpperCase() : deal.verdict.toUpperCase()
     const todayColor = isWait ? 'red' : 'gold'
-    const lowLabel = isWait ? 'Prime Day Low' : 'All-Time Low'
+    const lowLabel = isWait ? 'Prime Day Est.' : 'All-Time Low'
 
     return `
     <div class="deal-card" data-category="${deal.category}">
