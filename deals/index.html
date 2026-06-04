@@ -28,11 +28,21 @@
     { "@type": "WebPage", "url": "https://zroppix.com/deals/electronics", "name": "Amazon Electronics Deals" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/kitchen", "name": "Amazon Kitchen Deals" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/gaming", "name": "Amazon Gaming Deals" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/home", "name": "Amazon Home Deals" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/airpods-pro-3-price-history", "name": "AirPods Pro 3 Price History" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/sony-wh1000xm5-price-history", "name": "Sony WH-1000XM5 Price History" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/kindle-paperwhite-price-history", "name": "Kindle Paperwhite Price History" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/ps5-dualsense-controller-price-history", "name": "PS5 DualSense Controller Price History" },
-    { "@type": "WebPage", "url": "https://zroppix.com/deals/nintendo-switch-oled-vs-switch-2", "name": "Nintendo Switch OLED vs Switch 2" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/ipad-11-price-history", "name": "iPad 11 Price History" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/ninja-creami-price-history", "name": "Ninja CREAMi Price History" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/dyson-v15-detect-price-history", "name": "Dyson V15 Detect Price History" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/kitchenaid-stand-mixer-price-history", "name": "KitchenAid Stand Mixer Price History" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/samsung-65-inch-tv-prime-day", "name": "Samsung 65-inch TV Prime Day" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/ipad-air-m4-price-history", "name": "iPad Air M4 Price History" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/shark-iq-robot-vacuum-prime-day", "name": "Shark IQ Robot Vacuum Prime Day" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/ring-video-doorbell-pro-prime-day", "name": "Ring Video Doorbell Prime Day" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/bose-quietcomfort-45-price-history", "name": "Bose QuietComfort 45 Price History" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/stanley-quencher-price-history", "name": "Stanley Quencher Price History" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/kindle-colorsoft-price-history", "name": "Kindle Colorsoft Price History" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/irobot-roomba-j7-prime-day", "name": "iRobot Roomba j7+ Prime Day" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/instant-pot-duo-prime-day", "name": "Instant Pot Duo Prime Day" },
@@ -68,8 +78,7 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .hero-stats { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; }
 .hero-stat-num { font-size: 24px; font-weight: 900; color: var(--gold); }
 .hero-stat-label { font-size: 12px; color: var(--muted); margin-top: 2px; }
-/* PRIME DAY COUNTDOWN BANNER */
-.prime-day-site-banner { background: linear-gradient(135deg, rgba(226,75,74,0.1), rgba(201,168,76,0.06)); border: 1px solid rgba(226,75,74,0.25); border-radius: 14px; padding: 16px 24px; margin: 0 auto 24px; max-width: 1100px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.prime-day-site-banner { background: linear-gradient(135deg, rgba(226,75,74,0.1), rgba(201,168,76,0.06)); border: 1px solid rgba(226,75,74,0.25); border-radius: 14px; padding: 16px 40px; margin: 0 auto 24px; max-width: 1100px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
 .prime-day-site-banner .left { font-size: 14px; font-weight: 800; color: var(--red); }
 .prime-day-site-banner .sub { font-size: 13px; color: var(--subtle); margin-top: 2px; }
 .prime-day-site-banner .sub strong { color: var(--gold); }
@@ -77,7 +86,7 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .pc-unit { text-align: center; }
 .pc-num { font-size: 24px; font-weight: 900; color: var(--red); line-height: 1; }
 .pc-label { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
-.pc-sep { font-size: 20px; font-weight: 900; color: var(--red); padding-top:3px; }
+.pc-sep { font-size: 20px; font-weight: 900; color: var(--red); padding-top: 3px; }
 .category-hubs { max-width: 1100px; margin: 0 auto 32px; padding: 0 20px; }
 .category-hubs-title { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 14px; }
 .category-hub-grid { display: flex; gap: 10px; flex-wrap: wrap; }
@@ -120,7 +129,7 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .deal-updated { font-size: 11px; color: var(--muted); padding: 0 20px 16px; }
 .deal-expires { font-size: 11px; color: var(--red); font-weight: 700; padding: 0 20px 16px; }
 .verified-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--green); font-weight: 600; margin-bottom: 8px; }
-.install-cta { background: var(--bg2); border: 1px solid rgba(201,168,76,0.2); border-radius: 16px; padding: 32px; text-align: center; margin: 0 20px 40px; max-width: 1060px; margin-left: auto; margin-right: auto; }
+.install-cta { background: var(--bg2); border: 1px solid rgba(201,168,76,0.2); border-radius: 16px; padding: 32px; text-align: center; margin: 0 auto 40px; max-width: 1060px; }
 .install-cta h3 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
 .install-cta p { font-size: 14px; color: var(--muted); margin-bottom: 20px; }
 .empty-state { text-align: center; padding: 80px 20px; color: var(--muted); grid-column: 1/-1; }
@@ -138,7 +147,7 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
 .footer-legal { display: flex; gap: 20px; list-style: none; }
 .footer-legal a { font-size: 13px; color: var(--muted); transition: color 0.2s; }
 .footer-legal a:hover { color: var(--text); }
-@media (max-width: 900px) { nav { padding: 14px 24px; } .nav-links { display: none; } .deals-hero h1 { font-size: 32px; } .deals-grid { grid-template-columns: 1fr; } .footer-top { grid-template-columns: 1fr 1fr; } .prime-day-site-banner { flex-direction: column; } }
+@media (max-width: 900px) { nav { padding: 14px 24px; } .nav-links { display: none; } .deals-hero h1 { font-size: 32px; } .deals-grid { grid-template-columns: 1fr; } .footer-top { grid-template-columns: 1fr 1fr; } .prime-day-site-banner { flex-direction: column; padding: 16px 20px; } }
 @media (max-width: 540px) { .footer-top { grid-template-columns: 1fr; } }
 </style>
 </head>
@@ -169,11 +178,10 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
   </div>
 </section>
 
-<!-- PRIME DAY COUNTDOWN BANNER -->
-<div class="prime-day-site-banner" style="padding: 16px 40px;" id="primeBanner">
+<div class="prime-day-site-banner" id="primeBanner">
   <div>
     <div class="left">⚡ Amazon Prime Day 2026 — June 23-26</div>
-    <div class="sub">Set price alerts now on products below and <strong>get notified the moment deals go live</strong></div>
+    <div class="sub">Set price alerts now and <strong>get notified the moment deals go live</strong></div>
   </div>
   <div class="prime-countdown">
     <div class="pc-unit"><div class="pc-num" id="pc-days">19</div><div class="pc-label">Days</div></div>
@@ -271,7 +279,6 @@ const DEALS = [
     currentPrice: 54,
     lowestPrice: 49,
     averagePrice: 72,
-    highestPrice: 74.99,
     savings: 21,
     savingsLabel: 'vs $74.99 list — sale ends June 10th',
     asin: 'B0BCNKKZ91',
@@ -286,7 +293,6 @@ const DEALS = [
     currentPrice: 169,
     lowestPrice: 159,
     averagePrice: 195,
-    highestPrice: 199.99,
     savings: 30,
     savingsLabel: 'vs $199.99 list — sale ends June 10th',
     asin: 'B0BH9SMWB8',
@@ -302,7 +308,6 @@ const DEALS = [
     currentPrice: 299.99,
     lowestPrice: 279,
     averagePrice: 310,
-    highestPrice: 349.99,
     savings: 150,
     savingsLabel: 'vs Nintendo Switch 2 at $449.99',
     asin: 'B098RKWHHZ',
@@ -316,7 +321,6 @@ const DEALS = [
     currentPrice: 109.99,
     lowestPrice: 84.99,
     averagePrice: 137,
-    highestPrice: 159.99,
     savings: 50,
     savingsLabel: 'vs $159.99 list price — 31% off',
     asin: 'B09ZWCYQTX',
@@ -330,9 +334,8 @@ const DEALS = [
     currentPrice: 199,
     lowestPrice: 185,
     averagePrice: 230,
-    highestPrice: 249,
     savings: 50,
-    savingsLabel: 'vs the $249 list price — already at Prime Day price',
+    savingsLabel: 'vs $249 list — already at Prime Day price',
     asin: 'B0CHWRXH8B',
     updatedDate: 'June 3, 2026',
   },
@@ -344,9 +347,8 @@ const DEALS = [
     currentPrice: 248,
     lowestPrice: 223,
     averagePrice: 355,
-    highestPrice: 400,
     savings: 152,
-    savingsLabel: 'vs the $400 list price — 38% off',
+    savingsLabel: 'vs $400 list — 38% off right now',
     asin: 'B09XS7JWHH',
     updatedDate: 'June 3, 2026',
   },
@@ -358,13 +360,142 @@ const DEALS = [
     currentPrice: 134.99,
     lowestPrice: 125,
     averagePrice: 150,
-    highestPrice: 159.99,
     savings: 25,
-    savingsLabel: 'vs the $159.99 list price',
+    savingsLabel: 'vs $159.99 list — best price of 2026',
     asin: 'B0CFPJYX7P',
     updatedDate: 'June 3, 2026',
   },
   // ── WAIT FOR PRIME DAY JUNE 23-26 ──
+  {
+    slug: 'ipad-11-price-history',
+    title: 'Apple iPad 11 (A16)',
+    category: 'electronics',
+    verdict: 'wait',
+    currentPrice: 299,
+    lowestPrice: 279,
+    averagePrice: 309,
+    savings: 70,
+    savingsLabel: 'hit $279.99 at Prime Day 2025 — wait for June 23',
+    asin: 'B0DKMY21SV',
+    updatedDate: 'June 3, 2026',
+  },
+  {
+    slug: 'ninja-creami-price-history',
+    title: 'Ninja CREAMi Ice Cream Maker',
+    category: 'kitchen',
+    verdict: 'wait',
+    currentPrice: 179,
+    lowestPrice: 99,
+    averagePrice: 162,
+    savings: 80,
+    savingsLabel: 'dropped to $99-119 at Prime Day — wait for June 23',
+    asin: 'B08QXB9BH5',
+    updatedDate: 'June 3, 2026',
+  },
+  {
+    slug: 'dyson-v15-detect-price-history',
+    title: 'Dyson V15 Detect',
+    category: 'electronics',
+    verdict: 'wait',
+    currentPrice: 649,
+    lowestPrice: 389,
+    averagePrice: 549,
+    savings: 260,
+    savingsLabel: 'drops to $389-449 at Prime Day — save $200+',
+    asin: 'B0979R48CX',
+    updatedDate: 'June 3, 2026',
+  },
+  {
+    slug: 'kitchenaid-stand-mixer-price-history',
+    title: 'KitchenAid Artisan Stand Mixer',
+    category: 'kitchen',
+    verdict: 'wait',
+    currentPrice: 449,
+    lowestPrice: 249,
+    averagePrice: 379,
+    savings: 170,
+    savingsLabel: 'drops to $279-329 at Prime Day every year',
+    asin: 'B00005UP2P',
+    updatedDate: 'June 3, 2026',
+  },
+  {
+    slug: 'samsung-65-inch-tv-prime-day',
+    title: 'Samsung 65-inch 4K QLED TV',
+    category: 'electronics',
+    verdict: 'wait',
+    currentPrice: 799,
+    lowestPrice: 499,
+    averagePrice: 699,
+    savings: 300,
+    savingsLabel: 'drops to $499-599 at Prime Day — biggest saving here',
+    asin: 'B0CX1TFLGM',
+    updatedDate: 'June 3, 2026',
+  },
+  {
+    slug: 'ipad-air-m4-price-history',
+    title: 'Apple iPad Air M4',
+    category: 'electronics',
+    verdict: 'wait',
+    currentPrice: 599,
+    lowestPrice: 479,
+    averagePrice: 569,
+    savings: 100,
+    savingsLabel: 'drops to $499-529 at Prime Day June 23-26',
+    asin: 'B0D3J5BZMD',
+    updatedDate: 'June 3, 2026',
+  },
+  {
+    slug: 'shark-iq-robot-vacuum-prime-day',
+    title: 'Shark IQ Robot Vacuum',
+    category: 'home',
+    verdict: 'wait',
+    currentPrice: 349,
+    lowestPrice: 149,
+    averagePrice: 249,
+    savings: 170,
+    savingsLabel: 'drops to $179-229 at Prime Day — best robot vacuum deal',
+    asin: 'B07NHHD2ZZ',
+    updatedDate: 'June 3, 2026',
+  },
+  {
+    slug: 'ring-video-doorbell-pro-prime-day',
+    title: 'Ring Video Doorbell',
+    category: 'home',
+    verdict: 'wait',
+    currentPrice: 149,
+    lowestPrice: 54,
+    averagePrice: 99,
+    savings: 90,
+    savingsLabel: 'Amazon own device — drops to $59-79 at Prime Day',
+    asin: 'B08CKHPP52',
+    updatedDate: 'June 3, 2026',
+  },
+  {
+    slug: 'bose-quietcomfort-45-price-history',
+    title: 'Bose QuietComfort 45',
+    category: 'electronics',
+    verdict: 'wait',
+    currentPrice: 279,
+    lowestPrice: 169,
+    averagePrice: 239,
+    savings: 80,
+    savingsLabel: 'drops to $199-219 at Prime Day June 23-26',
+    asin: 'B098FKXT8L',
+    updatedDate: 'June 3, 2026',
+  },
+  {
+    slug: 'stanley-quencher-price-history',
+    title: 'Stanley Quencher 40oz Tumbler',
+    category: 'home',
+    verdict: 'wait',
+    currentPrice: 35,
+    lowestPrice: 20,
+    averagePrice: 33,
+    savings: 13,
+    savingsLabel: 'standard colors drop to $22-27 at Prime Day',
+    asin: 'B0BWCZ3GTK',
+    updatedDate: 'June 3, 2026',
+  },
   {
     slug: 'kindle-colorsoft-price-history',
     title: 'Kindle Colorsoft',
@@ -373,9 +504,8 @@ const DEALS = [
     currentPrice: 279.99,
     lowestPrice: 169,
     averagePrice: 279.99,
-    highestPrice: 279.99,
     savings: 110,
-    savingsLabel: 'expected at Prime Day June 23-26 — first ever discount',
+    savingsLabel: 'first ever discount expected at Prime Day June 23-26',
     asin: 'B0CG3KLJNS',
     updatedDate: 'June 3, 2026',
   },
@@ -387,9 +517,8 @@ const DEALS = [
     currentPrice: 449.99,
     lowestPrice: 279,
     averagePrice: 326,
-    highestPrice: 469.99,
     savings: 150,
-    savingsLabel: 'expected saving at Prime Day June 23-26',
+    savingsLabel: 'drops to $299-329 at Prime Day June 23-26',
     asin: 'B094NPRQBD',
     updatedDate: 'June 3, 2026',
   },
@@ -401,9 +530,8 @@ const DEALS = [
     currentPrice: 89.99,
     lowestPrice: 49,
     averagePrice: 79,
-    highestPrice: 99.99,
     savings: 40,
-    savingsLabel: '10 consecutive Prime Day discounts — June 23-26',
+    savingsLabel: '10 consecutive Prime Day discounts — drops to $49-59',
     asin: 'B00FLYWNYQ',
     updatedDate: 'June 3, 2026',
   },
@@ -415,7 +543,6 @@ const DEALS = [
     currentPrice: 179,
     lowestPrice: 149,
     averagePrice: 174,
-    highestPrice: 199,
     savings: 30,
     savingsLabel: 'drops to $149-159 at Prime Day June 23-26',
     asin: 'B0BDJ3TB1X',
@@ -429,7 +556,6 @@ const DEALS = [
     currentPrice: 59.99,
     lowestPrice: 24.99,
     averagePrice: 44,
-    highestPrice: 64.99,
     savings: 35,
     savingsLabel: 'up to 65% off at Prime Day — all-time low $24.99',
     asin: 'B0BP9SNVH9',
@@ -443,7 +569,6 @@ const DEALS = [
     currentPrice: 299.99,
     lowestPrice: 176.99,
     averagePrice: 262,
-    highestPrice: 319.99,
     savings: 100,
     savingsLabel: 'expected saving at Prime Day June 23-26',
     asin: 'B09ZHLY4MX',
@@ -457,7 +582,6 @@ const DEALS = [
     currentPrice: 39.99,
     lowestPrice: 22.99,
     averagePrice: 45,
-    highestPrice: 49.99,
     savings: 17,
     savingsLabel: 'drops to $22-25 at Prime Day June 23-26',
     asin: 'B09B8V1LZ3',
@@ -471,7 +595,6 @@ const DEALS = [
     currentPrice: 99,
     lowestPrice: 74.99,
     averagePrice: 99,
-    highestPrice: 129.99,
     savings: 24,
     savingsLabel: 'drops to $74-79 at Prime Day June 23-26',
     asin: 'B07FDJMC9Q',
@@ -479,41 +602,26 @@ const DEALS = [
   },
 ]
 
-// Prime Day countdown
 function updatePrimeCountdown() {
-  const end = new Date('2026-06-23T00:00:00')
-  const now = new Date()
-  const diff = end - now
-  if (diff <= 0) {
-    document.getElementById('primeBanner').innerHTML = '<div style="width:100%;text-align:center;font-size:15px;font-weight:800;color:var(--gold)">🎉 Amazon Prime Day is Live — Check All Deals Now</div>'
-    return
-  }
+  const end = new Date('2026-06-23T00:00:00'), now = new Date(), diff = end - now
+  if (diff <= 0) { document.getElementById('primeBanner').innerHTML = '<div style="width:100%;text-align:center;font-size:15px;font-weight:800;color:var(--gold)">🎉 Amazon Prime Day is Live — Check All Deals Now</div>'; return }
   document.getElementById('pc-days').textContent = Math.floor(diff / 86400000)
   document.getElementById('pc-hours').textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0')
   document.getElementById('pc-mins').textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0')
 }
-updatePrimeCountdown()
-setInterval(updatePrimeCountdown, 60000)
+updatePrimeCountdown(); setInterval(updatePrimeCountdown, 60000)
 
 function updateCategoryCounts() {
   const counts = {}
   DEALS.forEach(d => { counts[d.category] = (counts[d.category] || 0) + 1 })
-  Object.entries(counts).forEach(([cat, count]) => {
-    const el = document.getElementById('count-' + cat)
-    if (el) el.textContent = count
-  })
+  Object.entries(counts).forEach(([cat, count]) => { const el = document.getElementById('count-' + cat); if (el) el.textContent = count })
 }
 
 function renderDeals(filter = 'all') {
   const grid = document.getElementById('dealsGrid')
   const filtered = filter === 'all' ? DEALS : DEALS.filter(d => d.category === filter)
   document.getElementById('dealCount').textContent = DEALS.length
-
-  if (filtered.length === 0) {
-    grid.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🔍</div><p>No deals in this category yet. Check back soon.</p></div>`
-    return
-  }
-
+  if (filtered.length === 0) { grid.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🔍</div><p>No deals in this category yet. Check back soon.</p></div>`; return }
   grid.innerHTML = filtered.map(deal => {
     const isUrgent = deal.verdict === 'urgent'
     const isBuy = deal.verdict === 'buy' || isUrgent
@@ -522,7 +630,6 @@ function renderDeals(filter = 'all') {
     const badgeText = isUrgent ? '⚡ BUY — ENDS ' + deal.expires.toUpperCase() : deal.verdict.toUpperCase()
     const todayColor = isWait ? 'red' : 'gold'
     const lowLabel = isWait ? 'Prime Day Est.' : 'All-Time Low'
-
     return `
     <div class="deal-card" data-category="${deal.category}">
       <div class="deal-card-top">
@@ -535,30 +642,20 @@ function renderDeals(filter = 'all') {
         <div class="deal-savings">${isBuy ? 'Save' : 'Wait to Save'} $${deal.savings}</div>
         <div class="deal-savings-label">${deal.savingsLabel}</div>
         <div class="deal-price-row">
-          <div class="deal-price-box">
-            <div class="deal-price-label">${lowLabel}</div>
-            <div class="deal-price-val green">$${deal.lowestPrice}</div>
-          </div>
-          <div class="deal-price-box">
-            <div class="deal-price-label">Today</div>
-            <div class="deal-price-val ${todayColor}">$${deal.currentPrice}</div>
-          </div>
-          <div class="deal-price-box">
-            <div class="deal-price-label">Average</div>
-            <div class="deal-price-val">$${deal.averagePrice}</div>
-          </div>
+          <div class="deal-price-box"><div class="deal-price-label">${lowLabel}</div><div class="deal-price-val green">$${deal.lowestPrice}</div></div>
+          <div class="deal-price-box"><div class="deal-price-label">Today</div><div class="deal-price-val ${todayColor}">$${deal.currentPrice}</div></div>
+          <div class="deal-price-box"><div class="deal-price-label">Average</div><div class="deal-price-val">$${deal.averagePrice}</div></div>
         </div>
       </div>
       <div class="deal-card-bottom">
         ${isBuy
           ? `<a href="https://www.amazon.com/dp/${deal.asin}?tag=zroppix-20" target="_blank" rel="nofollow" class="deal-amazon-btn">${isUrgent ? '⚡ Buy Now — Sale Ends Soon →' : 'Buy on Amazon →'}</a>`
-          : `<a href="/deals/${deal.slug}" class="deal-amazon-btn" style="background:var(--bg3);color:var(--muted);border:1px solid var(--border);">⏳ See Prime Day Analysis →</a>`
-        }
+          : `<a href="/deals/${deal.slug}" class="deal-amazon-btn" style="background:var(--bg3);color:var(--muted);border:1px solid var(--border);">⏳ See Prime Day Analysis →</a>`}
         <button class="deal-share-btn" onclick="shareDeal('${deal.slug}','${deal.title}',${deal.savings})">Share</button>
       </div>
       ${isUrgent ? `<div class="deal-expires">⚡ Sale ends ${deal.expires} — don't wait</div>` : `<div class="deal-updated">Updated ${deal.updatedDate}</div>`}
-    </div>
-  `}).join('')
+    </div>`
+  }).join('')
 }
 
 function filterDeals(category, btn) {
@@ -569,11 +666,8 @@ function filterDeals(category, btn) {
 
 function shareDeal(slug, title, savings) {
   const text = `Amazon deal: ${title} — verified by real price history 🛡️ zroppix.com/deals/${slug}`
-  if (navigator.share) {
-    navigator.share({ title, text, url: `https://zroppix.com/deals/${slug}` })
-  } else {
-    navigator.clipboard.writeText(`https://zroppix.com/deals/${slug}`).then(() => alert('Deal link copied!'))
-  }
+  if (navigator.share) { navigator.share({ title, text, url: `https://zroppix.com/deals/${slug}` }) }
+  else { navigator.clipboard.writeText(`https://zroppix.com/deals/${slug}`).then(() => alert('Deal link copied!')) }
 }
 
 updateCategoryCounts()
