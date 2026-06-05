@@ -152,9 +152,29 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
 .footer-legal a:hover { color: var(--text); }
 @media (max-width: 900px) { nav { padding: 14px 24px; } .nav-links { display: none; } .deals-hero h1 { font-size: 32px; } .deals-grid { grid-template-columns: 1fr; } .footer-top { grid-template-columns: 1fr 1fr; } .prime-day-site-banner { flex-direction: column; padding: 16px 20px; } }
 @media (max-width: 540px) { .footer-top { grid-template-columns: 1fr; } }
+
+/* ── LIFETIME BANNER ── */
+.lifetime-banner{background:linear-gradient(135deg,rgba(201,168,76,.12),rgba(201,168,76,.04));border-bottom:1px solid rgba(201,168,76,.25);padding:11px 20px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;text-align:center;position:relative;z-index:99;}
+.lifetime-banner-text{font-size:13px;color:var(--subtle);display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;}
+.lifetime-banner-text strong{color:var(--gold);}
+.lifetime-banner-badge{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;background:rgba(201,168,76,.15);color:var(--gold);border:1px solid rgba(201,168,76,.3);padding:3px 10px;border-radius:20px;white-space:nowrap;}
+.lifetime-banner-btn{background:var(--gold);color:#0D0D14;padding:7px 18px;border-radius:8px;font-size:13px;font-weight:800;white-space:nowrap;transition:all .2s;flex-shrink:0;}
+.lifetime-banner-btn:hover{background:#D4B864;transform:translateY(-1px);}
+.lifetime-banner-close{position:absolute;right:16px;top:50%;transform:translateY(-50%);color:var(--muted);cursor:pointer;font-size:18px;line-height:1;padding:4px;}
+.lifetime-banner-close:hover{color:var(--text);}
 </style>
 </head>
 <body>
+<!-- ── LIFETIME BANNER ── -->
+<div class="lifetime-banner" id="lifetimeBanner">
+  <div class="lifetime-banner-text">
+    <span class="lifetime-banner-badge">🏅 Founding Member</span>
+    <span>Lifetime access for <strong>$149 — one payment, never pay again.</strong> Limited to 497 people ever.</span>
+  </div>
+  <a href="/lifetime" class="lifetime-banner-btn">Lock It In →</a>
+  <span class="lifetime-banner-close" onclick="document.getElementById('lifetimeBanner').style.display='none'">×</span>
+</div>
+
 <nav>
   <a href="/" class="nav-logo">🛡️ Zroppix</a>
   <ul class="nav-links">
