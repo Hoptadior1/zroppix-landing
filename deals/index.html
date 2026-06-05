@@ -29,20 +29,22 @@
     { "@type": "WebPage", "url": "https://zroppix.com/deals/kitchen", "name": "Amazon Kitchen Deals" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/gaming", "name": "Amazon Gaming Deals" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/home", "name": "Amazon Home Deals" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/fitness", "name": "Amazon Fitness Deals" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/airpods-pro-3-price-history", "name": "AirPods Pro 3 Price History" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/sony-wh1000xm5-price-history", "name": "Sony WH-1000XM5 Price History" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/kindle-paperwhite-price-history", "name": "Kindle Paperwhite Price History" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/ps5-dualsense-controller-price-history", "name": "PS5 DualSense Controller Price History" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/ipad-11-price-history", "name": "iPad 11 Price History" },
-    { "@type": "WebPage", "url": "https://zroppix.com/deals/ninja-creami-price-history", "name": "Ninja CREAMi Price History" },
-    { "@type": "WebPage", "url": "https://zroppix.com/deals/dyson-v15-detect-price-history", "name": "Dyson V15 Detect Price History" },
-    { "@type": "WebPage", "url": "https://zroppix.com/deals/kitchenaid-stand-mixer-price-history", "name": "KitchenAid Stand Mixer Price History" },
-    { "@type": "WebPage", "url": "https://zroppix.com/deals/samsung-65-inch-tv-prime-day", "name": "Samsung 65-inch TV Prime Day" },
-    { "@type": "WebPage", "url": "https://zroppix.com/deals/ipad-air-m4-price-history", "name": "iPad Air M4 Price History" },
-    { "@type": "WebPage", "url": "https://zroppix.com/deals/shark-iq-robot-vacuum-prime-day", "name": "Shark IQ Robot Vacuum Prime Day" },
-    { "@type": "WebPage", "url": "https://zroppix.com/deals/ring-video-doorbell-pro-prime-day", "name": "Ring Video Doorbell Prime Day" },
-    { "@type": "WebPage", "url": "https://zroppix.com/deals/bose-quietcomfort-45-price-history", "name": "Bose QuietComfort 45 Price History" },
-    { "@type": "WebPage", "url": "https://zroppix.com/deals/stanley-quencher-price-history", "name": "Stanley Quencher Price History" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/macbook-air-m4-price-history", "name": "MacBook Air M4 Price History" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/macbook-air-m5-price-history", "name": "MacBook Air M5 Price History" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/ipad-mini-a17-pro-price-history", "name": "iPad Mini A17 Pro Price History" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/nespresso-vertuo-price-history", "name": "Nespresso Vertuo Price History" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/garmin-forerunner-265-price-history", "name": "Garmin Forerunner 265 Price History" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/vitamix-blender-price-history", "name": "Vitamix Blender Price History" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/lego-prime-day-2026", "name": "Best Lego Prime Day 2026 Deals" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/marvels-wolverine-ps5-preorder", "name": "Marvel's Wolverine PS5 Pre-Order" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/gta-6-price-history", "name": "GTA 6 Price History" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/silent-hill-townfall-preorder", "name": "Silent Hill Townfall Pre-Order" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/kindle-colorsoft-price-history", "name": "Kindle Colorsoft Price History" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/irobot-roomba-j7-prime-day", "name": "iRobot Roomba j7+ Prime Day" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/instant-pot-duo-prime-day", "name": "Instant Pot Duo Prime Day" },
@@ -107,6 +109,7 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .deal-verdict-badge.buy { background: rgba(29,158,117,0.12); color: var(--green); border: 1px solid rgba(29,158,117,0.25); }
 .deal-verdict-badge.wait { background: rgba(226,75,74,0.12); color: var(--red); border: 1px solid rgba(226,75,74,0.25); }
 .deal-verdict-badge.urgent { background: rgba(226,75,74,0.15); color: var(--red); border: 1px solid rgba(226,75,74,0.4); animation: urgentPulse 2s infinite; }
+.deal-verdict-badge.preorder { background: rgba(201,168,76,0.12); color: var(--gold); border: 1px solid rgba(201,168,76,0.25); }
 @keyframes urgentPulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
 .deal-category { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
 .deal-card h3 { font-size: 15px; font-weight: 700; line-height: 1.4; margin-bottom: 12px; color: var(--text); }
@@ -211,6 +214,7 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
   <button class="filter-btn" onclick="filterDeals('kitchen',this)">Kitchen</button>
   <button class="filter-btn" onclick="filterDeals('gaming',this)">Gaming</button>
   <button class="filter-btn" onclick="filterDeals('home',this)">Home</button>
+  <button class="filter-btn" onclick="filterDeals('fitness',this)">Fitness</button>
 </div>
 
 <section class="deals-section">
@@ -246,6 +250,7 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
         <li><a href="/deals/kitchen">Kitchen Deals</a></li>
         <li><a href="/deals/gaming">Gaming Deals</a></li>
         <li><a href="/deals/home">Home Deals</a></li>
+        <li><a href="/deals/fitness">Fitness Deals</a></li>
       </ul>
     </div>
     <div>
@@ -270,336 +275,45 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
 
 <script>
 const DEALS = [
-  // ── URGENT — Days of Play ends June 10th ──
-  {
-    slug: 'ps5-dualsense-controller-price-history',
-    title: 'PS5 DualSense Controller',
-    category: 'gaming',
-    verdict: 'urgent',
-    currentPrice: 54,
-    lowestPrice: 49,
-    averagePrice: 72,
-    savings: 21,
-    savingsLabel: 'vs $74.99 list — sale ends June 10th',
-    asin: 'B0BCNKKZ91',
-    updatedDate: 'June 3, 2026',
-    expires: 'June 10th',
-  },
-  {
-    slug: 'ps5-dualsense-edge-price-history',
-    title: 'PS5 DualSense Edge Pro Controller',
-    category: 'gaming',
-    verdict: 'urgent',
-    currentPrice: 169,
-    lowestPrice: 159,
-    averagePrice: 195,
-    savings: 30,
-    savingsLabel: 'vs $199.99 list — sale ends June 10th',
-    asin: 'B0BH9SMWB8',
-    updatedDate: 'June 3, 2026',
-    expires: 'June 10th',
-  },
+  // ── URGENT ──
+  { slug: 'ps5-dualsense-controller-price-history', title: 'PS5 DualSense Controller', category: 'gaming', verdict: 'urgent', currentPrice: 54, lowestPrice: 49, averagePrice: 72, savings: 21, savingsLabel: 'vs $74.99 list — sale ends June 10th', asin: 'B0BCNKKZ91', updatedDate: 'June 3, 2026', expires: 'June 10th' },
+  { slug: 'ps5-dualsense-edge-price-history', title: 'PS5 DualSense Edge Pro Controller', category: 'gaming', verdict: 'urgent', currentPrice: 169, lowestPrice: 159, averagePrice: 195, savings: 30, savingsLabel: 'vs $199.99 list — sale ends June 10th', asin: 'B0BH9SMWB8', updatedDate: 'June 3, 2026', expires: 'June 10th' },
   // ── BUY NOW ──
-  {
-    slug: 'nintendo-switch-oled-vs-switch-2',
-    title: 'Nintendo Switch OLED',
-    category: 'gaming',
-    verdict: 'buy',
-    currentPrice: 299.99,
-    lowestPrice: 279,
-    averagePrice: 310,
-    savings: 150,
-    savingsLabel: 'vs Nintendo Switch 2 at $449.99',
-    asin: 'B098RKWHHZ',
-    updatedDate: 'June 3, 2026',
-  },
-  {
-    slug: 'logitech-g502x-lightspeed-price-history',
-    title: 'Logitech G502 X Lightspeed',
-    category: 'gaming',
-    verdict: 'buy',
-    currentPrice: 109.99,
-    lowestPrice: 84.99,
-    averagePrice: 137,
-    savings: 50,
-    savingsLabel: 'vs $159.99 list price — 31% off',
-    asin: 'B09ZWCYQTX',
-    updatedDate: 'June 3, 2026',
-  },
-  {
-    slug: 'airpods-pro-3-price-history',
-    title: 'Apple AirPods Pro 3',
-    category: 'electronics',
-    verdict: 'buy',
-    currentPrice: 199,
-    lowestPrice: 185,
-    averagePrice: 230,
-    savings: 50,
-    savingsLabel: 'vs $249 list — already at Prime Day price',
-    asin: 'B0CHWRXH8B',
-    updatedDate: 'June 3, 2026',
-  },
-  {
-    slug: 'sony-wh1000xm5-price-history',
-    title: 'Sony WH-1000XM5 Headphones',
-    category: 'electronics',
-    verdict: 'buy',
-    currentPrice: 248,
-    lowestPrice: 223,
-    averagePrice: 355,
-    savings: 152,
-    savingsLabel: 'vs $400 list — 38% off right now',
-    asin: 'B09XS7JWHH',
-    updatedDate: 'June 3, 2026',
-  },
-  {
-    slug: 'kindle-paperwhite-price-history',
-    title: 'Kindle Paperwhite 16GB',
-    category: 'electronics',
-    verdict: 'buy',
-    currentPrice: 134.99,
-    lowestPrice: 125,
-    averagePrice: 150,
-    savings: 25,
-    savingsLabel: 'vs $159.99 list — best price of 2026',
-    asin: 'B0CFPJYX7P',
-    updatedDate: 'June 3, 2026',
-  },
-  // ── WAIT FOR PRIME DAY JUNE 23-26 ──
-  {
-    slug: 'ipad-11-price-history',
-    title: 'Apple iPad 11 (A16)',
-    category: 'electronics',
-    verdict: 'wait',
-    currentPrice: 299,
-    lowestPrice: 279,
-    averagePrice: 309,
-    savings: 70,
-    savingsLabel: 'hit $279.99 at Prime Day 2025 — wait for June 23',
-    asin: 'B0DKMY21SV',
-    updatedDate: 'June 3, 2026',
-  },
-  {
-    slug: 'ninja-creami-price-history',
-    title: 'Ninja CREAMi Ice Cream Maker',
-    category: 'kitchen',
-    verdict: 'wait',
-    currentPrice: 179,
-    lowestPrice: 99,
-    averagePrice: 162,
-    savings: 80,
-    savingsLabel: 'dropped to $99-119 at Prime Day — wait for June 23',
-    asin: 'B08QXB9BH5',
-    updatedDate: 'June 3, 2026',
-  },
-  {
-    slug: 'dyson-v15-detect-price-history',
-    title: 'Dyson V15 Detect',
-    category: 'electronics',
-    verdict: 'wait',
-    currentPrice: 649,
-    lowestPrice: 389,
-    averagePrice: 549,
-    savings: 260,
-    savingsLabel: 'drops to $389-449 at Prime Day — save $200+',
-    asin: 'B0979R48CX',
-    updatedDate: 'June 3, 2026',
-  },
-  {
-    slug: 'kitchenaid-stand-mixer-price-history',
-    title: 'KitchenAid Artisan Stand Mixer',
-    category: 'kitchen',
-    verdict: 'wait',
-    currentPrice: 449,
-    lowestPrice: 249,
-    averagePrice: 379,
-    savings: 170,
-    savingsLabel: 'drops to $279-329 at Prime Day every year',
-    asin: 'B00005UP2P',
-    updatedDate: 'June 3, 2026',
-  },
-  {
-    slug: 'samsung-65-inch-tv-prime-day',
-    title: 'Samsung 65-inch 4K QLED TV',
-    category: 'electronics',
-    verdict: 'wait',
-    currentPrice: 799,
-    lowestPrice: 499,
-    averagePrice: 699,
-    savings: 300,
-    savingsLabel: 'drops to $499-599 at Prime Day — biggest saving here',
-    asin: 'B0CX1TFLGM',
-    updatedDate: 'June 3, 2026',
-  },
-  {
-    slug: 'ipad-air-m4-price-history',
-    title: 'Apple iPad Air M4',
-    category: 'electronics',
-    verdict: 'wait',
-    currentPrice: 599,
-    lowestPrice: 479,
-    averagePrice: 569,
-    savings: 100,
-    savingsLabel: 'drops to $499-529 at Prime Day June 23-26',
-    asin: 'B0D3J5BZMD',
-    updatedDate: 'June 3, 2026',
-  },
-  {
-    slug: 'shark-iq-robot-vacuum-prime-day',
-    title: 'Shark IQ Robot Vacuum',
-    category: 'home',
-    verdict: 'wait',
-    currentPrice: 349,
-    lowestPrice: 149,
-    averagePrice: 249,
-    savings: 170,
-    savingsLabel: 'drops to $179-229 at Prime Day — best robot vacuum deal',
-    asin: 'B07NHHD2ZZ',
-    updatedDate: 'June 3, 2026',
-  },
-  {
-    slug: 'ring-video-doorbell-pro-prime-day',
-    title: 'Ring Video Doorbell',
-    category: 'home',
-    verdict: 'wait',
-    currentPrice: 149,
-    lowestPrice: 54,
-    averagePrice: 99,
-    savings: 90,
-    savingsLabel: 'Amazon own device — drops to $59-79 at Prime Day',
-    asin: 'B08CKHPP52',
-    updatedDate: 'June 3, 2026',
-  },
-  {
-    slug: 'bose-quietcomfort-45-price-history',
-    title: 'Bose QuietComfort 45',
-    category: 'electronics',
-    verdict: 'wait',
-    currentPrice: 279,
-    lowestPrice: 169,
-    averagePrice: 239,
-    savings: 80,
-    savingsLabel: 'drops to $199-219 at Prime Day June 23-26',
-    asin: 'B098FKXT8L',
-    updatedDate: 'June 3, 2026',
-  },
-  {
-    slug: 'stanley-quencher-price-history',
-    title: 'Stanley Quencher 40oz Tumbler',
-    category: 'home',
-    verdict: 'wait',
-    currentPrice: 35,
-    lowestPrice: 20,
-    averagePrice: 33,
-    savings: 13,
-    savingsLabel: 'standard colors drop to $22-27 at Prime Day',
-    asin: 'B0BWCZ3GTK',
-    updatedDate: 'June 3, 2026',
-  },
-  {
-    slug: 'kindle-colorsoft-price-history',
-    title: 'Kindle Colorsoft',
-    category: 'electronics',
-    verdict: 'wait',
-    currentPrice: 279.99,
-    lowestPrice: 169,
-    averagePrice: 279.99,
-    savings: 110,
-    savingsLabel: 'first ever discount expected at Prime Day June 23-26',
-    asin: 'B0CG3KLJNS',
-    updatedDate: 'June 3, 2026',
-  },
-  {
-    slug: 'irobot-roomba-j7-prime-day',
-    title: 'iRobot Roomba j7+',
-    category: 'home',
-    verdict: 'wait',
-    currentPrice: 449.99,
-    lowestPrice: 279,
-    averagePrice: 326,
-    savings: 150,
-    savingsLabel: 'drops to $299-329 at Prime Day June 23-26',
-    asin: 'B094NPRQBD',
-    updatedDate: 'June 3, 2026',
-  },
-  {
-    slug: 'instant-pot-duo-prime-day',
-    title: 'Instant Pot Duo 7-in-1',
-    category: 'kitchen',
-    verdict: 'wait',
-    currentPrice: 89.99,
-    lowestPrice: 49,
-    averagePrice: 79,
-    savings: 40,
-    savingsLabel: '10 consecutive Prime Day discounts — drops to $49-59',
-    asin: 'B00FLYWNYQ',
-    updatedDate: 'June 3, 2026',
-  },
-  {
-    slug: 'apple-watch-se-prime-day',
-    title: 'Apple Watch SE (2nd Gen)',
-    category: 'electronics',
-    verdict: 'wait',
-    currentPrice: 179,
-    lowestPrice: 149,
-    averagePrice: 174,
-    savings: 30,
-    savingsLabel: 'drops to $149-159 at Prime Day June 23-26',
-    asin: 'B0BDJ3TB1X',
-    updatedDate: 'June 3, 2026',
-  },
-  {
-    slug: 'amazon-fire-tv-stick-4k-prime-day',
-    title: 'Fire TV Stick 4K Max',
-    category: 'electronics',
-    verdict: 'wait',
-    currentPrice: 59.99,
-    lowestPrice: 24.99,
-    averagePrice: 44,
-    savings: 35,
-    savingsLabel: 'up to 65% off at Prime Day — all-time low $24.99',
-    asin: 'B0BP9SNVH9',
-    updatedDate: 'June 3, 2026',
-  },
-  {
-    slug: 'steelseries-arctis-nova-pro-prime-day',
-    title: 'SteelSeries Arctis Nova Pro Wireless',
-    category: 'gaming',
-    verdict: 'wait',
-    currentPrice: 299.99,
-    lowestPrice: 176.99,
-    averagePrice: 262,
-    savings: 100,
-    savingsLabel: 'expected saving at Prime Day June 23-26',
-    asin: 'B09ZHLY4MX',
-    updatedDate: 'June 3, 2026',
-  },
-  {
-    slug: 'echo-dot-5th-gen-prime-day',
-    title: 'Echo Dot 5th Generation',
-    category: 'electronics',
-    verdict: 'wait',
-    currentPrice: 39.99,
-    lowestPrice: 22.99,
-    averagePrice: 45,
-    savings: 17,
-    savingsLabel: 'drops to $22-25 at Prime Day June 23-26',
-    asin: 'B09B8V1LZ3',
-    updatedDate: 'June 3, 2026',
-  },
-  {
-    slug: 'ninja-air-fryer-prime-day',
-    title: 'Ninja Air Fryer AF101',
-    category: 'kitchen',
-    verdict: 'wait',
-    currentPrice: 99,
-    lowestPrice: 74.99,
-    averagePrice: 99,
-    savings: 24,
-    savingsLabel: 'drops to $74-79 at Prime Day June 23-26',
-    asin: 'B07FDJMC9Q',
-    updatedDate: 'June 3, 2026',
-  },
+  { slug: 'nintendo-switch-oled-vs-switch-2', title: 'Nintendo Switch OLED', category: 'gaming', verdict: 'buy', currentPrice: 299.99, lowestPrice: 279, averagePrice: 310, savings: 150, savingsLabel: 'vs Nintendo Switch 2 at $449.99', asin: 'B098RKWHHZ', updatedDate: 'June 3, 2026' },
+  { slug: 'logitech-g502x-lightspeed-price-history', title: 'Logitech G502 X Lightspeed', category: 'gaming', verdict: 'buy', currentPrice: 109.99, lowestPrice: 84.99, averagePrice: 137, savings: 50, savingsLabel: 'vs $159.99 list price — 31% off', asin: 'B09ZWCYQTX', updatedDate: 'June 3, 2026' },
+  { slug: 'airpods-pro-3-price-history', title: 'Apple AirPods Pro 3', category: 'electronics', verdict: 'buy', currentPrice: 199, lowestPrice: 185, averagePrice: 230, savings: 50, savingsLabel: 'vs $249 list — already at Prime Day price', asin: 'B0CHWRXH8B', updatedDate: 'June 3, 2026' },
+  { slug: 'sony-wh1000xm5-price-history', title: 'Sony WH-1000XM5 Headphones', category: 'electronics', verdict: 'buy', currentPrice: 248, lowestPrice: 223, averagePrice: 355, savings: 152, savingsLabel: 'vs $400 list — 38% off right now', asin: 'B09XS7JWHH', updatedDate: 'June 3, 2026' },
+  { slug: 'kindle-paperwhite-price-history', title: 'Kindle Paperwhite 16GB', category: 'electronics', verdict: 'buy', currentPrice: 134.99, lowestPrice: 125, averagePrice: 150, savings: 25, savingsLabel: 'vs $159.99 list — best price of 2026', asin: 'B0CFPJYX7P', updatedDate: 'June 3, 2026' },
+  // ── PRE-ORDER ANALYSIS ──
+  { slug: 'gta-6-price-history', title: 'GTA 6 — Buy at Launch', category: 'gaming', verdict: 'preorder', currentPrice: 69.99, lowestPrice: 69.99, averagePrice: 69.99, savings: 0, savingsLabel: 'Rockstar games never discount — buy day one', asin: 'B0DXYZ5678', updatedDate: 'June 3, 2026' },
+  { slug: 'marvels-wolverine-ps5-preorder', title: "Marvel's Wolverine PS5", category: 'gaming', verdict: 'preorder', currentPrice: 69.99, lowestPrice: 39.99, averagePrice: 69.99, savings: 30, savingsLabel: 'Drops to $39-49 within 90 days of Sep 15 launch', asin: 'B0DXYZ1234', updatedDate: 'June 3, 2026' },
+  { slug: 'silent-hill-townfall-preorder', title: 'Silent Hill Townfall PS5', category: 'gaming', verdict: 'preorder', currentPrice: 69.99, lowestPrice: 29.99, averagePrice: 69.99, savings: 30, savingsLabel: 'Wait 90 days — drops to $39-49 by Jan 2027', asin: 'B0DXYZ9012', updatedDate: 'June 3, 2026' },
+  // ── WAIT FOR PRIME DAY ──
+  { slug: 'macbook-air-m4-price-history', title: 'MacBook Air M4 (Clearance)', category: 'electronics', verdict: 'wait', currentPrice: 999, lowestPrice: 849, averagePrice: 979, savings: 150, savingsLabel: 'clearance item — could hit $849 at Prime Day June 23', asin: 'B0CX23V2ZK', updatedDate: 'June 3, 2026' },
+  { slug: 'macbook-air-m5-price-history', title: 'MacBook Air M5', category: 'electronics', verdict: 'wait', currentPrice: 899, lowestPrice: 849, averagePrice: 979, savings: 100, savingsLabel: 'already $200 off — Prime Day could hit $849', asin: 'B0DYP2JCY8', updatedDate: 'June 3, 2026' },
+  { slug: 'ipad-mini-a17-pro-price-history', title: 'iPad Mini A17 Pro', category: 'electronics', verdict: 'wait', currentPrice: 499, lowestPrice: 379, averagePrice: 469, savings: 100, savingsLabel: 'drops to $399-449 at Prime Day June 23-26', asin: 'B0CNGJVSJD', updatedDate: 'June 3, 2026' },
+  { slug: 'ipad-11-price-history', title: 'Apple iPad 11 (A16)', category: 'electronics', verdict: 'wait', currentPrice: 299, lowestPrice: 279, averagePrice: 309, savings: 70, savingsLabel: 'hit $279.99 at Prime Day 2025 — wait for June 23', asin: 'B0DKMY21SV', updatedDate: 'June 3, 2026' },
+  { slug: 'ipad-air-m4-price-history', title: 'Apple iPad Air M4', category: 'electronics', verdict: 'wait', currentPrice: 599, lowestPrice: 479, averagePrice: 569, savings: 100, savingsLabel: 'drops to $499-529 at Prime Day June 23-26', asin: 'B0D3J5BZMD', updatedDate: 'June 3, 2026' },
+  { slug: 'garmin-forerunner-265-price-history', title: 'Garmin Forerunner 265', category: 'fitness', verdict: 'wait', currentPrice: 449, lowestPrice: 279, averagePrice: 389, savings: 150, savingsLabel: 'drops to $299-349 at Prime Day — best running watch deal', asin: 'B0BS2PVGD2', updatedDate: 'June 3, 2026' },
+  { slug: 'dyson-v15-detect-price-history', title: 'Dyson V15 Detect', category: 'electronics', verdict: 'wait', currentPrice: 649, lowestPrice: 389, averagePrice: 549, savings: 260, savingsLabel: 'drops to $389-449 at Prime Day — save $200+', asin: 'B0979R48CX', updatedDate: 'June 3, 2026' },
+  { slug: 'samsung-65-inch-tv-prime-day', title: 'Samsung 65-inch 4K QLED TV', category: 'electronics', verdict: 'wait', currentPrice: 799, lowestPrice: 499, averagePrice: 699, savings: 300, savingsLabel: 'drops to $499-599 at Prime Day — biggest saving here', asin: 'B0CX1TFLGM', updatedDate: 'June 3, 2026' },
+  { slug: 'kitchenaid-stand-mixer-price-history', title: 'KitchenAid Artisan Stand Mixer', category: 'kitchen', verdict: 'wait', currentPrice: 449, lowestPrice: 249, averagePrice: 379, savings: 170, savingsLabel: 'drops to $279-329 at Prime Day every year', asin: 'B00005UP2P', updatedDate: 'June 3, 2026' },
+  { slug: 'vitamix-blender-price-history', title: 'Vitamix 5200 Blender', category: 'kitchen', verdict: 'wait', currentPrice: 549, lowestPrice: 249, averagePrice: 449, savings: 270, savingsLabel: 'drops to $279-329 at Prime Day — 8 consecutive years', asin: 'B008H4SLV6', updatedDate: 'June 3, 2026' },
+  { slug: 'nespresso-vertuo-price-history', title: 'Nespresso Vertuo Next', category: 'kitchen', verdict: 'wait', currentPrice: 159, lowestPrice: 69, averagePrice: 129, savings: 80, savingsLabel: 'drops to $79-99 at Prime Day — 5 consecutive years', asin: 'B08CTTGLWY', updatedDate: 'June 3, 2026' },
+  { slug: 'ninja-creami-price-history', title: 'Ninja CREAMi Ice Cream Maker', category: 'kitchen', verdict: 'wait', currentPrice: 179, lowestPrice: 99, averagePrice: 162, savings: 80, savingsLabel: 'dropped to $99-119 at Prime Day — wait for June 23', asin: 'B08QXB9BH5', updatedDate: 'June 3, 2026' },
+  { slug: 'lego-prime-day-2026', title: 'Best Lego Prime Day 2026 Deals', category: 'gaming', verdict: 'wait', currentPrice: 179, lowestPrice: 99, averagePrice: 149, savings: 80, savingsLabel: '7 top Lego sets dropping 30-40% at Prime Day June 23', asin: 'B0CLNL1LBX', updatedDate: 'June 3, 2026' },
+  { slug: 'bose-quietcomfort-45-price-history', title: 'Bose QuietComfort 45', category: 'electronics', verdict: 'wait', currentPrice: 279, lowestPrice: 169, averagePrice: 239, savings: 80, savingsLabel: 'drops to $199-219 at Prime Day June 23-26', asin: 'B098FKXT8L', updatedDate: 'June 3, 2026' },
+  { slug: 'shark-iq-robot-vacuum-prime-day', title: 'Shark IQ Robot Vacuum', category: 'home', verdict: 'wait', currentPrice: 349, lowestPrice: 149, averagePrice: 249, savings: 170, savingsLabel: 'drops to $179-229 at Prime Day — best robot vacuum deal', asin: 'B07NHHD2ZZ', updatedDate: 'June 3, 2026' },
+  { slug: 'ring-video-doorbell-pro-prime-day', title: 'Ring Video Doorbell', category: 'home', verdict: 'wait', currentPrice: 149, lowestPrice: 54, averagePrice: 99, savings: 90, savingsLabel: 'Amazon own device — drops to $59-79 at Prime Day', asin: 'B08CKHPP52', updatedDate: 'June 3, 2026' },
+  { slug: 'stanley-quencher-price-history', title: 'Stanley Quencher 40oz Tumbler', category: 'home', verdict: 'wait', currentPrice: 35, lowestPrice: 20, averagePrice: 33, savings: 13, savingsLabel: 'standard colors drop to $22-27 at Prime Day', asin: 'B0BWCZ3GTK', updatedDate: 'June 3, 2026' },
+  { slug: 'kindle-colorsoft-price-history', title: 'Kindle Colorsoft', category: 'electronics', verdict: 'wait', currentPrice: 279.99, lowestPrice: 169, averagePrice: 279.99, savings: 110, savingsLabel: 'first ever discount expected at Prime Day June 23-26', asin: 'B0CG3KLJNS', updatedDate: 'June 3, 2026' },
+  { slug: 'irobot-roomba-j7-prime-day', title: 'iRobot Roomba j7+', category: 'home', verdict: 'wait', currentPrice: 449.99, lowestPrice: 279, averagePrice: 326, savings: 150, savingsLabel: 'drops to $299-329 at Prime Day June 23-26', asin: 'B094NPRQBD', updatedDate: 'June 3, 2026' },
+  { slug: 'instant-pot-duo-prime-day', title: 'Instant Pot Duo 7-in-1', category: 'kitchen', verdict: 'wait', currentPrice: 89.99, lowestPrice: 49, averagePrice: 79, savings: 40, savingsLabel: '10 consecutive Prime Day discounts — drops to $49-59', asin: 'B00FLYWNYQ', updatedDate: 'June 3, 2026' },
+  { slug: 'apple-watch-se-prime-day', title: 'Apple Watch SE (2nd Gen)', category: 'electronics', verdict: 'wait', currentPrice: 179, lowestPrice: 149, averagePrice: 174, savings: 30, savingsLabel: 'drops to $149-159 at Prime Day June 23-26', asin: 'B0BDJ3TB1X', updatedDate: 'June 3, 2026' },
+  { slug: 'amazon-fire-tv-stick-4k-prime-day', title: 'Fire TV Stick 4K Max', category: 'electronics', verdict: 'wait', currentPrice: 59.99, lowestPrice: 24.99, averagePrice: 44, savings: 35, savingsLabel: 'up to 65% off at Prime Day — all-time low $24.99', asin: 'B0BP9SNVH9', updatedDate: 'June 3, 2026' },
+  { slug: 'steelseries-arctis-nova-pro-prime-day', title: 'SteelSeries Arctis Nova Pro Wireless', category: 'gaming', verdict: 'wait', currentPrice: 299.99, lowestPrice: 176.99, averagePrice: 262, savings: 100, savingsLabel: 'expected saving at Prime Day June 23-26', asin: 'B09ZHLY4MX', updatedDate: 'June 3, 2026' },
+  { slug: 'echo-dot-5th-gen-prime-day', title: 'Echo Dot 5th Generation', category: 'electronics', verdict: 'wait', currentPrice: 39.99, lowestPrice: 22.99, averagePrice: 45, savings: 17, savingsLabel: 'drops to $22-25 at Prime Day June 23-26', asin: 'B09B8V1LZ3', updatedDate: 'June 3, 2026' },
+  { slug: 'ninja-air-fryer-prime-day', title: 'Ninja Air Fryer AF101', category: 'kitchen', verdict: 'wait', currentPrice: 99, lowestPrice: 74.99, averagePrice: 99, savings: 24, savingsLabel: 'drops to $74-79 at Prime Day June 23-26', asin: 'B07FDJMC9Q', updatedDate: 'June 3, 2026' },
 ]
 
 function updatePrimeCountdown() {
@@ -626,10 +340,15 @@ function renderDeals(filter = 'all') {
     const isUrgent = deal.verdict === 'urgent'
     const isBuy = deal.verdict === 'buy' || isUrgent
     const isWait = deal.verdict === 'wait'
+    const isPreorder = deal.verdict === 'preorder'
     const badgeClass = isUrgent ? 'urgent' : deal.verdict
-    const badgeText = isUrgent ? '⚡ BUY — ENDS ' + deal.expires.toUpperCase() : deal.verdict.toUpperCase()
-    const todayColor = isWait ? 'red' : 'gold'
-    const lowLabel = isWait ? 'Prime Day Est.' : 'All-Time Low'
+    const badgeText = isUrgent ? '⚡ BUY — ENDS ' + deal.expires.toUpperCase() : isPreorder ? '🎮 PRE-ORDER ANALYSIS' : deal.verdict.toUpperCase()
+    const todayColor = isWait ? 'red' : isPreorder ? 'gold' : 'gold'
+    const lowLabel = isWait ? 'Prime Day Est.' : isPreorder ? 'Expected Drop' : 'All-Time Low'
+    const btnLabel = isUrgent ? '⚡ Buy Now — Sale Ends Soon →' : isBuy ? 'Buy on Amazon →' : isPreorder ? '🎮 Read Analysis →' : '⏳ See Prime Day Analysis →'
+    const btnStyle = (isWait || isPreorder) ? `style="background:var(--bg3);color:var(--muted);border:1px solid var(--border);"` : ''
+    const btnHref = (isWait || isPreorder) ? `/deals/${deal.slug}` : `https://www.amazon.com/dp/${deal.asin}?tag=zroppix-20`
+    const btnTarget = (isWait || isPreorder) ? '' : 'target="_blank" rel="nofollow"'
     return `
     <div class="deal-card" data-category="${deal.category}">
       <div class="deal-card-top">
@@ -639,7 +358,7 @@ function renderDeals(filter = 'all') {
         </div>
         <div class="verified-badge">✓ Verified by price history</div>
         <h3><a href="/deals/${deal.slug}">${deal.title}</a></h3>
-        <div class="deal-savings">${isBuy ? 'Save' : 'Wait to Save'} $${deal.savings}</div>
+        <div class="deal-savings">${isBuy ? 'Save' : isPreorder ? 'Expected Save' : 'Wait to Save'} $${deal.savings}</div>
         <div class="deal-savings-label">${deal.savingsLabel}</div>
         <div class="deal-price-row">
           <div class="deal-price-box"><div class="deal-price-label">${lowLabel}</div><div class="deal-price-val green">$${deal.lowestPrice}</div></div>
@@ -648,9 +367,7 @@ function renderDeals(filter = 'all') {
         </div>
       </div>
       <div class="deal-card-bottom">
-        ${isBuy
-          ? `<a href="https://www.amazon.com/dp/${deal.asin}?tag=zroppix-20" target="_blank" rel="nofollow" class="deal-amazon-btn">${isUrgent ? '⚡ Buy Now — Sale Ends Soon →' : 'Buy on Amazon →'}</a>`
-          : `<a href="/deals/${deal.slug}" class="deal-amazon-btn" style="background:var(--bg3);color:var(--muted);border:1px solid var(--border);">⏳ See Prime Day Analysis →</a>`}
+        <a href="${btnHref}" ${btnTarget} class="deal-amazon-btn" ${btnStyle}>${btnLabel}</a>
         <button class="deal-share-btn" onclick="shareDeal('${deal.slug}','${deal.title}',${deal.savings})">Share</button>
       </div>
       ${isUrgent ? `<div class="deal-expires">⚡ Sale ends ${deal.expires} — don't wait</div>` : `<div class="deal-updated">Updated ${deal.updatedDate}</div>`}
