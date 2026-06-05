@@ -183,7 +183,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 48p
   </div>
 
   <div class="fc-cta">
-    <a href="https://buy.paddle.com/product/pri_01ktbv4qnn6jhsmxc9sc9v0ts1" class="fc-buy-btn">
+    <a href="#" onclick="openCheckout('pri_01ktbv4qnn6jhsmxc9sc9v0ts1'); return false;" class="fc-buy-btn">
       Lock In Lifetime Access — $149 →
     </a>
     <div class="fc-guarantee">
@@ -267,7 +267,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 48p
   <div class="lt-bottom-cta">
     <h2>497 People Will Never Overpay on Amazon Again.</h2>
     <p>One of them should be you. <strong>$149 once.</strong> Every Amazon purchase you make from today will be smarter than it was yesterday.</p>
-    <a href="https://buy.paddle.com/product/pri_01ktbv4qnn6jhsmxc9sc9v0ts1" class="fc-buy-btn" style="max-width:400px;margin:0 auto 12px;">
+    <a href="#" onclick="openCheckout('pri_01ktbv4qnn6jhsmxc9sc9v0ts1'); return false;" class="fc-buy-btn" style="max-width:400px;margin:0 auto 12px;">
       Lock In Lifetime Access — $149 →
     </a>
     <div class="fc-guarantee">
@@ -297,5 +297,13 @@ document.querySelectorAll('.lt-faq-q').forEach(q => {
 })
 </script>
 
+
+<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+<script>
+Paddle.Initialize({ token: 'live_f1eda9271a93d8a241d6446b64c' });
+function openCheckout(priceId) {
+  Paddle.Checkout.open({ items: [{ priceId: priceId, quantity: 1 }] });
+}
+</script>
 </body>
 </html>
