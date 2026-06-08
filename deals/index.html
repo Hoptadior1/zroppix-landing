@@ -202,6 +202,12 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
 .lifetime-banner-btn:hover{background:#D4B864;transform:translateY(-1px);}
 .lifetime-banner-close{position:absolute;right:16px;top:50%;transform:translateY(-50%);color:var(--muted);cursor:pointer;font-size:18px;line-height:1;padding:4px;}
 .lifetime-banner-close:hover{color:var(--text);}
+
+.lifetime-banner-text{font-size:13px;color:var(--subtle);display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;}
+.lifetime-banner-text strong{color:var(--gold);}
+.lifetime-banner-badge{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;background:rgba(201,168,76,.15);color:var(--gold);border:1px solid rgba(201,168,76,.3);padding:3px 10px;border-radius:20px;white-space:nowrap;}
+.lifetime-banner-btn{background:var(--gold);color:#0D0D14;padding:7px 18px;border-radius:8px;font-size:13px;font-weight:800;white-space:nowrap;transition:all .2s;flex-shrink:0;text-decoration:none;}
+.lifetime-banner-close{position:absolute;right:16px;top:50%;transform:translateY(-50%);color:var(--muted);cursor:pointer;font-size:18px;line-height:1;padding:4px;}
 </style>
 </head>
 <body>
@@ -214,6 +220,7 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
   <a href="/lifetime" class="lifetime-banner-btn">Lock It In →</a>
   <span class="lifetime-banner-close" onclick="document.getElementById('lifetimeBanner').style.display='none'">×</span>
 </div>
+
 
 <nav>
   <a href="/" class="nav-logo">🛡️ Zroppix</a>
