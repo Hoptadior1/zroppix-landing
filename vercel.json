@@ -30,31 +30,6 @@
       "source": "/blog/amazon-prime-day-2026",
       "destination": "/blog/amazon-prime-day-2026-guide",
       "permanent": true
-    },
-    {
-      "source": "/deals/gaming",
-      "destination": "/deals",
-      "permanent": false
-    },
-    {
-      "source": "/deals/electronics",
-      "destination": "/deals",
-      "permanent": false
-    },
-    {
-      "source": "/deals/kitchen",
-      "destination": "/deals",
-      "permanent": false
-    },
-    {
-      "source": "/deals/home",
-      "destination": "/deals",
-      "permanent": false
-    },
-    {
-      "source": "/deals/fitness",
-      "destination": "/deals",
-      "permanent": false
     }
   ],
   "headers": [
