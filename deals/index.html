@@ -84,6 +84,7 @@
     { "@type": "WebPage", "url": "https://zroppix.com/deals/echo-show-11-price-history", "name": "Echo Show 11 Price History" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/echo-show-8-price-history", "name": "Echo Show 8 Price History" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/eero-wifi-router-price-history", "name": "eero WiFi Router Price History" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/eight-sleep-pod-4-price-history", "name": "Eight Sleep Pod 4 Price History" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/elgato-stream-deck-price-history", "name": "Elgato Stream Deck Price History" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/ergonomic-office-chair-price-history", "name": "Ergonomic Office Chair Price History" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/eufy-baby-monitor-price-history", "name": "eufy Baby Monitor Price History" },
@@ -190,6 +191,7 @@
     { "@type": "WebPage", "url": "https://zroppix.com/deals/steelseries-arctis-nova-pro-prime-day", "name": "SteelSeries Arctis Nova Pro Wireless Price History" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/the-ordinary-glycolic-acid-toner-price-history", "name": "The Ordinary Glycolic Acid Toner Price History" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/theragun-prime-price-history", "name": "Theragun Prime Price History" },
+    { "@type": "WebPage", "url": "https://zroppix.com/deals/tonal-home-gym-price-history", "name": "Tonal Home Gym Price History" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/traeger-pro-575-price-history", "name": "Traeger Pro 575 Price History" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/uppababy-vista-v3-price-history", "name": "UPPAbaby Vista V3 Price History" },
     { "@type": "WebPage", "url": "https://zroppix.com/deals/vitamix-blender-price-history", "name": "Vitamix Blender Price History" },
@@ -335,7 +337,7 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
   <h1>Amazon Deals That Are<br><span>Actually Worth Buying</span></h1>
   <p>Every deal verified against real 90-day price history. No fake discounts. Just honest BUY verdicts backed by data.</p>
   <div class="hero-stats">
-    <div class="hero-stat"><div class="hero-stat-num" id="dealCount">166</div><div class="hero-stat-label">Verified deals today</div></div>
+    <div class="hero-stat"><div class="hero-stat-num" id="dealCount">168</div><div class="hero-stat-label">Verified deals today</div></div>
     <div class="hero-stat"><div class="hero-stat-num">90</div><div class="hero-stat-label">Days of price history</div></div>
     <div class="hero-stat"><div class="hero-stat-num">Free</div><div class="hero-stat-label">Always free to check</div></div>
   </div>
@@ -441,6 +443,7 @@ const DEALS = [
   { slug: 'echo-show-11-price-history', title: 'Echo Show 11 Price History', category: 'home', verdict: 'wait', currentPrice: 229.99, lowestPrice: 89.99, averagePrice: 179.99, savings: 140, savingsLabel: 'Amazon confirmed 65% off Alexa devices at Prime Day — Echo Show 11 expected $79-99', asin: 'B09QTL48KS', updatedDate: '2026-06-20' },
   { slug: 'echo-show-8-price-history', title: 'Echo Show 8 Price History', category: 'home', verdict: 'wait', currentPrice: 179.99, lowestPrice: 99.99, averagePrice: 179.99, savings: 80, savingsLabel: 'Amazon officially confirmed up to 60% off Echo Show 8 at Prime Day 2026 — the deepest annual discount on Amazon smart displays', asin: 'B084DC4LW6', updatedDate: '2026-06-20' },
   { slug: 'eero-wifi-router-price-history', title: 'eero WiFi Router Price History', category: 'home', verdict: 'wait', currentPrice: 99.99, lowestPrice: 39.99, averagePrice: 79.99, savings: 60, savingsLabel: 'Amazon confirmed 65% off eero at Prime Day — eero 6 drops to $34-49, eero Pro 6E to $99-139', asin: 'B085WWNVNB', updatedDate: '2026-06-20' },
+  { slug: 'eight-sleep-pod-4-price-history', title: 'Eight Sleep Pod 4 Price History', category: 'electronics', verdict: 'wait', currentPrice: 0, lowestPrice: 1999.0, averagePrice: 0, savings: 0, savingsLabel: 'See full price analysis', asin: 'B000000000', updatedDate: '2026-06-20' },
   { slug: 'elgato-stream-deck-price-history', title: 'Elgato Stream Deck Price History', category: 'gaming', verdict: 'wait', currentPrice: 149.99, lowestPrice: 89.0, averagePrice: 149.99, savings: 60, savingsLabel: 'Stream Deck MK.2 hits its annual low at Prime Day every year — confirmed pattern, Elgato participates consistently', asin: 'B09738CV2G', updatedDate: '2026-06-20' },
   { slug: 'ergonomic-office-chair-price-history', title: 'Ergonomic Office Chair Price History', category: 'home', verdict: 'wait', currentPrice: 299.99, lowestPrice: 169.99, averagePrice: 249.99, savings: 130, savingsLabel: 'drops to $149-199 at Prime Day — 40-50% off ergonomic chairs every year', asin: 'B08CZZKQMB', updatedDate: '2026-06-20' },
   { slug: 'eufy-baby-monitor-price-history', title: 'eufy Baby Monitor Price History', category: 'toys', verdict: 'wait', currentPrice: 0, lowestPrice: 130.0, averagePrice: 0, savings: 70, savingsLabel: 'eufy participates in Prime Day every year with deep discounts on its baby monitor lineup. At Prime Day pricing, the E21 and C10 reach their lowest prices of the year. The no-subscription model means your Prime Day savings compound — you never pay a monthly fee for what you bought once at a discount.', asin: 'B000000000', updatedDate: '2026-06-20' },
@@ -547,6 +550,7 @@ const DEALS = [
   { slug: 'steelseries-arctis-nova-pro-prime-day', title: 'SteelSeries Arctis Nova Pro Wireless Price History', category: 'gaming', verdict: 'wait', currentPrice: 299.99, lowestPrice: 176.99, averagePrice: 299.99, savings: 0, savingsLabel: 'See full price analysis', asin: 'B09ZHLY4MX', updatedDate: '2026-06-20' },
   { slug: 'the-ordinary-glycolic-acid-toner-price-history', title: 'The Ordinary Glycolic Acid Toner Price History', category: 'beauty', verdict: 'wait', currentPrice: 12.0, lowestPrice: 7.99, averagePrice: 12.0, savings: 3, savingsLabel: 'Prime Day June 23-26 is 9 days away — the best skincare staple deal of 2026 is coming', asin: 'B000000000', updatedDate: '2026-06-20' },
   { slug: 'theragun-prime-price-history', title: 'Theragun Prime Price History', category: 'fitness', verdict: 'wait', currentPrice: 249.99, lowestPrice: 199.99, averagePrice: 279.99, savings: 80, savingsLabel: 'drops to $179-199 at Prime Day every year — save $80-150 vs today\'s already-discounted price', asin: 'B0B39KBBDK', updatedDate: '2026-06-20' },
+  { slug: 'tonal-home-gym-price-history', title: 'Tonal Home Gym Price History', category: 'electronics', verdict: 'wait', currentPrice: 2995.0, lowestPrice: 1999.0, averagePrice: 2995.0, savings: 0, savingsLabel: 'See full price analysis', asin: 'B000000000', updatedDate: '2026-06-20' },
   { slug: 'traeger-pro-575-price-history', title: 'Traeger Pro 575 Price History', category: 'outdoor', verdict: 'wait', currentPrice: 599.0, lowestPrice: 497.0, averagePrice: 599.0, savings: 50, savingsLabel: 'Prime Day June 23-26 is 11 days away — the best price of 2026 is coming', asin: 'B07SJW67X2', updatedDate: '2026-06-20' },
   { slug: 'uppababy-vista-v3-price-history', title: 'UPPAbaby Vista V3 Price History', category: 'toys', verdict: 'wait', currentPrice: 999.0, lowestPrice: 749.0, averagePrice: 999.0, savings: 150, savingsLabel: 'The UPPAbaby Vista V2 hit $749-849 at Prime Day 2025. The V3 launched at the same $999 price and is expected to follow the identical discount pattern June 23. Premium stroller discounts confirmed at Prime Day 2026.', asin: 'B000000000', updatedDate: '2026-06-20' },
   { slug: 'vitamix-blender-price-history', title: 'Vitamix Blender Price History', category: 'kitchen', verdict: 'wait', currentPrice: 499.0, lowestPrice: 299.0, averagePrice: 499.0, savings: 150, savingsLabel: 'Prime Day June 23–26 is the single best time to buy a Vitamix — 6 years of consecutive Prime Day discounts confirm it', asin: 'B000000000', updatedDate: '2026-06-20' },
