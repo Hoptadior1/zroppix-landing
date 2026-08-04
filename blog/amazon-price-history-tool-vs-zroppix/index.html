@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#0d1423">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amazon's New Price History Tool vs. Zroppix — What It Shows (and Doesn't) | Zroppix</title>
+<meta name="description" content="Amazon is testing a built-in Price History button. Here's exactly what it shows, what it leaves out, and how it compares to a dedicated price tracker.">
+<link rel="canonical" href="https://zroppix.com/blog/amazon-price-history-tool-vs-zroppix">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://zroppix.com/blog/amazon-price-history-tool-vs-zroppix">
+<meta property="og:title" content="Amazon's New Price History Tool vs. Zroppix — Compared">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #0D0D14; --bg2: #12121A; --bg3: #0A0A10;
+  --border: #22223A; --gold: #C9A84C; --green: #1D9E75;
+  --red: #E24B4A; --orange: #F5A623; --text: #ffffff;
+  --muted: #7A78A0; --subtle: #cccccc;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+a { text-decoration: none; color: inherit; }
+.wrap { max-width: 760px; margin: 0 auto; padding: 0 20px; }
+nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 48px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(13,13,20,0.96); backdrop-filter: blur(12px); z-index: 100; }
+.nav-logo { font-size: 20px; font-weight: 800; color: var(--gold); display: flex; align-items: center; gap: 8px; }
+.btn-gold { background: var(--gold); color: #0D0D14; padding: 12px 24px; border-radius: 10px; font-weight: 700; font-size: 15px; transition: all 0.2s; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+.btn-gold:hover { background: #D4B864; transform: translateY(-1px); }
+.article-header { padding: 56px 0 24px; }
+.category-tag { display: inline-block; background: rgba(201,168,76,0.08); color: var(--gold); padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 20px; }
+h1 { font-size: 34px; font-weight: 900; line-height: 1.15; letter-spacing: -0.5px; margin-bottom: 16px; }
+.meta { font-size: 13px; color: var(--muted); display: flex; gap: 14px; margin-bottom: 32px; }
+.dek { font-size: 18px; color: var(--subtle); line-height: 1.65; margin-bottom: 8px; }
+
+.tool-box { background: var(--bg2); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; margin: 32px 0 44px; box-shadow: 0 0 0 1px rgba(201,168,76,0.08); }
+.tool-topbar { display: flex; justify-content: space-between; align-items: center; padding: 13px 20px; background: var(--bg3); border-bottom: 1px solid var(--border); }
+.tool-brand { font-weight: 800; color: var(--gold); font-size: 15px; }
+.tool-badge { font-size: 10px; font-weight: 700; background: rgba(201,168,76,0.12); color: var(--gold); padding: 3px 10px; border-radius: 8px; }
+.tool-body { padding: 22px 20px; }
+.tool-headline { font-size: 17px; font-weight: 800; margin-bottom: 8px; }
+.tool-sub { font-size: 14px; color: var(--muted); margin-bottom: 18px; line-height: 1.6; }
+.tool-cta { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: var(--gold); color: #0D0D14; border-radius: 10px; font-size: 14px; font-weight: 800; }
+
+article { font-size: 17px; color: var(--subtle); line-height: 1.75; }
+article p { margin-bottom: 20px; }
+article h2 { font-size: 24px; font-weight: 800; color: var(--text); margin: 40px 0 16px; }
+
+.comparison-table-wrap { overflow-x: auto; border-radius: 14px; margin: 24px 0; }
+.comparison-table { width: 100%; border-collapse: collapse; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); min-width: 480px; }
+.comparison-table th { padding: 14px 16px; font-size: 13px; font-weight: 700; text-align: center; background: var(--bg2); border-bottom: 1px solid var(--border); }
+.comparison-table th:first-child { text-align: left; }
+.comparison-table th.highlight { color: var(--gold); background: rgba(201,168,76,0.06); }
+.comparison-table td { padding: 12px 16px; font-size: 13px; text-align: center; border-bottom: 1px solid #1A1A26; color: var(--muted); background: var(--bg2); }
+.comparison-table td:first-child { text-align: left; color: var(--text); font-weight: 500; }
+.comparison-table td.highlight { background: rgba(201,168,76,0.04); }
+.comparison-table tr:last-child td { border-bottom: none; }
+.check { color: var(--green); font-size: 15px; }
+.cross { color: var(--red); font-size: 15px; }
+.partial { color: var(--orange); font-size: 12px; }
+
+.source-note { font-size: 12px; color: #3A3A5C; margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border); line-height: 1.7; }
+footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 40px 20px; margin-top: 60px; text-align: center; }
+.footer-copy { font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">🛡️ Zroppix</a>
+  <a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="btn-gold">Add to Chrome — Free</a>
+</nav>
+
+<div class="wrap">
+  <div class="article-header">
+    <span class="category-tag">Comparison</span>
+    <h1>Amazon's New Price History Tool vs. Zroppix — What It Shows (and Doesn't)</h1>
+    <div class="meta"><span>5 min read</span><span>Updated Aug 4, 2026</span></div>
+    <p class="dek">Amazon is testing a native "Price History" button right on the product page. That's genuinely good news for shoppers — but it's not the same thing as a BUY/WAIT verdict. Here's the actual difference.</p>
+  </div>
+
+  <div class="tool-box">
+    <div class="tool-topbar"><span class="tool-brand">🛡️ Zroppix</span><span class="tool-badge">FREE</span></div>
+    <div class="tool-body">
+      <div class="tool-headline">Get the verdict, not just the chart</div>
+      <div class="tool-sub">Zroppix reads the same kind of price history Amazon's new button shows — then tells you what to actually do with it.</div>
+      <a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="tool-cta" target="_blank">🛡️ Install Zroppix Free →</a>
+    </div>
+  </div>
+
+  <article>
+    <p>Amazon has started testing a new "Price History" button that lets some shoppers view historical pricing data directly on the product page, without needing a third-party extension. It's a meaningful step — it's an implicit admission that price history matters to buyers, and it puts pressure on inflated "was" prices industry-wide. If it rolls out broadly, it's a genuine win for shopper transparency.</p>
+
+    <p>But a native price-history chart and a dedicated price-tracking tool aren't solving the same problem. One shows you data. The other tells you what to do with it.</p>
+
+    <h2>Feature-by-Feature Comparison</h2>
+    <div class="comparison-table-wrap">
+      <table class="comparison-table">
+        <thead><tr><th>Feature</th><th class="highlight">🛡️ Zroppix</th><th>Amazon's Native Tool</th></tr></thead>
+        <tbody>
+          <tr><td>Shows price history</td><td class="highlight"><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>BUY or WAIT verdict</td><td class="highlight"><span class="check">✓</span></td><td><span class="cross">✗</span></td></tr>
+          <tr><td>Predicted drop timing</td><td class="highlight"><span class="check">✓ (Pro)</span></td><td><span class="cross">✗</span></td></tr>
+          <tr><td>What % of buyers paid less</td><td class="highlight"><span class="check">✓</span></td><td><span class="cross">✗</span></td></tr>
+          <tr><td>Price drop email alerts</td><td class="highlight"><span class="check">✓</span></td><td><span class="cross">✗</span></td></tr>
+          <tr><td>Available on every product</td><td class="highlight"><span class="check">✓</span></td><td><span class="partial">Rolling out gradually</span></td></tr>
+          <tr><td>Works across other retailers</td><td class="highlight"><span class="partial">Amazon now, more soon</span></td><td><span class="cross">✗ Amazon only</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Why the Verdict Matters More Than the Chart</h2>
+    <p>A price history chart tells you facts. It doesn't tell you whether $199 is a good moment to buy given where the price has actually trended, whether it's likely to drop again soon, or how your specific purchase compares to what other buyers just paid. That interpretation step is where most shoppers get stuck — staring at a chart, still unsure whether to click "Buy Now" or wait another week.</p>
+
+    <p>That's the layer Zroppix adds on top of the exact same kind of underlying data Amazon's new tool is starting to surface: not just "here's the history," but "here's what we'd do with it" — a clear BUY or WAIT call, a savings estimate, and for Pro users, a predicted window for the next drop.</p>
+
+    <h2>The Honest Take</h2>
+    <p>If Amazon's native price history tool becomes standard on every listing, that's a good thing for shoppers, full stop — more transparency is never bad. It just doesn't replace a dedicated verdict. Think of it the way a nutrition label doesn't replace a doctor's advice: the data being visible is necessary, but it's not the same as someone telling you what to actually do with it.</p>
+
+    <div class="source-note">Amazon's native Price History feature is in limited testing as of this article's publication and may not be available on all listings or accounts.</div>
+  </article>
+</div>
+
+<footer>
+  <div class="footer-copy">© 2026 Zroppix. All rights reserved.</div>
+</footer>
+
+</body>
+</html>
