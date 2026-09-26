@@ -700,7 +700,7 @@ function renderDeals(filter){
     var todayColor=isWait?'red':'gold';
     var btnLabel=isUrgent?'Buy Now':isBuy?'Buy on Amazon':isPreorder?'Read Analysis':'See Price Analysis';
     var btnStyle=(isWait||isPreorder)?'style="background:var(--bg3);color:var(--muted);border:1px solid var(--border);"':'';
-    var btnHref=(isWait||isPreorder)?'/deals/'+deal.slug:'https://www.amazon.com/dp/'+deal.asin+'?tag=zroppix-20';
+    var btnHref=(isWait||isPreorder)?'/deals/'+deal.slug:'https://www.amazon.com/dp/'+deal.asin+'?tag=zroppix20-20';
     var btnTarget=(isWait||isPreorder)?'':'target="_blank" rel="nofollow sponsored"';
     var savingsLabel=isBuy?'Save':isPreorder?'Expected Save':'Wait to Save';
     var footer=isUrgent?'<div class="deal-expires">Sale ends '+(deal.expires||'')+'</div>':'<div class="deal-updated">Updated '+deal.updatedDate+'</div>';
