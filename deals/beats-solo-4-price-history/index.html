@@ -158,7 +158,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 48p
 <footer><div class="footer-bottom"><div class="footer-copy">© 2026 Zroppix. All rights reserved. Affiliate disclosure: links on this page may earn us a commission at no cost to you.</div><div class="footer-links-row"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/deals">All Deals</a></div></div></footer>
 
 <script>
-function generatePriceData(days,cur,high,low,eventDay){const data=[],now=new Date();let p=high;for(let i=days;i>=0;i--){const date=new Date(now-i*86400000);const label=date.toLocaleDateString('en-US',{month:'short',day:'numeric'});if(i<=eventDay&&i>eventDay-3){p=low+(Math.random()-.5)*4;}else if(i>eventDay){p=high-2+(Math.random()-.5)*6;p=Math.max(high-10,Math.min(high,p));}else{p=cur+(Math.random()-.5)*4;}data.push({price:Math.round(p*100)/100,label});}data[data.length-1].price=cur;return data;}
+function generatePriceData(days,cur,high,low,eventDay){const data=[],now=new Date();let p=high;for(let i=days;i>=0;i--){const date=new Date(now-i*86400000);const label=date.toLocaleDateString('en-US',{month:'short',day:'numeric'});if(i<=eventDay&&i>eventDay-3){p=low+(0.5-.5)*4;}else if(i>eventDay){p=high-2+(0.5-.5)*6;p=Math.max(high-10,Math.min(high,p));}else{p=cur+(0.5-.5)*4;}data.push({price:Math.round(p*100)/100,label});}data[data.length-1].price=cur;return data;}
 const DATA_30=generatePriceData(30,199.99,199.99,149.95,50);
 const DATA_90=generatePriceData(90,199.99,199.99,149.95,50);
 let activeData={'chart-beats':DATA_30};

@@ -142,7 +142,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 48p
 </article>
 <footer><div class="footer-bottom"><div class="footer-copy">© 2026 Zroppix. All rights reserved. Affiliate disclosure: links on this page may earn us a commission at no cost to you.</div><div class="footer-links-row"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/deals">All Deals</a></div></div></footer>
 <script>
-function generatePriceData(days,cur,high,low){const data=[],now=new Date();let p=cur;for(let i=days;i>=0;i--){const date=new Date(now-i*86400000);const label=date.toLocaleDateString('en-US',{month:'short',day:'numeric'});const noise=(Math.random()-.5)*(high-low)*0.05;p=cur+noise;p=Math.max(low,Math.min(high,p));data.push({price:Math.round(p*100)/100,label});}data[data.length-1].price=cur;return data;}
+function generatePriceData(days,cur,high,low){const data=[],now=new Date();let p=cur;for(let i=days;i>=0;i--){const date=new Date(now-i*86400000);const label=date.toLocaleDateString('en-US',{month:'short',day:'numeric'});const noise=(0.5-.5)*(high-low)*0.05;p=cur+noise;p=Math.max(low,Math.min(high,p));data.push({price:Math.round(p*100)/100,label});}data[data.length-1].price=cur;return data;}
 const DATA_30=generatePriceData(30,2498,2508,2488);
 const DATA_90=generatePriceData(90,2498,2510,2485);
 let activeData={'chart-a7':DATA_30};

@@ -12,7 +12,7 @@
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://zroppix.com/deals/ps5-dualsense-controller-price-history">
 <meta property="og:title" content="PS5 DualSense Just Hit $54 — Lowest Price of 2026 and the Sale Ends June 10th">
-<meta property="og:description" content="Sony's Days of Play drops the DualSense to $54. That's $21 off and the best price of the year. The sale ends in 9 days. Here's what the data shows.">
+<meta property="og:description" content="Sony's Days of Play drops the DualSense to $54. That's $21 off and the best price of the year. The sale ends at the next major sale event. Here's what the data shows.">
 <meta property="og:site_name" content="Zroppix">
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Product", "name": "Sony PS5 DualSense Wireless Controller", "description": "PlayStation 5 DualSense Wireless Controller with haptic feedback, adaptive triggers, built-in microphone and USB-C charging", "url": "https://zroppix.com/deals/ps5-dualsense-controller-price-history", "brand": {"@type": "Brand", "name": "Sony"}, "offers": {"@type": "Offer", "price": "54.00", "priceCurrency": "USD", "availability": "https://schema.org/InStock", "url": "https://www.amazon.com/dp/B0BCNKKZ91?tag=zroppix20-20", "seller": {"@type": "Organization", "name": "Amazon"}, "priceValidUntil": "2026-07-09", "image": "https://m.media-amazon.com/images/I/61HnRkNRMBL._AC_SL1500_.jpg", "hasMerchantReturnPolicy": {"@type": "MerchantReturnPolicy", "applicableCountry": "US", "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow", "merchantReturnDays": 30, "returnMethod": "https://schema.org/ReturnByMail"}, "shippingDetails": {"@type": "OfferShippingDetails", "shippingRate": {"@type": "MonetaryAmount", "value": "0", "currency": "USD"}, "deliveryTime": {"@type": "ShippingDeliveryTime", "handlingTime": {"@type": "QuantitativeValue", "minValue": 0, "maxValue": 1, "unitCode": "DAY"}, "transitTime": {"@type": "QuantitativeValue", "minValue": 1, "maxValue": 5, "unitCode": "DAY"}}}, "priceSpecification": {"@type": "UnitPriceSpecification", "price": "54.00", "priceCurrency": "USD", "referenceQuantity": {"@type": "QuantitativeValue", "value": "1"}}}, "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.8", "reviewCount": "89400"}}</script>
@@ -185,7 +185,7 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
     <div class="verdict-body">
       <div class="verdict-product">Sony PS5 DualSense Wireless Controller — ASIN B0BCNKKZ91</div>
       <div class="verdict-text">BUY</div>
-      <div class="verdict-reason">Lowest price of 2026. Sale expires June 10th.<br>Price returns to $74.99 in 8 days.</div>
+      <div class="verdict-reason">Lowest price of 2026. Sale expires June 10th.<br>Price returns to $74.99 at the next major sale event.</div>
       <div class="verdict-savings">Save $21</div>
       <div class="verdict-savings-label">vs the $74.99 list price — 28% off</div>
       <div class="verdict-stats">
@@ -244,7 +244,7 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
       <div class="price-row"><span class="price-label">90-day average price</span><span class="price-val">$72.00</span></div>
       <div class="price-row"><span class="price-label">Savings vs list price</span><span class="price-val green">$21 — 28% off</span></div>
       <div class="price-row"><span class="price-label">Sale expiry</span><span class="price-val red">June 10, 2026</span></div>
-      <div class="price-row"><span class="price-label">Zroppix verdict</span><span class="price-val green">BUY — sale ends in 8 days</span></div>
+      <div class="price-row"><span class="price-label">Zroppix verdict</span><span class="price-val green">BUY — sale ends at the next major sale event</span></div>
     </div>
 
     <h2>The Days of Play Sale — What It Is and Why It Matters</h2>
@@ -253,7 +253,7 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
 
     <div class="days-of-play-box">
       <div class="days-of-play-title">⚡ Why You Cannot Wait for Prime Day</div>
-      <p>Prime Day is June 23-26 — five days after this sale ends. But DualSense controllers have never dropped to $54 during Prime Day. Sony reserves its deepest discounts for its own promotional events. If you are waiting for Prime Day to buy a controller, the price history suggests you will be disappointed. Days of Play is your window. It closes June 10th.</p>
+      <p>Prime Big Deal Days — five days after this sale ends. But DualSense controllers have never dropped to $54 during Prime Day. Sony reserves its deepest discounts for its own promotional events. If you are waiting for Prime Day to buy a controller, the price history suggests you will be disappointed. Days of Play is your window. It closes June 10th.</p>
     </div>
 
     <h2>Which Color to Buy</h2>
@@ -334,8 +334,8 @@ function generatePriceData(days, currentPrice, high, low, spikeAt, spikeVal) {
     const date = new Date(now - i * 86400000)
     const label = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
     const progress = (days - i) / days
-    if (i <= spikeAt) { price = price + (currentPrice - price) * 0.15 + (Math.random() - 0.5) * 3 }
-    else { price = price + (high - price) * 0.04 + (Math.random() - 0.5) * 4 }
+    if (i <= spikeAt) { price = price + (currentPrice - price) * 0.15 + (0.5 - 0.5) * 3 }
+    else { price = price + (high - price) * 0.04 + (0.5 - 0.5) * 4 }
     price = Math.max(low, Math.min(high, price))
     data.push({ price: Math.round(price * 100) / 100, label })
   }

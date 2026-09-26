@@ -208,8 +208,8 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
     </div>
 
     <h2>Should You Wait for Prime Day?</h2>
-    <p>Prime Day is June 23-26 — 13 days away. The G502 X Lightspeed has historically seen deals during Prime Day, but its all-time low of <strong>$84.99</strong> occurred during Black Friday 2025, not Prime Day. During Prime Day 2024 and 2025, the Lightspeed reached approximately <strong>$99-104</strong> — meaningfully lower than today's $109.99 but not dramatically so.</p>
-    <p>If you can comfortably wait 13 days and saving an additional $10-15 matters, Prime Day is worth holding out for. If you want a top-tier gaming mouse now at a genuinely good price, $109.99 is well below the 90-day average and already represents strong value. This is a moderate-urgency BUY — not time-sensitive like the DualSense Days of Play deal, but a genuinely good price today.</p>
+    <p>Prime Big Deal Days — Check Current Price. The G502 X Lightspeed has historically seen deals during Prime Day, but its all-time low of <strong>$84.99</strong> occurred during Black Friday 2025, not Prime Day. During Prime Day 2024 and 2025, the Lightspeed reached approximately <strong>$99-104</strong> — meaningfully lower than today's $109.99 but not dramatically so.</p>
+    <p>If you can comfortably check back for the next sale event and saving an additional $10-15 matters, Prime Day is worth holding out for. If you want a top-tier gaming mouse now at a genuinely good price, $109.99 is well below the 90-day average and already represents strong value. This is a moderate-urgency BUY — not time-sensitive like the DualSense Days of Play deal, but a genuinely good price today.</p>
 
     <h2>G502 X Lightspeed vs G502 X Plus — Which to Buy</h2>
     <p>Logitech sells two wireless G502 X models. The <strong>G502 X Lightspeed</strong> at $109.99 has no RGB lighting and a 130-hour battery life. The <strong>G502 X Plus</strong> adds RGB lighting and POWERPLAY wireless charging compatibility but costs $159.99 and has shorter battery life. For most players the Lightspeed is the better choice — the 130-hour battery means you almost never think about charging, and the lack of RGB is irrelevant if the mouse is on a mousepad rather than on display.</p>
@@ -248,8 +248,8 @@ function generatePriceData(days,cur,high,low){
   const data=[],now=new Date();let price=high*0.92
   for(let i=days;i>=0;i--){
     const date=new Date(now-i*86400000),label=date.toLocaleDateString('en-US',{month:'short',day:'numeric'})
-    if(i<=12)price=price+(cur-price)*0.12+(Math.random()-0.5)*4
-    else price=price+(high-price)*0.05+(Math.random()-0.5)*6
+    if(i<=12)price=price+(cur-price)*0.12+(0.5-0.5)*4
+    else price=price+(high-price)*0.05+(0.5-0.5)*6
     price=Math.max(low,Math.min(high,price))
     data.push({price:Math.round(price*100)/100,label})
   }
