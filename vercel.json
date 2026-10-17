@@ -12,6 +12,141 @@
       "permanent": true
     },
     {
+      "source": "/shop",
+      "destination": "/deals",
+      "permanent": true
+    },
+    {
+      "source": "/deals/echo-dot-5th-gen-prime-day",
+      "destination": "/deals/echo-dot-5th-gen-price-history",
+      "permanent": true
+    },
+    {
+      "source": "/deals/irobot-roomba-j7-prime-day",
+      "destination": "/deals/irobot-roomba-j7-price-history",
+      "permanent": true
+    },
+    {
+      "source": "/deals/samsung-65-inch-tv-prime-day",
+      "destination": "/deals/samsung-65-inch-qled-q8f-price-history",
+      "permanent": true
+    },
+    {
+      "source": "/deals/steelseries-arctis-nova-pro-prime-day",
+      "destination": "/deals/steelseries-arctis-nova-pro-wireless-price-history",
+      "permanent": true
+    },
+    {
+      "source": "/deals/instant-pot-duo-prime-day",
+      "destination": "/deals/instant-pot-duo-6qt-price-history",
+      "permanent": true
+    },
+    {
+      "source": "/deals/ring-video-doorbell-pro-prime-day",
+      "destination": "/deals/ring-wired-doorbell-pro-price-history",
+      "permanent": true
+    },
+    {
+      "source": "/deals/shark-iq-robot-vacuum-prime-day",
+      "destination": "/deals/shark-iq-robot-vacuum-price-history",
+      "permanent": true
+    },
+    {
+      "source": "/deals/apple-watch-se-prime-day",
+      "destination": "/deals/apple-watch-se-price-history",
+      "permanent": true
+    },
+    {
+      "source": "/deals/ninja-air-fryer-prime-day",
+      "destination": "/deals/ninja-af101-air-fryer-price-history",
+      "permanent": true
+    },
+    {
+      "source": "/deals/peloton-prime-day-2026-price-history",
+      "destination": "/deals/peloton-price-history",
+      "permanent": true
+    },
+    {
+      "source": "/deals/lego-prime-day-2026",
+      "destination": "/deals/lego-technic-collector-sets",
+      "permanent": true
+    },
+    {
+      "source": "/deals/amazon-fire-tv-stick-4k-prime-day",
+      "destination": "/deals/fire-tv-stick-4k-max-price-history",
+      "permanent": true
+    },
+    {
+      "source": "/blog/shark-flexstyle-vs-dyson-airwrap-prime-day-2026",
+      "destination": "/blog/shark-flexstyle-vs-dyson-airwrap",
+      "permanent": true
+    },
+    {
+      "source": "/prime-day-2026",
+      "destination": "/blog/black-friday-2026-amazon-deals",
+      "permanent": true
+    },
+    {
+      "source": "/prime-day-electronics-deals-2026",
+      "destination": "/blog/black-friday-2026-amazon-deals",
+      "permanent": true
+    },
+    {
+      "source": "/prime-day-home-deals-2026",
+      "destination": "/blog/black-friday-2026-amazon-deals",
+      "permanent": true
+    },
+    {
+      "source": "/blog/amazon-prime-day-2026-guide",
+      "destination": "/blog/black-friday-2026-amazon-deals",
+      "permanent": true
+    },
+    {
+      "source": "/blog/amazon-prime-day-2026",
+      "destination": "/blog/black-friday-2026-amazon-deals",
+      "permanent": true
+    },
+    {
+      "source": "/blog/dont-buy-before-prime-day-2026",
+      "destination": "/blog/black-friday-2026-amazon-deals",
+      "permanent": true
+    },
+    {
+      "source": "/blog/what-not-to-buy-prime-day-2026",
+      "destination": "/blog/black-friday-2026-amazon-deals",
+      "permanent": true
+    },
+    {
+      "source": "/blog/amazon-price-increase-before-prime-day",
+      "destination": "/blog/black-friday-2026-amazon-deals",
+      "permanent": true
+    },
+    {
+      "source": "/blog/are-amazon-prime-day-deals-worth-it",
+      "destination": "/blog/black-friday-2026-amazon-deals",
+      "permanent": true
+    },
+    {
+      "source": "/blog/are-amazon-prime-day-deals-real",
+      "destination": "/blog/amazon-sale-badge-was-it-cheaper-before",
+      "permanent": true
+    },
+    {
+      "source": "/blog/prime-day-2026-back-to-school-deals",
+      "destination": "/blog/best-back-to-school-tech-deals-2026",
+      "permanent": true
+    },
+    {
+      "source": "/blog/macbook-air-m4-vs-m5-prime-day-2026",
+      "destination": "/deals/macbook-air-m5-price-history",
+      "permanent": true
+    },
+    {
+      "source": "/blog/poppi-olipop-prime-day-2026",
+      "destination": "/blog/black-friday-2026-amazon-deals",
+      "permanent": true
+    },
+    {
       "source": "/blog/camelcamelcamel-alternative",
       "destination": "/blog/camelcamelcamel-alternative-tells-you-what-to-do",
       "permanent": true
@@ -29,16 +164,6 @@
     {
       "source": "/blog/amazon-price-history-chrome-extension",
       "destination": "/blog/amazon-price-history-chrome-extension-2026",
-      "permanent": true
-    },
-    {
-      "source": "/blog/amazon-prime-day-2026",
-      "destination": "/blog/amazon-prime-day-2026-guide",
-      "permanent": true
-    },
-    {
-      "source": "/shop",
-      "destination": "/deals",
       "permanent": true
     }
   ],
