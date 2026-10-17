@@ -142,6 +142,29 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
 .lite-grid{grid-template-columns:repeat(5,1fr);gap:10px}.pc.lite h3{min-height:40px}
 @media(max-width:900px){.lite-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:520px){.lite-grid{grid-template-columns:repeat(2,1fr)}}
+
+.stick{display:none}
+@media(max-width:700px){
+.lifetime-banner{display:none}
+.shop{padding:0 14px 84px}
+.breadcrumb{display:none}
+.head{padding:12px 0 2px;gap:8px}.head h1{font-size:22px;line-height:1.2}.head p{font-size:13px;margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.head .ins{display:none}
+.sbar{margin:8px 0 4px;gap:6px}.sbar input{padding:11px 12px;font-size:15px;min-width:0}.sbar button{padding:0 12px;font-size:13px;white-space:nowrap}
+.snote{display:none}
+.chips{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:8px -14px 4px;padding:0 14px}.chips::-webkit-scrollbar{display:none}.chip{white-space:nowrap;flex:0 0 auto;padding:7px 12px}
+.chd{margin:16px 0 2px}.cat h2,.chd h2{font-size:19px}.all{font-size:12px}.sub{font-size:13px;margin-bottom:10px}
+.grid{grid-template-columns:repeat(2,1fr);gap:10px}
+.pc{padding:9px;border-radius:14px}.ph{height:64px;font-size:22px;margin-bottom:8px}
+.pc h3{font-size:13.5px;line-height:1.25}.why{font-size:11.5px;min-height:0;line-height:1.35;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.rep{padding:6px 8px;margin:6px 0 8px}.rep b{font-size:13px}.rep small{font-size:10.5px}
+.pc .amz{padding:9px 6px;font-size:13px}.hist{font-size:11.5px;margin-top:6px}
+.founder{margin:22px 0}.founder .l,.founder .r{padding:18px}.founder .l h2{font-size:20px}.founder .l p{font-size:14px}.pr{font-size:38px}
+.proof{padding:18px;margin:22px 0}.fin{padding:22px 16px}.fin h2{font-size:21px}
+.stick{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:98;background:#12121A;border-top:1px solid rgba(201,168,76,.4);padding:9px 14px;align-items:center;justify-content:space-between;gap:10px;font-size:12px;color:var(--subtle)}
+.stick a{background:var(--gold);color:#0D0D14;padding:8px 14px;border-radius:8px;font-weight:800;font-size:13px;white-space:nowrap}
+}
+@media(max-width:340px){.grid{grid-template-columns:1fr}}
 </style></head>
 <body>
 <div class="lifetime-banner" id="lifetimeBanner">
@@ -167,7 +190,7 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
 <main class="shop">
 <div class="breadcrumb" style="padding:12px 0 0"><a href="/">Home</a> › Deals</div>
 <div class="head"><div><h1>Amazon deals today, with the price history behind them</h1><p>233 products. Each links to its own price page, and the ones with a dated price are backed by a named source. Check the live price on Amazon, then see whether it's a good one.</p></div><a class="ins" href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf">Install Zroppix Free</a></div>
-<form id="sf" class="sbar" role="search"><input id="s" type="search" placeholder="Search products, or any Amazon product…" aria-label="Search products" autocomplete="off"><button type="submit">Search Amazon →</button></form>
+<form id="sf" class="sbar" role="search"><input id="s" type="search" placeholder="Search products…" aria-label="Search products" autocomplete="off"><button type="submit">Search Amazon →</button></form>
 <p class="snote">Type to filter. Not listed? <b>Search Amazon</b> opens it in a new tab. Install <a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf">Zroppix</a> to see its price history there.</p>
 <div id="amzsearch"><span>Not seeing it? Search Amazon for “<b id="qt"></b>”</span><a id="amzlink" href="#" target="_blank" rel="nofollow sponsored noopener">Search on Amazon →</a></div>
 <div class="chips"><span class="chip on" data-f="all">All 233</span><span class="chip" data-f="electronics">📱 Electronics 115</span><span class="chip" data-f="kitchen">🍳 Kitchen 20</span><span class="chip" data-f="gaming">🎮 Gaming 21</span><span class="chip" data-f="home">🏠 Home 42</span><span class="chip" data-f="fitness">💪 Fitness 17</span><span class="chip" data-f="outdoor">🌳 Outdoor 6</span><span class="chip" data-f="beauty">💄 Beauty 10</span><span class="chip" data-f="toys">🧸 Toys 2</span></div>
