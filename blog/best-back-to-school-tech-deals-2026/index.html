@@ -80,13 +80,11 @@ article h2 { font-size: 24px; font-weight: 800; color: var(--text); margin: 40px
 footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 40px 20px; margin-top: 60px; text-align: center; }
 .footer-copy { font-size: 13px; color: var(--muted); }
 </style>
-</head>
+<style id="mnav">.nav-toggle{display:none;background:none;border:1px solid var(--border,#2a2a40);color:var(--text,#fff);border-radius:10px;width:42px;height:42px;font-size:22px;line-height:1;cursor:pointer}
+@media(max-width:900px){nav:not([aria-label]){flex-wrap:wrap;gap:0}nav:not([aria-label]) .nav-toggle{display:block}nav:not([aria-label]) .nav-links{display:none!important;width:100%;flex-direction:column;align-items:stretch;gap:0;padding:8px 0 4px;margin:0;order:3}nav.open .nav-links{display:flex!important}nav:not([aria-label]) .nav-links li{list-style:none;display:block;width:100%;margin:0;padding:0;text-align:left}nav:not([aria-label]) .nav-links a{display:block;width:100%;box-sizing:border-box;text-align:left;padding:13px 4px;border-bottom:1px solid var(--border,#2a2a40);font-size:16px;white-space:normal}nav:not([aria-label]) .nav-links li:last-child a{border:0;margin-top:10px;text-align:center!important;border-radius:10px;padding:13px 16px!important}}</style><style id="mnav2">nav[data-std] .nav-links{display:flex;align-items:center;gap:24px;list-style:none;margin:0;padding:0}nav[data-std] .nav-links a{color:#7A78A0;font-size:14px;font-weight:500;white-space:nowrap}nav[data-std] .nav-links a:hover{color:#fff}nav[data-std] .nav-links a.btn-gold{color:#0D0D14}@media(max-width:900px){nav[data-std]{padding:14px 20px}}</style></head>
 <body>
 
-<nav>
-  <a href="/" class="nav-logo">🛡️ Zroppix</a>
-  <a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="btn-gold">Add to Chrome — Free</a>
-</nav>
+<nav data-std><a href="/" class="nav-logo">🛡️ Zroppix</a><button class="nav-toggle" id="navtg" type="button" aria-label="Menu" aria-expanded="false">☰</button><ul class="nav-links"><li><a href="/deals">Deals</a></li><li><a href="/blog">Blog</a></li><li><a href="/blog/black-friday-2026-amazon-deals">Black Friday</a></li><li><a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="btn-gold nav-cta">Add to Chrome — Free</a></li></ul></nav>
 
 <div class="wrap">
   <div class="article-header">
@@ -173,5 +171,5 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
   <div class="footer-copy">© 2026 Zroppix. All rights reserved.</div>
 </footer>
 
-</body>
+<script>(function(){var n=document.querySelector("nav:not([aria-label])"),b=document.getElementById("navtg");if(!n||!b)return;b.addEventListener("click",function(){var o=n.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false");b.textContent=o?"\u2715":"\u2630";});})();</script></body>
 </html>

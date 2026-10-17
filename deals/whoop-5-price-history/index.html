@@ -148,7 +148,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 48p
 .fl a:hover{color:var(--gold);}
 @media(max-width:900px){nav{padding:14px 20px;}.nav-links{display:none;}h1{font-size:24px;}.vstats{grid-template-columns:1fr;}.rg{grid-template-columns:1fr;}.mg{grid-template-columns:1fr;}.tl-row{grid-template-columns:80px 1fr 80px;}footer{padding:30px 20px 20px;}}
 </style>
-</head>
+<style id="mnav">.nav-toggle{display:none;background:none;border:1px solid var(--border,#2a2a40);color:var(--text,#fff);border-radius:10px;width:42px;height:42px;font-size:22px;line-height:1;cursor:pointer}
+@media(max-width:900px){nav:not([aria-label]){flex-wrap:wrap;gap:0}nav:not([aria-label]) .nav-toggle{display:block}nav:not([aria-label]) .nav-links{display:none!important;width:100%;flex-direction:column;align-items:stretch;gap:0;padding:8px 0 4px;margin:0;order:3}nav.open .nav-links{display:flex!important}nav:not([aria-label]) .nav-links li{list-style:none;display:block;width:100%;margin:0;padding:0;text-align:left}nav:not([aria-label]) .nav-links a{display:block;width:100%;box-sizing:border-box;text-align:left;padding:13px 4px;border-bottom:1px solid var(--border,#2a2a40);font-size:16px;white-space:normal}nav:not([aria-label]) .nav-links li:last-child a{border:0;margin-top:10px;text-align:center!important;border-radius:10px;padding:13px 16px!important}}</style></head>
 <body>
 <div class="ltb" id="ltb">
 <div class="ltb-text"><span class="ltb-badge">🏅 Founding Member</span><span>Lifetime access for <strong>$149 — one payment, never pay again.</strong> Limited to 497 people ever.</span></div>
@@ -157,10 +158,10 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 48p
 </div>
 <nav aria-label="Main navigation">
 <a href="/" class="nav-logo">🛡️ Zroppix</a>
-<ul class="nav-links">
+<button class="nav-toggle" id="navtg" type="button" aria-label="Menu" aria-expanded="false">☰</button><ul class="nav-links">
 <li><a href="/#features">Features</a></li>
 <li><a href="/#pricing">Pricing</a></li>
-<li><a href="/blog">Blog</a></li>
+<li><a href="/blog">Blog</a></li><li><a href="/blog/black-friday-2026-amazon-deals">Black Friday</a></li>
 <li><a href="/deals">Deals</a></li>
 <li><a href="/account">Account</a></li>
 <li><a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="nav-cta">Add to Chrome — Free</a></li>
@@ -260,9 +261,9 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 48p
 </div>
 
 <p style="font-size:18px;font-weight:800;margin-bottom:16px;">More Fitness Deals to Watch</p>
-<div class="rg">
-<a href="/deals/oura-ring-4-price-history" class="rc"><div class="rtt">Oura Ring 4</div></a>
-<a href="/deals/garmin-forerunner-265-price-history" class="rc"><div class="rtt">Garmin Forerunner 265</div></a>
+<div class="rg" data-sib="1"><a href="/deals/garmin-epix-pro-gen-2-47mm-price-history"><div class="rg-verdict">PRICE CHECK</div><div class="rg-name">Garmin Epix Pro Gen 2 47mm</div><div class="rg-price">Dated prices and a 5-step check</div></a><a href="/deals/garmin-fenix-8-price-history"><div class="rg-verdict">PRICE CHECK</div><div class="rg-name">Garmin Fenix 8</div><div class="rg-price">$849.99 reported Aug 27, 2026</div></a><a href="/deals/hydrow-wave-price-history"><div class="rg-verdict">PRICE CHECK</div><div class="rg-name">Hydrow Wave</div><div class="rg-price">$1,995 reported Oct 17, 2026</div></a><a href="/deals/ice-barrel-400-price-history"><div class="rg-verdict">PRICE CHECK</div><div class="rg-name">Ice Barrel 400</div><div class="rg-price">$1,199.99 reported Checked Oct 17, 2026</div></a>
+<a href="/deals/home" class="rc"><div class="rtt">Oura Ring 4</div></a>
+<a href="/deals/fitness" class="rc"><div class="rtt">Garmin Forerunner 265</div></a>
 </div>
 </article>
 <footer>
@@ -275,5 +276,5 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 48p
 <script>
 document.querySelectorAll('.faqq-q').forEach(q=>{q.addEventListener('click',()=>{const a=q.parentElement.querySelector('.faqq-a'),icon=q.querySelector('.faqq-icon'),open=a.style.display==='block';document.querySelectorAll('.faqq-a').forEach(x=>{x.style.display='none';});document.querySelectorAll('.faqq-icon').forEach(x=>{x.textContent='+';});if(!open){a.style.display='block';icon.textContent='−';}});});
 </script>
-</body>
+<script>(function(){var n=document.querySelector("nav:not([aria-label])"),b=document.getElementById("navtg");if(!n||!b)return;b.addEventListener("click",function(){var o=n.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false");b.textContent=o?"\u2715":"\u2630";});})();</script></body>
 </html>

@@ -130,7 +130,8 @@ h1{font-size:25px;}
 footer{padding:30px 20px 20px;}
 }
 </style>
-</head>
+<style id="mnav">.nav-toggle{display:none;background:none;border:1px solid var(--border,#2a2a40);color:var(--text,#fff);border-radius:10px;width:42px;height:42px;font-size:22px;line-height:1;cursor:pointer}
+@media(max-width:900px){nav:not([aria-label]){flex-wrap:wrap;gap:0}nav:not([aria-label]) .nav-toggle{display:block}nav:not([aria-label]) .nav-links{display:none!important;width:100%;flex-direction:column;align-items:stretch;gap:0;padding:8px 0 4px;margin:0;order:3}nav.open .nav-links{display:flex!important}nav:not([aria-label]) .nav-links li{list-style:none;display:block;width:100%;margin:0;padding:0;text-align:left}nav:not([aria-label]) .nav-links a{display:block;width:100%;box-sizing:border-box;text-align:left;padding:13px 4px;border-bottom:1px solid var(--border,#2a2a40);font-size:16px;white-space:normal}nav:not([aria-label]) .nav-links li:last-child a{border:0;margin-top:10px;text-align:center!important;border-radius:10px;padding:13px 16px!important}}</style></head>
 <body>
 
 <div class="rp" id="rp"></div>
@@ -146,10 +147,10 @@ footer{padding:30px 20px 20px;}
 
 <nav aria-label="Main navigation">
 <a href="/" class="nav-logo">🛡️ Zroppix</a>
-<ul class="nav-links">
+<button class="nav-toggle" id="navtg" type="button" aria-label="Menu" aria-expanded="false">☰</button><ul class="nav-links">
 <li><a href="/#features">Features</a></li>
 <li><a href="/#pricing">Pricing</a></li>
-<li><a href="/blog">Blog</a></li>
+<li><a href="/blog">Blog</a></li><li><a href="/blog/black-friday-2026-amazon-deals">Black Friday</a></li>
 <li><a href="/deals">Deals</a></li>
 <li><a href="/account">Account</a></li>
 <li><a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="nav-cta">Add to Chrome — Free</a></li>
@@ -305,7 +306,7 @@ Best LEGO Sets to Check
 
 <p style="font-size:18px;font-weight:800;margin-bottom:16px;">More Toys &amp; Kids Deals</p>
 <div class="rg">
-<a href="/deals/nintendo-switch-oled-vs-switch-2" class="rc"><div class="rv">SEE HISTORY</div><div class="rtt">Nintendo Switch OLED</div><div class="rs">See current price</div></a>
+<a href="/deals/gaming" class="rc"><div class="rv">SEE HISTORY</div><div class="rtt">Nintendo Switch OLED</div><div class="rs">See current price</div></a>
 <a href="/deals/owala-freesip-price-history" class="rc"><div class="rv">SEE HISTORY</div><div class="rtt">Owala FreeSip 24oz</div><div class="rs">See current price</div></a>
 <a href="/deals/mighty-patch-original-price-history" class="rc"><div class="rv">SEE HISTORY</div><div class="rtt">Mighty Patch Original</div><div class="rs">See current price</div></a>
 <a href="/deals/kindle-paperwhite-price-history" class="rc"><div class="rv">SEE HISTORY</div><div class="rtt">Kindle Paperwhite</div><div class="rs">See current price</div></a>
@@ -351,5 +352,5 @@ if (!open) { a.style.display = 'block'; icon.textContent = '−'; }
 });
 });
 </script>
-</body>
+<script>(function(){var n=document.querySelector("nav:not([aria-label])"),b=document.getElementById("navtg");if(!n||!b)return;b.addEventListener("click",function(){var o=n.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false");b.textContent=o?"\u2715":"\u2630";});})();</script></body>
 </html>

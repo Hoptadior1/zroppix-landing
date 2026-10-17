@@ -132,16 +132,17 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 48p
 .fl a{font-size:13px;color:var(--muted);}
 @media(max-width:900px){nav{padding:14px 20px;}.nav-links{display:none;}h1{font-size:25px;}.vstats{grid-template-columns:repeat(2,1fr);}.vtv{font-size:38px;}.rg{grid-template-columns:1fr;}.mg{grid-template-columns:1fr;}}
 </style>
-</head>
+<style id="mnav">.nav-toggle{display:none;background:none;border:1px solid var(--border,#2a2a40);color:var(--text,#fff);border-radius:10px;width:42px;height:42px;font-size:22px;line-height:1;cursor:pointer}
+@media(max-width:900px){nav:not([aria-label]){flex-wrap:wrap;gap:0}nav:not([aria-label]) .nav-toggle{display:block}nav:not([aria-label]) .nav-links{display:none!important;width:100%;flex-direction:column;align-items:stretch;gap:0;padding:8px 0 4px;margin:0;order:3}nav.open .nav-links{display:flex!important}nav:not([aria-label]) .nav-links li{list-style:none;display:block;width:100%;margin:0;padding:0;text-align:left}nav:not([aria-label]) .nav-links a{display:block;width:100%;box-sizing:border-box;text-align:left;padding:13px 4px;border-bottom:1px solid var(--border,#2a2a40);font-size:16px;white-space:normal}nav:not([aria-label]) .nav-links li:last-child a{border:0;margin-top:10px;text-align:center!important;border-radius:10px;padding:13px 16px!important}}</style></head>
 <body>
 <div class="rp" id="rp"></div>
 <div class="ltb" id="ltb"><div class="ltb-text"><span class="ltb-badge">🏅 Founding Member</span><span>Lifetime access for <strong>$149 — one payment, never pay again.</strong> Limited to 497 people ever.</span></div><a href="/lifetime" class="ltb-btn">Lock It In →</a><span class="ltb-x" onclick="document.getElementById('ltb').style.display='none'">×</span></div>
 <nav>
 <a href="/" class="nav-logo">🛡️ Zroppix</a>
-<ul class="nav-links">
+<button class="nav-toggle" id="navtg" type="button" aria-label="Menu" aria-expanded="false">☰</button><ul class="nav-links">
 <li><a href="/#features">Features</a></li>
 <li><a href="/#pricing">Pricing</a></li>
-<li><a href="/blog">Blog</a></li>
+<li><a href="/blog">Blog</a></li><li><a href="/blog/black-friday-2026-amazon-deals">Black Friday</a></li>
 <li><a href="/deals">Deals</a></li>
 <li><a href="/account">Account</a></li>
 <li><a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="nav-cta">Add to Chrome — Free</a></li>
@@ -231,10 +232,10 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 48p
 </div>
 
 <p style="font-size:18px;font-weight:800;margin-bottom:16px;">More Fitness Deal Price Histories</p>
-<div class="rg">
+<div class="rg" data-sib="1"><a href="/deals/peloton-price-history"><div class="rg-verdict">PRICE CHECK</div><div class="rg-name">Peloton Bike, Tread and Row</div><div class="rg-price">Dated prices and a 5-step check</div></a><a href="/deals/peloton-tread-price-history"><div class="rg-verdict">PRICE CHECK</div><div class="rg-name">Peloton Cross Training Tread</div><div class="rg-price">Dated prices and a 5-step check</div></a><a href="/deals/theragun-prime-price-history"><div class="rg-verdict">PRICE CHECK</div><div class="rg-name">Theragun Prime</div><div class="rg-price">Dated prices and a 5-step check</div></a><a href="/deals/whoop-5-price-history"><div class="rg-verdict">PRICE CHECK</div><div class="rg-name">WHOOP 5</div><div class="rg-price">Dated prices and a 5-step check</div></a>
 <a href="/deals/peloton-price-history" class="rc"><div class="rv">GUIDE</div><div class="rtt">Peloton Price Check Guide</div><div class="rs">Bike, Tread, Row and the real total cost</div></a>
 <a href="/deals/theragun-prime-price-history" class="rc"><div class="rv">SEE HISTORY</div><div class="rtt">Theragun Prime</div><div class="rs">See current price</div></a>
-<a href="/deals/garmin-forerunner-265-price-history" class="rc"><div class="rv">SEE HISTORY</div><div class="rtt">Garmin Forerunner 265</div><div class="rs">See current price</div></a>
+<a href="/deals/fitness" class="rc"><div class="rv">SEE HISTORY</div><div class="rtt">Garmin Forerunner 265</div><div class="rs">See current price</div></a>
 <a href="/blog/best-amazon-price-trackers" class="rc"><div class="rv">COMPARISON</div><div class="rtt">Best Price Trackers</div><div class="rs">Tools compared</div></a>
 </div>
 </article>
@@ -251,5 +252,5 @@ if(!open){a.style.display='block';icon.textContent='−';}
 });
 });
 </script>
-</body>
+<script>(function(){var n=document.querySelector("nav:not([aria-label])"),b=document.getElementById("navtg");if(!n||!b)return;b.addEventListener("click",function(){var o=n.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false");b.textContent=o?"\u2715":"\u2630";});})();</script></body>
 </html>
