@@ -138,7 +138,7 @@
     },
     {
       "source": "/blog/macbook-air-m4-vs-m5-prime-day-2026",
-      "destination": "/deals/electronics",
+      "destination": "/deals/macbook-air-m5-price-history",
       "permanent": true
     },
     {
@@ -192,11 +192,6 @@
       "permanent": true
     },
     {
-      "source": "/deals/bambu-lab-a1-mini-price-history",
-      "destination": "/deals/electronics",
-      "permanent": true
-    },
-    {
       "source": "/deals/ooni-karu-12-pizza-oven-price-history",
       "destination": "/deals/kitchen",
       "permanent": true
@@ -222,18 +217,8 @@
       "permanent": true
     },
     {
-      "source": "/deals/samsung-galaxy-s26-ultra-price-history",
-      "destination": "/deals/electronics",
-      "permanent": true
-    },
-    {
       "source": "/deals/ninja-creami-price-history",
       "destination": "/deals/kitchen",
-      "permanent": true
-    },
-    {
-      "source": "/deals/amazon-fire-hd-10-price-history",
-      "destination": "/deals/electronics",
       "permanent": true
     },
     {
@@ -252,11 +237,6 @@
       "permanent": true
     },
     {
-      "source": "/deals/samsung-990-pro-ssd-price-history",
-      "destination": "/deals/electronics",
-      "permanent": true
-    },
-    {
       "source": "/deals/steam-deck-oled-price-history",
       "destination": "/deals/gaming",
       "permanent": true
@@ -264,11 +244,6 @@
     {
       "source": "/deals/midea-duo-portable-ac-price-history",
       "destination": "/deals/electronics",
-      "permanent": true
-    },
-    {
-      "source": "/deals/marvels-wolverine-ps5-preorder",
-      "destination": "/deals/gaming",
       "permanent": true
     },
     {
@@ -289,21 +264,6 @@
     {
       "source": "/deals/adidas-predator-training-goalie-gloves",
       "destination": "/deals",
-      "permanent": true
-    },
-    {
-      "source": "/deals/vitamix-blender-price-history",
-      "destination": "/deals/kitchen",
-      "permanent": true
-    },
-    {
-      "source": "/deals/apple-airtag-gen-2-price-history",
-      "destination": "/deals/electronics",
-      "permanent": true
-    },
-    {
-      "source": "/deals/airpods-pro-3-price-history",
-      "destination": "/deals/electronics",
       "permanent": true
     },
     {
@@ -397,17 +357,7 @@
       "permanent": true
     },
     {
-      "source": "/deals/bambu-lab-a1-price-history",
-      "destination": "/deals/electronics",
-      "permanent": true
-    },
-    {
       "source": "/deals/cosrx-snail-mucin-essence-price-history",
-      "destination": "/deals/electronics",
-      "permanent": true
-    },
-    {
-      "source": "/deals/fujifilm-x100vi-price-history",
       "destination": "/deals/electronics",
       "permanent": true
     },
@@ -423,21 +373,6 @@
     },
     {
       "source": "/deals/beats-solo-4-price-history",
-      "destination": "/deals/electronics",
-      "permanent": true
-    },
-    {
-      "source": "/deals/google-pixel-9-pro-price-history",
-      "destination": "/deals/electronics",
-      "permanent": true
-    },
-    {
-      "source": "/deals/sony-wh1000xm6-price-history",
-      "destination": "/deals/electronics",
-      "permanent": true
-    },
-    {
-      "source": "/deals/spectralite-faceware-pro-price-history",
       "destination": "/deals/electronics",
       "permanent": true
     },
@@ -467,11 +402,6 @@
       "permanent": true
     },
     {
-      "source": "/deals/breville-barista-express-price-history",
-      "destination": "/deals/kitchen",
-      "permanent": true
-    },
-    {
       "source": "/deals/eufy-security-camera-price-history",
       "destination": "/deals/electronics",
       "permanent": true
@@ -482,27 +412,12 @@
       "permanent": true
     },
     {
-      "source": "/deals/apple-watch-series-11-price-history",
-      "destination": "/deals/fitness",
-      "permanent": true
-    },
-    {
       "source": "/deals/waterpik-water-flosser-price-history",
       "destination": "/deals/home",
       "permanent": true
     },
     {
       "source": "/deals/uplift-v2-standing-desk-price-history",
-      "destination": "/deals/electronics",
-      "permanent": true
-    },
-    {
-      "source": "/deals/ninja-crispi-air-fryer-price-history",
-      "destination": "/deals/kitchen",
-      "permanent": true
-    },
-    {
-      "source": "/deals/sonos-era-100-price-history",
       "destination": "/deals/electronics",
       "permanent": true
     },
@@ -517,37 +432,12 @@
       "permanent": true
     },
     {
-      "source": "/deals/eufy-baby-monitor-price-history",
-      "destination": "/deals/toys",
-      "permanent": true
-    },
-    {
-      "source": "/deals/mac-mini-m4-price-history",
-      "destination": "/deals/electronics",
-      "permanent": true
-    },
-    {
-      "source": "/deals/lg-c5-oled-tv-price-history",
-      "destination": "/deals/electronics",
-      "permanent": true
-    },
-    {
       "source": "/deals/hydro-flask-water-bottle-price-history",
       "destination": "/deals/home",
       "permanent": true
     },
     {
-      "source": "/deals/ray-ban-meta-gen-2-price-history",
-      "destination": "/deals/electronics",
-      "permanent": true
-    },
-    {
       "source": "/deals/laneige-lip-sleeping-mask-price-history",
-      "destination": "/deals/electronics",
-      "permanent": true
-    },
-    {
-      "source": "/deals/shark-stratos-cordless-price-history",
       "destination": "/deals/electronics",
       "permanent": true
     },
@@ -564,11 +454,6 @@
     {
       "source": "/deals/ring-floodlight-cam-plus-price-history",
       "destination": "/deals/home",
-      "permanent": true
-    },
-    {
-      "source": "/deals/fitbit-charge-6-price-history",
-      "destination": "/deals/fitness",
       "permanent": true
     },
     {
@@ -657,22 +542,7 @@
       "permanent": true
     },
     {
-      "source": "/deals/jackery-explorer-2000-v2-price-history",
-      "destination": "/deals/electronics",
-      "permanent": true
-    },
-    {
-      "source": "/deals/gopro-hero13-black-price-history",
-      "destination": "/deals/electronics",
-      "permanent": true
-    },
-    {
       "source": "/deals/samsung-galaxy-buds-3-pro-price-history",
-      "destination": "/deals/electronics",
-      "permanent": true
-    },
-    {
-      "source": "/deals/jackery-explorer-1000-v2-price-history",
       "destination": "/deals/electronics",
       "permanent": true
     },
@@ -732,11 +602,6 @@
       "permanent": true
     },
     {
-      "source": "/deals/reolink-4-camera-solar-security-price-history",
-      "destination": "/deals/electronics",
-      "permanent": true
-    },
-    {
       "source": "/deals/anker-3-in-1-charging-station-price-history",
       "destination": "/deals/electronics",
       "permanent": true
@@ -749,16 +614,6 @@
     {
       "source": "/deals/cantilever-patio-umbrella-price-history",
       "destination": "/deals/electronics",
-      "permanent": true
-    },
-    {
-      "source": "/deals/garmin-forerunner-265-price-history",
-      "destination": "/deals/fitness",
-      "permanent": true
-    },
-    {
-      "source": "/deals/logitech-g502x-lightspeed-price-history",
-      "destination": "/deals/gaming",
       "permanent": true
     },
     {
@@ -778,11 +633,6 @@
     },
     {
       "source": "/deals/ipad-11-price-history",
-      "destination": "/deals/electronics",
-      "permanent": true
-    },
-    {
-      "source": "/deals/anker-soundcore-space-q45-price-history",
       "destination": "/deals/electronics",
       "permanent": true
     },
@@ -822,16 +672,6 @@
       "permanent": true
     },
     {
-      "source": "/deals/macbook-air-m5-price-history",
-      "destination": "/deals/electronics",
-      "permanent": true
-    },
-    {
-      "source": "/deals/bose-quietcomfort-ultra-price-history",
-      "destination": "/deals/electronics",
-      "permanent": true
-    },
-    {
       "source": "/deals/portable-air-conditioner-price-history",
       "destination": "/deals/home",
       "permanent": true
@@ -862,16 +702,6 @@
       "permanent": true
     },
     {
-      "source": "/deals/samsung-galaxy-s25-price-history",
-      "destination": "/deals/electronics",
-      "permanent": true
-    },
-    {
-      "source": "/deals/lg-c6-oled-price-history",
-      "destination": "/deals/electronics",
-      "permanent": true
-    },
-    {
       "source": "/deals/tcl-qm6k-55-inch-tv",
       "destination": "/deals/electronics",
       "permanent": true
@@ -883,11 +713,6 @@
     },
     {
       "source": "/deals/kindle-colorsoft-signature-edition-price-history",
-      "destination": "/deals/electronics",
-      "permanent": true
-    },
-    {
-      "source": "/deals/macbook-neo-price-history",
       "destination": "/deals/electronics",
       "permanent": true
     },
