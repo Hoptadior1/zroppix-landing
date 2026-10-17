@@ -144,7 +144,9 @@ html, body { overflow-x: hidden !important; max-width: 100% !important; }
 
 nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 48px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(13,13,20,0.96); backdrop-filter: blur(12px); z-index: 100; }
 .nav-logo { font-size: 20px; font-weight: 800; color: var(--gold); display: flex; align-items: center; gap: 8px; }
-.nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+.nav-links { display: flex; align-items: center; gap: 24px; list-style: none; }
+.nav-links a { white-space: nowrap; }
+.nav-links a.nav-cta { color: #0D0D14; }
 .nav-links a { color: var(--muted); font-size: 14px; font-weight: 500; transition: color 0.2s; }
 .nav-links a:hover { color: var(--text); }
 .nav-cta { padding: 9px 20px !important; font-size: 14px !important; }
@@ -421,8 +423,6 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
   <a href="/" class="nav-logo">🛡️ Zroppix</a>
   <ul class="nav-links">
     <li><a href="#how">How it works</a></li>
-    <li><a href="#features">Features</a></li>
-    <li><a href="#compare">vs Others</a></li>
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="/blog">Blog</a></li>
     <li><a href="/deals">Deals</a></li>
@@ -739,6 +739,22 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
     <div class="faq-item"><div class="faq-question">Is my data private?<span class="faq-icon">+</span></div><div class="faq-answer">Yes. We only collect product prices — never your personal information, browsing history or purchase data. We never sell data to third parties. Ever.</div></div>
     <div class="faq-item"><div class="faq-question">How is Zroppix different from CamelCamelCamel?<span class="faq-icon">+</span></div><div class="faq-answer">CamelCamelCamel shows you price history graphs and lets you set alerts. Zroppix goes much further — it uses AI to analyze the data and tell you exactly what to do. BUY or WAIT. How much you could save. When the price will drop. What others paid.</div></div>
     <div class="faq-item"><div class="faq-question">Can I cancel Pro anytime?<span class="faq-icon">+</span></div><div class="faq-answer">Yes. Cancel anytime with one click. No questions asked. No awkward cancellation flows. You keep Pro access until the end of your current billing period.</div></div>
+  </div>
+</section>
+
+<section style="background:#12121A; border-top:1px solid #22223A; border-bottom:1px solid #22223A; padding:70px 20px;">
+  <div style="max-width:960px; margin:0 auto; text-align:center;">
+    <div style="font-size:12px; color:#C9A84C; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:12px;">AMAZON DEALS</div>
+    <h2 style="font-size:32px; font-weight:900; color:#fff; margin-bottom:12px; line-height:1.15;">Amazon deals, with the price history behind them</h2>
+    <p style="font-size:16px; color:#7A78A0; margin:0 auto 28px; max-width:560px;">Every product shows a dated price from a named source and links to its full price history, so you can see whether a deal is real before you buy.</p>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; margin-bottom:28px;">
+      <a href="/deals/segway-ninebot-max-g2-price-history" style="display:block;background:#0A0A10;border:1px solid #22223A;border-radius:14px;padding:16px;text-align:left;text-decoration:none;"><div style="font-size:14px;font-weight:800;color:#fff;margin-bottom:4px;">Segway Ninebot Max G2</div><div style="font-size:15px;font-weight:800;color:#C9A84C;">$594.99 reported Jun 16</div><div style="font-size:12px;color:#7A78A0;margin-top:2px;">9to5Toys · usual ~$1,000</div></a>
+      <a href="/deals/elgato-stream-deck-price-history" style="display:block;background:#0A0A10;border:1px solid #22223A;border-radius:14px;padding:16px;text-align:left;text-decoration:none;"><div style="font-size:14px;font-weight:800;color:#fff;margin-bottom:4px;">Elgato Stream Deck MK.2</div><div style="font-size:15px;font-weight:800;color:#C9A84C;">$119.99 reported Oct 2</div><div style="font-size:12px;color:#7A78A0;margin-top:2px;">Digital Citizen · list $149.99</div></a>
+      <a href="/blog/shark-flexstyle-vs-dyson-airwrap-prime-day-2026" style="display:block;background:#0A0A10;border:1px solid #22223A;border-radius:14px;padding:16px;text-align:left;text-decoration:none;"><div style="font-size:14px;font-weight:800;color:#fff;margin-bottom:4px;">Shark FlexStyle Air</div><div style="font-size:15px;font-weight:800;color:#C9A84C;">$200 reported Sep 16</div><div style="font-size:12px;color:#7A78A0;margin-top:2px;">Gizmodo · usual $314</div></a>
+      <a href="/deals/anker-45w-usb-c-charger-price-history" style="display:block;background:#0A0A10;border:1px solid #22223A;border-radius:14px;padding:16px;text-align:left;text-decoration:none;"><div style="font-size:14px;font-weight:800;color:#fff;margin-bottom:4px;">Anker Nano 45W Charger</div><div style="font-size:15px;font-weight:800;color:#C9A84C;">$25.99 reported Jul 17</div><div style="font-size:12px;color:#7A78A0;margin-top:2px;">Android Authority · list $39.99</div></a>
+    </div>
+    <a href="/deals" class="btn-gold btn-lg">Browse the deals →</a>
+    <p style="font-size:12px; color:#3A3A5C; margin-top:14px;">Dated prices, not live prices. As an Amazon Associate we earn from qualifying purchases.</p>
   </div>
 </section>
 
