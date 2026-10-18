@@ -178,17 +178,17 @@
     },
     {
       "source": "/deals/secura-electric-wine-opener-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/kitchen",
       "permanent": true
     },
     {
       "source": "/deals/apple-watch-ultra-2-price-history",
-      "destination": "/deals/fitness",
+      "destination": "/deals/apple-watch-series-11-price-history",
       "permanent": true
     },
     {
       "source": "/deals/maybelline-lash-sensational-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/beauty",
       "permanent": true
     },
     {
@@ -213,7 +213,7 @@
     },
     {
       "source": "/deals/garmin-instinct-3-amoled-price-history",
-      "destination": "/deals/fitness",
+      "destination": "/deals/garmin-forerunner-265-price-history",
       "permanent": true
     },
     {
@@ -223,17 +223,17 @@
     },
     {
       "source": "/deals/kindle-paperwhite-signature-edition-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/kindle-paperwhite-price-history",
       "permanent": true
     },
     {
       "source": "/deals/caraway-cookware-set-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/kitchen",
       "permanent": true
     },
     {
       "source": "/deals/le-creuset-dutch-oven-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/kitchen",
       "permanent": true
     },
     {
@@ -243,12 +243,12 @@
     },
     {
       "source": "/deals/midea-duo-portable-ac-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/frigidaire-portable-ac-price-history",
       "permanent": true
     },
     {
       "source": "/deals/oura-ring-4-price-history",
-      "destination": "/deals/home",
+      "destination": "/deals/fitness",
       "permanent": true
     },
     {
@@ -258,7 +258,7 @@
     },
     {
       "source": "/deals/dewalt-20v-combo-kit-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/home",
       "permanent": true
     },
     {
@@ -278,22 +278,22 @@
     },
     {
       "source": "/deals/black-decker-mini-fridge-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/kitchen",
       "permanent": true
     },
     {
       "source": "/deals/dyson-v15-detect-price-history",
-      "destination": "/deals/home",
+      "destination": "/deals/dyson-v11-price-history",
       "permanent": true
     },
     {
       "source": "/deals/dyson-airwrap-price-history",
-      "destination": "/deals/home",
+      "destination": "/deals/beauty",
       "permanent": true
     },
     {
       "source": "/deals/abccanopy-gazebo-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/outdoor",
       "permanent": true
     },
     {
@@ -303,12 +303,12 @@
     },
     {
       "source": "/deals/cosori-air-fryer-price-history",
-      "destination": "/deals/kitchen",
+      "destination": "/deals/ninja-crispi-air-fryer-price-history",
       "permanent": true
     },
     {
       "source": "/deals/coleman-xtreme-rolling-cooler-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/outdoor",
       "permanent": true
     },
     {
@@ -318,22 +318,22 @@
     },
     {
       "source": "/deals/medicube-toner-pads-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/beauty",
       "permanent": true
     },
     {
       "source": "/deals/bluedriver-obd2-scanner-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/outdoor",
       "permanent": true
     },
     {
       "source": "/deals/anker-prime-power-bank-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/anker-45w-usb-c-charger-price-history",
       "permanent": true
     },
     {
       "source": "/deals/lg-c5-oled-65-inch-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/lg-c5-oled-tv-price-history",
       "permanent": true
     },
     {
@@ -343,7 +343,7 @@
     },
     {
       "source": "/deals/ring-battery-doorbell-plus-price-history",
-      "destination": "/deals/home",
+      "destination": "/deals/ring-wired-doorbell-pro-price-history",
       "permanent": true
     },
     {
@@ -353,22 +353,22 @@
     },
     {
       "source": "/deals/echo-pop-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/echo-dot-5th-gen-price-history",
       "permanent": true
     },
     {
       "source": "/deals/cosrx-snail-mucin-essence-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/beauty",
       "permanent": true
     },
     {
       "source": "/deals/anker-solix-c1000-gen-2-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/jackery-explorer-1000-v2-price-history",
       "permanent": true
     },
     {
       "source": "/deals/dreame-l10s-ultra-robot-vacuum-price-history",
-      "destination": "/deals/home",
+      "destination": "/deals/roborock-saros-10r-price-history",
       "permanent": true
     },
     {
@@ -378,7 +378,7 @@
     },
     {
       "source": "/deals/google-pixel-9-pro-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/google-pixel-9a-price-history",
       "permanent": true
     },
     {
@@ -388,7 +388,7 @@
     },
     {
       "source": "/deals/airpods-4-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/airpods-pro-3-price-history",
       "permanent": true
     },
     {
@@ -403,7 +403,7 @@
     },
     {
       "source": "/deals/bluetti-ac200l-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/jackery-explorer-1000-v2-price-history",
       "permanent": true
     },
     {
@@ -413,27 +413,27 @@
     },
     {
       "source": "/deals/eufy-security-camera-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/reolink-4-camera-solar-security-price-history",
       "permanent": true
     },
     {
       "source": "/deals/roborock-q10-s5-plus-price-history",
-      "destination": "/deals/home",
+      "destination": "/deals/roborock-saros-10r-price-history",
       "permanent": true
     },
     {
       "source": "/deals/waterpik-water-flosser-price-history",
-      "destination": "/deals/home",
+      "destination": "/deals/beauty",
       "permanent": true
     },
     {
       "source": "/deals/uplift-v2-standing-desk-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/vivo-standing-desk-converter-price-history",
       "permanent": true
     },
     {
       "source": "/deals/occer-compact-binoculars-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/outdoor",
       "permanent": true
     },
     {
@@ -453,17 +453,17 @@
     },
     {
       "source": "/deals/laneige-lip-sleeping-mask-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/beauty",
       "permanent": true
     },
     {
       "source": "/deals/roborock-qrevo-s-price-history",
-      "destination": "/deals/home",
+      "destination": "/deals/roborock-saros-10r-price-history",
       "permanent": true
     },
     {
       "source": "/deals/roborock-s8-pro-ultra-price-history",
-      "destination": "/deals/home",
+      "destination": "/deals/roborock-saros-10r-price-history",
       "permanent": true
     },
     {
@@ -478,7 +478,7 @@
     },
     {
       "source": "/deals/macbook-pro-m4-14-inch-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/macbook-air-m5-price-history",
       "permanent": true
     },
     {
@@ -488,12 +488,12 @@
     },
     {
       "source": "/deals/flexispot-e7-standing-desk-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/vivo-standing-desk-converter-price-history",
       "permanent": true
     },
     {
       "source": "/deals/milwaukee-m18-fuel-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/home",
       "permanent": true
     },
     {
@@ -513,12 +513,12 @@
     },
     {
       "source": "/deals/echo-show-8-price-history",
-      "destination": "/deals/home",
+      "destination": "/deals/echo-show-11-price-history",
       "permanent": true
     },
     {
       "source": "/deals/ipad-air-m4-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/ipad-pro-m5-price-history",
       "permanent": true
     },
     {
@@ -528,12 +528,12 @@
     },
     {
       "source": "/deals/blink-outdoor-4-camera-price-history",
-      "destination": "/deals/home",
+      "destination": "/deals/reolink-4-camera-solar-security-price-history",
       "permanent": true
     },
     {
       "source": "/deals/matein-mlassic-backpack-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/outdoor",
       "permanent": true
     },
     {
@@ -543,7 +543,7 @@
     },
     {
       "source": "/deals/ps5-dualsense-controller-price-history",
-      "destination": "/deals/gaming",
+      "destination": "/deals/ps5-dualsense-edge-price-history",
       "permanent": true
     },
     {
@@ -553,7 +553,7 @@
     },
     {
       "source": "/deals/meta-ray-ban-display-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/ray-ban-meta-gen-2-price-history",
       "permanent": true
     },
     {
@@ -563,7 +563,7 @@
     },
     {
       "source": "/deals/roborock-q7-max-price-history",
-      "destination": "/deals/home",
+      "destination": "/deals/roborock-saros-10r-price-history",
       "permanent": true
     },
     {
@@ -573,12 +573,12 @@
     },
     {
       "source": "/deals/sol-de-janeiro-body-mist-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/beauty",
       "permanent": true
     },
     {
       "source": "/deals/lg-c4-oled-tv-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/lg-c5-oled-tv-price-history",
       "permanent": true
     },
     {
@@ -593,7 +593,7 @@
     },
     {
       "source": "/deals/bose-quietcomfort-45-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/bose-quietcomfort-ultra-price-history",
       "permanent": true
     },
     {
@@ -608,7 +608,7 @@
     },
     {
       "source": "/deals/eight-sleep-pod-4-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/fitness",
       "permanent": true
     },
     {
@@ -618,7 +618,7 @@
     },
     {
       "source": "/deals/anker-3-in-1-charging-station-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/anker-45w-usb-c-charger-price-history",
       "permanent": true
     },
     {
@@ -628,7 +628,7 @@
     },
     {
       "source": "/deals/cantilever-patio-umbrella-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/outdoor",
       "permanent": true
     },
     {
@@ -638,7 +638,7 @@
     },
     {
       "source": "/deals/astroai-tire-inflator-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/outdoor",
       "permanent": true
     },
     {
@@ -648,12 +648,12 @@
     },
     {
       "source": "/deals/airpods-max-2-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/airpods-pro-3-price-history",
       "permanent": true
     },
     {
       "source": "/deals/ipad-11-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/ipad-pro-m5-price-history",
       "permanent": true
     },
     {
@@ -663,22 +663,22 @@
     },
     {
       "source": "/deals/black-decker-portable-ac-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/frigidaire-portable-ac-price-history",
       "permanent": true
     },
     {
       "source": "/deals/bamboo-mattress-topper-price-history",
-      "destination": "/deals/home",
+      "destination": "/deals/lucid-twin-xl-mattress-topper-price-history",
       "permanent": true
     },
     {
       "source": "/deals/bella-2-slice-toaster-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/kitchen",
       "permanent": true
     },
     {
       "source": "/deals/apple-pencil-pro-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/ipad-pro-m5-price-history",
       "permanent": true
     },
     {
@@ -693,17 +693,17 @@
     },
     {
       "source": "/deals/alpha-grillers-meat-thermometer-price-history",
-      "destination": "/deals/outdoor",
+      "destination": "/deals/kitchen",
       "permanent": true
     },
     {
       "source": "/deals/portable-air-conditioner-price-history",
-      "destination": "/deals/home",
+      "destination": "/deals/frigidaire-portable-ac-price-history",
       "permanent": true
     },
     {
       "source": "/deals/crest-3d-whitestrips-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/beauty",
       "permanent": true
     },
     {
@@ -713,22 +713,22 @@
     },
     {
       "source": "/deals/samsung-neo-qled-qn90f-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/samsung-65-inch-qled-q8f-price-history",
       "permanent": true
     },
     {
       "source": "/deals/newair-27-bottle-wine-fridge-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/kitchen",
       "permanent": true
     },
     {
       "source": "/deals/lg-77-inch-c5-oled-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/lg-c5-oled-tv-price-history",
       "permanent": true
     },
     {
       "source": "/deals/samsung-galaxy-s25-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/samsung-galaxy-s25-ultra-price-history",
       "permanent": true
     },
     {
@@ -738,22 +738,22 @@
     },
     {
       "source": "/deals/hatch-restore-2-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/home",
       "permanent": true
     },
     {
       "source": "/deals/kindle-colorsoft-signature-edition-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/kindle-colorsoft-price-history",
       "permanent": true
     },
     {
       "source": "/deals/anker-prime-250w-charging-station-price-history",
-      "destination": "/deals/electronics",
+      "destination": "/deals/anker-45w-usb-c-charger-price-history",
       "permanent": true
     },
     {
       "source": "/deals/nintendo-switch-oled-vs-switch-2",
-      "destination": "/deals/gaming",
+      "destination": "/deals/nintendo-switch-2-price-history",
       "permanent": true
     },
     {
