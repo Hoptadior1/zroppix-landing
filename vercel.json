@@ -222,11 +222,6 @@
       "permanent": true
     },
     {
-      "source": "/deals/kindle-paperwhite-signature-edition-price-history",
-      "destination": "/deals/kindle-paperwhite-price-history",
-      "permanent": true
-    },
-    {
       "source": "/deals/caraway-cookware-set-price-history",
       "destination": "/deals/kitchen",
       "permanent": true
@@ -244,11 +239,6 @@
     {
       "source": "/deals/midea-duo-portable-ac-price-history",
       "destination": "/deals/frigidaire-portable-ac-price-history",
-      "permanent": true
-    },
-    {
-      "source": "/deals/oura-ring-4-price-history",
-      "destination": "/deals/fitness",
       "permanent": true
     },
     {
@@ -407,16 +397,6 @@
       "permanent": true
     },
     {
-      "source": "/deals/roborock-q10-s5-plus-price-history",
-      "destination": "/deals/roborock-saros-10r-price-history",
-      "permanent": true
-    },
-    {
-      "source": "/deals/waterpik-water-flosser-price-history",
-      "destination": "/deals/beauty",
-      "permanent": true
-    },
-    {
       "source": "/deals/uplift-v2-standing-desk-price-history",
       "destination": "/deals/vivo-standing-desk-converter-price-history",
       "permanent": true
@@ -464,11 +444,6 @@
     {
       "source": "/deals/sunny-health-fitness-manual-treadmill-price-history",
       "destination": "/deals/fitness",
-      "permanent": true
-    },
-    {
-      "source": "/deals/macbook-pro-m4-14-inch-price-history",
-      "destination": "/deals/macbook-air-m5-price-history",
       "permanent": true
     },
     {
@@ -532,11 +507,6 @@
       "permanent": true
     },
     {
-      "source": "/deals/bissell-little-green-mini-price-history",
-      "destination": "/deals/home",
-      "permanent": true
-    },
-    {
       "source": "/deals/samsung-galaxy-buds-3-pro-price-history",
       "destination": "/deals/electronics",
       "permanent": true
@@ -583,7 +553,7 @@
     },
     {
       "source": "/deals/eight-sleep-pod-4-price-history",
-      "destination": "/deals/fitness",
+      "destination": "/deals/home",
       "permanent": true
     },
     {
