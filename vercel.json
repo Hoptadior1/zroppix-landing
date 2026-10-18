@@ -377,6 +377,16 @@
       "permanent": true
     },
     {
+      "source": "/deals/google-pixel-9-pro-price-history",
+      "destination": "/deals/electronics",
+      "permanent": true
+    },
+    {
+      "source": "/deals/spectralite-faceware-pro-price-history",
+      "destination": "/deals/beauty",
+      "permanent": true
+    },
+    {
       "source": "/deals/airpods-4-price-history",
       "destination": "/deals/electronics",
       "permanent": true
@@ -429,6 +439,11 @@
     {
       "source": "/deals/kitchenaid-hand-mixer-price-history",
       "destination": "/deals/kitchen",
+      "permanent": true
+    },
+    {
+      "source": "/deals/eufy-baby-monitor-price-history",
+      "destination": "/deals/toys",
       "permanent": true
     },
     {
@@ -617,6 +632,11 @@
       "permanent": true
     },
     {
+      "source": "/deals/logitech-g502x-lightspeed-price-history",
+      "destination": "/deals/gaming",
+      "permanent": true
+    },
+    {
       "source": "/deals/astroai-tire-inflator-price-history",
       "destination": "/deals/electronics",
       "permanent": true
@@ -633,6 +653,11 @@
     },
     {
       "source": "/deals/ipad-11-price-history",
+      "destination": "/deals/electronics",
+      "permanent": true
+    },
+    {
+      "source": "/deals/anker-soundcore-space-q45-price-history",
       "destination": "/deals/electronics",
       "permanent": true
     },
@@ -698,6 +723,11 @@
     },
     {
       "source": "/deals/lg-77-inch-c5-oled-price-history",
+      "destination": "/deals/electronics",
+      "permanent": true
+    },
+    {
+      "source": "/deals/samsung-galaxy-s25-price-history",
       "destination": "/deals/electronics",
       "permanent": true
     },
