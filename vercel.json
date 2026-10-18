@@ -287,11 +287,6 @@
       "permanent": true
     },
     {
-      "source": "/deals/dyson-airwrap-price-history",
-      "destination": "/deals/beauty",
-      "permanent": true
-    },
-    {
       "source": "/deals/abccanopy-gazebo-price-history",
       "destination": "/deals/outdoor",
       "permanent": true
@@ -384,11 +379,6 @@
     {
       "source": "/deals/spectralite-faceware-pro-price-history",
       "destination": "/deals/beauty",
-      "permanent": true
-    },
-    {
-      "source": "/deals/airpods-4-price-history",
-      "destination": "/deals/airpods-pro-3-price-history",
       "permanent": true
     },
     {
@@ -542,18 +532,8 @@
       "permanent": true
     },
     {
-      "source": "/deals/ps5-dualsense-controller-price-history",
-      "destination": "/deals/ps5-dualsense-edge-price-history",
-      "permanent": true
-    },
-    {
       "source": "/deals/bissell-little-green-mini-price-history",
       "destination": "/deals/home",
-      "permanent": true
-    },
-    {
-      "source": "/deals/meta-ray-ban-display-price-history",
-      "destination": "/deals/ray-ban-meta-gen-2-price-history",
       "permanent": true
     },
     {
@@ -569,11 +549,6 @@
     {
       "source": "/deals/samsung-galaxy-watch-ultra-price-history",
       "destination": "/deals/electronics",
-      "permanent": true
-    },
-    {
-      "source": "/deals/sol-de-janeiro-body-mist-price-history",
-      "destination": "/deals/beauty",
       "permanent": true
     },
     {
@@ -682,11 +657,6 @@
       "permanent": true
     },
     {
-      "source": "/deals/litter-robot-4-price-history",
-      "destination": "/deals/home",
-      "permanent": true
-    },
-    {
       "source": "/deals/bio-oil-skincare-price-history",
       "destination": "/deals/beauty",
       "permanent": true
@@ -758,7 +728,7 @@
     },
     {
       "source": "/blog/ninja-slushi-price-history",
-      "destination": "/deals/kitchen",
+      "destination": "/deals/ninja-slushi-price-history",
       "permanent": true
     }
   ],
