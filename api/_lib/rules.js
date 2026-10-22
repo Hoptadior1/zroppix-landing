@@ -246,10 +246,10 @@ function matchDeal(name, index) {
   return bs >= 0.75 ? { slug: best.slug, title: best.title } : null;
 }
 
-function buildFallback({ productName, country, stale, deal, newer, hadSearchError }) {
+function buildFallback({ productName, country, stale, deal, newer, hadSearchError, unreadable }) {
   const lastSeen = (stale || []).slice().sort((a, b) => a.ageDays - b.ageDays)[0] || null;
   return {
-    reason: hadSearchError ? 'search_unavailable' : 'no_current_offer',
+    reason: hadSearchError ? 'search_unavailable' : unreadable ? 'unreadable' : 'no_current_offer',
     lastSeen: lastSeen ? { store: lastSeen.store, price: lastSeen.price, currency: lastSeen.currency, dateHuman: lastSeen.dateHuman, ageDays: lastSeen.ageDays, sourceUrl: lastSeen.sourceUrl, sourceTitle: lastSeen.sourceTitle } : null,
     links: storeLinks(productName, country),
     history: deal ? { url: '/deals/' + deal.slug, title: deal.title } : null,

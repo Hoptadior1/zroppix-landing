@@ -61,7 +61,10 @@ async function call({ model, system, messages, tools, maxTokens, deadline }) {
     }
     break;
   }
-  const text = content.filter((b) => b.type === 'text').map((b) => b.text || '').join('\n');
+  // Text arrives in many small blocks when the search tool adds citations. They are pieces of one reply, so join with nothing.
+  const text = content.filter((b) => b.type === 'text').map((b) => b.text || '').join('');
+  const blockTypes = {};
+  for (const b of content) blockTypes[b.type] = (blockTypes[b.type] || 0) + 1;
   // URLs the search tool actually returned. Anything the model claims that is not in here is rejected later.
   const results = [];
   let searchErrors = 0;
@@ -71,15 +74,38 @@ async function call({ model, system, messages, tools, maxTokens, deadline }) {
       for (const x of b.content) if (x && x.type === 'web_search_result' && x.url) results.push({ url: String(x.url), title: String(x.title || ''), page_age: x.page_age ? String(x.page_age) : null });
     } else if (b.content && b.content.type === 'web_search_tool_result_error') searchErrors++;
   }
-  return { text, usage, costUsd: costOf(model, usage), results, searchErrors, stop };
+  return { text, usage, costUsd: costOf(model, usage), results, searchErrors, stop, blockTypes };
 }
 
-// Pull the first JSON object out of a model reply. Returns null if there is none.
+// Pull the JSON object out of a model reply. Tolerates stray line breaks and a reply cut off at the token limit.
 function extractJson(text) {
   if (!text) return null;
-  const s = text.indexOf('{'); const e = text.lastIndexOf('}');
-  if (s < 0 || e <= s) return null;
-  try { return JSON.parse(text.slice(s, e + 1)); } catch (_) { return null; }
+  const s = text.indexOf('{');
+  if (s < 0) return null;
+  const e = text.lastIndexOf('}');
+  if (e > s) {
+    const c = text.slice(s, e + 1);
+    try { return JSON.parse(c); } catch (_) { /* try again below */ }
+    try { return JSON.parse(c.replace(/[\r\n\t]+/g, ' ')); } catch (_) { /* fall through */ }
+  }
+  return salvage(text.slice(s));
+}
+
+// Truncated reply: keep every COMPLETE object in the first array and close the JSON.
+function salvage(raw) {
+  const t = raw.replace(/[\r\n\t]+/g, ' ');
+  const i = t.indexOf('[');
+  if (i < 0) return null;
+  let depth = 0; let inStr = false; let esc = false; let lastEnd = -1;
+  for (let k = i + 1; k < t.length; k++) {
+    const ch = t[k];
+    if (inStr) { if (esc) esc = false; else if (ch === '\\') esc = true; else if (ch === '"') inStr = false; continue; }
+    if (ch === '"') inStr = true;
+    else if (ch === '{') depth++;
+    else if (ch === '}') { depth--; if (depth === 0) lastEnd = k; }
+  }
+  if (lastEnd < 0) return null;
+  try { return JSON.parse(t.slice(0, i + 1) + t.slice(i + 1, lastEnd + 1) + ']}'); } catch (_) { return null; }
 }
 
 module.exports = { call, costOf, extractJson, AIError };

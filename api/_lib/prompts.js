@@ -24,7 +24,8 @@ Rules:
 - source_url must be a page that appeared in your search results.
 - quote is a short exact phrase (max 150 characters) from the page that supports the offer.
 - Match the exact model and variant. A different model, bundle, accessory or used item is a different finding or is left out.
-- At most 12 findings. If you find nothing reliable, return an empty list.
+- At most 10 findings, the most useful first. Keep each note short. If you find nothing reliable, return an empty list.
+- Reply with the JSON object only: no introduction, no markdown fences, no text after it.
 Reply with JSON only:
 {"findings":[{"id":"f1","kind":"price|coupon|cashback|refurb|newer_model","store":"","title":"","price":null,"currency":"USD","percent":null,"code":"","expires":null,"page_date":null,"source_url":"","source_title":"","quote":"","condition":"","seller":"manufacturer|retailer|third_party|unknown","ships":"yes|no|unknown","note":"max 100 characters, facts only"}]}
 Never write predictions, urgency, or advice to buy.`;
