@@ -108,6 +108,7 @@ module.exports = async (req, res) => {
 
       const out = R.evaluate(rawFindings, { now, maxAgeDays: c.maxAgeDays, staleMaxDays: c.staleMaxDays, results: gather.results, judge: verdicts });
       ev = out;
+      out.proof = { pages: gather.results.length, sites: new Set(gather.results.map((r) => { try { return new URL(r.url).hostname.replace(/^www\./, ''); } catch (_) { return ''; } }).filter(Boolean)).size, rejected: out.rejected.length };
       await logDebug({ t: now.toISOString(), product: product.name + (product.variant ? ' / ' + product.variant : ''), country, stop: gather.stop, blocks: gather.blockTypes, usage: gather.usage, searches: (gather.usage.server_tool_use || {}).web_search_requests || 0, searchErrors: gather.searchErrors,
         results: gather.results.length, resultUrls: gather.results.slice(0, 8).map((r) => r.url), textLen: gather.text.length, textHead: gather.text.slice(0, 700), textTail: gather.text.slice(-300),
         parsed, findings: rawFindings.length, accepted: out.accepted.length, rejected: out.rejected.slice(0, 8), judged, costUsd: Math.round(cost * 10000) / 10000 });
@@ -116,7 +117,7 @@ module.exports = async (req, res) => {
     } else bump('check_cache');
 
     const offers = ev.accepted.filter((a) => OFFER_KINDS.has(a.kind));
-    const hist = deal ? { url: '/deals/' + deal.slug, title: deal.title } : null;
+    const hist = deal ? { url: '/deals/' + deal.slug, title: deal.title, lowest: deal.lowest || null, average: deal.average || null, updated: deal.updated || null } : null;
     if (!offers.length) {
       bump(parsed ? 'check_fallback' : 'check_unreadable');
       return send(res, 200, { status: 'fallback', tier, product, country, checkedAt: now.toISOString(), cached, judged, remaining: { left: al.left, total: al.total },
