@@ -372,10 +372,10 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
   function statusLine(counts) {
     if (!counts) return null;
     var none = [];
-    if (counts.coupon === 0) none.push('No coupon');
-    if (counts.cashback === 0) none.push('No cashback');
+    if (counts.coupon === 0) none.push('coupon');
+    if (counts.cashback === 0) none.push('cashback');
     if (!none.length) return null;
-    return h('div', { class: 'micro', style: 'margin-top:0' }, none.join(' and ') + ' found in this check. That doesn\'t mean none exists. We only list codes with a future expiry date.');
+    return h('div', { class: 'micro', style: 'margin-top:0' }, 'No ' + none.join(' and no ') + ' found in this check. That doesn\'t mean none exists. We only list codes with a future expiry date.');
   }
   function row(left, small, val, valSmall) {
     return h('div', { class: 'prow' }, h('div', {}, left, small ? h('small', {}, small) : null), h('div', { class: 'val' }, val || '', valSmall ? [h('br'), h('small', {}, valSmall)] : null));
@@ -391,8 +391,15 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
     var ORD = { coupon: 0, cashback: 1, refurb: 2, price: 3 };
     var tz = (r.teasers || []).slice().sort(function (a, b) { return ORD[a.kind] - ORD[b.kind]; });
     var n = tz.length;
-    var box = h('div', { class: 'pro' }, h('h3', {}, '🔒 ' + (n ? 'Pro found ' + n + ' more way' + (n === 1 ? '' : 's') + ' to pay less, plus shipping on every offer' : 'Pro adds shipping, totals and tracking')));
-    tz.forEach(function (t) { box.appendChild(teaserRow(t)); });
+    var box = h('div', { class: 'pro' }, h('h3', {}, '🔒 ' + (n ? (tz.some(function (t) { return t.kind === 'coupon' || t.kind === 'cashback'; }) ? 'Pro found ' + n + ' more way' + (n === 1 ? '' : 's') + ' to pay less, plus shipping on every offer' : 'Pro found ' + n + ' more offer' + (n === 1 ? '' : 's') + ' to compare, plus shipping on every offer') : 'Pro adds shipping, totals and tracking')));
+    var plain = tz.filter(function (t) { return t.kind === 'price'; });
+    tz.filter(function (t) { return t.kind !== 'price'; }).forEach(function (t) { box.appendChild(teaserRow(t)); });
+    if (plain.length === 1) box.appendChild(teaserRow(plain[0]));
+    else if (plain.length > 1) {
+      var ages = plain.map(function (t) { return t.ageDays; }).filter(function (a) { return a != null; });
+      var lo = Math.min.apply(null, ages), hi = Math.max.apply(null, ages);
+      box.appendChild(row(plain.length + ' other store prices', ages.length ? 'reported ' + (lo === hi ? lo + (lo === 1 ? ' day ago' : ' days ago') : lo + ' to ' + hi + ' days ago') : '', 'prices in Pro'));
+    }
     box.appendChild(row('Shipping and total price', 'cost, delivery time, ships to your country', 'on every offer'));
     box.appendChild(row('Price tracking and alerts', 'an email when a new offer passes our checks', 'included'));
     if (tz.some(function (t) { return t.kind === 'coupon' || t.kind === 'cashback'; })) box.appendChild(h('p', { style: 'margin-top:12px;font-size:13.5px' }, 'Codes, stores and links unlock with Pro. ', h('span', { class: 'blurs', 'aria-hidden': 'true' }, 'CODE123 · store name')));
