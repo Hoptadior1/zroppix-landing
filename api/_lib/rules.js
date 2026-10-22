@@ -212,6 +212,7 @@ function shape(ev, tier, extras, ctx) {
     newer: newer.map(pub),
     rejected: ev.rejected.slice(0, 8).map((r) => ({ what: r.what, why: r.why })),
     warnings: [],
+    counts: { coupon: ev.accepted.filter((a) => a.kind === 'coupon').length, cashback: ev.accepted.filter((a) => a.kind === 'cashback').length },
   };
   // Safety information is never locked.
   if (best && best.seller === 'third_party') out.warnings.push('The best offer is from a third-party seller, not the manufacturer or the store itself. Check the seller rating and return terms before you buy.');

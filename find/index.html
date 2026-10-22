@@ -327,6 +327,21 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
     return h('div', {}, f, out, h('div', { class: 'micro' }, 'Pro isn\'t open yet. We\'ll email you once, and only about this.'));
   }
 
+  // Always say what we found about coupons and cashback, including "nothing", so the shopper is never left guessing.
+  function extrasBox(counts, pro) {
+    var rows = [['coupon', 'Coupons', 'coupon'], ['cashback', 'Cashback', 'cashback']];
+    var box = h('div', { class: 'note' }, h('b', {}, 'Coupons and cashback'));
+    rows.forEach(function (x) {
+      var n = counts ? counts[x[0]] : null, t;
+      if (n == null) t = 'not checked this time';
+      else if (n === 0) t = 'none found in this check';
+      else t = n + ' found' + (pro ? ', listed above' : ', details in Pro');
+      box.appendChild(h('div', { style: 'margin-top:4px' }, x[1] + ': ' + t));
+    });
+    box.appendChild(h('div', { class: 'micro', style: 'margin-top:6px' }, 'Not finding one here doesn\'t mean none exists. We only list codes with a future expiry date.'));
+    return box;
+  }
+
   function renderResult(j) {
     var r = j.result, b = r.best, pro = j.tier === 'pro';
     var card = h('div', { class: 'card' });
@@ -345,14 +360,15 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
       var box = h('div', { class: 'lock', style: 'border-color:var(--border);background:transparent' }, h('h3', {}, 'More offers'));
       r.others.forEach(function (o) { box.appendChild(h('div', { class: 'orow' }, h('div', {}, h('div', {}, o.kind === 'cashback' ? 'Cashback' : o.kind === 'coupon' ? 'Coupon' : o.kind === 'refurb' ? 'Refurbished / open-box' : 'Store price'), h('small', {}, offerSub(o) + ' · reported ' + when(o) + (o.seller === 'third_party' ? ' · ⚠ third-party seller' : '') + ' · '), ext(o.sourceUrl, 'source')), h('b', {}, offerLine(o)))); });
       card.appendChild(box);
-    } else if (!pro && r.locked && Object.keys(r.locked).length) {
+    } else if (!pro && r.locked && Object.keys(r.locked).filter(function (k) { return k !== 'coupon' && k !== 'cashback'; }).length) {
       var lk = h('div', { class: 'lock' }, h('h3', {}, '🔒 Pro also found'));
-      Object.keys(r.locked).forEach(function (k) { lk.appendChild(h('div', { class: 'lrow' }, h('span', {}, (KIND[k] || k)), h('span', { class: 'blur', 'aria-hidden': 'true' }, r.locked[k] + ' found · •••••'))); });
+      Object.keys(r.locked).filter(function (k) { return k !== 'coupon' && k !== 'cashback'; }).forEach(function (k) { lk.appendChild(h('div', { class: 'lrow' }, h('span', {}, (KIND[k] || k)), h('span', { class: 'blur', 'aria-hidden': 'true' }, r.locked[k] + ' found · •••••'))); });
       var wl = h('div', { style: 'display:none' }, waitlistForm());
       lk.appendChild(h('div', { style: 'margin-top:12px' }, h('button', { class: 'btn main', type: 'button', onclick: function () { wl.style.display = 'block'; } }, 'Unlock with Pro'), wl));
       lk.appendChild(h('div', { class: 'micro' }, 'Counts only. The details stay on our server until Pro opens.'));
       card.appendChild(lk);
     }
+    card.appendChild(extrasBox(r.counts || null, pro));
     var rb = rejectedBox(r.rejected); if (rb) card.appendChild(rb);
     if (r.history) card.appendChild(h('p', { style: 'margin-top:14px' }, h('a', { href: r.history.url, style: 'color:var(--gold);font-weight:700' }, 'See the full price history →')));
     card.appendChild(h('p', { class: 'micro', style: 'margin-top:12px' }, state.left != null ? (state.left > 0 ? state.left + ' free ' + (state.left === 1 ? 'check' : 'checks') + ' left. ' : 'You\'ve used your free checks. ') : '', 'Want this tracked for you? ', ext(CWS, 'The free Chrome extension shows the 90-day history on the page.')));
@@ -370,6 +386,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
       h('p', {}, r.reason === 'search_unavailable' ? 'The search didn\'t finish, so we can\'t say anything about prices. This did not use a check. Here is where to compare yourself.' : r.reason === 'unreadable' ? 'The search ran but we couldn\'t read what came back, so we can\'t say anything about prices. This did not use a check. Please try again, or compare on the stores below.' : 'We found no price, coupon or cashback dated within the last 30 days that passed our rules. This did not use a check.')));
     if (r.lastSeen) card.appendChild(h('div', { class: 'note' }, h('b', {}, 'Last report we found: '), money(r.lastSeen.price, r.lastSeen.currency) + ' at ' + r.lastSeen.store + ', ' + r.lastSeen.dateHuman + ' (' + r.lastSeen.ageDays + ' days ago). It is old and may no longer apply. ', ext(r.lastSeen.sourceUrl, 'Source')));
     (r.newer || []).forEach(function (nw) { card.appendChild(h('div', { class: 'note' }, h('b', {}, 'Newer model: '), nw.title + ' · ' + nw.store + ', reported ' + nw.dateHuman + '. ', ext(nw.sourceUrl, 'Source'))); });
+    card.appendChild(extrasBox(r.reason === 'no_current_offer' ? { coupon: 0, cashback: 0 } : null, false));
     card.appendChild(h('h3', { style: 'margin-top:16px' }, 'Compare on these stores'));
     var links = h('div', { class: 'links' }); (r.links || []).forEach(function (l) { links.appendChild(ext(l.url, l.store)); }); card.appendChild(links);
     if (r.history) card.appendChild(h('p', { style: 'margin-top:14px' }, h('a', { href: r.history.url, style: 'color:var(--gold);font-weight:700' }, 'See our dated price history →')));
