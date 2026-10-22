@@ -180,7 +180,24 @@ function pickBest(accepted) {
 }
 
 // What the browser may receive. Locked details for free users are reduced to counts only.
-function shape(ev, tier, extras) {
+// Where the "Open" button should go. If the source page is the store's own site, use it.
+// If it is an article or deals roundup, send the shopper to that store's search for the product instead
+// (never a link we made up for a specific product page), and keep the article as "Read the report".
+function storeTarget(a, productName, country) {
+  let host = '';
+  try { host = new URL(a.sourceUrl).hostname.toLowerCase(); } catch (_) { /* none */ }
+  const key = normName(a.store || '').replace(/[^a-z0-9]/g, '');
+  const hostKey = host.replace(/[^a-z0-9]/g, '');
+  const isStoreSite = !!key && key.length >= 3 && hostKey.includes(key);
+  const looksEditorial = /\/(blog|news|deals?|article|articles|guide|guides|review|reviews)\b/i.test(a.sourceUrl) || /\d{4}\/\d{2}\//.test(a.sourceUrl);
+  if (isStoreSite && !looksEditorial) return { url: a.sourceUrl, kind: 'store' };
+  const list = STORE_LINKS[country] || INTL;
+  const hit = list.find(([name]) => { const n = normName(name).replace(/[^a-z0-9]/g, ''); return key && (n.startsWith(key) || key.startsWith(n)); });
+  if (hit && productName) return { url: hit[1] + encodeURIComponent(clean(productName, 100)), kind: 'search', store: hit[0] };
+  return { url: a.sourceUrl, kind: 'article' };
+}
+
+function shape(ev, tier, extras, ctx) {
   const best = pickBest(ev.accepted);
   const rest = ev.accepted.filter((a) => a !== best && a.kind !== 'newer_model');
   const newer = ev.accepted.filter((a) => a.kind === 'newer_model').slice(0, 1);
@@ -188,6 +205,7 @@ function shape(ev, tier, extras) {
     id: a.id, kind: a.kind, store: a.store, title: a.title, price: a.price, currency: a.currency, percent: a.percent,
     code: a.code, expires: a.expiresIso, date: a.date, dateHuman: a.dateHuman, ageDays: a.ageDays,
     sourceUrl: a.sourceUrl, sourceTitle: a.sourceTitle, seller: a.seller, condition: a.condition, ships: a.ships, note: a.note,
+    target: ctx && ctx.productName ? storeTarget(a, ctx.productName, ctx.country) : { url: a.sourceUrl, kind: 'article' },
   });
   const out = {
     best: best ? pub(best) : null,

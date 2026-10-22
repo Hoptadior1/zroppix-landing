@@ -333,7 +333,11 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
     card.appendChild(h('h2', {}, j.product.name + (j.product.variant ? ' · ' + j.product.variant : '')));
     card.appendChild(h('div', { class: 'sub' }, (j.cached ? 'Saved result from earlier today · ' : 'Checked just now · ') + cname(j.country) + (pro ? ' · Pro view' : '') + (j.judged === false ? ' · not double-checked' : '')));
     var best = h('div', { class: 'best' }, h('span', { class: 'badge' }, 'Best offer found'), h('div', { class: 'bigp' }, offerLine(b)), h('div', { class: 'src' }, offerSub(b) + ' · reported ' + when(b) + ' · may have ended. Source: ', ext(b.sourceUrl, b.sourceTitle || 'the page')),
-      ext(b.sourceUrl, 'Open the offer →', 'btn main'), h('div', { class: 'micro' }, 'Check the live price and seller on the store before you buy.'));
+      (b.target && b.target.kind === 'search'
+        ? ext(b.target.url, 'Find it at ' + b.target.store + ' →', 'btn main')
+        : b.target && b.target.kind === 'store' ? ext(b.target.url, 'Open the offer →', 'btn main')
+        : ext(b.sourceUrl, 'Read the report →', 'btn main')),
+      h('div', { class: 'micro' }, (b.target && b.target.kind === 'search' ? 'Opens the store\'s search for this product. ' : '') + 'Check the live price and seller on the store before you buy.'));
     card.appendChild(best);
     (r.warnings || []).forEach(function (w) { card.appendChild(h('div', { class: 'warn' }, '⚠ ' + w)); });
     (r.newer || []).forEach(function (nw) { card.appendChild(h('div', { class: 'note' }, h('b', {}, 'Newer model: '), nw.title + ' · ' + nw.store + ', reported ' + when(nw) + '. ', ext(nw.sourceUrl, 'Source'))); });

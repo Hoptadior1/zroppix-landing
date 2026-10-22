@@ -131,7 +131,7 @@ module.exports = async (req, res) => {
     }
     bump('check_ok');
     return send(res, 200, { status: 'ok', tier, product, country, checkedAt: now.toISOString(), cached, judged, remaining: { left, total: al.total },
-      result: R.shape(ev, tier, { history: hist }) });
+      result: R.shape(ev, tier, { history: hist }, { productName: product.name, country }) });
   } catch (e) {
     if (ticket) { try { await settle(ticket, 0); } catch (_) { /* ignore */ } }
     return send(res, 503, { error: 'unavailable' });
