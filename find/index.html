@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-S3Z0V2CZNF"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-S3Z0V2CZNF");</script>
+<meta charset="UTF-8"><link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find Cheaper Options for Any Product | Zroppix</title>
+<meta name="description" content="Search any product. We look for dated prices, coupons with expiry dates and cashback, show the sources, and list what we rejected. Free to try.">
+<link rel="canonical" href="https://zroppix.com/find">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website"><meta property="og:url" content="https://zroppix.com/find"><meta property="og:title" content="Find Cheaper Options for Any Product | Zroppix"><meta property="og:description" content="Dated prices, coupons with expiry dates and cashback, with sources. Free to try."><meta property="og:site_name" content="Zroppix">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--bg:#0D0D14;--bg2:#12121A;--bg3:#0A0A10;--border:#22223A;--gold:#C9A84C;--green:#1D9E75;--red:#E24B4A;--text:#fff;--muted:#7A78A0;--subtle:#ccc;}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+nav{display:flex;justify-content:space-between;align-items:center;padding:16px 48px;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(13,13,20,.96);backdrop-filter:blur(12px);z-index:100}
+.nav-logo{font-size:20px;font-weight:800;color:var(--gold)}
+.nav-links{display:flex;align-items:center;gap:32px;list-style:none}
+.nav-links a{color:var(--muted);font-size:14px;font-weight:500}
+.nav-cta{background:var(--gold);color:#0D0D14!important;padding:9px 20px;border-radius:8px;font-weight:700!important}
+@media(max-width:900px){nav{padding:14px 20px}}
+main{max-width:760px;margin:0 auto;padding:44px 20px 20px}
+.tagline{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,168,76,.35);border-radius:20px;padding:3px 12px;margin-bottom:14px}
+h1{font-size:40px;line-height:1.15;font-weight:900;letter-spacing:-.5px;margin-bottom:12px}
+h1 span{color:var(--gold)}
+.lead{color:var(--subtle);font-size:17px;max-width:620px;margin-bottom:22px}
+@media(max-width:600px){h1{font-size:30px}.lead{font-size:15.5px}main{padding-top:30px}}
+.sbar{display:flex;gap:8px}
+.sbar input{flex:1;min-width:0;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:15px 16px;color:var(--text);font-size:16px;outline:none}
+.sbar input:focus{border-color:var(--gold)}
+.btn{display:inline-block;border:0;cursor:pointer;font-family:inherit;font-size:15px;font-weight:800;border-radius:12px;padding:14px 22px;text-align:center;line-height:1.2}
+.btn.main{background:var(--gold);color:#0D0D14}.btn.main:hover{background:#D4B864}
+.btn.alt{background:transparent;color:var(--subtle);border:1px solid var(--border)}.btn.alt:hover{border-color:var(--gold);color:#fff}
+.btn:disabled{opacity:.55;cursor:default}
+.micro{font-size:12.5px;color:var(--muted);margin-top:8px}
+.meta{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin-top:10px;font-size:13px;color:var(--muted)}
+.meta select{background:var(--bg3);color:var(--subtle);border:1px solid var(--border);border-radius:8px;padding:4px 8px;font-size:13px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{font-size:13px;background:var(--bg2);border:1px solid var(--border);color:var(--subtle);border-radius:20px;padding:6px 14px;cursor:pointer;font-family:inherit}
+.chip:hover{border-color:var(--gold);color:#fff}
+.honest{font-size:12.5px;color:var(--muted);margin-top:14px;line-height:1.55;border-left:2px solid var(--border);padding-left:12px}
+#stage{margin-top:26px;display:flex;flex-direction:column;gap:16px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:20px}
+.card h2{font-size:20px;line-height:1.3;margin-bottom:4px}
+.card h3{font-size:15px;margin:0 0 6px}
+.card p{color:var(--subtle);font-size:14.5px;line-height:1.6}
+.sub{font-size:12.5px;color:var(--muted);margin-bottom:12px}
+.cand{display:flex;gap:12px;align-items:center;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-top:10px;cursor:pointer;width:100%;text-align:left;color:var(--text);font-family:inherit;font-size:inherit}
+.cand[aria-checked=true]{border-color:var(--gold);background:rgba(201,168,76,.07)}
+.cand b{display:block;font-size:15px}.cand small{color:var(--muted);font-size:12.5px}
+.dot{margin-left:auto;flex:none;width:16px;height:16px;border-radius:50%;border:2px solid var(--muted)}
+.cand[aria-checked=true] .dot{border-color:var(--gold);background:radial-gradient(var(--gold) 40%,transparent 45%)}
+.again{margin-top:14px}
+.again .sbar input{padding:11px 12px;font-size:14.5px}.again .btn{padding:11px 16px;font-size:14px}
+.steps{list-style:none;margin-top:10px}
+.steps li{font-size:14px;color:var(--muted);padding:6px 0;display:flex;gap:10px;align-items:center}
+.steps li.on{color:#fff}.steps li.done{color:var(--green)}
+.spin{width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:sp 1s linear infinite;flex:none}
+@keyframes sp{to{transform:rotate(360deg)}}
+.best{border:1px solid rgba(201,168,76,.55);background:rgba(201,168,76,.06);border-radius:14px;padding:16px;margin-top:14px}
+.badge{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;background:var(--gold);color:#0D0D14;border-radius:20px;padding:2px 10px;margin-bottom:8px}
+.bigp{font-size:34px;font-weight:900;color:var(--gold);line-height:1.1}
+.bigp small{font-size:14px;color:var(--subtle);font-weight:600;margin-left:6px}
+.src{font-size:12.5px;color:var(--muted);margin:8px 0 12px;line-height:1.5}
+.src a{color:var(--subtle);text-decoration:underline}
+.warn{background:rgba(226,75,74,.08);border:1px solid rgba(226,75,74,.35);border-radius:10px;padding:10px 12px;font-size:13.5px;color:var(--subtle);margin-top:12px}
+.note{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.3);border-radius:10px;padding:10px 12px;font-size:13.5px;color:var(--subtle);margin-top:12px}
+.note b{color:var(--gold)}
+.lock{margin-top:14px;border:1px solid rgba(201,168,76,.4);border-radius:14px;padding:14px 16px;background:rgba(201,168,76,.04)}
+.lock h3{font-size:14px}
+.lrow{display:flex;justify-content:space-between;gap:10px;font-size:14px;padding:8px 0;border-top:1px solid var(--border);color:var(--subtle)}
+.lrow:first-of-type{border-top:0}
+.blur{filter:blur(5px);user-select:none;color:var(--muted)}
+.rej{margin-top:14px;border:1px dashed var(--border);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--muted)}
+.rej summary{cursor:pointer;color:var(--subtle);font-weight:600}
+.rej ul{margin:8px 0 2px 18px}.rej li{margin:4px 0;line-height:1.5}
+.orow{display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--border);padding:12px 0;font-size:14px}
+.orow:first-of-type{border-top:0}
+.orow b{color:var(--gold);white-space:nowrap}
+.orow small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.orow a{text-decoration:underline;color:var(--subtle)}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.links a{border:1px solid var(--border);background:var(--bg3);border-radius:10px;padding:10px 14px;font-size:14px;font-weight:600}
+.links a:hover{border-color:var(--gold)}
+.form{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.form input{flex:1;min-width:180px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;color:var(--text);font-size:15px}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.ok{color:var(--green);font-weight:600;font-size:14px;margin-top:10px}
+.err{color:#f1a3a2;font-size:14px;margin-top:10px}
+.prev summary{cursor:pointer;color:var(--subtle);font-size:14px}
+.prev{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px 16px}
+.banner{background:rgba(29,158,117,.1);border:1px solid rgba(29,158,117,.35);border-radius:12px;padding:12px 16px;font-size:14.5px}
+section.how{margin-top:46px}
+section.how h2{font-size:22px;margin-bottom:12px}
+section.how ol,section.how ul{margin-left:20px;color:var(--subtle);font-size:15px}
+section.how li{margin:8px 0}
+.indep{margin-top:30px;font-size:13px;color:var(--muted)}
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48px 24px;margin-top:50px}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-copy{font-size:13px;color:var(--muted)}
+.footer-links-row{display:flex;gap:20px}.footer-links-row a{font-size:13px;color:var(--muted)}
+@media(max-width:600px){footer{padding:26px 20px}.bigp{font-size:28px}.sbar{flex-direction:column}.sbar .btn{width:100%}.form .btn{width:100%}}
+.sr{position:absolute;left:-9999px}
+</style>
+<style id="mnav">.nav-toggle{display:none;background:none;border:1px solid var(--border,#2a2a40);color:var(--text,#fff);border-radius:10px;width:42px;height:42px;font-size:22px;line-height:1;cursor:pointer}
+@media(max-width:900px){nav:not([aria-label]){flex-wrap:wrap;gap:0}nav:not([aria-label]) .nav-toggle{display:block}nav:not([aria-label]) .nav-links{display:none!important;width:100%;flex-direction:column;align-items:stretch;gap:0;padding:8px 0 4px;margin:0;order:3}nav.open .nav-links{display:flex!important}nav:not([aria-label]) .nav-links li{list-style:none;display:block;width:100%;margin:0;padding:0;text-align:left}nav:not([aria-label]) .nav-links a{display:block;width:100%;box-sizing:border-box;text-align:left;padding:13px 4px;border-bottom:1px solid var(--border,#2a2a40);font-size:16px;white-space:normal}nav:not([aria-label]) .nav-links li:last-child a{border:0;margin-top:10px;text-align:center!important;border-radius:10px;padding:13px 16px!important}}</style></head>
+<body>
+<nav><a href="/" class="nav-logo">🛡️ Zroppix</a><button class="nav-toggle" id="navtg" type="button" aria-label="Menu" aria-expanded="false">☰</button><ul class="nav-links"><li><a href="/deals">Deals</a></li><li><a href="/blog">Blog</a></li><li><a href="/blog/black-friday-2026-amazon-deals">Black Friday</a></li><li><a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="nav-cta">Add to Chrome — Free</a></li></ul></nav>
+<main>
+<span class="tagline">Free to try</span>
+<h1>Find it <span>for less</span></h1>
+<p class="lead">Type or paste any product. We search for prices, coupons and cashback that have a date on the page, show you the sources, and list what we rejected.</p>
+
+<form class="sbar" id="searchForm" role="search" autocomplete="off">
+<label class="sr" for="q">Product name or link</label>
+<input id="q" name="q" type="text" maxlength="200" placeholder="Product name or link" enterkeyhint="search">
+<button class="btn main" type="submit" id="goBtn">🔎 Find cheaper</button>
+</form>
+<div class="micro">Free to try. No signup. Choosing a product or searching again never uses a check.</div>
+<div class="meta"><span>Prices for: <label class="sr" for="country">Country</label><select id="country"></select></span><span id="left"></span></div>
+<div class="chips" id="examples" aria-label="Examples"></div>
+<p class="honest">Results are reports from named sources on the dates shown. They are not live prices and can end at any time. We don't predict prices.</p>
+<noscript><p class="note">This tool needs JavaScript. You can still compare prices yourself on <a href="https://www.amazon.com/">Amazon</a>, <a href="https://www.bestbuy.com/">Best Buy</a> and <a href="https://www.walmart.com/">Walmart</a>.</p></noscript>
+
+<div id="stage" aria-live="polite"></div>
+
+<section class="how">
+<h2>What we check before showing an offer</h2>
+<ul>
+<li>The page must show a date, and the date must be within the last 30 days. Older reports are listed as rejected, with their age.</li>
+<li>A coupon needs an expiry date. No expiry, no coupon.</li>
+<li>Every offer links to the page it came from, and that page must have appeared in our search. Nothing is made up.</li>
+<li>A second check confirms it's the same model and variant you chose.</li>
+<li>We never show predictions, countdowns or pressure to buy.</li>
+</ul>
+<h2 style="margin-top:28px">How it works</h2>
+<ol>
+<li>Type a product. We suggest the closest matches and you pick the right one. This is free.</li>
+<li>Use a check. We search and show what passed our rules, and what didn't.</li>
+<li>Open the source and check the live price yourself before you buy.</li>
+</ol>
+<p class="indep">Zroppix is independent and not affiliated with Amazon or any store. We count searches, not who made them, to improve the tool. See our <a href="/privacy" style="text-decoration:underline">privacy policy</a>.</p>
+</section>
+</main>
+<footer><div class="footer-bottom"><div class="footer-copy">© 2026 Zroppix. All rights reserved.</div><div class="footer-links-row"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/deals">All Deals</a></div></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var stage = $('stage'), qEl = $('q'), goBtn = $('goBtn');
+  var CWS = 'https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf';
+  var COUNTRIES = 'US GB CA AU DE FR ES IT NL IE IN KE NG ZA GH TZ UG EG AE SA SG MY PH PK BD LK ID TH VN JP KR HK TW CN BR MX AR CL CO PE NZ SE NO DK FI PL PT AT BE CH CZ GR HU RO TR UA IL'.split(' ');
+  var state = { visitor: null, country: 'US', left: null, total: null, history: [], busy: false };
+
+  // ---------- helpers (everything from the server is rendered as text, never as HTML) ----------
+  function h(tag, props) {
+    var e = document.createElement(tag);
+    for (var k in (props || {})) {
+      var v = props[k]; if (v == null || v === false) continue;
+      if (k === 'class') e.className = v; else if (k === 'text') e.textContent = v;
+      else if (k.slice(0, 2) === 'on') e.addEventListener(k.slice(2), v); else e.setAttribute(k, v);
+    }
+    for (var i = 2; i < arguments.length; i++) add(e, arguments[i]);
+    return e;
+  }
+  function add(e, c) {
+    if (c == null || c === false) return;
+    if (Array.isArray(c)) { c.forEach(function (x) { add(e, x); }); return; }
+    e.appendChild(c.nodeType ? c : document.createTextNode(String(c)));
+  }
+  function safeUrl(u) { try { var x = new URL(u); return x.protocol === 'https:' ? x.href : null; } catch (_) { return null; } }
+  function ext(u, text, cls) { var s = safeUrl(u); return s ? h('a', { href: s, target: '_blank', rel: 'noopener nofollow noreferrer', class: cls }, text) : h('span', {}, text); }
+  function money(n, cur) { try { return new Intl.NumberFormat('en-US', { style: 'currency', currency: cur || 'USD', maximumFractionDigits: n % 1 ? 2 : 0 }).format(n); } catch (_) { return (cur || '') + ' ' + n; } }
+  function track(n) { try { if (window.gtag) window.gtag('event', n); } catch (_) {} }
+  function lsGet(k) { try { return localStorage.getItem(k); } catch (_) { return null; } }
+  function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (_) {} }
+  function rid() {
+    var a = new Uint8Array(18); try { crypto.getRandomValues(a); } catch (_) { for (var i = 0; i < a.length; i++) a[i] = Math.floor(Math.random() * 256); }
+    return Array.prototype.map.call(a, function (b) { return ('0' + b.toString(16)).slice(-2); }).join('');
+  }
+  function cname(c) { try { return new Intl.DisplayNames(['en'], { type: 'region' }).of(c); } catch (_) { return c; } }
+
+  state.visitor = lsGet('zx_vid'); if (!state.visitor || !/^[A-Za-z0-9_-]{16,64}$/.test(state.visitor)) { state.visitor = rid(); lsSet('zx_vid', state.visitor); }
+  var savedC = lsGet('zx_country'); if (savedC && COUNTRIES.indexOf(savedC) >= 0) state.country = savedC;
+
+  function api(path, body) {
+    var ctl = new AbortController(); var t = setTimeout(function () { ctl.abort(); }, 70000);
+    var headers = { 'Content-Type': 'application/json' };
+    var owner = lsGet('zx_owner'); if (owner) headers['x-find-owner'] = owner;
+    body.visitor = state.visitor; body.country = state.country;
+    return fetch('/api/' + path, { method: 'POST', headers: headers, body: JSON.stringify(body), signal: ctl.signal })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { status: r.status, json: j }; }); })
+      .catch(function () { return { status: 0, json: { error: 'network' } }; })
+      .then(function (x) { clearTimeout(t); return x; });
+  }
+
+  // ---------- country + allowance ----------
+  var sel = $('country');
+  function fillCountries() {
+    sel.textContent = '';
+    COUNTRIES.forEach(function (c) { var o = h('option', { value: c }, cname(c)); if (c === state.country) o.selected = true; sel.appendChild(o); });
+  }
+  sel.addEventListener('change', function () { state.country = sel.value; lsSet('zx_country', state.country); });
+  function setCountryFromServer(c) {
+    if (!c || lsGet('zx_country')) return;
+    if (COUNTRIES.indexOf(c) >= 0) { state.country = c; sel.value = c; }
+  }
+  function showLeft() {
+    var el = $('left');
+    el.textContent = state.left == null ? '' : (state.left > 0 ? state.left + (state.left === 1 ? ' free check left' : ' free checks left') : 'No free checks left');
+  }
+  function setRemaining(r) { if (r && typeof r.left === 'number') { state.left = r.left; state.total = r.total; showLeft(); } }
+  fillCountries();
+
+  // ---------- examples ----------
+  ['Sony WH-1000XM5', 'Nintendo Switch 2', 'Kindle Paperwhite', 'Dyson Airwrap'].forEach(function (n) {
+    $('examples').appendChild(h('button', { class: 'chip', type: 'button', onclick: function () { qEl.value = n; start(n); } }, n));
+  });
+
+  // ---------- stage ----------
+  function put(node) { stage.textContent = ''; var prev = state.history.slice(-3).reverse(); stage.appendChild(node); prev.forEach(function (p) { stage.appendChild(p); }); node.setAttribute('tabindex', '-1'); try { node.focus({ preventScroll: true }); } catch (_) {} node.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+  function putOnly(node) { put(node); }
+  function keepForLater(card, title, sub) {
+    state.history.push(h('details', { class: 'prev' }, h('summary', {}, 'Previous result: ' + title + (sub ? ' · ' + sub : '')), card));
+    if (state.history.length > 3) state.history.shift();
+  }
+  var lastCard = null, lastTitle = '', lastSub = '';
+  function showCard(card, title, sub) {
+    if (lastCard && lastTitle) keepForLater(lastCard, lastTitle, lastSub);
+    lastCard = null; lastTitle = '';
+    put(card);
+    if (title) { lastCard = card; lastTitle = title; lastSub = sub || ''; }
+  }
+  function transient(card) { put(card); } // searching/matching/errors do not become "previous results"
+
+  function msgCard(title, text, extra) { return h('div', { class: 'card' }, h('h2', {}, title), h('p', {}, text), extra); }
+
+  function againBox(label) {
+    var inp = h('input', { type: 'text', maxlength: '200', placeholder: 'Search again…', 'aria-label': 'Search for a different product' });
+    var f = h('form', { class: 'sbar', onsubmit: function (e) { e.preventDefault(); if (inp.value.trim().length > 1) { qEl.value = inp.value; start(inp.value); } } }, inp, h('button', { class: 'btn alt', type: 'submit' }, 'Search'));
+    return h('div', { class: 'again' }, h('div', { class: 'micro', style: 'margin:0 0 6px' }, label || 'None of these?'), f);
+  }
+
+  // ---------- flow: match -> confirm -> check ----------
+  function start(q) {
+    q = (q || '').trim(); if (q.length < 2 || state.busy) return;
+    state.busy = true; goBtn.disabled = true; track('find_search');
+    if (lastCard && lastTitle) { keepForLater(lastCard, lastTitle, lastSub); lastCard = null; lastTitle = ''; } // the previous result stays open below while you search
+    transient(h('div', { class: 'card' }, h('h2', {}, 'Finding the product…'), h('ul', { class: 'steps' }, h('li', { class: 'on' }, h('span', { class: 'spin' }), 'Matching what you typed'))));
+    api('match', { q: q }).then(function (r) {
+      state.busy = false; goBtn.disabled = false;
+      setCountryFromServer(r.json.country); setRemaining(r.json.remaining);
+      if (r.status === 429) return transient(msgCard('Slow down a little', 'Too many searches in a short time. Try again in a few minutes.'));
+      if (r.status === 503) return transient(msgCard('Search is paused', 'The tool is paused or busy right now. Please try again later.'));
+      if (r.status !== 200) return transient(msgCard('Something went wrong', 'We could not reach the search. Check your connection and try again.'));
+      var c = r.json.candidates || [];
+      if (r.json.notProduct || !c.length) return transient(h('div', { class: 'card' }, h('h2', {}, 'That doesn\'t look like a product'), h('p', {}, 'Try a product name, like "Sony WH-1000XM5", or paste a product link.'), againBox('Try another search')));
+      renderCandidates(q, c, !!r.json.degraded);
+    });
+  }
+
+  function renderCandidates(q, cands, degraded) {
+    var chosen = 0; var btns = [];
+    var list = h('div', { role: 'radiogroup', 'aria-label': 'Which one do you mean?' });
+    cands.forEach(function (c, i) {
+      var b = h('button', { type: 'button', class: 'cand', role: 'radio', 'aria-checked': i === 0 ? 'true' : 'false', onclick: function () { chosen = i; btns.forEach(function (x, j) { x.setAttribute('aria-checked', j === i ? 'true' : 'false'); }); } },
+        h('div', {}, h('b', {}, c.name + (c.variant ? ' · ' + c.variant : '')), h('small', {}, c.note || c.kind || '')), h('span', { class: 'dot' }));
+      btns.push(b); list.appendChild(b);
+    });
+    var noChecks = state.left === 0;
+    var go = h('button', { class: 'btn main', type: 'button', style: 'margin-top:16px;width:100%', onclick: function () { if (noChecks) return renderGate(); runCheck(cands[chosen]); } },
+      noChecks ? 'Get more free checks' : (state.left != null && state.total > 1 ? 'Use a check (' + state.left + ' left)' : 'Use my free check'));
+    transient(h('div', { class: 'card' }, h('h2', {}, degraded ? 'Is this what you mean?' : 'Which one do you mean?'), h('div', { class: 'sub' }, degraded ? 'We could not suggest matches right now, so we will search for exactly what you typed.' : 'Pick the closest match. Choosing or correcting is free.'),
+      list, go, h('div', { class: 'micro' }, 'Only showing offers uses a check. If nothing qualifies, it is not used.'), againBox()));
+  }
+
+  var STEPS = ['Searching stores, coupon pages and cashback sites', 'Reading the pages and their dates', 'Rejecting anything old, undated or for a different model', 'Double-checking the best offers'];
+  function runCheck(cand) {
+    if (state.busy) return; state.busy = true; goBtn.disabled = true; track('find_check');
+    var lis = STEPS.map(function (s, i) { return h('li', { class: i === 0 ? 'on' : '' }, i === 0 ? h('span', { class: 'spin' }) : h('span', { style: 'width:14px' }), s); });
+    transient(h('div', { class: 'card' }, h('h2', {}, 'Checking ' + cand.name + '…'), h('div', { class: 'sub' }, 'This can take up to a minute.'), h('ul', { class: 'steps' }, lis)));
+    var n = 0; var tm = setInterval(function () { if (n < lis.length - 1) { lis[n].className = 'done'; lis[n].firstChild.replaceWith(document.createTextNode('✓')); n++; lis[n].className = 'on'; lis[n].firstChild.replaceWith(h('span', { class: 'spin' })); } }, 9000);
+    api('check', { candidate: { name: cand.name, variant: cand.variant } }).then(function (r) {
+      clearInterval(tm); state.busy = false; goBtn.disabled = false;
+      if (r.json && r.json.remaining) setRemaining(r.json.remaining);
+      if (r.status === 402) return renderGate();
+      if (r.status === 429) return transient(msgCard('Daily limit reached', 'You have reached today\'s limit of checks from this connection. Please come back tomorrow.'));
+      if (r.status === 503) return transient(msgCard(r.json.error === 'busy' ? 'We\'re busy today' : 'Search is paused', 'We cap how much the tool can run each day so it stays free. Please try again tomorrow.', storeLinksClient(cand.name)));
+      if (r.status !== 200) return transient(msgCard('Something went wrong', 'The check did not finish and was not used. Please try again.'));
+      var j = r.json;
+      if (j.status === 'ok') { track('find_result_ok'); renderResult(j); } else { track('find_result_fallback'); renderFallback(j); }
+    });
+  }
+  function storeLinksClient(name) {
+    var q = encodeURIComponent(name);
+    return h('div', { class: 'links' }, ext('https://www.amazon.com/s?k=' + q, 'Amazon'), ext('https://www.bestbuy.com/site/searchpage.jsp?st=' + q, 'Best Buy'), ext('https://www.walmart.com/search?q=' + q, 'Walmart'));
+  }
+
+  // ---------- results ----------
+  function offerLine(o) {
+    if (o.kind === 'cashback') return o.percent + '% cashback';
+    if (o.kind === 'coupon') return o.code ? 'Code ' + o.code : (o.title || 'Coupon');
+    return money(o.price, o.currency);
+  }
+  function offerSub(o) {
+    var s = o.store;
+    if (o.kind === 'coupon') return s + ' · expires ' + o.expires;
+    if (o.kind === 'cashback') return s + ' · rate read from the page, confirm on the site';
+    if (o.kind === 'refurb') return s + (o.condition ? ' · ' + o.condition : '');
+    return s;
+  }
+  function when(o) { return o.dateHuman + ' (' + (o.ageDays === 0 ? 'today' : o.ageDays + (o.ageDays === 1 ? ' day ago' : ' days ago')) + ')'; }
+  var KIND = { price: 'More store prices', coupon: 'Coupon codes', cashback: 'Cashback offers', refurb: 'Refurbished and open-box' };
+
+  function rejectedBox(rej) {
+    if (!rej || !rej.length) return null;
+    return h('details', { class: 'rej', open: 'open' }, h('summary', {}, 'Checked and rejected (' + rej.length + ')'), h('ul', {}, rej.map(function (r) { return h('li', {}, r.what + ': ' + r.why); })));
+  }
+  function waitlistForm() {
+    var email = h('input', { type: 'email', placeholder: 'you@example.com', 'aria-label': 'Email', required: 'required', maxlength: '254', autocomplete: 'email' });
+    var hp = h('input', { class: 'hp', type: 'text', name: 'website', tabindex: '-1', autocomplete: 'off', 'aria-hidden': 'true' });
+    var out = h('div', {});
+    var f = h('form', { class: 'form', onsubmit: function (e) { e.preventDefault(); out.textContent = ''; api('signup', { action: 'waitlist', email: email.value, hp: hp.value }).then(function (r) { if (r.status === 200) { track('find_waitlist'); out.appendChild(h('div', { class: 'ok' }, 'You\'re on the list. We\'ll email you once when Pro opens.')); f.style.display = 'none'; } else out.appendChild(h('div', { class: 'err' }, r.status === 429 ? 'Too many tries. Please try again later.' : 'That didn\'t work. Check the address and try again.')); }); } },
+      email, hp, h('button', { class: 'btn main', type: 'submit' }, 'Join the Pro waitlist'));
+    return h('div', {}, f, out, h('div', { class: 'micro' }, 'Pro isn\'t open yet. We\'ll email you once, and only about this.'));
+  }
+
+  function renderResult(j) {
+    var r = j.result, b = r.best, pro = j.tier === 'pro';
+    var card = h('div', { class: 'card' });
+    card.appendChild(h('h2', {}, j.product.name + (j.product.variant ? ' · ' + j.product.variant : '')));
+    card.appendChild(h('div', { class: 'sub' }, (j.cached ? 'Saved result from earlier today · ' : 'Checked just now · ') + cname(j.country) + (pro ? ' · Pro view' : '') + (j.judged === false ? ' · not double-checked' : '')));
+    var best = h('div', { class: 'best' }, h('span', { class: 'badge' }, 'Best offer found'), h('div', { class: 'bigp' }, offerLine(b)), h('div', { class: 'src' }, offerSub(b) + ' · reported ' + when(b) + ' · may have ended. Source: ', ext(b.sourceUrl, b.sourceTitle || 'the page')),
+      ext(b.sourceUrl, 'Open the offer →', 'btn main'), h('div', { class: 'micro' }, 'Check the live price and seller on the store before you buy.'));
+    card.appendChild(best);
+    (r.warnings || []).forEach(function (w) { card.appendChild(h('div', { class: 'warn' }, '⚠ ' + w)); });
+    (r.newer || []).forEach(function (nw) { card.appendChild(h('div', { class: 'note' }, h('b', {}, 'Newer model: '), nw.title + ' · ' + nw.store + ', reported ' + when(nw) + '. ', ext(nw.sourceUrl, 'Source'))); });
+    if (pro && r.others && r.others.length) {
+      var box = h('div', { class: 'lock', style: 'border-color:var(--border);background:transparent' }, h('h3', {}, 'More offers'));
+      r.others.forEach(function (o) { box.appendChild(h('div', { class: 'orow' }, h('div', {}, h('div', {}, o.kind === 'cashback' ? 'Cashback' : o.kind === 'coupon' ? 'Coupon' : o.kind === 'refurb' ? 'Refurbished / open-box' : 'Store price'), h('small', {}, offerSub(o) + ' · reported ' + when(o) + (o.seller === 'third_party' ? ' · ⚠ third-party seller' : '') + ' · '), ext(o.sourceUrl, 'source')), h('b', {}, offerLine(o)))); });
+      card.appendChild(box);
+    } else if (!pro && r.locked && Object.keys(r.locked).length) {
+      var lk = h('div', { class: 'lock' }, h('h3', {}, '🔒 Pro also found'));
+      Object.keys(r.locked).forEach(function (k) { lk.appendChild(h('div', { class: 'lrow' }, h('span', {}, (KIND[k] || k)), h('span', { class: 'blur', 'aria-hidden': 'true' }, r.locked[k] + ' found · •••••'))); });
+      var wl = h('div', { style: 'display:none' }, waitlistForm());
+      lk.appendChild(h('div', { style: 'margin-top:12px' }, h('button', { class: 'btn main', type: 'button', onclick: function () { wl.style.display = 'block'; } }, 'Unlock with Pro'), wl));
+      lk.appendChild(h('div', { class: 'micro' }, 'Counts only. The details stay on our server until Pro opens.'));
+      card.appendChild(lk);
+    }
+    var rb = rejectedBox(r.rejected); if (rb) card.appendChild(rb);
+    if (r.history) card.appendChild(h('p', { style: 'margin-top:14px' }, h('a', { href: r.history.url, style: 'color:var(--gold);font-weight:700' }, 'See the full price history →')));
+    card.appendChild(h('p', { class: 'micro', style: 'margin-top:12px' }, state.left != null ? (state.left > 0 ? state.left + ' free ' + (state.left === 1 ? 'check' : 'checks') + ' left. ' : 'You\'ve used your free checks. ') : '', 'Want this tracked for you? ', ext(CWS, 'The free Chrome extension shows the 90-day history on the page.')));
+    if (!pro && state.left === 0) card.appendChild(h('div', { style: 'margin-top:12px' }, h('button', { class: 'btn alt', type: 'button', onclick: renderGate }, 'Get more free checks')));
+    card.appendChild(againBox('Search a different product'));
+    showCard(card, j.product.name, offerLine(b));
+  }
+
+  function renderFallback(j) {
+    var r = j.result;
+    var card = h('div', { class: 'card' });
+    card.appendChild(h('h2', {}, j.product.name + (j.product.variant ? ' · ' + j.product.variant : '')));
+    card.appendChild(h('div', { class: 'sub' }, cname(j.country)));
+    card.appendChild(h('div', { class: 'best', style: 'border-color:var(--border);background:var(--bg3)' }, h('h3', {}, r.reason === 'search_unavailable' ? 'We couldn\'t search right now' : 'No current offer passed our checks'),
+      h('p', {}, r.reason === 'search_unavailable' ? 'The search didn\'t finish, so we can\'t say anything about prices. This did not use a check. Here is where to compare yourself.' : 'We found no price, coupon or cashback dated within the last 30 days that passed our rules. This did not use a check.')));
+    if (r.lastSeen) card.appendChild(h('div', { class: 'note' }, h('b', {}, 'Last report we found: '), money(r.lastSeen.price, r.lastSeen.currency) + ' at ' + r.lastSeen.store + ', ' + r.lastSeen.dateHuman + ' (' + r.lastSeen.ageDays + ' days ago). It is old and may no longer apply. ', ext(r.lastSeen.sourceUrl, 'Source')));
+    (r.newer || []).forEach(function (nw) { card.appendChild(h('div', { class: 'note' }, h('b', {}, 'Newer model: '), nw.title + ' · ' + nw.store + ', reported ' + nw.dateHuman + '. ', ext(nw.sourceUrl, 'Source'))); });
+    card.appendChild(h('h3', { style: 'margin-top:16px' }, 'Compare on these stores'));
+    var links = h('div', { class: 'links' }); (r.links || []).forEach(function (l) { links.appendChild(ext(l.url, l.store)); }); card.appendChild(links);
+    if (r.history) card.appendChild(h('p', { style: 'margin-top:14px' }, h('a', { href: r.history.url, style: 'color:var(--gold);font-weight:700' }, 'See our dated price history →')));
+    var rb = rejectedBox(r.rejected); if (rb) card.appendChild(rb);
+    card.appendChild(h('p', { class: 'micro', style: 'margin-top:12px' }, 'Prices change. Try again in a few days, or ', ext(CWS, 'add the free extension to see the history on the page.')));
+    card.appendChild(againBox('Search a different product'));
+    showCard(card, j.product.name, 'no current offer');
+  }
+
+  // ---------- out of checks: confirm email for more ----------
+  function renderGate() {
+    var email = h('input', { type: 'email', placeholder: 'you@example.com', 'aria-label': 'Email', required: 'required', maxlength: '254', autocomplete: 'email' });
+    var hp = h('input', { class: 'hp', type: 'text', name: 'website', tabindex: '-1', autocomplete: 'off', 'aria-hidden': 'true' });
+    var out = h('div', {});
+    var f = h('form', { class: 'form', onsubmit: function (e) { e.preventDefault(); out.textContent = ''; api('signup', { action: 'bonus', email: email.value, hp: hp.value }).then(function (r) { if (r.status === 200) { track('find_bonus_requested'); out.appendChild(h('div', { class: 'ok' }, r.json.queued ? 'Almost there: the email will arrive in a few minutes. Check your inbox and spam.' : 'Sent. Open the link in the email to add the checks to this browser. Check spam if you don\'t see it.')); f.style.display = 'none'; } else out.appendChild(h('div', { class: 'err' }, r.status === 429 ? 'Too many tries. Please try again later.' : 'That didn\'t work. Check the address and try again.')); }); } },
+      email, hp, h('button', { class: 'btn main', type: 'submit' }, 'Send me the link'));
+    transient(h('div', { class: 'card' }, h('h2', {}, 'You\'ve used your free check'), h('p', {}, 'Confirm your email and we\'ll add 2 more free checks to this browser. Matching and searching again stay free.'), f, out, h('div', { class: 'micro' }, 'We use your address only for this and, if you join it, the Pro waitlist.'),
+      h('div', { style: 'margin-top:14px' }, h('b', { style: 'font-size:14px' }, 'Or get notified when Pro opens'), waitlistForm())));
+  }
+
+  // ---------- events ----------
+  $('searchForm').addEventListener('submit', function (e) { e.preventDefault(); start(qEl.value); });
+
+  // ---------- page load: ?q= prefill, ?confirm= claim ----------
+  var params = new URLSearchParams(location.search);
+  function noindex() { var m = document.querySelector('meta[name=robots]'); if (m) m.setAttribute('content', 'noindex, follow'); }
+  var tok = params.get('confirm');
+  if (tok) {
+    noindex(); history.replaceState(null, '', '/find');
+    api('signup', { action: 'claim', token: tok }).then(function (r) {
+      var el = h('div', { class: 'banner' }, r.json && r.json.ok ? (r.json.already ? 'That link was already used. Your checks are on this browser if you opened it here.' : 'Confirmed. We added ' + r.json.added + ' free checks to this browser.') : (r.json && r.json.error === 'already_used' ? 'That email already got its extra checks.' : 'That link has expired. You can request a new one when you run out of checks.'));
+      stage.insertBefore(el, stage.firstChild);
+    });
+  }
+  var q0 = params.get('q');
+  if (q0 && q0.trim().length > 1) { noindex(); qEl.value = q0.slice(0, 200); start(q0); }
+})();
+</script>
+<script>(function(){var n=document.querySelector("nav:not([aria-label])"),b=document.getElementById("navtg");if(!n||!b)return;b.addEventListener("click",function(){var o=n.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false");b.textContent=o?"\u2715":"\u2630";});})();</script></body>
+</html>

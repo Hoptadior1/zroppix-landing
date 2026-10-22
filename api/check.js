@@ -1,0 +1,125 @@
+'use strict';
+// POST /api/check  {candidate:{name,variant}, visitor, country?}  ->  the offers.
+// A check is only used up when real offers are shown. Locked details are never sent to free users.
+const { cfg } = require('./_lib/config');
+const store = require('./_lib/store');
+const { send, readBody, sameSite, ipHash, clean, validVisitor, pickCountry, isOwner, normName, sha } = require('./_lib/util');
+const { isKilled, reserve, settle, bump } = require('./_lib/spend');
+const { within, allowance, consume } = require('./_lib/limits');
+const ai = require('./_lib/anthropic');
+const P = require('./_lib/prompts');
+const R = require('./_lib/rules');
+
+let DEALS = [];
+try { DEALS = require('./_lib/deals_index.json'); } catch (_) { DEALS = []; }
+
+const OFFER_KINDS = new Set(['price', 'coupon', 'cashback', 'refurb']);
+
+function gatherView(f) { // what the judge is allowed to see
+  return { id: f.id, kind: f.kind, store: f.store, title: f.title, price: f.price, currency: f.currency, percent: f.percent, code: f.code, expires: f.expires, page_date: f.pageDate, quote: f.quote, seller: f.seller, condition: f.condition };
+}
+
+module.exports = async (req, res) => {
+  if (req.method !== 'POST') return send(res, 405, { error: 'method' });
+  if (!sameSite(req)) return send(res, 403, { error: 'forbidden' });
+  const body = await readBody(req);
+  const visitor = validVisitor(body.visitor);
+  const cand = body.candidate && typeof body.candidate === 'object' ? body.candidate : {};
+  const product = { name: clean(cand.name, 100), variant: clean(cand.variant, 50) };
+  if (product.name.length < 2) return send(res, 400, { error: 'no_product' });
+  if (!visitor) return send(res, 400, { error: 'bad_visitor' });
+  const c = cfg();
+  const country = pickCountry(req, body);
+  const owner = isOwner(req);
+  const tier = owner ? 'pro' : 'free';
+  const started = Date.now();
+  let ticket = null;
+  try {
+    if (await isKilled()) return send(res, 503, { error: 'paused' });
+    const ip = ipHash(req);
+    if (!(await within('check', ip, c.checkPerIpDay, 'day'))) return send(res, 429, { error: 'daily_limit' });
+
+    const al = await allowance(visitor);
+    if (!owner && al.left <= 0) return send(res, 402, { error: 'no_checks', left: 0, bonusAvailable: al.bonus === 0 });
+
+    const now = new Date();
+    const deal = R.matchDeal(product.name, DEALS);
+    const cacheKey = 'c:' + sha(normName(product.name + ' ' + product.variant) + '|' + country);
+    let ev = await store.getJson(cacheKey);
+    let cached = !!ev;
+    let judged = true;
+    let hadSearchError = false;
+
+    if (!ev) {
+      ticket = await reserve(c.reserveCheckUsd);
+      if (!ticket) return send(res, 503, { error: 'busy' });
+      let cost = 0;
+      let gather;
+      try {
+        gather = await ai.call({
+          model: c.gatherModel, system: P.GATHER_SYSTEM,
+          messages: [{ role: 'user', content: P.gatherUser(product, country, now.toISOString().slice(0, 10)) }],
+          tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: c.maxSearches, user_location: { type: 'approximate', country } }],
+          maxTokens: 3000, deadline: started + 38000,
+        });
+        cost += gather.costUsd;
+      } catch (e) {
+        await settle(ticket, cost); ticket = null;
+        bump('check_ai_error');
+        // Never an empty page, even if the search failed: plain store links and our history page.
+        return send(res, 200, { status: 'fallback', tier, product, country, checkedAt: now.toISOString(), cached: false, remaining: { left: al.left, total: al.total },
+          result: R.buildFallback({ productName: product.name, country, stale: [], deal, newer: [], hadSearchError: true }) });
+      }
+      hadSearchError = gather.searchErrors > 0;
+      const gj = ai.extractJson(gather.text);
+      const rawFindings = gj && Array.isArray(gj.findings) ? gj.findings.slice(0, 12) : [];
+      const norm = rawFindings.map((x, i) => R.normalizeFinding(x, i));
+
+      let verdicts = {};
+      if (norm.length) {
+        try {
+          const jr = await ai.call({
+            model: c.judgeModel, system: P.JUDGE_SYSTEM,
+            messages: [{ role: 'user', content: P.judgeUser(product, now.toISOString().slice(0, 10), norm.map(gatherView)) }],
+            maxTokens: 1500, deadline: started + 54000,
+          });
+          cost += jr.costUsd;
+          const jj = ai.extractJson(jr.text);
+          for (const v of (jj && Array.isArray(jj.verdicts) ? jj.verdicts : [])) {
+            if (v && v.id) verdicts[clean(v.id, 12)] = { same_product: v.same_product !== false, verdict: v.verdict === 'accept' ? 'accept' : 'reject', reason: clean(v.reason, 100) };
+          }
+          // A finding the judge did not mention is treated as not vetted.
+          for (const f of norm) if (!verdicts[f.id]) verdicts[f.id] = { same_product: false, verdict: 'reject', reason: 'not confirmed by the second check' };
+        } catch (e) { judged = false; verdicts = {}; }
+      }
+      await settle(ticket, cost); ticket = null;
+      bump('check_ai'); bump('cost_micro', Math.round(cost * 1e6)); bump('searches', (gather.usage.server_tool_use || {}).web_search_requests || 0);
+
+      const out = R.evaluate(rawFindings, { now, maxAgeDays: c.maxAgeDays, staleMaxDays: c.staleMaxDays, results: gather.results, judge: verdicts });
+      ev = out;
+      // Cache only clean, judged runs.
+      if (judged && !hadSearchError && gather.results.length) await store.setJson(cacheKey, out, c.cacheHours * 3600);
+    } else bump('check_cache');
+
+    const offers = ev.accepted.filter((a) => OFFER_KINDS.has(a.kind));
+    const hist = deal ? { url: '/deals/' + deal.slug, title: deal.title } : null;
+    if (!offers.length) {
+      bump('check_fallback');
+      return send(res, 200, { status: 'fallback', tier, product, country, checkedAt: now.toISOString(), cached, judged, remaining: { left: al.left, total: al.total },
+        result: Object.assign(R.buildFallback({ productName: product.name, country, stale: ev.stale, deal, newer: ev.accepted.filter((a) => a.kind === 'newer_model').slice(0, 1) }), { rejected: ev.rejected.slice(0, 8).map((r) => ({ what: r.what, why: r.why })) }) });
+    }
+    // Real offers are shown: this is where a check is used.
+    let left = al.left;
+    if (!owner) {
+      const ok = await consume(visitor);
+      if (!ok) return send(res, 402, { error: 'no_checks', left: 0, bonusAvailable: al.bonus === 0 });
+      left = al.left - 1;
+    }
+    bump('check_ok');
+    return send(res, 200, { status: 'ok', tier, product, country, checkedAt: now.toISOString(), cached, judged, remaining: { left, total: al.total },
+      result: R.shape(ev, tier, { history: hist }) });
+  } catch (e) {
+    if (ticket) { try { await settle(ticket, 0); } catch (_) { /* ignore */ } }
+    return send(res, 503, { error: 'unavailable' });
+  }
+};
