@@ -39,6 +39,8 @@ module.exports = {
   lpush: (k, v) => one('LPUSH', k, v),
   rpop: (k) => one('RPOP', k),
   llen: (k) => one('LLEN', k),
+  lrange: (k, a, b) => one('LRANGE', k, String(a), String(b)),
+  ltrim: (k, a, b) => one('LTRIM', k, String(a), String(b)),
   getJson: async (k) => {
     const v = await one('GET', k);
     if (v == null) return null;

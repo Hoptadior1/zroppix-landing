@@ -26,6 +26,9 @@ function cfg() {
     gatherModel: e.FIND_GATHER_MODEL || 'claude-haiku-5-5',
     judgeModel: e.FIND_JUDGE_MODEL || 'claude-sonnet-5-5',
 
+    // how hard the models think (they count thinking against the output limit). 'none' sends no setting.
+    effort: e.FIND_EFFORT || 'low',
+
     // limits and rules
     dailyCapUsd: num(e.FIND_DAILY_CAP_USD, 5),
     maxAgeDays: num(e.FIND_MAX_AGE_DAYS, 30),
@@ -41,6 +44,14 @@ function cfg() {
     // worst-case reservations used by the spend cap (USD)
     reserveMatchUsd: num(e.FIND_RESERVE_MATCH_USD, 0.01),
     reserveCheckUsd: num(e.FIND_RESERVE_CHECK_USD, 0.25),
+    // Pro: who counts as a paying customer (asked of the Zroppix backend), sign-in, and fair use
+    backendUrl: (e.FIND_BACKEND_URL || 'https://zroppix-backend.vercel.app').replace(/\/+$/, ''),
+    proPlans: String(e.FIND_PRO_PLANS || 'pro,family,elite').toLowerCase().split(',').map((x) => x.trim()).filter(Boolean),
+    proPerDay: num(e.FIND_PRO_PER_DAY, 40),
+    proDevices: Math.max(1, Math.min(10, num(e.FIND_PRO_DEVICES, 3))),
+    proSessionDays: num(e.FIND_PRO_SESSION_DAYS, 90),
+    proLoginPerIpHour: num(e.FIND_PRO_LOGIN_PER_IP_HOUR, 5),
+    proLoginPerEmailHour: num(e.FIND_PRO_LOGIN_PER_EMAIL_HOUR, 3),
     killEnv: e.FIND_KILL === '1' || e.FIND_KILL === 'true',
   };
 }

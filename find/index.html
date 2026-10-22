@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-S3Z0V2CZNF"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-S3Z0V2CZNF");</script>
+<head><script>(function(){try{var u=new URL(location.href),c=u.searchParams.get("confirm"),m=location.hash.match(/^#pro=([A-Za-z0-9_-]{20,64})$/);if(c)sessionStorage.setItem("zx_t_confirm",c);if(m)sessionStorage.setItem("zx_t_pro",m[1]);if(c||m)history.replaceState(null,"","/find")}catch(e){}})();</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-S3Z0V2CZNF"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-S3Z0V2CZNF");</script>
 <meta charset="UTF-8"><link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Find Cheaper Options for Any Product | Zroppix</title>
@@ -102,6 +102,22 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
 .footer-links-row{display:flex;gap:20px}.footer-links-row a{font-size:13px;color:var(--muted)}
 @media(max-width:600px){footer{padding:26px 20px}.bigp{font-size:28px}.sbar{flex-direction:column}.sbar .btn{width:100%}.form .btn{width:100%}}
 .sr{position:absolute;left:-9999px}
+.work{display:flex;gap:6px 18px;flex-wrap:wrap;font-size:13px;color:var(--subtle);background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:12px}
+.work b{color:var(--gold)}
+.pro{border:1px solid var(--gold);background:linear-gradient(180deg,rgba(201,168,76,.10),rgba(201,168,76,.02));border-radius:14px;padding:18px}
+.pro h3{font-size:17px;margin-bottom:10px;line-height:1.35}
+.prow{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--border);font-size:14.5px}
+.prow small{display:block;color:var(--muted);font-size:12.5px}
+.prow a.l{color:var(--gold);font-weight:700}
+.val{color:var(--green);font-weight:800;text-align:right}
+.val small{color:var(--muted);font-weight:500}
+.blurs{filter:blur(5px);user-select:none}
+.price2{margin-top:14px}
+.ship{font-size:13.5px;color:var(--subtle);margin:6px 0 2px}
+.protag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.7px;color:#0D0D14;background:var(--gold);border-radius:6px;padding:2px 8px;margin-left:8px;vertical-align:middle}
+@media(max-width:600px){.prow{flex-direction:column;gap:4px}.val{text-align:left}}
+.linkbtn{background:none;border:0;color:var(--gold);font:inherit;font-size:13px;font-weight:700;cursor:pointer;padding:0;text-decoration:underline}
+.linkbtn:hover{color:#D4B864}
 </style>
 <style id="mnav">.nav-toggle{display:none;background:none;border:1px solid var(--border,#2a2a40);color:var(--text,#fff);border-radius:10px;width:42px;height:42px;font-size:22px;line-height:1;cursor:pointer}
 @media(max-width:900px){nav:not([aria-label]){flex-wrap:wrap;gap:0}nav:not([aria-label]) .nav-toggle{display:block}nav:not([aria-label]) .nav-links{display:none!important;width:100%;flex-direction:column;align-items:stretch;gap:0;padding:8px 0 4px;margin:0;order:3}nav.open .nav-links{display:flex!important}nav:not([aria-label]) .nav-links li{list-style:none;display:block;width:100%;margin:0;padding:0;text-align:left}nav:not([aria-label]) .nav-links a{display:block;width:100%;box-sizing:border-box;text-align:left;padding:13px 4px;border-bottom:1px solid var(--border,#2a2a40);font-size:16px;white-space:normal}nav:not([aria-label]) .nav-links li:last-child a{border:0;margin-top:10px;text-align:center!important;border-radius:10px;padding:13px 16px!important}}</style></head>
@@ -118,7 +134,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
 <button class="btn main" type="submit" id="goBtn">🔎 Find cheaper</button>
 </form>
 <div class="micro">Free to try. No signup. Choosing a product or searching again never uses a check.</div>
-<div class="meta"><span>Prices for: <label class="sr" for="country">Country</label><select id="country"></select></span><span id="left"></span></div>
+<div class="meta"><span>Prices for: <label class="sr" for="country">Country</label><select id="country"></select></span><span id="left"></span><button type="button" class="linkbtn" id="signinBtn">Already Pro? Sign in</button></div>
 <div class="chips" id="examples" aria-label="Examples"></div>
 <p class="honest">Results are reports from named sources on the dates shown. They are not live prices and can end at any time. We don't predict prices.</p>
 <noscript><p class="note">This tool needs JavaScript. You can still compare prices yourself on <a href="https://www.amazon.com/">Amazon</a>, <a href="https://www.bestbuy.com/">Best Buy</a> and <a href="https://www.walmart.com/">Walmart</a>.</p></noscript>
@@ -152,7 +168,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
   var stage = $('stage'), qEl = $('q'), goBtn = $('goBtn');
   var CWS = 'https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf';
   var COUNTRIES = 'US GB CA AU DE FR ES IT NL IE IN KE NG ZA GH TZ UG EG AE SA SG MY PH PK BD LK ID TH VN JP KR HK TW CN BR MX AR CL CO PE NZ SE NO DK FI PL PT AT BE CH CZ GR HU RO TR UA IL'.split(' ');
-  var state = { visitor: null, country: 'US', left: null, total: null, history: [], busy: false };
+  var state = { visitor: null, country: 'US', left: null, total: null, history: [], busy: false, pro: null };
 
   // ---------- helpers (everything from the server is rendered as text, never as HTML) ----------
   function h(tag, props) {
@@ -209,6 +225,15 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
   }
   function showLeft() {
     var el = $('left');
+    if (state.pro) {
+      el.textContent = '';
+      el.appendChild(h('b', { style: 'color:var(--gold)' }, 'Pro'));
+      el.appendChild(document.createTextNode(' · ' + state.pro.email + ' · '));
+      el.appendChild(h('button', { type: 'button', class: 'linkbtn', onclick: signOut }, 'Sign out'));
+      $('signinBtn').style.display = 'none';
+      return;
+    }
+    $('signinBtn').style.display = '';
     el.textContent = state.left == null ? '' : (state.left > 0 ? state.left + (state.left === 1 ? ' free check left' : ' free checks left') : 'No free checks left');
   }
   function setRemaining(r) { if (r && typeof r.left === 'number') { state.left = r.left; state.total = r.total; showLeft(); } }
@@ -269,9 +294,9 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
         h('div', {}, h('b', {}, c.name + (c.variant ? ' · ' + c.variant : '')), h('small', {}, c.note || c.kind || '')), h('span', { class: 'dot' }));
       btns.push(b); list.appendChild(b);
     });
-    var noChecks = state.left === 0;
+    var noChecks = state.left === 0 && !state.pro;
     var go = h('button', { class: 'btn main', type: 'button', style: 'margin-top:16px;width:100%', onclick: function () { if (noChecks) return renderGate(); runCheck(cands[chosen]); } },
-      noChecks ? 'Get more free checks' : (state.left != null && state.total > 1 ? 'Use a check (' + state.left + ' left)' : 'Use my free check'));
+      noChecks ? 'Get more free checks' : state.pro ? 'Check prices' : (state.left != null && state.total > 1 ? 'Use a check (' + state.left + ' left)' : 'Use my free check'));
     transient(h('div', { class: 'card' }, h('h2', {}, degraded ? 'Is this what you mean?' : 'Which one do you mean?'), h('div', { class: 'sub' }, degraded ? 'We could not suggest matches right now, so we will search for exactly what you typed.' : 'Pick the closest match. Choosing or correcting is free.'),
       list, go, h('div', { class: 'micro' }, 'Only showing offers uses a check. If nothing qualifies, it is not used.'), againBox()));
   }
@@ -316,7 +341,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
 
   function rejectedBox(rej) {
     if (!rej || !rej.length) return null;
-    return h('details', { class: 'rej', open: 'open' }, h('summary', {}, 'Checked and rejected (' + rej.length + ')'), h('ul', {}, rej.map(function (r) { return h('li', {}, r.what + ': ' + r.why); })));
+    return h('details', { class: 'rej' }, h('summary', {}, 'Checked and rejected (' + rej.length + ')'), h('ul', {}, rej.map(function (r) { return h('li', {}, r.what + ': ' + r.why); })));
   }
   function waitlistForm() {
     var email = h('input', { type: 'email', placeholder: 'you@example.com', 'aria-label': 'Email', required: 'required', maxlength: '254', autocomplete: 'email' });
@@ -327,34 +352,137 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
     return h('div', {}, f, out, h('div', { class: 'micro' }, 'Pro isn\'t open yet. We\'ll email you once, and only about this.'));
   }
 
+  // ---- result screens (free and Pro) ----
+  function fmtDate(iso) { try { return new Date(iso + 'T00:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }); } catch (_) { return iso; } }
+  function moneyUsd(n) { return money(n, 'USD'); }
+  function proofLine(pr) {
+    if (!pr || !pr.pages) return null;
+    return h('div', { class: 'work' }, h('span', {}, h('b', {}, String(pr.pages)), ' pages read'), h('span', {}, h('b', {}, String(pr.sites)), ' sites checked'), h('span', {}, h('b', {}, String(pr.rejected)), ' offers rejected (too old or undated)'));
+  }
+  function histLine(hi, b) {
+    if (!hi || !hi.lowest || !b || b.currency !== 'USD') return null;
+    var t = 'Our price history page lists a lowest of ' + moneyUsd(hi.lowest) + (hi.average ? ' and an average of ' + moneyUsd(hi.average) : '') + (hi.updated ? ' (updated ' + hi.updated + ')' : '') + '.';
+    return h('div', { class: 'ship' }, t);
+  }
+  function shipLine(o) {
+    var sh = o.shipping || { state: 'not_stated' };
+    if (sh.state === 'free') return '🚚 Free shipping (as stated on the page)' + (o.delivery ? ' · delivery ' + o.delivery : '');
+    if (sh.state === 'paid') return '🚚 + ' + money(sh.cost, o.currency) + ' shipping' + (o.total != null ? ' · total ' + money(o.total, o.currency) : '') + (o.delivery ? ' · delivery ' + o.delivery : '');
+    return '🚚 Shipping not stated, check at checkout';
+  }
+  function bestBlock(b, pro, hi) {
+    var cta = b.target && b.target.kind === 'search' ? ext(b.target.url, 'Find it at ' + b.target.store + ' →', 'btn main')
+      : b.target && b.target.kind === 'store' ? ext(b.target.url, 'Open the offer →', 'btn main')
+      : ext(b.sourceUrl, 'Read the report →', 'btn main');
+    return h('div', { class: 'best' }, h('span', { class: 'badge' }, 'Best offer found'), h('div', { class: 'bigp' }, offerLine(b)),
+      h('div', { class: 'src' }, offerSub(b) + ' · reported ' + when(b) + ' · may have ended. Source: ', ext(b.sourceUrl, b.sourceTitle || 'the page')),
+      pro ? h('div', { class: 'ship' }, shipLine(b)) : h('div', { class: 'ship', style: 'color:var(--muted)' }, 'Price before shipping and taxes'),
+      histLine(hi, b), cta,
+      h('div', { class: 'micro' }, (b.target && b.target.kind === 'search' ? 'Opens the store\'s search for this product. ' : '') + 'Check the live price and seller on the store before you buy.'));
+  }
+  function statusLine(counts) {
+    if (!counts) return null;
+    var none = [];
+    if (counts.coupon === 0) none.push('coupon');
+    if (counts.cashback === 0) none.push('cashback');
+    if (!none.length) return null;
+    return h('div', { class: 'micro', style: 'margin-top:0' }, 'No ' + none.join(' and no ') + ' found in this check. That doesn\'t mean none exists. We only list codes with a future expiry date.');
+  }
+  function row(left, small, val, valSmall) {
+    return h('div', { class: 'prow' }, h('div', {}, left, small ? h('small', {}, small) : null), h('div', { class: 'val' }, val || '', valSmall ? [h('br'), h('small', {}, valSmall)] : null));
+  }
+  function teaserRow(t) {
+    var age = t.ageDays != null ? 'reported ' + (t.ageDays === 0 ? 'today' : t.ageDays + (t.ageDays === 1 ? ' day ago' : ' days ago')) : '';
+    if (t.kind === 'coupon') return row('Coupon' + (t.percent ? ' · ' + t.percent + '% off' : ''), t.expires ? 'valid until ' + fmtDate(t.expires) : age, t.valueUsd ? '≈ ' + moneyUsd(t.valueUsd) + ' off' : 'value in Pro');
+    if (t.kind === 'cashback') return row('Cashback · ' + t.percent + '%', age, t.valueUsd ? '≈ ' + moneyUsd(t.valueUsd) + ' back' : 'value in Pro');
+    if (t.kind === 'refurb') return row('Refurbished or open-box offer', t.backed ? 'manufacturer-backed' : age, 'price in Pro');
+    return row('Another store price', age, 'price in Pro');
+  }
+  function proBox(r) {
+    var ORD = { coupon: 0, cashback: 1, refurb: 2, price: 3 };
+    var tz = (r.teasers || []).slice().sort(function (a, b) { return ORD[a.kind] - ORD[b.kind]; });
+    var n = tz.length;
+    var box = h('div', { class: 'pro' }, h('h3', {}, '🔒 ' + (n ? (tz.some(function (t) { return t.kind === 'coupon' || t.kind === 'cashback'; }) ? 'Pro found ' + n + ' more way' + (n === 1 ? '' : 's') + ' to pay less, plus shipping on every offer' : 'Pro found ' + n + ' more offer' + (n === 1 ? '' : 's') + ' to compare, plus shipping on every offer') : 'Pro adds shipping, totals and tracking')));
+    var plain = tz.filter(function (t) { return t.kind === 'price'; });
+    tz.filter(function (t) { return t.kind !== 'price'; }).forEach(function (t) { box.appendChild(teaserRow(t)); });
+    if (plain.length === 1) box.appendChild(teaserRow(plain[0]));
+    else if (plain.length > 1) {
+      var ages = plain.map(function (t) { return t.ageDays; }).filter(function (a) { return a != null; });
+      var lo = Math.min.apply(null, ages), hi = Math.max.apply(null, ages);
+      box.appendChild(row(plain.length + ' other store prices', ages.length ? 'reported ' + (lo === hi ? lo + (lo === 1 ? ' day ago' : ' days ago') : lo + ' to ' + hi + ' days ago') : '', 'prices in Pro'));
+    }
+    box.appendChild(row('Shipping and total price', 'cost, delivery time, ships to your country', 'on every offer'));
+    box.appendChild(row('Price tracking and alerts', 'an email when a new offer passes our checks', 'included'));
+    if (tz.some(function (t) { return t.kind === 'coupon' || t.kind === 'cashback'; })) box.appendChild(h('p', { style: 'margin-top:12px;font-size:13.5px' }, 'Codes, stores and links unlock with Pro. ', h('span', { class: 'blurs', 'aria-hidden': 'true' }, 'CODE123 · store name')));
+    box.appendChild(h('div', { class: 'price2' }, h('a', { class: 'btn main', href: '/lifetime', onclick: function () { track('find_unlock_pro'); } }, 'Unlock Pro')));
+    box.appendChild(h('div', { class: 'micro' }, 'Counts and values only. The details stay on our server until you have Pro. Already Pro? ', h('button', { type: 'button', class: 'linkbtn', onclick: renderSignin }, 'Sign in')));
+    return box;
+  }
+  function offerRow(o) {
+    var sh = o.shipping || { state: 'not_stated' };
+    var title = (o.kind === 'refurb' ? 'Refurbished · ' : '') + o.store + ' · ' + money(o.price, o.currency) + (sh.state === 'free' ? ' + free shipping' : sh.state === 'paid' ? ' + ' + money(sh.cost, o.currency) + ' shipping' : '');
+    var bits = [];
+    if (o.condition) bits.push(o.condition);
+    if (o.delivery) bits.push('delivery ' + o.delivery);
+    if (sh.state === 'not_stated') bits.push('shipping not stated, check at checkout');
+    if (o.ships === 'no') bits.push('⚠ may not ship to your country');
+    if (o.seller === 'third_party') bits.push('⚠ third-party seller');
+    bits.push('reported ' + o.dateHuman);
+    return h('div', { class: 'prow' }, h('div', {}, title, h('small', {}, bits.join(' · ') + ' · ', ext(o.sourceUrl, 'source', 'l'))),
+      h('div', { class: 'val' }, o.total != null ? money(o.total, o.currency) : 'total unknown', [h('br'), h('small', {}, o.total != null ? 'total' : '')]));
+  }
+  function savingRow(o, base, cur) {
+    var label = o.kind === 'coupon' ? [h('span', {}, 'Coupon '), o.code ? h('b', { style: 'color:var(--gold)' }, o.code) : null, ' ' + (o.percent ? '· ' + o.percent + '% off ' : '') + 'at ' + o.store]
+      : 'Cashback · ' + o.percent + '% at ' + o.store;
+    var small = (o.kind === 'coupon' && o.expires ? 'valid until ' + fmtDate(o.expires) + ' · ' : '') + 'reported ' + o.dateHuman + ' · ';
+    return h('div', { class: 'prow' }, h('div', {}, label, h('small', {}, small, ext(o.sourceUrl, 'source', 'l'))),
+      h('div', { class: 'val' }, o.valueUsd ? '≈ ' + money(o.valueUsd, cur) + (o.kind === 'coupon' ? ' off' : ' back') : '', o.valueUsd && base ? [h('br'), h('small', {}, 'on the ' + money(base, cur) + ' offer')] : null));
+  }
+  function nextCard() {
+    var left = state.left;
+    var card = h('div', { class: 'card', style: 'background:var(--bg3)' }, h('h3', {}, 'Want to know when it drops?'));
+    card.appendChild(h('p', {}, (left === 0 ? 'You have no free checks left. ' : left != null ? left + ' free ' + (left === 1 ? 'check' : 'checks') + ' left. ' : '') + 'Pro tracks this product and emails you when a new offer passes our checks. Free: ', ext(CWS, 'the Chrome extension shows 90-day price history on the page.')));
+    var btns = h('div', { style: 'display:flex;gap:10px;margin-top:12px;flex-wrap:wrap' }, h('a', { class: 'btn main', href: '/lifetime', onclick: function () { track('find_track_pro'); } }, 'Track it with Pro'));
+    if (left === 0) btns.appendChild(h('button', { class: 'btn alt', type: 'button', onclick: renderGate }, 'Get more free checks'));
+    card.appendChild(btns);
+    return card;
+  }
+
   function renderResult(j) {
     var r = j.result, b = r.best, pro = j.tier === 'pro';
     var card = h('div', { class: 'card' });
     card.appendChild(h('h2', {}, j.product.name + (j.product.variant ? ' · ' + j.product.variant : '')));
     card.appendChild(h('div', { class: 'sub' }, (j.cached ? 'Saved result from earlier today · ' : 'Checked just now · ') + cname(j.country) + (pro ? ' · Pro view' : '') + (j.judged === false ? ' · not double-checked' : '')));
-    var best = h('div', { class: 'best' }, h('span', { class: 'badge' }, 'Best offer found'), h('div', { class: 'bigp' }, offerLine(b)), h('div', { class: 'src' }, offerSub(b) + ' · reported ' + when(b) + ' · may have ended. Source: ', ext(b.sourceUrl, b.sourceTitle || 'the page')),
-      ext(b.sourceUrl, 'Open the offer →', 'btn main'), h('div', { class: 'micro' }, 'Check the live price and seller on the store before you buy.'));
-    card.appendChild(best);
+    var pl = proofLine(r.proof); if (pl) card.appendChild(pl);
+    card.appendChild(bestBlock(b, pro, r.history));
     (r.warnings || []).forEach(function (w) { card.appendChild(h('div', { class: 'warn' }, '⚠ ' + w)); });
     (r.newer || []).forEach(function (nw) { card.appendChild(h('div', { class: 'note' }, h('b', {}, 'Newer model: '), nw.title + ' · ' + nw.store + ', reported ' + when(nw) + '. ', ext(nw.sourceUrl, 'Source'))); });
-    if (pro && r.others && r.others.length) {
-      var box = h('div', { class: 'lock', style: 'border-color:var(--border);background:transparent' }, h('h3', {}, 'More offers'));
-      r.others.forEach(function (o) { box.appendChild(h('div', { class: 'orow' }, h('div', {}, h('div', {}, o.kind === 'cashback' ? 'Cashback' : o.kind === 'coupon' ? 'Coupon' : o.kind === 'refurb' ? 'Refurbished / open-box' : 'Store price'), h('small', {}, offerSub(o) + ' · reported ' + when(o) + (o.seller === 'third_party' ? ' · ⚠ third-party seller' : '') + ' · '), ext(o.sourceUrl, 'source')), h('b', {}, offerLine(o)))); });
-      card.appendChild(box);
-    } else if (!pro && r.locked && Object.keys(r.locked).length) {
-      var lk = h('div', { class: 'lock' }, h('h3', {}, '🔒 Pro also found'));
-      Object.keys(r.locked).forEach(function (k) { lk.appendChild(h('div', { class: 'lrow' }, h('span', {}, (KIND[k] || k)), h('span', { class: 'blur', 'aria-hidden': 'true' }, r.locked[k] + ' found · •••••'))); });
-      var wl = h('div', { style: 'display:none' }, waitlistForm());
-      lk.appendChild(h('div', { style: 'margin-top:12px' }, h('button', { class: 'btn main', type: 'button', onclick: function () { wl.style.display = 'block'; } }, 'Unlock with Pro'), wl));
-      lk.appendChild(h('div', { class: 'micro' }, 'Counts only. The details stay on our server until Pro opens.'));
-      card.appendChild(lk);
+    var stack = [card];
+    if (pro) {
+      var cur = b.currency, base = b.kind === 'price' ? b.price : null;
+      if (r.offers && r.offers.length) {
+        var oc = h('div', { class: 'card' }, h('h3', {}, 'All offers, cheapest total first ', h('span', { class: 'protag' }, 'PRO')), h('div', { class: 'micro', style: 'margin:0 0 6px' }, 'Total = price + shipping, only when the page states it. Customs and VAT may be added in your country.'));
+        r.offers.forEach(function (o) { oc.appendChild(offerRow(o)); });
+        stack.push(oc);
+      }
+      var sv = (r.coupons || []).concat(r.cashbacks || []);
+      if (sv.length) {
+        var sc = h('div', { class: 'card' }, h('h3', {}, 'Coupons and cashback ', h('span', { class: 'protag' }, 'PRO')));
+        sv.forEach(function (o) { sc.appendChild(savingRow(o, base, cur)); });
+        sc.appendChild(h('div', { class: 'micro' }, 'Offers may not combine. Terms are on each store\'s page.'));
+        stack.push(sc);
+      }
+    } else {
+      stack.push(proBox(r));
     }
-    var rb = rejectedBox(r.rejected); if (rb) card.appendChild(rb);
-    if (r.history) card.appendChild(h('p', { style: 'margin-top:14px' }, h('a', { href: r.history.url, style: 'color:var(--gold);font-weight:700' }, 'See the full price history →')));
-    card.appendChild(h('p', { class: 'micro', style: 'margin-top:12px' }, state.left != null ? (state.left > 0 ? state.left + ' free ' + (state.left === 1 ? 'check' : 'checks') + ' left. ' : 'You\'ve used your free checks. ') : '', 'Want this tracked for you? ', ext(CWS, 'The free Chrome extension shows the 90-day history on the page.')));
-    if (!pro && state.left === 0) card.appendChild(h('div', { style: 'margin-top:12px' }, h('button', { class: 'btn alt', type: 'button', onclick: renderGate }, 'Get more free checks')));
-    card.appendChild(againBox('Search a different product'));
-    showCard(card, j.product.name, offerLine(b));
+    var sl = statusLine(r.counts); if (sl) stack.push(sl);
+    var rb = rejectedBox(r.rejected); if (rb) stack.push(rb);
+    if (r.history) stack.push(h('p', {}, h('a', { href: r.history.url, style: 'color:var(--gold);font-weight:700' }, 'See the full price history →')));
+    if (!pro) stack.push(nextCard());
+    else stack.push(h('p', { class: 'micro' }, 'Want this tracked for you? ', ext(CWS, 'The free Chrome extension shows the 90-day history on the page.')));
+    stack.push(againBox('Search a different product'));
+    var wrap = h('div', { style: 'display:flex;flex-direction:column;gap:16px' }, stack);
+    showCard(wrap, j.product.name, offerLine(b));
   }
 
   function renderFallback(j) {
@@ -362,10 +490,11 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
     var card = h('div', { class: 'card' });
     card.appendChild(h('h2', {}, j.product.name + (j.product.variant ? ' · ' + j.product.variant : '')));
     card.appendChild(h('div', { class: 'sub' }, cname(j.country)));
-    card.appendChild(h('div', { class: 'best', style: 'border-color:var(--border);background:var(--bg3)' }, h('h3', {}, r.reason === 'search_unavailable' ? 'We couldn\'t search right now' : 'No current offer passed our checks'),
-      h('p', {}, r.reason === 'search_unavailable' ? 'The search didn\'t finish, so we can\'t say anything about prices. This did not use a check. Here is where to compare yourself.' : 'We found no price, coupon or cashback dated within the last 30 days that passed our rules. This did not use a check.')));
+    card.appendChild(h('div', { class: 'best', style: 'border-color:var(--border);background:var(--bg3)' }, h('h3', {}, r.reason === 'search_unavailable' ? 'We couldn\'t search right now' : r.reason === 'unreadable' ? 'We couldn\'t read the results' : 'No current offer passed our checks'),
+      h('p', {}, r.reason === 'search_unavailable' ? 'The search didn\'t finish, so we can\'t say anything about prices. This did not use a check. Here is where to compare yourself.' : r.reason === 'unreadable' ? 'The search ran but we couldn\'t read what came back, so we can\'t say anything about prices. This did not use a check. Please try again, or compare on the stores below.' : 'We found no price, coupon or cashback dated within the last 30 days that passed our rules. This did not use a check.')));
     if (r.lastSeen) card.appendChild(h('div', { class: 'note' }, h('b', {}, 'Last report we found: '), money(r.lastSeen.price, r.lastSeen.currency) + ' at ' + r.lastSeen.store + ', ' + r.lastSeen.dateHuman + ' (' + r.lastSeen.ageDays + ' days ago). It is old and may no longer apply. ', ext(r.lastSeen.sourceUrl, 'Source')));
     (r.newer || []).forEach(function (nw) { card.appendChild(h('div', { class: 'note' }, h('b', {}, 'Newer model: '), nw.title + ' · ' + nw.store + ', reported ' + nw.dateHuman + '. ', ext(nw.sourceUrl, 'Source'))); });
+    if (r.reason === 'no_current_offer') { var sl0 = statusLine({ coupon: 0, cashback: 0 }); if (sl0) card.appendChild(sl0); }
     card.appendChild(h('h3', { style: 'margin-top:16px' }, 'Compare on these stores'));
     var links = h('div', { class: 'links' }); (r.links || []).forEach(function (l) { links.appendChild(ext(l.url, l.store)); }); card.appendChild(links);
     if (r.history) card.appendChild(h('p', { style: 'margin-top:14px' }, h('a', { href: r.history.url, style: 'color:var(--gold);font-weight:700' }, 'See our dated price history →')));
@@ -375,6 +504,31 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
     showCard(card, j.product.name, 'no current offer');
   }
 
+  // ---------- Pro sign-in ----------
+  function renderSignin() {
+    var email = h('input', { type: 'email', placeholder: 'the email you paid with', 'aria-label': 'Email you paid with', required: 'required', maxlength: '254', autocomplete: 'email' });
+    var hp = h('input', { class: 'hp', type: 'text', name: 'website', tabindex: '-1', autocomplete: 'off', 'aria-hidden': 'true' });
+    var out = h('div', { class: 'micro', 'aria-live': 'polite' });
+    var btn = h('button', { class: 'btn main', type: 'submit' }, 'Email me a sign-in link');
+    var f = h('form', { class: 'form', onsubmit: function (e) {
+      e.preventDefault(); out.textContent = ''; btn.disabled = true;
+      api('pro', { action: 'login', email: email.value, hp: hp.value }).then(function (r) {
+        btn.disabled = false;
+        if (r.status === 200) { track('find_pro_login'); out.textContent = 'If that email has Pro, a sign-in link is on its way. It works once and expires in 15 minutes. Check your spam folder. Paid with a different email? Try that one.'; }
+        else if (r.status === 400) out.textContent = 'That doesn\'t look like an email address.';
+        else if (r.status === 429) out.textContent = 'Too many tries. Please wait a little and try again.';
+        else out.textContent = 'We couldn\'t send the link right now. Please try again in a few minutes.';
+      });
+    } }, email, hp, btn);
+    transient(h('div', { class: 'card' }, h('h2', {}, 'Sign in to Pro'), h('p', {}, 'Enter the email you paid with. We\'ll send a one-time link that signs you in on this device.'), f, out,
+      h('div', { class: 'micro' }, 'No Pro yet? ', h('a', { href: '/lifetime', style: 'color:var(--gold);font-weight:700' }, 'See what Pro includes →'))));
+  }
+  function signOut() {
+    api('pro', { action: 'logout' }).then(function () { state.pro = null; showLeft(); setRemaining({ left: state.left, total: state.total }); stage.insertBefore(h('div', { class: 'banner' }, 'Signed out on this device.'), stage.firstChild); });
+  }
+  function setPro(p) { state.pro = p && p.pro ? { email: p.email } : null; showLeft(); }
+  function loadStatus() { api('pro', { action: 'status' }).then(function (r) { if (r.status === 200) setPro(r.json); }); }
+
   // ---------- out of checks: confirm email for more ----------
   function renderGate() {
     var email = h('input', { type: 'email', placeholder: 'you@example.com', 'aria-label': 'Email', required: 'required', maxlength: '254', autocomplete: 'email' });
@@ -383,16 +537,17 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
     var f = h('form', { class: 'form', onsubmit: function (e) { e.preventDefault(); out.textContent = ''; api('signup', { action: 'bonus', email: email.value, hp: hp.value }).then(function (r) { if (r.status === 200) { track('find_bonus_requested'); out.appendChild(h('div', { class: 'ok' }, r.json.queued ? 'Almost there: the email will arrive in a few minutes. Check your inbox and spam.' : 'Sent. Open the link in the email to add the checks to this browser. Check spam if you don\'t see it.')); f.style.display = 'none'; } else out.appendChild(h('div', { class: 'err' }, r.status === 429 ? 'Too many tries. Please try again later.' : 'That didn\'t work. Check the address and try again.')); }); } },
       email, hp, h('button', { class: 'btn main', type: 'submit' }, 'Send me the link'));
     transient(h('div', { class: 'card' }, h('h2', {}, 'You\'ve used your free check'), h('p', {}, 'Confirm your email and we\'ll add 2 more free checks to this browser. Matching and searching again stay free.'), f, out, h('div', { class: 'micro' }, 'We use your address only for this and, if you join it, the Pro waitlist.'),
-      h('div', { style: 'margin-top:14px' }, h('b', { style: 'font-size:14px' }, 'Or get notified when Pro opens'), waitlistForm())));
+      h('div', { style: 'margin-top:14px' }, h('b', { style: 'font-size:14px' }, 'Or get Pro for unlimited checks'), h('div', { style: 'display:flex;gap:10px;margin-top:8px;flex-wrap:wrap' }, h('a', { class: 'btn main', href: '/lifetime' }, 'See Pro'), h('button', { class: 'btn alt', type: 'button', onclick: renderSignin }, 'Already Pro? Sign in')))));
   }
 
   // ---------- events ----------
+  $('signinBtn').addEventListener('click', renderSignin);
   $('searchForm').addEventListener('submit', function (e) { e.preventDefault(); start(qEl.value); });
 
   // ---------- page load: ?q= prefill, ?confirm= claim ----------
   var params = new URLSearchParams(location.search);
   function noindex() { var m = document.querySelector('meta[name=robots]'); if (m) m.setAttribute('content', 'noindex, follow'); }
-  var tok = params.get('confirm');
+  var tok = params.get('confirm'); try { var st0 = sessionStorage.getItem('zx_t_confirm'); if (st0) { tok = st0; sessionStorage.removeItem('zx_t_confirm'); } } catch (_) {}
   if (tok) {
     noindex(); history.replaceState(null, '', '/find');
     api('signup', { action: 'claim', token: tok }).then(function (r) {
@@ -400,6 +555,21 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
       stage.insertBefore(el, stage.firstChild);
     });
   }
+  window.addEventListener('hashchange', function () { if (/^#pro=/.test(location.hash)) location.reload(); }); // link opened in a tab that already has /find
+  var ptok = null; try { ptok = sessionStorage.getItem('zx_t_pro'); sessionStorage.removeItem('zx_t_pro'); } catch (_) {}
+  if (ptok) {
+    noindex();
+    api('pro', { action: 'claim', token: ptok }).then(function (r) {
+      var ok = r.status === 200 && r.json && r.json.ok;
+      if (ok) { setPro({ pro: true, email: r.json.email }); track('find_pro_signin'); }
+      var msg = ok ? 'You\'re signed in. Pro is on for this device.'
+        : r.json && r.json.error === 'not_pro' ? 'We couldn\'t find an active Pro plan for that email.'
+        : r.json && r.json.error === 'unavailable' ? 'We couldn\'t confirm your plan right now. Please open the link again in a minute.'
+        : 'That sign-in link has expired or was already used. Request a new one below.';
+      if (!ok) renderSignin();
+      stage.insertBefore(h('div', { class: 'banner' }, msg), stage.firstChild);
+    });
+  } else loadStatus();
   var q0 = params.get('q');
   if (q0 && q0.trim().length > 1) { noindex(); qEl.value = q0.slice(0, 200); start(q0); }
 })();
