@@ -69,18 +69,7 @@ function normalizeFinding(raw, i) {
     seller: SELLERS.has(seller) ? seller : 'unknown',
     ships: ['yes', 'no', 'unknown'].includes(clean(raw.ships, 8).toLowerCase()) ? clean(raw.ships, 8).toLowerCase() : 'unknown',
     note: clean(raw.note, 140),
-    shipping: shipInfo(raw),
-    delivery: clean(raw.delivery, 40),
   };
-}
-
-// Shipping only counts when a page states it. A "paid" claim without an amount is treated as not stated.
-function shipInfo(raw) {
-  const s = clean(raw.shipping, 12).toLowerCase();
-  if (s === 'free') return { state: 'free', cost: 0 };
-  const c = num(raw.shipping_cost);
-  if (s === 'paid' && c != null && c >= 0 && c < 2000) return { state: 'paid', cost: c };
-  return { state: 'not_stated', cost: null };
 }
 
 function normUrl(u) {
@@ -191,95 +180,29 @@ function pickBest(accepted) {
 }
 
 // What the browser may receive. Locked details for free users are reduced to counts only.
-// Where the "Open" button should go. If the source page is the store's own site, use it.
-// If it is an article or deals roundup, send the shopper to that store's search for the product instead
-// (never a link we made up for a specific product page), and keep the article as "Read the report".
-function storeTarget(a, productName, country) {
-  let host = '';
-  try { host = new URL(a.sourceUrl).hostname.toLowerCase(); } catch (_) { /* none */ }
-  const key = normName(a.store || '').replace(/[^a-z0-9]/g, '');
-  const hostKey = host.replace(/[^a-z0-9]/g, '');
-  const isStoreSite = !!key && key.length >= 3 && hostKey.includes(key);
-  const looksEditorial = /\/(blog|news|deals?|article|articles|guide|guides|review|reviews)\b/i.test(a.sourceUrl) || /\d{4}\/\d{2}\//.test(a.sourceUrl);
-  if (isStoreSite && !looksEditorial) return { url: a.sourceUrl, kind: 'store' };
-  const list = STORE_LINKS[country] || INTL;
-  const hit = list.find(([name]) => { const n = normName(name).replace(/[^a-z0-9]/g, ''); return key && (n.startsWith(key) || key.startsWith(n)); });
-  if (hit && productName) return { url: hit[1] + encodeURIComponent(clean(productName, 100)), kind: 'search', store: hit[0] };
-  return { url: a.sourceUrl, kind: 'article' };
-}
-
-const r2 = (n) => Math.round(n * 100) / 100;
-
-// What a shopper could save, in money, against the headline price. Only when the rate is stated.
-function valueOf(a, base) {
-  if (!base || !(base > 0)) return null;
-  if ((a.kind === 'coupon' || a.kind === 'cashback') && a.percent > 0) return r2(base * a.percent / 100);
-  if (a.kind === 'coupon' && a.price > 0 && a.price < base) return r2(a.price); // a fixed amount off
-  return null;
-}
-
-function totalOf(a) {
-  if (a.price == null || !a.shipping || a.shipping.cost == null) return null;
-  return r2(a.price + a.shipping.cost);
-}
-
-// What the browser may receive. For free users every locked detail (code, store, link, shipping) stays on the server.
-function shape(ev, tier, extras, ctx) {
+function shape(ev, tier, extras) {
   const best = pickBest(ev.accepted);
   const rest = ev.accepted.filter((a) => a !== best && a.kind !== 'newer_model');
   const newer = ev.accepted.filter((a) => a.kind === 'newer_model').slice(0, 1);
-  const base = best && best.kind === 'price' ? best.price : null;
-  const pro = tier === 'pro';
-  const pub = (a, full) => {
-    const o = {
-      id: a.id, kind: a.kind, store: a.store, title: a.title, price: a.price, currency: a.currency, percent: a.percent,
-      expires: a.expiresIso, date: a.date, dateHuman: a.dateHuman, ageDays: a.ageDays,
-      sourceUrl: a.sourceUrl, sourceTitle: a.sourceTitle, seller: a.seller, condition: a.condition, ships: a.ships, note: a.note,
-      target: ctx && ctx.productName ? storeTarget(a, ctx.productName, ctx.country) : { url: a.sourceUrl, kind: 'article' },
-    };
-    if (full) {
-      o.code = a.code; o.shipping = a.shipping; o.delivery = a.delivery; o.total = totalOf(a); o.valueUsd = valueOf(a, base);
-    }
-    return o;
-  };
+  const pub = (a) => ({
+    id: a.id, kind: a.kind, store: a.store, title: a.title, price: a.price, currency: a.currency, percent: a.percent,
+    code: a.code, expires: a.expiresIso, date: a.date, dateHuman: a.dateHuman, ageDays: a.ageDays,
+    sourceUrl: a.sourceUrl, sourceTitle: a.sourceTitle, seller: a.seller, condition: a.condition, ships: a.ships, note: a.note,
+  });
   const out = {
-    best: best ? pub(best, pro) : null,
-    newer: newer.map((a) => pub(a, false)),
+    best: best ? pub(best) : null,
+    newer: newer.map(pub),
     rejected: ev.rejected.slice(0, 8).map((r) => ({ what: r.what, why: r.why })),
     warnings: [],
-    counts: { coupon: ev.accepted.filter((a) => a.kind === 'coupon').length, cashback: ev.accepted.filter((a) => a.kind === 'cashback').length },
-    proof: ev.proof || null,
   };
   // Safety information is never locked.
   if (best && best.seller === 'third_party') out.warnings.push('The best offer is from a third-party seller, not the manufacturer or the store itself. Check the seller rating and return terms before you buy.');
   if (best && best.ships === 'no') out.warnings.push('The store may not ship to your country. Check before you rely on this price.');
-
-  if (pro) {
-    // Every offer, cheapest total first. Offers with no stated shipping have an unknown total and go last.
-    const offers = ev.accepted.filter((a) => a.kind === 'price' || a.kind === 'refurb').map((a) => pub(a, true));
-    offers.sort((x, y) => {
-      const tx = x.total, ty = y.total;
-      if (tx != null && ty != null) return tx - ty;
-      if (tx != null) return -1;
-      if (ty != null) return 1;
-      return (x.price || 0) - (y.price || 0);
-    });
-    out.offers = offers;
-    out.coupons = ev.accepted.filter((a) => a.kind === 'coupon').map((a) => pub(a, true));
-    out.cashbacks = ev.accepted.filter((a) => a.kind === 'cashback').map((a) => pub(a, true));
-  } else {
-    // Teasers: what exists and what it is worth, with the code, store, link and shipping withheld.
-    const teasers = [];
-    rest.forEach((a) => {
-      if (a.kind === 'coupon') teasers.push({ kind: 'coupon', percent: a.percent, valueUsd: valueOf(a, base), expires: a.expiresIso, ageDays: a.ageDays });
-      else if (a.kind === 'cashback') teasers.push({ kind: 'cashback', percent: a.percent, valueUsd: valueOf(a, base), ageDays: a.ageDays });
-      else if (a.kind === 'refurb') teasers.push({ kind: 'refurb', backed: a.seller === 'manufacturer', ageDays: a.ageDays });
-      else if (a.kind === 'price') teasers.push({ kind: 'price', ageDays: a.ageDays });
-    });
-    out.teasers = teasers.slice(0, 6);
+  if (tier === 'pro') out.others = rest.map(pub);
+  else {
     const counts = {};
     rest.forEach((a) => { counts[a.kind] = (counts[a.kind] || 0) + 1; });
-    out.locked = counts; // counts only
+    out.locked = counts; // counts only, never the details
   }
   return Object.assign(out, extras || {});
 }
@@ -323,10 +246,10 @@ function matchDeal(name, index) {
   return bs >= 0.75 ? { slug: best.slug, title: best.title } : null;
 }
 
-function buildFallback({ productName, country, stale, deal, newer, hadSearchError, unreadable }) {
+function buildFallback({ productName, country, stale, deal, newer, hadSearchError }) {
   const lastSeen = (stale || []).slice().sort((a, b) => a.ageDays - b.ageDays)[0] || null;
   return {
-    reason: hadSearchError ? 'search_unavailable' : unreadable ? 'unreadable' : 'no_current_offer',
+    reason: hadSearchError ? 'search_unavailable' : 'no_current_offer',
     lastSeen: lastSeen ? { store: lastSeen.store, price: lastSeen.price, currency: lastSeen.currency, dateHuman: lastSeen.dateHuman, ageDays: lastSeen.ageDays, sourceUrl: lastSeen.sourceUrl, sourceTitle: lastSeen.sourceTitle } : null,
     links: storeLinks(productName, country),
     history: deal ? { url: '/deals/' + deal.slug, title: deal.title } : null,

@@ -26,9 +26,6 @@ function cfg() {
     gatherModel: e.FIND_GATHER_MODEL || 'claude-haiku-5-5',
     judgeModel: e.FIND_JUDGE_MODEL || 'claude-sonnet-5-5',
 
-    // how hard the models think (they count thinking against the output limit). 'none' sends no setting.
-    effort: e.FIND_EFFORT || 'low',
-
     // limits and rules
     dailyCapUsd: num(e.FIND_DAILY_CAP_USD, 5),
     maxAgeDays: num(e.FIND_MAX_AGE_DAYS, 30),

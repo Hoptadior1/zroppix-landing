@@ -13,10 +13,6 @@ module.exports = async (req, res) => {
   const got = String((req.headers && req.headers.authorization) || '').replace(/^Bearer\s+/i, '');
   if (!got || !crypto.timingSafeEqual(Buffer.from(sha(got)), Buffer.from(sha(c.adminToken)))) return send(res, 401, { error: 'unauthorized' });
   try {
-    if (req.url && /[?&]debug=1/.test(req.url)) {
-      const rows = (await store.lrange('dbg', 0, 19)) || [];
-      return send(res, 200, { runs: rows.map((r) => { try { return JSON.parse(r); } catch (_) { return null; } }).filter(Boolean) });
-    }
     const days = [];
     for (let i = 0; i < 14; i++) days.push(new Date(Date.now() - i * 86400000).toISOString().slice(0, 10));
     const out = [];
