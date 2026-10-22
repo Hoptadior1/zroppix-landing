@@ -70,7 +70,7 @@ module.exports = async (req, res) => {
           model: c.gatherModel, system: P.GATHER_SYSTEM,
           messages: [{ role: 'user', content: P.gatherUser(product, country, now.toISOString().slice(0, 10)) }],
           tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: c.maxSearches, user_location: { type: 'approximate', country } }],
-          maxTokens: 4500, deadline: started + 38000,
+          maxTokens: 12000, deadline: started + 38000,
         });
         cost += gather.costUsd;
       } catch (e) {
@@ -92,7 +92,7 @@ module.exports = async (req, res) => {
           const jr = await ai.call({
             model: c.judgeModel, system: P.JUDGE_SYSTEM,
             messages: [{ role: 'user', content: P.judgeUser(product, now.toISOString().slice(0, 10), norm.map(gatherView)) }],
-            maxTokens: 1500, deadline: started + 54000,
+            maxTokens: 6000, deadline: started + 54000,
           });
           cost += jr.costUsd;
           const jj = ai.extractJson(jr.text);

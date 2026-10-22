@@ -26,6 +26,8 @@ function addUsage(a, b) {
 
 // One logical call. Handles pause_turn (server tool still running) by sending the assistant turn back unchanged.
 async function call({ model, system, messages, tools, maxTokens, deadline }) {
+  let effort = cfg().effort;
+  if (!effort || effort === 'none') effort = null;
   const c = cfg();
   if (!c.anthropicKey) throw new AIError('ai_not_configured');
   let msgs = messages.slice();
@@ -41,6 +43,7 @@ async function call({ model, system, messages, tools, maxTokens, deadline }) {
     try {
       const body = { model, max_tokens: maxTokens || 1500, system, messages: msgs };
       if (tools) body.tools = tools;
+      if (effort) body.output_config = { effort };
       r = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: { 'x-api-key': c.anthropicKey, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
@@ -50,6 +53,8 @@ async function call({ model, system, messages, tools, maxTokens, deadline }) {
     } catch (e) {
       throw new AIError(e && e.name === 'AbortError' ? 'timeout' : 'network');
     } finally { clearTimeout(timer); }
+    // If this model refuses the effort setting, retry once without it rather than failing the whole check.
+    if (r.status === 400 && effort) { effort = null; round--; continue; }
     if (!r.ok) throw new AIError('http_' + r.status, r.status);
     const j = await r.json();
     usage = addUsage(usage, j.usage || {});
@@ -72,7 +77,7 @@ async function call({ model, system, messages, tools, maxTokens, deadline }) {
     if (b.type !== 'web_search_tool_result') continue;
     if (Array.isArray(b.content)) {
       for (const x of b.content) if (x && x.type === 'web_search_result' && x.url) results.push({ url: String(x.url), title: String(x.title || ''), page_age: x.page_age ? String(x.page_age) : null });
-    } else if (b.content && b.content.type === 'web_search_tool_result_error') searchErrors++;
+    } else if (b.content && b.content.type === 'web_search_tool_result_error' && b.content.error_code !== 'max_uses_exceeded') searchErrors++;
   }
   return { text, usage, costUsd: costOf(model, usage), results, searchErrors, stop, blockTypes };
 }
