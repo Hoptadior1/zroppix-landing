@@ -151,7 +151,8 @@ function evaluate(rawFindings, ctx) {
 
     // AI judge (advisory but binding on rejection)
     const j = judge[f.id];
-    if (j && (j.same_product === false || j.verdict === 'reject')) return rej(j.reason || 'not the same product');
+    // A newer model is by definition not the same product, so only its verdict counts; it needs no price.
+    if (j && ((f.kind !== 'newer_model' && j.same_product === false) || j.verdict === 'reject')) return rej(j.reason || 'not the same product');
 
     const item = Object.assign({}, f, { date: iso(d), dateHuman: human(d), ageDays: age, expiresIso: f.expiresIso || null });
     if (age > limit) {
