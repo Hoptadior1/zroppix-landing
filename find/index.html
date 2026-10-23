@@ -343,15 +343,6 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
     if (!rej || !rej.length) return null;
     return h('details', { class: 'rej' }, h('summary', {}, 'Checked and rejected (' + rej.length + ')'), h('ul', {}, rej.map(function (r) { return h('li', {}, r.what + ': ' + r.why); })));
   }
-  function waitlistForm() {
-    var email = h('input', { type: 'email', placeholder: 'you@example.com', 'aria-label': 'Email', required: 'required', maxlength: '254', autocomplete: 'email' });
-    var hp = h('input', { class: 'hp', type: 'text', name: 'website', tabindex: '-1', autocomplete: 'off', 'aria-hidden': 'true' });
-    var out = h('div', {});
-    var f = h('form', { class: 'form', onsubmit: function (e) { e.preventDefault(); out.textContent = ''; api('signup', { action: 'waitlist', email: email.value, hp: hp.value }).then(function (r) { if (r.status === 200) { track('find_waitlist'); out.appendChild(h('div', { class: 'ok' }, 'You\'re on the list. We\'ll email you once when Pro opens.')); f.style.display = 'none'; } else out.appendChild(h('div', { class: 'err' }, r.status === 429 ? 'Too many tries. Please try again later.' : 'That didn\'t work. Check the address and try again.')); }); } },
-      email, hp, h('button', { class: 'btn main', type: 'submit' }, 'Join the Pro waitlist'));
-    return h('div', {}, f, out, h('div', { class: 'micro' }, 'Pro isn\'t open yet. We\'ll email you once, and only about this.'));
-  }
-
   // ---- result screens (free and Pro) ----
   function fmtDate(iso) { try { return new Date(iso + 'T00:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }); } catch (_) { return iso; } }
   function moneyUsd(n) { return money(n, 'USD'); }
@@ -536,7 +527,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
     var out = h('div', {});
     var f = h('form', { class: 'form', onsubmit: function (e) { e.preventDefault(); out.textContent = ''; api('signup', { action: 'bonus', email: email.value, hp: hp.value }).then(function (r) { if (r.status === 200) { track('find_bonus_requested'); out.appendChild(h('div', { class: 'ok' }, r.json.queued ? 'Almost there: the email will arrive in a few minutes. Check your inbox and spam.' : 'Sent. Open the link in the email to add the checks to this browser. Check spam if you don\'t see it.')); f.style.display = 'none'; } else out.appendChild(h('div', { class: 'err' }, r.status === 429 ? 'Too many tries. Please try again later.' : 'That didn\'t work. Check the address and try again.')); }); } },
       email, hp, h('button', { class: 'btn main', type: 'submit' }, 'Send me the link'));
-    transient(h('div', { class: 'card' }, h('h2', {}, 'You\'ve used your free check'), h('p', {}, 'Confirm your email and we\'ll add 2 more free checks to this browser. Matching and searching again stay free.'), f, out, h('div', { class: 'micro' }, 'We use your address only for this and, if you join it, the Pro waitlist.'),
+    transient(h('div', { class: 'card' }, h('h2', {}, 'You\'ve used your free check'), h('p', {}, 'Confirm your email and we\'ll add 2 more free checks to this browser. Matching and searching again stay free.'), f, out, h('div', { class: 'micro' }, 'We use your address only to send this confirmation link.'),
       h('div', { style: 'margin-top:14px' }, h('b', { style: 'font-size:14px' }, 'Or get Pro for unlimited checks'), h('div', { style: 'display:flex;gap:10px;margin-top:8px;flex-wrap:wrap' }, h('a', { class: 'btn main', href: '/lifetime' }, 'See Pro'), h('button', { class: 'btn alt', type: 'button', onclick: renderSignin }, 'Already Pro? Sign in')))));
   }
 
