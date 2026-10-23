@@ -388,13 +388,13 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
   function teaserRow(t) {
     var age = t.ageDays != null ? 'reported ' + (t.ageDays === 0 ? 'today' : t.ageDays + (t.ageDays === 1 ? ' day ago' : ' days ago')) : '';
     if (t.kind === 'coupon') return row('Coupon' + (t.percent ? ' · ' + t.percent + '% off' : ''), t.expires ? 'valid until ' + fmtDate(t.expires) : age, 'code in Pro');
-    if (t.kind === 'cashback') return row('Cashback · ' + t.percent + '%', age, 'store in Pro');
+    if (t.kind === 'cashback') return row('Cashback · ' + t.percent + '%', t.ageDays != null ? age : 'rate shown on the page, no date', 'store in Pro');
     if (t.kind === 'refurb') return row('Refurbished or open-box offer', t.backed ? 'manufacturer-backed' : age, 'price in Pro');
     return row('Another store price', age, 'price in Pro');
   }
   function undatedBox(list) {
     if (!list || !list.length) return null;
-    var box = h('div', { class: 'card' }, h('h3', {}, 'Store listings with no date'),
+    var box = h('div', { class: 'card', style: 'margin-top:16px' }, h('h3', {}, 'Store listings with no date'),
       h('p', { class: 'micro' }, 'These pages show no date, so we can\'t say how recent the price is. Check the live price at the store before you buy.'));
     list.forEach(function (u) {
       box.appendChild(h('div', { class: 'prow' }, h('div', {}, (u.kind === 'refurb' ? 'Refurbished · ' : '') + u.store, h('small', {}, (u.condition ? u.condition + ' · ' : '') + 'no date on the page · ', ext(u.sourceUrl, 'source', 'l'))),
@@ -413,7 +413,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
       : n ? 'The lowest listed price isn\'t always the lowest you\'ll pay' : 'Pro adds shipping, totals and tracking';
     var box = h('div', { class: 'pro' }, h('h3', {}, head));
     if (ex) box.appendChild(h('p', { style: 'font-size:14px;color:var(--subtle);margin-bottom:8px' }, 'Without them, you pay the full price at checkout.'));
-    else if (ch) box.appendChild(h('p', { style: 'font-size:14px;color:var(--subtle);margin-bottom:8px' }, (ch.kind === 'refurb' ? 'Refurbished or open-box, so check the condition and warranty. ' : '') + 'Pro shows the store, the price and the link.'));
+    else if (ch) box.appendChild(h('p', { style: 'font-size:14px;color:var(--subtle);margin-bottom:8px' }, (ch.kind === 'refurb' ? 'A refurbished or open-box unit. Pro shows the store, the price, the condition and the link.' : 'Pro shows the store, the price and the link.')));
     else if (cl) box.appendChild(h('p', { style: 'font-size:14px;color:var(--subtle);margin-bottom:8px' }, 'A small gap can disappear with shipping. Pro shows the total price of each.'));
     else if (n) box.appendChild(h('p', { style: 'font-size:14px;color:var(--subtle);margin-bottom:8px' }, 'We found ' + n + ' more offer' + (n === 1 ? '' : 's') + '. Shipping and delivery decide which one is actually cheapest.'));
     var plain = tz.filter(function (t) { return t.kind === 'price'; });
@@ -447,6 +447,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
     if (sh.state === 'not_stated') bits.push('shipping not stated, check at checkout');
     if (o.ships === 'no') bits.push('⚠ may not ship to your country');
     if (o.seller === 'third_party') bits.push('⚠ third-party seller');
+    if (o.kind === 'refurb') bits.push('check the warranty terms');
     bits.push('reported ' + o.dateHuman);
     return h('div', { class: 'prow' }, h('div', {}, title, h('small', {}, bits.join(' · ') + ' · ', ext(o.sourceUrl, 'source', 'l'))),
       h('div', { class: 'val' }, o.total != null ? money(o.total, o.currency) : 'total unknown', [h('br'), h('small', {}, o.total != null ? 'total' : '')]));
@@ -454,7 +455,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
   function savingRow(o, base, cur) {
     var label = o.kind === 'coupon' ? [h('span', {}, 'Coupon '), o.code ? h('b', { style: 'color:var(--gold)' }, o.code) : null, ' ' + (o.percent ? '· ' + o.percent + '% off ' : '') + 'at ' + o.store]
       : 'Cashback · ' + o.percent + '% at ' + o.store;
-    var small = (o.kind === 'coupon' && o.expires ? 'valid until ' + fmtDate(o.expires) + ' · ' : '') + 'reported ' + o.dateHuman + ' · ';
+    var small = (o.kind === 'coupon' && o.expires ? 'valid until ' + fmtDate(o.expires) + ' · ' : '') + (o.dateHuman ? 'reported ' + o.dateHuman : 'rate shown on the page, no date. Confirm it on the site') + ' · ';
     return h('div', { class: 'prow' }, h('div', {}, label, h('small', {}, small, ext(o.sourceUrl, 'source', 'l'))),
       h('div', { class: 'val' }, o.valueUsd ? '≈ ' + money(o.valueUsd, cur) + (o.kind === 'coupon' ? ' off' : ' back') : '', o.valueUsd && base ? [h('br'), h('small', {}, 'on the ' + money(base, cur) + ' offer')] : null));
   }
@@ -520,7 +521,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
       (r.older || []).forEach(function (x) { card.appendChild(rep(x, false)); });
       if (!r.older && r.olderCount) card.appendChild(h('div', { class: 'note', style: 'margin-top:8px;border-style:dashed' }, '🔒 ', h('b', {}, r.olderCount === 1 ? '1 more older report. ' : r.olderCount + ' more older reports. '), 'The price, store and source are in Pro.'));
     }
-    if (r.reason === 'no_current_offer') card.appendChild(h('div', { class: 'note', style: 'margin-top:12px' }, h('b', {}, 'Want us to watch this one? '), 'Pro checks it for you and emails you when a fresh offer appears. ', h('a', { href: '/lifetime', style: 'color:var(--gold);font-weight:700', onclick: function () { track('find_unlock_pro'); } }, 'Track it with Pro →')));
+    if (r.reason === 'no_current_offer' && j.tier === 'pro') card.appendChild(h('div', { class: 'note', style: 'margin-top:12px' }, h('b', {}, 'Pro is on it. '), 'Open this product again later and we will search it again for you. Price alerts by email are coming.'));
+    else if (r.reason === 'no_current_offer') card.appendChild(h('div', { class: 'note', style: 'margin-top:12px' }, h('b', {}, 'Want us to watch this one? '), 'Pro checks it for you and emails you when a fresh offer appears. ', h('a', { href: '/lifetime', style: 'color:var(--gold);font-weight:700', onclick: function () { track('find_unlock_pro'); } }, 'Track it with Pro →')));
     (r.newer || []).forEach(function (nw) { card.appendChild(h('div', { class: 'note' }, h('b', {}, 'Newer model: '), nw.title + ' · ' + nw.store + ', reported ' + nw.dateHuman + '. ', ext(nw.sourceUrl, 'Source'))); });
     if (r.reason === 'no_current_offer') { var sl0 = statusLine({ coupon: 0, cashback: 0 }); if (sl0) { sl0.style.marginTop = '12px'; card.appendChild(sl0); } }
     card.appendChild(h('h3', { style: 'margin-top:16px' }, 'Compare on these stores'));

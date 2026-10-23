@@ -128,7 +128,10 @@ function evaluate(rawFindings, ctx) {
     const d1 = parseDate(f.pageDate, now);
     const d2 = parseDate(src.page_age, now);
     const d = d1 && d2 ? (d1 < d2 ? d1 : d2) : d1 || d2;
-    if (!d) {
+    let noDate = false;
+    // A cashback rate is a standing rate, so a missing date is allowed for it. It is labelled "no date on the page" wherever it is shown.
+    if (!d && f.kind === 'cashback') noDate = true;
+    else if (!d) {
       // A store listing with a usable price but no printed date is never shown as an offer. Pro lists it separately and says so.
       if ((f.kind === 'price' || f.kind === 'refurb') && f.price > 0 && f.price <= 100000) {
         const j0 = judge[f.id];
@@ -137,7 +140,7 @@ function evaluate(rawFindings, ctx) {
       }
       return rej('no date on the page');
     }
-    const age = ageDays(d, now);
+    const age = noDate ? null : ageDays(d, now);
 
     // Kind-specific facts
     let limit = maxAge;
@@ -162,8 +165,8 @@ function evaluate(rawFindings, ctx) {
     // A newer model is by definition not the same product, so only its verdict counts; it needs no price.
     if (j && ((f.kind !== 'newer_model' && j.same_product === false) || j.verdict === 'reject')) return rej(j.reason || 'not the same product');
 
-    const item = Object.assign({}, f, { date: iso(d), dateHuman: human(d), ageDays: age, expiresIso: f.expiresIso || null });
-    if (age > limit) {
+    const item = Object.assign({}, f, { date: noDate ? null : iso(d), dateHuman: noDate ? null : human(d), ageDays: age, expiresIso: f.expiresIso || null });
+    if (age != null && age > limit) {
       rej('page dated ' + human(d) + ', ' + age + ' days old (limit ' + limit + ')');
       if (age <= staleMax && (f.kind === 'price' || f.kind === 'refurb')) stale.push(item);
       return;
