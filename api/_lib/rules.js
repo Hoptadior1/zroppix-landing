@@ -94,6 +94,8 @@ function normUrl(u) {
 
 function median(a) { const s = a.slice().sort((x, y) => x - y); const n = s.length; return n ? (n % 2 ? s[(n - 1) / 2] : (s[n / 2 - 1] + s[n / 2]) / 2) : 0; }
 
+function shortTitle(t) { t = String(t || ''); if (t.length <= 44) return t; const cut = t.slice(0, 44); return cut.slice(0, Math.max(cut.lastIndexOf(' '), 20)) + '…'; }
+
 // Apply every hard rule. `judge` is a map id -> {same_product, verdict, reason} from the AI judge (optional).
 // Returns { accepted, rejected, stale } where each accepted item is client-safe.
 function evaluate(rawFindings, ctx) {
@@ -112,7 +114,7 @@ function evaluate(rawFindings, ctx) {
     const what = f.kind === 'price' || f.kind === 'refurb' ? (f.price != null ? who + ' ' + f.currency + ' ' + f.price : who)
       : f.kind === 'cashback' ? who + (f.percent != null ? ' ' + f.percent + '% cashback' : ' cashback')
       : f.kind === 'coupon' ? who + (f.code ? ' code ' + f.code : ' coupon')
-      : who + (f.title ? ' ' + f.title.slice(0, 40) : '');
+      : (f.title ? (f.title.toLowerCase().startsWith(who.toLowerCase()) ? '' : who + ' ') + shortTitle(f.title) : who);
     const rej = (why) => rejected.push({ id: f.id, what: clean(what, 90), why: clean(why, 140) });
 
     if (!KINDS.has(f.kind)) return rej('unrecognised offer type');
@@ -132,6 +134,7 @@ function evaluate(rawFindings, ctx) {
     // Kind-specific facts
     let limit = maxAge;
     if (f.kind === 'newer_model') limit = 365;
+    if (f.kind === 'cashback') limit = ctx.cashbackMaxDays || 120; // a cashback rate changes slowly; the page shows its age
     if (f.kind === 'price' || f.kind === 'refurb') {
       if (!(f.price > 0) || f.price > 100000) return rej('no usable price');
     }
