@@ -406,12 +406,18 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
     else if (cl) box.appendChild(h('p', { style: 'font-size:14px;color:var(--subtle);margin-bottom:8px' }, 'A small gap can disappear with shipping. Pro shows the total price of each.'));
     else if (n) box.appendChild(h('p', { style: 'font-size:14px;color:var(--subtle);margin-bottom:8px' }, 'We found ' + n + ' more offer' + (n === 1 ? '' : 's') + '. Shipping and delivery decide which one is actually cheapest.'));
     var plain = tz.filter(function (t) { return t.kind === 'price'; });
-    tz.filter(function (t) { return t.kind !== 'price'; }).forEach(function (t) { box.appendChild(teaserRow(t)); });
+    function ageText(list) {
+      var ages = list.map(function (t) { return t.ageDays; }).filter(function (a) { return a != null; });
+      if (!ages.length) return '';
+      var lo = Math.min.apply(null, ages), hi = Math.max.apply(null, ages);
+      return 'reported ' + (lo === hi ? lo + (lo === 1 ? ' day ago' : ' days ago') : lo + ' to ' + hi + ' days ago');
+    }
+    var refs = tz.filter(function (t) { return t.kind === 'refurb'; });
+    tz.filter(function (t) { return t.kind !== 'price' && !(t.kind === 'refurb' && refs.length > 1); }).forEach(function (t) { box.appendChild(teaserRow(t)); });
+    if (refs.length > 1) box.appendChild(row(refs.length + ' refurbished or open-box offers', ageText(refs), 'prices in Pro'));
     if (plain.length === 1) box.appendChild(teaserRow(plain[0]));
     else if (plain.length > 1) {
-      var ages = plain.map(function (t) { return t.ageDays; }).filter(function (a) { return a != null; });
-      var lo = Math.min.apply(null, ages), hi = Math.max.apply(null, ages);
-      box.appendChild(row(plain.length + ' other store prices', ages.length ? 'reported ' + (lo === hi ? lo + (lo === 1 ? ' day ago' : ' days ago') : lo + ' to ' + hi + ' days ago') : '', 'prices in Pro'));
+      box.appendChild(row(plain.length + ' other store prices', ageText(plain), 'prices in Pro'));
     }
     box.appendChild(row('Shipping and total price', 'cost, delivery time, ships to your country', 'on every offer'));
     box.appendChild(row('Price tracking and alerts', 'an email when a new offer passes our checks', 'included'));
