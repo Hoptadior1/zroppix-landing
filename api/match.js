@@ -46,7 +46,7 @@ module.exports = async (req, res) => {
     if (!ticket) return reply(200, { candidates: asTyped, degraded: true });
     let r;
     try {
-      r = await ai.call({ model: c.matchModel, system: P.MATCH_SYSTEM, messages: [{ role: 'user', content: P.matchUser(q) }], maxTokens: 400, deadline: Date.now() + 20000 });
+      r = await ai.call({ model: c.matchModel, system: P.MATCH_SYSTEM, messages: [{ role: 'user', content: P.matchUser(q) }], maxTokens: 2000, deadline: Date.now() + 20000 });
     } catch (e) {
       await settle(ticket, 0);
       bump('match_ai_error');
@@ -56,7 +56,8 @@ module.exports = async (req, res) => {
     bump('match_ai'); bump('cost_micro', Math.round(r.costUsd * 1e6));
     const j = ai.extractJson(r.text);
     if (!j) return reply(200, { candidates: asTyped, degraded: true });
-    const out = { candidates: cleanCandidates(j), notProduct: j.not_a_product === true, ambiguous: j.ambiguous === true };
+    const out = { candidates: cleanCandidates(j), notProduct: j.not_a_product === true, ambiguous: j.ambiguous === true, vague: j.vague === true };
+    if (out.candidates.length < 2) out.vague = false;
     if (!out.candidates.length && !out.notProduct) out.candidates = asTyped;
     await store.setJson(key, out, 24 * 3600);
     return reply(200, out);

@@ -820,5 +820,11 @@
     "api/*.js": {
       "maxDuration": 60
     }
-  }
+  },
+  "crons": [
+    {
+      "path": "/api/watchrun",
+      "schedule": "0 5 * * *"
+    }
+  ]
 }

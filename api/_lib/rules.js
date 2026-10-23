@@ -57,6 +57,7 @@ function normalizeFinding(raw, i) {
     store: clean(raw.store, 60),
     title: clean(raw.title, 140),
     price: num(raw.price),
+    listPrice: num(raw.list_price),
     currency: (clean(raw.currency, 3) || 'USD').toUpperCase(),
     percent: num(raw.percent),
     code: clean(raw.code, 40).replace(/[^A-Za-z0-9_\-]/g, ''),
@@ -69,7 +70,18 @@ function normalizeFinding(raw, i) {
     seller: SELLERS.has(seller) ? seller : 'unknown',
     ships: ['yes', 'no', 'unknown'].includes(clean(raw.ships, 8).toLowerCase()) ? clean(raw.ships, 8).toLowerCase() : 'unknown',
     note: clean(raw.note, 140),
+    shipping: shipInfo(raw),
+    delivery: clean(raw.delivery, 40),
   };
+}
+
+// Shipping only counts when a page states it. A "paid" claim without an amount is treated as not stated.
+function shipInfo(raw) {
+  const s = clean(raw.shipping, 12).toLowerCase();
+  if (s === 'free') return { state: 'free', cost: 0 };
+  const c = num(raw.shipping_cost);
+  if (s === 'paid' && c != null && c >= 0 && c < 2000) return { state: 'paid', cost: c };
+  return { state: 'not_stated', cost: null };
 }
 
 function normUrl(u) {
@@ -82,6 +94,8 @@ function normUrl(u) {
 
 function median(a) { const s = a.slice().sort((x, y) => x - y); const n = s.length; return n ? (n % 2 ? s[(n - 1) / 2] : (s[n / 2 - 1] + s[n / 2]) / 2) : 0; }
 
+function shortTitle(t) { t = String(t || ''); if (t.length <= 44) return t; const cut = t.slice(0, 44); return cut.slice(0, Math.max(cut.lastIndexOf(' '), 20)) + '…'; }
+
 // Apply every hard rule. `judge` is a map id -> {same_product, verdict, reason} from the AI judge (optional).
 // Returns { accepted, rejected, stale } where each accepted item is client-safe.
 function evaluate(rawFindings, ctx) {
@@ -92,7 +106,7 @@ function evaluate(rawFindings, ctx) {
   const byUrl = new Map();
   for (const r of results) { const k = normUrl(r.url); if (k && !byUrl.has(k)) byUrl.set(k, r); }
   const judge = ctx.judge || {};
-  const accepted = []; const rejected = []; const stale = [];
+  const accepted = []; const rejected = []; const stale = []; const undated = [];
 
   (rawFindings || []).slice(0, 20).forEach((raw, i) => {
     const f = normalizeFinding(raw, i);
@@ -100,7 +114,7 @@ function evaluate(rawFindings, ctx) {
     const what = f.kind === 'price' || f.kind === 'refurb' ? (f.price != null ? who + ' ' + f.currency + ' ' + f.price : who)
       : f.kind === 'cashback' ? who + (f.percent != null ? ' ' + f.percent + '% cashback' : ' cashback')
       : f.kind === 'coupon' ? who + (f.code ? ' code ' + f.code : ' coupon')
-      : who + (f.title ? ' ' + f.title.slice(0, 40) : '');
+      : (f.title ? (f.title.toLowerCase().startsWith(who.toLowerCase()) ? '' : who + ' ') + shortTitle(f.title) : who);
     const rej = (why) => rejected.push({ id: f.id, what: clean(what, 90), why: clean(why, 140) });
 
     if (!KINDS.has(f.kind)) return rej('unrecognised offer type');
@@ -114,15 +128,29 @@ function evaluate(rawFindings, ctx) {
     const d1 = parseDate(f.pageDate, now);
     const d2 = parseDate(src.page_age, now);
     const d = d1 && d2 ? (d1 < d2 ? d1 : d2) : d1 || d2;
-    if (!d) return rej('no date on the page');
-    const age = ageDays(d, now);
+    let noDate = false;
+    // A cashback rate is a standing rate, so a missing date is allowed for it. It is labelled "no date on the page" wherever it is shown.
+    if (!d && f.kind === 'cashback') noDate = true;
+    else if (!d) {
+      // A store listing with a usable price but no printed date is never shown as an offer. Pro lists it separately and says so.
+      if ((f.kind === 'price' || f.kind === 'refurb') && f.price > 0 && f.price <= 100000) {
+        const j0 = judge[f.id];
+        const key = (f.store + '|' + f.price + '|' + f.kind).toLowerCase();
+        if (!(j0 && (j0.same_product === false || j0.verdict === 'reject')) && !undated.some((u) => u.key === key) && undated.length < 4) undated.push({ key, id: f.id, kind: f.kind, store: f.store, price: f.price, currency: f.currency, condition: f.condition, sourceUrl: f.sourceUrl, sourceTitle: f.sourceTitle });
+      }
+      return rej('no date on the page');
+    }
+    const age = noDate ? null : ageDays(d, now);
 
     // Kind-specific facts
     let limit = maxAge;
     if (f.kind === 'newer_model') limit = 365;
+    if (f.kind === 'cashback') limit = ctx.cashbackMaxDays || 120; // a cashback rate changes slowly; the page shows its age
     if (f.kind === 'price' || f.kind === 'refurb') {
       if (!(f.price > 0) || f.price > 100000) return rej('no usable price');
     }
+    // A list price only counts if it is higher than the offer and not absurdly higher (that is usually a different item or a misread).
+    if (f.listPrice != null && !(f.price > 0 && f.listPrice > f.price && f.price >= 0.2 * f.listPrice && f.listPrice < 100000)) f.listPrice = null;
     if (f.kind === 'cashback' && !(f.percent > 0 && f.percent <= 40)) return rej(f.percent > 40 ? 'implausible cashback rate' : 'no cashback rate');
     if (f.kind === 'coupon') {
       const exd = parseExpiry(f.expires); // an expiry is normally in the future, so it skips the future-date guard
@@ -134,10 +162,11 @@ function evaluate(rawFindings, ctx) {
 
     // AI judge (advisory but binding on rejection)
     const j = judge[f.id];
-    if (j && (j.same_product === false || j.verdict === 'reject')) return rej(j.reason || 'not the same product');
+    // A newer model is by definition not the same product, so only its verdict counts; it needs no price.
+    if (j && ((f.kind !== 'newer_model' && j.same_product === false) || j.verdict === 'reject')) return rej(j.reason || 'not the same product');
 
-    const item = Object.assign({}, f, { date: iso(d), dateHuman: human(d), ageDays: age, expiresIso: f.expiresIso || null });
-    if (age > limit) {
+    const item = Object.assign({}, f, { date: noDate ? null : iso(d), dateHuman: noDate ? null : human(d), ageDays: age, expiresIso: f.expiresIso || null });
+    if (age != null && age > limit) {
       rej('page dated ' + human(d) + ', ' + age + ' days old (limit ' + limit + ')');
       if (age <= staleMax && (f.kind === 'price' || f.kind === 'refurb')) stale.push(item);
       return;
@@ -157,7 +186,7 @@ function evaluate(rawFindings, ctx) {
       }
     }
   }
-  return { accepted, rejected, stale };
+  return { accepted, rejected, stale, undated };
 }
 
 // Coupon expiry may be in the future; accept ISO and "Month D, YYYY" without the future guard.
@@ -180,29 +209,116 @@ function pickBest(accepted) {
 }
 
 // What the browser may receive. Locked details for free users are reduced to counts only.
-function shape(ev, tier, extras) {
+// Where the "Open" button should go. If the source page is the store's own site, use it.
+// If it is an article or deals roundup, send the shopper to that store's search for the product instead
+// (never a link we made up for a specific product page), and keep the article as "Read the report".
+function storeTarget(a, productName, country) {
+  let host = '';
+  try { host = new URL(a.sourceUrl).hostname.toLowerCase(); } catch (_) { /* none */ }
+  const key = normName(a.store || '').replace(/[^a-z0-9]/g, '');
+  const hostKey = host.replace(/[^a-z0-9]/g, '');
+  const isStoreSite = !!key && key.length >= 3 && hostKey.includes(key);
+  const looksEditorial = /\/(blog|news|deals?|article|articles|guide|guides|review|reviews)\b/i.test(a.sourceUrl) || /\d{4}\/\d{2}\//.test(a.sourceUrl);
+  if (isStoreSite && !looksEditorial) return { url: a.sourceUrl, kind: 'store' };
+  const list = STORE_LINKS[country] || INTL;
+  const hit = list.find(([name]) => { const n = normName(name).replace(/[^a-z0-9]/g, ''); return key && (n.startsWith(key) || key.startsWith(n)); });
+  if (hit && productName) return { url: hit[1] + encodeURIComponent(clean(productName, 100)), kind: 'search', store: hit[0] };
+  return { url: a.sourceUrl, kind: 'article' };
+}
+
+const r2 = (n) => Math.round(n * 100) / 100;
+
+// What a shopper could save, in money, against the headline price. Only when the rate is stated.
+function valueOf(a, base) {
+  if (!base || !(base > 0)) return null;
+  if ((a.kind === 'coupon' || a.kind === 'cashback') && a.percent > 0) return r2(base * a.percent / 100);
+  if (a.kind === 'coupon' && a.price > 0 && a.price < base) return r2(a.price); // a fixed amount off
+  return null;
+}
+
+function totalOf(a) {
+  if (a.price == null || !a.shipping || a.shipping.cost == null) return null;
+  return r2(a.price + a.shipping.cost);
+}
+
+// What the browser may receive. For free users every locked detail (code, store, link, shipping) stays on the server.
+function shape(ev, tier, extras, ctx) {
   const best = pickBest(ev.accepted);
   const rest = ev.accepted.filter((a) => a !== best && a.kind !== 'newer_model');
   const newer = ev.accepted.filter((a) => a.kind === 'newer_model').slice(0, 1);
-  const pub = (a) => ({
-    id: a.id, kind: a.kind, store: a.store, title: a.title, price: a.price, currency: a.currency, percent: a.percent,
-    code: a.code, expires: a.expiresIso, date: a.date, dateHuman: a.dateHuman, ageDays: a.ageDays,
-    sourceUrl: a.sourceUrl, sourceTitle: a.sourceTitle, seller: a.seller, condition: a.condition, ships: a.ships, note: a.note,
-  });
+  const base = best && best.kind === 'price' ? best.price : null;
+  const pro = tier === 'pro';
+  const pub = (a, full) => {
+    const o = {
+      id: a.id, kind: a.kind, store: a.store, title: a.title, price: a.price, currency: a.currency, percent: a.percent,
+      listPrice: a.listPrice || null, saveUsd: a.listPrice ? r2(a.listPrice - a.price) : null, savePct: a.listPrice ? Math.round((1 - a.price / a.listPrice) * 100) : null,
+      expires: a.expiresIso, date: a.date, dateHuman: a.dateHuman, ageDays: a.ageDays,
+      sourceUrl: a.sourceUrl, sourceTitle: a.sourceTitle, seller: a.seller, condition: a.condition, ships: a.ships, note: a.note,
+      target: ctx && ctx.productName ? storeTarget(a, ctx.productName, ctx.country) : { url: a.sourceUrl, kind: 'article' },
+    };
+    if (full) {
+      o.code = a.code; o.shipping = a.shipping; o.delivery = a.delivery; o.total = totalOf(a); o.valueUsd = valueOf(a, base);
+    }
+    return o;
+  };
   const out = {
-    best: best ? pub(best) : null,
-    newer: newer.map(pub),
+    best: best ? pub(best, pro) : null,
+    newer: newer.map((a) => pub(a, false)),
     rejected: ev.rejected.slice(0, 8).map((r) => ({ what: r.what, why: r.why })),
     warnings: [],
+    counts: { coupon: ev.accepted.filter((a) => a.kind === 'coupon').length, cashback: ev.accepted.filter((a) => a.kind === 'cashback').length },
+    proof: ev.proof || null,
   };
   // Safety information is never locked.
   if (best && best.seller === 'third_party') out.warnings.push('The best offer is from a third-party seller, not the manufacturer or the store itself. Check the seller rating and return terms before you buy.');
   if (best && best.ships === 'no') out.warnings.push('The store may not ship to your country. Check before you rely on this price.');
-  if (tier === 'pro') out.others = rest.map(pub);
-  else {
+
+  if (pro) {
+    // Every offer, cheapest total first. Offers with no stated shipping have an unknown total and go last.
+    const offers = ev.accepted.filter((a) => a.kind === 'price' || a.kind === 'refurb').map((a) => pub(a, true));
+    offers.sort((x, y) => {
+      const tx = x.total, ty = y.total;
+      if (tx != null && ty != null) return tx - ty;
+      if (tx != null) return -1;
+      if (ty != null) return 1;
+      return (x.price || 0) - (y.price || 0);
+    });
+    out.offers = offers;
+    out.coupons = ev.accepted.filter((a) => a.kind === 'coupon').map((a) => pub(a, true));
+    out.cashbacks = ev.accepted.filter((a) => a.kind === 'cashback').map((a) => pub(a, true));
+  } else {
+    // Teasers: what exists and what it is worth, with the code, store, link and shipping withheld.
+    const teasers = [];
+    rest.forEach((a) => {
+      if (a.kind === 'coupon') teasers.push({ kind: 'coupon', percent: a.percent, valueUsd: valueOf(a, base), expires: a.expiresIso, ageDays: a.ageDays });
+      else if (a.kind === 'cashback') teasers.push({ kind: 'cashback', percent: a.percent, valueUsd: valueOf(a, base), ageDays: a.ageDays });
+      else if (a.kind === 'refurb') teasers.push({ kind: 'refurb', backed: a.seller === 'manufacturer', ageDays: a.ageDays });
+      else if (a.kind === 'price') teasers.push({ kind: 'price', ageDays: a.ageDays });
+    });
+    out.teasers = teasers.slice(0, 6).map((t) => { const c = Object.assign({}, t); delete c.valueUsd; return c; }); // dollar values stay on the server
+    // The most the shopper could take off the best price with the coupon and cashback we found (they may not combine, so the page says "up to").
+    const extraUsd = r2(teasers.reduce((n, t) => n + ((t.kind === 'coupon' || t.kind === 'cashback') && t.valueUsd ? t.valueUsd : 0), 0));
+    // Real gaps between offers, from the prices we read (same currency only). The prices themselves stay locked.
+    if (base) {
+      const others = rest.filter((a) => (a.kind === 'price' || a.kind === 'refurb') && a.currency === best.currency && a.price > 0);
+      const lower = others.filter((a) => a.price < base).sort((x, y) => x.price - y.price)[0];
+      // Gaps are sent as rough percentages, rounded DOWN, so the headline is true but does not give the locked price away.
+      if (lower) { const pct = Math.floor(((base - lower.price) / base) * 100 / 5) * 5; out.cheaper = { pct: Math.max(pct, 5), kind: lower.kind }; }
+      const near = others.filter((a) => a.price >= base && a.price <= base * 1.1);
+      if (near.length) out.close = { n: near.length };
+    }
+    // Rounded DOWN (to the nearest 5 once it is 20 or more), so "up to about" is always true.
+    const roughUsd = extraUsd >= 20 ? Math.floor(extraUsd / 5) * 5 : Math.floor(extraUsd);
+    if (roughUsd >= 1 && base) out.extra = { usd: roughUsd, currency: best.currency };
     const counts = {};
     rest.forEach((a) => { counts[a.kind] = (counts[a.kind] || 0) + 1; });
-    out.locked = counts; // counts only, never the details
+    out.locked = counts; // counts only
+  }
+  // Store listings that print no date: counted for free users, listed (and labelled) for Pro.
+  const und = (ev.undated || []).filter((u) => !best || u.store !== best.store || u.price !== best.price);
+  if (und.length) {
+    if (pro) out.undated = und.map((u) => ({ store: u.store, kind: u.kind, price: u.price, currency: u.currency, condition: u.condition, sourceUrl: u.sourceUrl, sourceTitle: u.sourceTitle }));
+    else out.undatedCount = und.length;
   }
   return Object.assign(out, extras || {});
 }
@@ -246,11 +362,19 @@ function matchDeal(name, index) {
   return bs >= 0.75 ? { slug: best.slug, title: best.title } : null;
 }
 
-function buildFallback({ productName, country, stale, deal, newer, hadSearchError }) {
-  const lastSeen = (stale || []).slice().sort((a, b) => a.ageDays - b.ageDays)[0] || null;
+function buildFallback({ productName, country, stale, deal, newer, hadSearchError, unreadable, tier, undated }) {
+  const sorted = (stale || []).slice().sort((a, b) => a.ageDays - b.ageDays);
+  const lastSeen = sorted[0] || null;
+  const view = (x) => ({ store: x.store, price: x.price, currency: x.currency, dateHuman: x.dateHuman, ageDays: x.ageDays, sourceUrl: x.sourceUrl, sourceTitle: x.sourceTitle });
+  const more = sorted.slice(1, 4);
   return {
-    reason: hadSearchError ? 'search_unavailable' : 'no_current_offer',
-    lastSeen: lastSeen ? { store: lastSeen.store, price: lastSeen.price, currency: lastSeen.currency, dateHuman: lastSeen.dateHuman, ageDays: lastSeen.ageDays, sourceUrl: lastSeen.sourceUrl, sourceTitle: lastSeen.sourceTitle } : null,
+    reason: hadSearchError ? 'search_unavailable' : unreadable ? 'unreadable' : 'no_current_offer',
+    lastSeen: lastSeen ? view(lastSeen) : null,
+    // Free users see only that more old reports exist; Pro sees them.
+    olderCount: more.length,
+    older: tier === 'pro' ? more.map(view) : undefined,
+    undated: tier === 'pro' && (undated || []).length ? undated.map((u) => ({ store: u.store, kind: u.kind, price: u.price, currency: u.currency, condition: u.condition, sourceUrl: u.sourceUrl, sourceTitle: u.sourceTitle })) : undefined,
+    undatedCount: tier !== 'pro' && (undated || []).length ? undated.length : undefined,
     links: storeLinks(productName, country),
     history: deal ? { url: '/deals/' + deal.slug, title: deal.title } : null,
     newer: newer || [],

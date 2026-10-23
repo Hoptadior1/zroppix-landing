@@ -9,15 +9,13 @@ const { within, allowance, consume } = require('./_lib/limits');
 const ai = require('./_lib/anthropic');
 const P = require('./_lib/prompts');
 const R = require('./_lib/rules');
+const PRO = require('./_lib/pro');
 
 let DEALS = [];
 try { DEALS = require('./_lib/deals_index.json'); } catch (_) { DEALS = []; }
 
-const OFFER_KINDS = new Set(['price', 'coupon', 'cashback', 'refurb']);
-
-function gatherView(f) { // what the judge is allowed to see
-  return { id: f.id, kind: f.kind, store: f.store, title: f.title, price: f.price, currency: f.currency, percent: f.percent, code: f.code, expires: f.expires, page_date: f.pageDate, quote: f.quote, seller: f.seller, condition: f.condition };
-}
+const RS = require('./_lib/research');
+const { OFFER_KINDS, hasOffers } = RS;
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return send(res, 405, { error: 'method' });
@@ -31,93 +29,76 @@ module.exports = async (req, res) => {
   const c = cfg();
   const country = pickCountry(req, body);
   const owner = isOwner(req);
-  const tier = owner ? 'pro' : 'free';
+  let tier = owner ? 'pro' : 'free';
+  let unmetered = owner; // the owner and signed-in Pro customers do not use free checks
+  let customer = null;
   const started = Date.now();
   let ticket = null;
   try {
     if (await isKilled()) return send(res, 503, { error: 'paused' });
     const ip = ipHash(req);
-    if (!(await within('check', ip, c.checkPerIpDay, 'day'))) return send(res, 429, { error: 'daily_limit' });
+    if (!owner) {
+      // A signed-in customer whose plan is active gets the Pro view. If the plan cannot be confirmed, they are treated as free (never an error).
+      const w = await PRO.whoIs(req).catch(() => null);
+      if (w && w.pro) { tier = 'pro'; unmetered = true; customer = w; }
+    }
+    // Free visitors are limited per network address. Owner and Pro customers are limited per person instead (below).
+    if (!unmetered && !(await within('check', ip, c.checkPerIpDay, 'day'))) return send(res, 429, { error: 'daily_limit' });
+    if (customer && !(await within('prouse', customer.eh, c.proPerDay, 'day'))) return send(res, 429, { error: 'pro_limit' });
 
     const al = await allowance(visitor);
-    if (!owner && al.left <= 0) return send(res, 402, { error: 'no_checks', left: 0, bonusAvailable: al.bonus === 0 });
+    if (!unmetered && al.left <= 0) return send(res, 402, { error: 'no_checks', left: 0, bonusAvailable: al.bonus === 0 });
 
     const now = new Date();
     const deal = R.matchDeal(product.name, DEALS);
-    const cacheKey = 'c:' + sha(normName(product.name + ' ' + product.variant) + '|' + country);
+    const cacheKey = RS.cacheKeyFor(product, country);
     let ev = await store.getJson(cacheKey);
     let cached = !!ev;
     let judged = true;
     let hadSearchError = false;
+    let parsed = true;
+
+    let stored = false; // true when this result sits in the cache, so a second search can build on it
+    const fallbackNow = () => send(res, 200, { status: 'fallback', tier, product, country, checkedAt: now.toISOString(), cached: false, remaining: { left: al.left, total: al.total },
+      result: R.buildFallback({ productName: product.name, country, stale: [], deal, newer: [], hadSearchError: true }) });
 
     if (!ev) {
-      ticket = await reserve(c.reserveCheckUsd);
-      if (!ticket) return send(res, 503, { error: 'busy' });
-      let cost = 0;
-      let gather;
-      try {
-        gather = await ai.call({
-          model: c.gatherModel, system: P.GATHER_SYSTEM,
-          messages: [{ role: 'user', content: P.gatherUser(product, country, now.toISOString().slice(0, 10)) }],
-          tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: c.maxSearches, user_location: { type: 'approximate', country } }],
-          maxTokens: 3000, deadline: started + 38000,
-        });
-        cost += gather.costUsd;
-      } catch (e) {
-        await settle(ticket, cost); ticket = null;
-        bump('check_ai_error');
-        // Never an empty page, even if the search failed: plain store links and our history page.
-        return send(res, 200, { status: 'fallback', tier, product, country, checkedAt: now.toISOString(), cached: false, remaining: { left: al.left, total: al.total },
-          result: R.buildFallback({ productName: product.name, country, stale: [], deal, newer: [], hadSearchError: true }) });
+      const r1 = await RS.research({ product, country, pass: 1, started, now });
+      if (r1.busy) return send(res, 503, { error: 'busy' });
+      if (r1.failed) return fallbackNow(); // never an empty page, even if the search failed
+      ev = r1.out; judged = r1.didJudge; hadSearchError = r1.searchErr; parsed = r1.ok;
+      // Cache only runs we could read. A run that found offers is kept for the full time; a clean "nothing found" only briefly.
+      if (parsed && judged && !hadSearchError && r1.hadResults) { await store.setJson(cacheKey, ev, (ev.accepted.length ? c.cacheHours * 3600 : 1800)); stored = true; }
+    } else if (body.pass === 2 && !ev.pass2 && !hasOffers(ev)) {
+      // Second search: different wording, merged with the first result. Only after a first search that found no offers, and only once.
+      if (!unmetered && !(await within('check2', ipHash(req), c.checkPerIpDay, 'day'))) return send(res, 429, { error: 'daily_limit' });
+      const r2 = await RS.research({ product, country, pass: 2, started, now });
+      if (r2.busy) return send(res, 503, { error: 'busy' });
+      if (r2.failed) { bump('check_cache'); }
+      else {
+        const merged = RS.merge(ev, r2.out);
+        ev = merged; judged = r2.didJudge;
+        if (r2.ok && r2.didJudge && !r2.searchErr) { await store.setJson(cacheKey, ev, (hasOffers(ev) ? c.cacheHours * 3600 : 1800)); stored = true; }
       }
-      hadSearchError = gather.searchErrors > 0;
-      const gj = ai.extractJson(gather.text);
-      const rawFindings = gj && Array.isArray(gj.findings) ? gj.findings.slice(0, 12) : [];
-      const norm = rawFindings.map((x, i) => R.normalizeFinding(x, i));
-
-      let verdicts = {};
-      if (norm.length) {
-        try {
-          const jr = await ai.call({
-            model: c.judgeModel, system: P.JUDGE_SYSTEM,
-            messages: [{ role: 'user', content: P.judgeUser(product, now.toISOString().slice(0, 10), norm.map(gatherView)) }],
-            maxTokens: 1500, deadline: started + 54000,
-          });
-          cost += jr.costUsd;
-          const jj = ai.extractJson(jr.text);
-          for (const v of (jj && Array.isArray(jj.verdicts) ? jj.verdicts : [])) {
-            if (v && v.id) verdicts[clean(v.id, 12)] = { same_product: v.same_product !== false, verdict: v.verdict === 'accept' ? 'accept' : 'reject', reason: clean(v.reason, 100) };
-          }
-          // A finding the judge did not mention is treated as not vetted.
-          for (const f of norm) if (!verdicts[f.id]) verdicts[f.id] = { same_product: false, verdict: 'reject', reason: 'not confirmed by the second check' };
-        } catch (e) { judged = false; verdicts = {}; }
-      }
-      await settle(ticket, cost); ticket = null;
-      bump('check_ai'); bump('cost_micro', Math.round(cost * 1e6)); bump('searches', (gather.usage.server_tool_use || {}).web_search_requests || 0);
-
-      const out = R.evaluate(rawFindings, { now, maxAgeDays: c.maxAgeDays, staleMaxDays: c.staleMaxDays, results: gather.results, judge: verdicts });
-      ev = out;
-      // Cache only clean, judged runs.
-      if (judged && !hadSearchError && gather.results.length) await store.setJson(cacheKey, out, c.cacheHours * 3600);
-    } else bump('check_cache');
+    } else { bump('check_cache'); stored = true; }
 
     const offers = ev.accepted.filter((a) => OFFER_KINDS.has(a.kind));
-    const hist = deal ? { url: '/deals/' + deal.slug, title: deal.title } : null;
+    const hist = deal ? { url: '/deals/' + deal.slug, title: deal.title, lowest: deal.lowest || null, average: deal.average || null, updated: deal.updated || null } : null;
     if (!offers.length) {
-      bump('check_fallback');
+      bump(parsed ? 'check_fallback' : 'check_unreadable');
       return send(res, 200, { status: 'fallback', tier, product, country, checkedAt: now.toISOString(), cached, judged, remaining: { left: al.left, total: al.total },
-        result: Object.assign(R.buildFallback({ productName: product.name, country, stale: ev.stale, deal, newer: ev.accepted.filter((a) => a.kind === 'newer_model').slice(0, 1) }), { rejected: ev.rejected.slice(0, 8).map((r) => ({ what: r.what, why: r.why })) }) });
+        result: Object.assign(R.buildFallback({ productName: product.name, country, stale: ev.stale, deal, newer: ev.accepted.filter((a) => a.kind === 'newer_model').slice(0, 1), unreadable: !parsed, tier, undated: ev.undated || [] }), { rejected: ev.rejected.slice(0, 8).map((r) => ({ what: r.what, why: r.why })), retry: !!(stored && parsed && judged && !ev.pass2 && body.pass !== 2) }) });
     }
     // Real offers are shown: this is where a check is used.
     let left = al.left;
-    if (!owner) {
+    if (!unmetered) {
       const ok = await consume(visitor);
       if (!ok) return send(res, 402, { error: 'no_checks', left: 0, bonusAvailable: al.bonus === 0 });
       left = al.left - 1;
     }
     bump('check_ok');
     return send(res, 200, { status: 'ok', tier, product, country, checkedAt: now.toISOString(), cached, judged, remaining: { left, total: al.total },
-      result: R.shape(ev, tier, { history: hist }) });
+      result: R.shape(ev, tier, { history: hist }, { productName: product.name, country }) });
   } catch (e) {
     if (ticket) { try { await settle(ticket, 0); } catch (_) { /* ignore */ } }
     return send(res, 503, { error: 'unavailable' });
