@@ -26,8 +26,6 @@ function addUsage(a, b) {
 
 // One logical call. Handles pause_turn (server tool still running) by sending the assistant turn back unchanged.
 async function call({ model, system, messages, tools, maxTokens, deadline }) {
-  let effort = cfg().effort;
-  if (!effort || effort === 'none') effort = null;
   const c = cfg();
   if (!c.anthropicKey) throw new AIError('ai_not_configured');
   let msgs = messages.slice();
@@ -43,7 +41,6 @@ async function call({ model, system, messages, tools, maxTokens, deadline }) {
     try {
       const body = { model, max_tokens: maxTokens || 1500, system, messages: msgs };
       if (tools) body.tools = tools;
-      if (effort) body.output_config = { effort };
       r = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: { 'x-api-key': c.anthropicKey, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
@@ -53,8 +50,6 @@ async function call({ model, system, messages, tools, maxTokens, deadline }) {
     } catch (e) {
       throw new AIError(e && e.name === 'AbortError' ? 'timeout' : 'network');
     } finally { clearTimeout(timer); }
-    // If this model refuses the effort setting, retry once without it rather than failing the whole check.
-    if (r.status === 400 && effort) { effort = null; round--; continue; }
     if (!r.ok) throw new AIError('http_' + r.status, r.status);
     const j = await r.json();
     usage = addUsage(usage, j.usage || {});
@@ -66,10 +61,7 @@ async function call({ model, system, messages, tools, maxTokens, deadline }) {
     }
     break;
   }
-  // Text arrives in many small blocks when the search tool adds citations. They are pieces of one reply, so join with nothing.
-  const text = content.filter((b) => b.type === 'text').map((b) => b.text || '').join('');
-  const blockTypes = {};
-  for (const b of content) blockTypes[b.type] = (blockTypes[b.type] || 0) + 1;
+  const text = content.filter((b) => b.type === 'text').map((b) => b.text || '').join('\n');
   // URLs the search tool actually returned. Anything the model claims that is not in here is rejected later.
   const results = [];
   let searchErrors = 0;
@@ -77,40 +69,17 @@ async function call({ model, system, messages, tools, maxTokens, deadline }) {
     if (b.type !== 'web_search_tool_result') continue;
     if (Array.isArray(b.content)) {
       for (const x of b.content) if (x && x.type === 'web_search_result' && x.url) results.push({ url: String(x.url), title: String(x.title || ''), page_age: x.page_age ? String(x.page_age) : null });
-    } else if (b.content && b.content.type === 'web_search_tool_result_error' && b.content.error_code !== 'max_uses_exceeded') searchErrors++;
+    } else if (b.content && b.content.type === 'web_search_tool_result_error') searchErrors++;
   }
-  return { text, usage, costUsd: costOf(model, usage), results, searchErrors, stop, blockTypes };
+  return { text, usage, costUsd: costOf(model, usage), results, searchErrors, stop };
 }
 
-// Pull the JSON object out of a model reply. Tolerates stray line breaks and a reply cut off at the token limit.
+// Pull the first JSON object out of a model reply. Returns null if there is none.
 function extractJson(text) {
   if (!text) return null;
-  const s = text.indexOf('{');
-  if (s < 0) return null;
-  const e = text.lastIndexOf('}');
-  if (e > s) {
-    const c = text.slice(s, e + 1);
-    try { return JSON.parse(c); } catch (_) { /* try again below */ }
-    try { return JSON.parse(c.replace(/[\r\n\t]+/g, ' ')); } catch (_) { /* fall through */ }
-  }
-  return salvage(text.slice(s));
-}
-
-// Truncated reply: keep every COMPLETE object in the first array and close the JSON.
-function salvage(raw) {
-  const t = raw.replace(/[\r\n\t]+/g, ' ');
-  const i = t.indexOf('[');
-  if (i < 0) return null;
-  let depth = 0; let inStr = false; let esc = false; let lastEnd = -1;
-  for (let k = i + 1; k < t.length; k++) {
-    const ch = t[k];
-    if (inStr) { if (esc) esc = false; else if (ch === '\\') esc = true; else if (ch === '"') inStr = false; continue; }
-    if (ch === '"') inStr = true;
-    else if (ch === '{') depth++;
-    else if (ch === '}') { depth--; if (depth === 0) lastEnd = k; }
-  }
-  if (lastEnd < 0) return null;
-  try { return JSON.parse(t.slice(0, i + 1) + t.slice(i + 1, lastEnd + 1) + ']}'); } catch (_) { return null; }
+  const s = text.indexOf('{'); const e = text.lastIndexOf('}');
+  if (s < 0 || e <= s) return null;
+  try { return JSON.parse(text.slice(s, e + 1)); } catch (_) { return null; }
 }
 
 module.exports = { call, costOf, extractJson, AIError };

@@ -46,7 +46,7 @@ module.exports = async (req, res) => {
     if (!ticket) return reply(200, { candidates: asTyped, degraded: true });
     let r;
     try {
-      r = await ai.call({ model: c.matchModel, system: P.MATCH_SYSTEM, messages: [{ role: 'user', content: P.matchUser(q) }], maxTokens: 2000, deadline: Date.now() + 20000 });
+      r = await ai.call({ model: c.matchModel, system: P.MATCH_SYSTEM, messages: [{ role: 'user', content: P.matchUser(q) }], maxTokens: 400, deadline: Date.now() + 20000 });
     } catch (e) {
       await settle(ticket, 0);
       bump('match_ai_error');
