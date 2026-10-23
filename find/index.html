@@ -417,7 +417,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
     if (ex) box.appendChild(h('p', { style: 'font-size:14px;color:var(--subtle);margin-bottom:8px' }, 'Without them, you pay the full price at checkout.'));
     else if (ch) box.appendChild(h('p', { style: 'font-size:14px;color:var(--subtle);margin-bottom:8px' }, (ch.kind === 'refurb' ? 'A refurbished or open-box unit. Pro shows the store, the price, the condition and the link.' : 'Pro shows the store, the price and the link.')));
     else if (cl) box.appendChild(h('p', { style: 'font-size:14px;color:var(--subtle);margin-bottom:8px' }, 'A small gap can disappear with shipping. Pro shows the total price of each.'));
-    else if (n) box.appendChild(h('p', { style: 'font-size:14px;color:var(--subtle);margin-bottom:8px' }, 'We found ' + n + ' more offer' + (n === 1 ? '' : 's') + '. Shipping and delivery decide which one is actually cheapest.'));
+    else if (n) box.appendChild(h('p', { style: 'font-size:14px;color:var(--subtle);margin-bottom:8px' }, 'We found ' + (n + (r.undatedCount || 0)) + ' more offer' + (n + (r.undatedCount || 0) === 1 ? '' : 's') + '. Shipping and delivery decide which one is actually cheapest.'));
     var plain = tz.filter(function (t) { return t.kind === 'price'; });
     function ageText(list) {
       var ages = list.map(function (t) { return t.ageDays; }).filter(function (a) { return a != null; });
@@ -428,11 +428,12 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
     var refs = tz.filter(function (t) { return t.kind === 'refurb'; });
     tz.filter(function (t) { return t.kind !== 'price' && !(t.kind === 'refurb' && refs.length > 1); }).forEach(function (t) { box.appendChild(teaserRow(t)); });
     if (refs.length > 1) box.appendChild(row(refs.length + ' refurbished or open-box offers', ageText(refs), 'prices in Pro'));
-    if (plain.length === 1) box.appendChild(teaserRow(plain[0]));
-    else if (plain.length > 1) {
-      box.appendChild(row(plain.length + ' other store prices', ageText(plain), 'prices in Pro'));
+    var U = r.undatedCount || 0, ls = plain.length + U;
+    if (ls === 1 && plain.length === 1) box.appendChild(teaserRow(plain[0]));
+    else if (ls >= 1) {
+      var agePart = plain.length ? ageText(plain) : '';
+      box.appendChild(row(ls + ' more ' + (ls === 1 ? 'store listing' : 'store listings'), U ? (agePart ? agePart + ' · ' : '') + 'undated ones clearly marked' : agePart, 'prices in Pro'));
     }
-    if (r.undatedCount) box.appendChild(row(r.undatedCount + ' more ' + (r.undatedCount === 1 ? 'store listing' : 'store listings'), 'shown in Pro, clearly marked', 'prices in Pro'));
     box.appendChild(row('Shipping and total price', 'cost, delivery time, ships to your country', 'on every offer'));
     box.appendChild(row('Watch up to 20 products', 'we search again every day and email you when something better turns up', 'included'));
     if (tz.some(function (t) { return t.kind === 'coupon' || t.kind === 'cashback'; })) box.appendChild(h('p', { style: 'margin-top:12px;font-size:13.5px' }, 'Codes, stores and links unlock with Pro. ', h('span', { class: 'blurs', 'aria-hidden': 'true' }, 'CODE123 · store name')));
