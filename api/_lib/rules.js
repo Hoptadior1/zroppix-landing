@@ -106,7 +106,7 @@ function evaluate(rawFindings, ctx) {
   const byUrl = new Map();
   for (const r of results) { const k = normUrl(r.url); if (k && !byUrl.has(k)) byUrl.set(k, r); }
   const judge = ctx.judge || {};
-  const accepted = []; const rejected = []; const stale = [];
+  const accepted = []; const rejected = []; const stale = []; const undated = [];
 
   (rawFindings || []).slice(0, 20).forEach((raw, i) => {
     const f = normalizeFinding(raw, i);
@@ -128,7 +128,15 @@ function evaluate(rawFindings, ctx) {
     const d1 = parseDate(f.pageDate, now);
     const d2 = parseDate(src.page_age, now);
     const d = d1 && d2 ? (d1 < d2 ? d1 : d2) : d1 || d2;
-    if (!d) return rej('no date on the page');
+    if (!d) {
+      // A store listing with a usable price but no printed date is never shown as an offer. Pro lists it separately and says so.
+      if ((f.kind === 'price' || f.kind === 'refurb') && f.price > 0 && f.price <= 100000) {
+        const j0 = judge[f.id];
+        const key = (f.store + '|' + f.price + '|' + f.kind).toLowerCase();
+        if (!(j0 && (j0.same_product === false || j0.verdict === 'reject')) && !undated.some((u) => u.key === key) && undated.length < 4) undated.push({ key, id: f.id, kind: f.kind, store: f.store, price: f.price, currency: f.currency, condition: f.condition, sourceUrl: f.sourceUrl, sourceTitle: f.sourceTitle });
+      }
+      return rej('no date on the page');
+    }
     const age = ageDays(d, now);
 
     // Kind-specific facts
@@ -175,7 +183,7 @@ function evaluate(rawFindings, ctx) {
       }
     }
   }
-  return { accepted, rejected, stale };
+  return { accepted, rejected, stale, undated };
 }
 
 // Coupon expiry may be in the future; accept ISO and "Month D, YYYY" without the future guard.
@@ -303,6 +311,12 @@ function shape(ev, tier, extras, ctx) {
     rest.forEach((a) => { counts[a.kind] = (counts[a.kind] || 0) + 1; });
     out.locked = counts; // counts only
   }
+  // Store listings that print no date: counted for free users, listed (and labelled) for Pro.
+  const und = (ev.undated || []).filter((u) => !best || u.store !== best.store || u.price !== best.price);
+  if (und.length) {
+    if (pro) out.undated = und.map((u) => ({ store: u.store, kind: u.kind, price: u.price, currency: u.currency, condition: u.condition, sourceUrl: u.sourceUrl, sourceTitle: u.sourceTitle }));
+    else out.undatedCount = und.length;
+  }
   return Object.assign(out, extras || {});
 }
 
@@ -345,7 +359,7 @@ function matchDeal(name, index) {
   return bs >= 0.75 ? { slug: best.slug, title: best.title } : null;
 }
 
-function buildFallback({ productName, country, stale, deal, newer, hadSearchError, unreadable, tier }) {
+function buildFallback({ productName, country, stale, deal, newer, hadSearchError, unreadable, tier, undated }) {
   const sorted = (stale || []).slice().sort((a, b) => a.ageDays - b.ageDays);
   const lastSeen = sorted[0] || null;
   const view = (x) => ({ store: x.store, price: x.price, currency: x.currency, dateHuman: x.dateHuman, ageDays: x.ageDays, sourceUrl: x.sourceUrl, sourceTitle: x.sourceTitle });
@@ -356,6 +370,8 @@ function buildFallback({ productName, country, stale, deal, newer, hadSearchErro
     // Free users see only that more old reports exist; Pro sees them.
     olderCount: more.length,
     older: tier === 'pro' ? more.map(view) : undefined,
+    undated: tier === 'pro' && (undated || []).length ? undated.map((u) => ({ store: u.store, kind: u.kind, price: u.price, currency: u.currency, condition: u.condition, sourceUrl: u.sourceUrl, sourceTitle: u.sourceTitle })) : undefined,
+    undatedCount: tier !== 'pro' && (undated || []).length ? undated.length : undefined,
     links: storeLinks(productName, country),
     history: deal ? { url: '/deals/' + deal.slug, title: deal.title } : null,
     newer: newer || [],

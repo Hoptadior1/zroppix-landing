@@ -49,4 +49,8 @@ Reply with JSON only: {"verdicts":[{"id":"f1","same_product":true,"verdict":"acc
 const judgeUser = (p, today, findings) => `Today is ${today}. Shopper chose: ${p.name}${p.variant ? ' (' + p.variant + ')' : ''}.
 <findings>${JSON.stringify(findings)}</findings>`;
 
-module.exports = { MATCH_SYSTEM, matchUser, GATHER_SYSTEM, gatherUser, JUDGE_SYSTEM, judgeUser };
+const gatherUser2 = (p, country, today) => `Today is ${today}. Shopper's country: ${country}.
+Product: ${p.name}${p.variant ? ' (' + p.variant + ')' : ''}.
+A first search found no usable dated offers. Search again in a different way: try the product name with "price", "deal" and "sale", the model number alone, and the big retailers' names (Amazon, Best Buy, Walmart, Target) together with deal-roundup and news sites that print a date. Prefer pages that show a date. Still report a store's listed price if the page shows none, with page_date null.`;
+
+module.exports = { MATCH_SYSTEM, matchUser, GATHER_SYSTEM, gatherUser, gatherUser2, JUDGE_SYSTEM, judgeUser };

@@ -145,7 +145,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
 <section class="how">
 <h2>What we check before showing an offer</h2>
 <ul>
-<li>The page must show a date, and the date must be within the last 30 days. Older reports are listed as rejected, with their age.</li>
+<li>The page must show a date, and the date must be within the last 30 days. Older reports are listed as rejected, with their age. A store listing with no date is never shown as an offer; Pro lists it separately and marks it as undated.</li>
 <li>A coupon needs an expiry date. No expiry, no coupon.</li>
 <li>Every offer links to the page it came from, and that page must have appeared in our search. Nothing is made up.</li>
 <li>A second check confirms it's the same model and variant you chose.</li>
@@ -303,12 +303,12 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
   }
 
   var STEPS = ['Searching stores, coupon pages and cashback sites', 'Reading the pages and their dates', 'Rejecting anything old, undated or for a different model', 'Double-checking the best offers'];
-  function runCheck(cand) {
-    if (state.busy) return; state.busy = true; goBtn.disabled = true; track('find_check');
+  function runCheck(cand, pass2) {
+    if (state.busy && !pass2) return; state.busy = true; goBtn.disabled = true; track(pass2 ? 'find_check_pass2' : 'find_check');
     var lis = STEPS.map(function (s, i) { return h('li', { class: i === 0 ? 'on' : '' }, i === 0 ? h('span', { class: 'spin' }) : h('span', { style: 'width:14px' }), s); });
-    transient(h('div', { class: 'card' }, h('h2', {}, 'Checking ' + cand.name + '…'), h('div', { class: 'sub' }, 'This can take up to a minute.'), h('ul', { class: 'steps' }, lis)));
+    transient(h('div', { class: 'card' }, h('h2', {}, pass2 ? 'Looking a second way…' : 'Checking ' + cand.name + '…'), h('div', { class: 'sub' }, pass2 ? 'Nothing fresh on the first search, so we are trying different search words. This did not use a check.' : 'This can take up to a minute.'), h('ul', { class: 'steps' }, lis)));
     var n = 0; var tm = setInterval(function () { if (n < lis.length - 1) { lis[n].className = 'done'; lis[n].firstChild.replaceWith(document.createTextNode('✓')); n++; lis[n].className = 'on'; lis[n].firstChild.replaceWith(h('span', { class: 'spin' })); } }, 9000);
-    api('check', { candidate: { name: cand.name, variant: cand.variant } }).then(function (r) {
+    api('check', { candidate: { name: cand.name, variant: cand.variant }, pass: pass2 ? 2 : 1 }).then(function (r) {
       clearInterval(tm); state.busy = false; goBtn.disabled = false;
       if (r.json && r.json.remaining) setRemaining(r.json.remaining);
       if (r.status === 402) return renderGate();
@@ -316,6 +316,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
       if (r.status === 503) return transient(msgCard(r.json.error === 'busy' ? 'We\'re busy today' : 'Search is paused', 'We cap how much the tool can run each day so it stays free. Please try again tomorrow.', storeLinksClient(cand.name)));
       if (r.status !== 200) return transient(msgCard('Something went wrong', 'The check did not finish and was not used. Please try again.'));
       var j = r.json;
+      if (!pass2 && j.status !== 'ok' && j.result && j.result.retry) return runCheck(cand, true);
       if (j.status === 'ok') { track('find_result_ok'); renderResult(j); } else { track('find_result_fallback'); renderFallback(j); }
     });
   }
@@ -391,6 +392,16 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
     if (t.kind === 'refurb') return row('Refurbished or open-box offer', t.backed ? 'manufacturer-backed' : age, 'price in Pro');
     return row('Another store price', age, 'price in Pro');
   }
+  function undatedBox(list) {
+    if (!list || !list.length) return null;
+    var box = h('div', { class: 'card' }, h('h3', {}, 'Store listings with no date'),
+      h('p', { class: 'micro' }, 'These pages show no date, so we can\'t say how recent the price is. Check the live price at the store before you buy.'));
+    list.forEach(function (u) {
+      box.appendChild(h('div', { class: 'prow' }, h('div', {}, (u.kind === 'refurb' ? 'Refurbished · ' : '') + u.store, h('small', {}, (u.condition ? u.condition + ' · ' : '') + 'no date on the page · ', ext(u.sourceUrl, 'source', 'l'))),
+        h('div', { class: 'val' }, money(u.price, u.currency))));
+    });
+    return box;
+  }
   function proBox(r) {
     var ORD = { coupon: 0, cashback: 1, refurb: 2, price: 3 };
     var tz = (r.teasers || []).slice().sort(function (a, b) { return ORD[a.kind] - ORD[b.kind]; });
@@ -419,6 +430,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
     else if (plain.length > 1) {
       box.appendChild(row(plain.length + ' other store prices', ageText(plain), 'prices in Pro'));
     }
+    if (r.undatedCount) box.appendChild(row(r.undatedCount + (r.undatedCount === 1 ? ' store listing' : ' store listings') + ' with no date', 'shown in Pro, clearly marked', 'prices in Pro'));
     box.appendChild(row('Shipping and total price', 'cost, delivery time, ships to your country', 'on every offer'));
     box.appendChild(row('Price tracking and alerts', 'an email when a new offer passes our checks', 'included'));
     if (tz.some(function (t) { return t.kind === 'coupon' || t.kind === 'cashback'; })) box.appendChild(h('p', { style: 'margin-top:12px;font-size:13.5px' }, 'Codes, stores and links unlock with Pro. ', h('span', { class: 'blurs', 'aria-hidden': 'true' }, 'CODE123 · store name')));
@@ -484,6 +496,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
       stack.push(proBox(r));
     }
     var sl = statusLine(r.counts); if (sl) stack.push(sl);
+    var ub = undatedBox(r.undated); if (ub) stack.push(ub);
     var rb = rejectedBox(r.rejected); if (rb) stack.push(rb);
     if (r.history) stack.push(h('p', {}, h('a', { href: r.history.url, style: 'color:var(--gold);font-weight:700' }, 'See the full price history →')));
     if (!pro) stack.push(nextCard());
@@ -513,6 +526,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
     card.appendChild(h('h3', { style: 'margin-top:16px' }, 'Compare on these stores'));
     var links = h('div', { class: 'links' }); (r.links || []).forEach(function (l) { links.appendChild(ext(l.url, l.store)); }); card.appendChild(links);
     if (r.history) card.appendChild(h('p', { style: 'margin-top:14px' }, h('a', { href: r.history.url, style: 'color:var(--gold);font-weight:700' }, 'See our dated price history →')));
+    if (r.undatedCount) card.appendChild(h('div', { class: 'note', style: 'margin-top:8px;border-style:dashed' }, '🔒 ', h('b', {}, r.undatedCount === 1 ? '1 store listing with no date. ' : r.undatedCount + ' store listings with no date. '), 'The price and store are in Pro, clearly marked as undated.'));
+    var ub = undatedBox(r.undated); if (ub) card.appendChild(ub);
     var rb = rejectedBox(r.rejected); if (rb) card.appendChild(rb);
     card.appendChild(h('p', { class: 'micro', style: 'margin-top:12px' }, 'Prices change. Try again in a few days, or ', ext(CWS, 'add the free extension to see the history on the page.')));
     card.appendChild(againBox('Search a different product'));
