@@ -57,6 +57,7 @@ function normalizeFinding(raw, i) {
     store: clean(raw.store, 60),
     title: clean(raw.title, 140),
     price: num(raw.price),
+    listPrice: num(raw.list_price),
     currency: (clean(raw.currency, 3) || 'USD').toUpperCase(),
     percent: num(raw.percent),
     code: clean(raw.code, 40).replace(/[^A-Za-z0-9_\-]/g, ''),
@@ -134,6 +135,8 @@ function evaluate(rawFindings, ctx) {
     if (f.kind === 'price' || f.kind === 'refurb') {
       if (!(f.price > 0) || f.price > 100000) return rej('no usable price');
     }
+    // A list price only counts if it is higher than the offer and not absurdly higher (that is usually a different item or a misread).
+    if (f.listPrice != null && !(f.price > 0 && f.listPrice > f.price && f.price >= 0.2 * f.listPrice && f.listPrice < 100000)) f.listPrice = null;
     if (f.kind === 'cashback' && !(f.percent > 0 && f.percent <= 40)) return rej(f.percent > 40 ? 'implausible cashback rate' : 'no cashback rate');
     if (f.kind === 'coupon') {
       const exd = parseExpiry(f.expires); // an expiry is normally in the future, so it skips the future-date guard
@@ -233,6 +236,7 @@ function shape(ev, tier, extras, ctx) {
   const pub = (a, full) => {
     const o = {
       id: a.id, kind: a.kind, store: a.store, title: a.title, price: a.price, currency: a.currency, percent: a.percent,
+      listPrice: a.listPrice || null, saveUsd: a.listPrice ? r2(a.listPrice - a.price) : null, savePct: a.listPrice ? Math.round((1 - a.price / a.listPrice) * 100) : null,
       expires: a.expiresIso, date: a.date, dateHuman: a.dateHuman, ageDays: a.ageDays,
       sourceUrl: a.sourceUrl, sourceTitle: a.sourceTitle, seller: a.seller, condition: a.condition, ships: a.ships, note: a.note,
       target: ctx && ctx.productName ? storeTarget(a, ctx.productName, ctx.country) : { url: a.sourceUrl, kind: 'article' },
@@ -276,7 +280,21 @@ function shape(ev, tier, extras, ctx) {
       else if (a.kind === 'refurb') teasers.push({ kind: 'refurb', backed: a.seller === 'manufacturer', ageDays: a.ageDays });
       else if (a.kind === 'price') teasers.push({ kind: 'price', ageDays: a.ageDays });
     });
-    out.teasers = teasers.slice(0, 6);
+    out.teasers = teasers.slice(0, 6).map((t) => { const c = Object.assign({}, t); delete c.valueUsd; return c; }); // dollar values stay on the server
+    // The most the shopper could take off the best price with the coupon and cashback we found (they may not combine, so the page says "up to").
+    const extraUsd = r2(teasers.reduce((n, t) => n + ((t.kind === 'coupon' || t.kind === 'cashback') && t.valueUsd ? t.valueUsd : 0), 0));
+    // Real gaps between offers, from the prices we read (same currency only). The prices themselves stay locked.
+    if (base) {
+      const others = rest.filter((a) => (a.kind === 'price' || a.kind === 'refurb') && a.currency === best.currency && a.price > 0);
+      const lower = others.filter((a) => a.price < base).sort((x, y) => x.price - y.price)[0];
+      // Gaps are sent as rough percentages, rounded DOWN, so the headline is true but does not give the locked price away.
+      if (lower) { const pct = Math.floor(((base - lower.price) / base) * 100 / 5) * 5; out.cheaper = { pct: Math.max(pct, 5), kind: lower.kind }; }
+      const near = others.filter((a) => a.price >= base && a.price <= base * 1.1);
+      if (near.length) out.close = { n: near.length };
+    }
+    // Rounded DOWN (to the nearest 5 once it is 20 or more), so "up to about" is always true.
+    const roughUsd = extraUsd >= 20 ? Math.floor(extraUsd / 5) * 5 : Math.floor(extraUsd);
+    if (roughUsd >= 1 && base) out.extra = { usd: roughUsd, currency: best.currency };
     const counts = {};
     rest.forEach((a) => { counts[a.kind] = (counts[a.kind] || 0) + 1; });
     out.locked = counts; // counts only
@@ -323,11 +341,17 @@ function matchDeal(name, index) {
   return bs >= 0.75 ? { slug: best.slug, title: best.title } : null;
 }
 
-function buildFallback({ productName, country, stale, deal, newer, hadSearchError, unreadable }) {
-  const lastSeen = (stale || []).slice().sort((a, b) => a.ageDays - b.ageDays)[0] || null;
+function buildFallback({ productName, country, stale, deal, newer, hadSearchError, unreadable, tier }) {
+  const sorted = (stale || []).slice().sort((a, b) => a.ageDays - b.ageDays);
+  const lastSeen = sorted[0] || null;
+  const view = (x) => ({ store: x.store, price: x.price, currency: x.currency, dateHuman: x.dateHuman, ageDays: x.ageDays, sourceUrl: x.sourceUrl, sourceTitle: x.sourceTitle });
+  const more = sorted.slice(1, 4);
   return {
     reason: hadSearchError ? 'search_unavailable' : unreadable ? 'unreadable' : 'no_current_offer',
-    lastSeen: lastSeen ? { store: lastSeen.store, price: lastSeen.price, currency: lastSeen.currency, dateHuman: lastSeen.dateHuman, ageDays: lastSeen.ageDays, sourceUrl: lastSeen.sourceUrl, sourceTitle: lastSeen.sourceTitle } : null,
+    lastSeen: lastSeen ? view(lastSeen) : null,
+    // Free users see only that more old reports exist; Pro sees them.
+    olderCount: more.length,
+    older: tier === 'pro' ? more.map(view) : undefined,
     links: storeLinks(productName, country),
     history: deal ? { url: '/deals/' + deal.slug, title: deal.title } : null,
     newer: newer || [],

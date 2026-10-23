@@ -131,7 +131,7 @@ module.exports = async (req, res) => {
     if (!offers.length) {
       bump(parsed ? 'check_fallback' : 'check_unreadable');
       return send(res, 200, { status: 'fallback', tier, product, country, checkedAt: now.toISOString(), cached, judged, remaining: { left: al.left, total: al.total },
-        result: Object.assign(R.buildFallback({ productName: product.name, country, stale: ev.stale, deal, newer: ev.accepted.filter((a) => a.kind === 'newer_model').slice(0, 1), unreadable: !parsed }), { rejected: ev.rejected.slice(0, 8).map((r) => ({ what: r.what, why: r.why })) }) });
+        result: Object.assign(R.buildFallback({ productName: product.name, country, stale: ev.stale, deal, newer: ev.accepted.filter((a) => a.kind === 'newer_model').slice(0, 1), unreadable: !parsed, tier }), { rejected: ev.rejected.slice(0, 8).map((r) => ({ what: r.what, why: r.why })) }) });
     }
     // Real offers are shown: this is where a check is used.
     let left = al.left;

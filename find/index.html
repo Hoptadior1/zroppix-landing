@@ -116,6 +116,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
 .ship{font-size:13.5px;color:var(--subtle);margin:6px 0 2px}
 .protag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.7px;color:#0D0D14;background:var(--gold);border-radius:6px;padding:2px 8px;margin-left:8px;vertical-align:middle}
 @media(max-width:600px){.prow{flex-direction:column;gap:4px}.val{text-align:left}}
+.verdict{font-size:13.5px;color:var(--green);margin:6px 0 2px;font-weight:700}
 .linkbtn{background:none;border:0;color:var(--gold);font:inherit;font-size:13px;font-weight:700;cursor:pointer;padding:0;text-decoration:underline}
 .linkbtn:hover{color:#D4B864}
 </style>
@@ -367,6 +368,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
       : ext(b.sourceUrl, 'Read the report →', 'btn main');
     return h('div', { class: 'best' }, h('span', { class: 'badge' }, 'Best offer found'), h('div', { class: 'bigp' }, offerLine(b)),
       h('div', { class: 'src' }, offerSub(b) + ' · reported ' + when(b) + ' · may have ended. Source: ', ext(b.sourceUrl, b.sourceTitle || 'the page')),
+      b.listPrice && b.saveUsd > 0 ? h('div', { class: 'verdict' }, 'Saves about ' + money(b.saveUsd, b.currency) + ' (' + b.savePct + '%) off the ' + money(b.listPrice, b.currency) + ' list price the page states.') : null,
       pro ? h('div', { class: 'ship' }, shipLine(b)) : h('div', { class: 'ship', style: 'color:var(--muted)' }, 'Price before shipping and taxes'),
       histLine(hi, b), cta,
       h('div', { class: 'micro' }, (b.target && b.target.kind === 'search' ? 'Opens the store\'s search for this product. ' : '') + 'Check the live price and seller on the store before you buy.'));
@@ -384,8 +386,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
   }
   function teaserRow(t) {
     var age = t.ageDays != null ? 'reported ' + (t.ageDays === 0 ? 'today' : t.ageDays + (t.ageDays === 1 ? ' day ago' : ' days ago')) : '';
-    if (t.kind === 'coupon') return row('Coupon' + (t.percent ? ' · ' + t.percent + '% off' : ''), t.expires ? 'valid until ' + fmtDate(t.expires) : age, t.valueUsd ? '≈ ' + moneyUsd(t.valueUsd) + ' off' : 'value in Pro');
-    if (t.kind === 'cashback') return row('Cashback · ' + t.percent + '%', age, t.valueUsd ? '≈ ' + moneyUsd(t.valueUsd) + ' back' : 'value in Pro');
+    if (t.kind === 'coupon') return row('Coupon' + (t.percent ? ' · ' + t.percent + '% off' : ''), t.expires ? 'valid until ' + fmtDate(t.expires) : age, 'code in Pro');
+    if (t.kind === 'cashback') return row('Cashback · ' + t.percent + '%', age, 'store in Pro');
     if (t.kind === 'refurb') return row('Refurbished or open-box offer', t.backed ? 'manufacturer-backed' : age, 'price in Pro');
     return row('Another store price', age, 'price in Pro');
   }
@@ -393,7 +395,16 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
     var ORD = { coupon: 0, cashback: 1, refurb: 2, price: 3 };
     var tz = (r.teasers || []).slice().sort(function (a, b) { return ORD[a.kind] - ORD[b.kind]; });
     var n = tz.length;
-    var box = h('div', { class: 'pro' }, h('h3', {}, '🔒 ' + (n ? (tz.some(function (t) { return t.kind === 'coupon' || t.kind === 'cashback'; }) ? 'Pro found ' + n + ' more way' + (n === 1 ? '' : 's') + ' to pay less, plus shipping on every offer' : 'Pro found ' + n + ' more offer' + (n === 1 ? '' : 's') + ' to compare, plus shipping on every offer') : 'Pro adds shipping, totals and tracking')));
+    var ex = r.extra, ch = r.cheaper, cl = r.close;
+    var head = ex ? '💸 Pro found up to about ' + money(ex.usd, ex.currency) + ' in extra savings on top of this price'
+      : ch ? '💸 Pro found ' + (ch.kind === 'refurb' ? 'a refurbished offer' : 'an offer') + ' about ' + ch.pct + '% below this price'
+      : cl ? (cl.n === 1 ? 'Another offer is' : cl.n + ' other offers are') + ' almost the same price. Shipping decides which is cheapest'
+      : n ? 'The lowest listed price isn\'t always the lowest you\'ll pay' : 'Pro adds shipping, totals and tracking';
+    var box = h('div', { class: 'pro' }, h('h3', {}, head));
+    if (ex) box.appendChild(h('p', { style: 'font-size:14px;color:var(--subtle);margin-bottom:8px' }, 'Without them, you pay the full price at checkout.'));
+    else if (ch) box.appendChild(h('p', { style: 'font-size:14px;color:var(--subtle);margin-bottom:8px' }, (ch.kind === 'refurb' ? 'Refurbished or open-box, so check the condition and warranty. ' : '') + 'Pro shows the store, the price and the link.'));
+    else if (cl) box.appendChild(h('p', { style: 'font-size:14px;color:var(--subtle);margin-bottom:8px' }, 'A small gap can disappear with shipping. Pro shows the total price of each.'));
+    else if (n) box.appendChild(h('p', { style: 'font-size:14px;color:var(--subtle);margin-bottom:8px' }, 'We found ' + n + ' more offer' + (n === 1 ? '' : 's') + '. Shipping and delivery decide which one is actually cheapest.'));
     var plain = tz.filter(function (t) { return t.kind === 'price'; });
     tz.filter(function (t) { return t.kind !== 'price'; }).forEach(function (t) { box.appendChild(teaserRow(t)); });
     if (plain.length === 1) box.appendChild(teaserRow(plain[0]));
@@ -405,8 +416,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
     box.appendChild(row('Shipping and total price', 'cost, delivery time, ships to your country', 'on every offer'));
     box.appendChild(row('Price tracking and alerts', 'an email when a new offer passes our checks', 'included'));
     if (tz.some(function (t) { return t.kind === 'coupon' || t.kind === 'cashback'; })) box.appendChild(h('p', { style: 'margin-top:12px;font-size:13.5px' }, 'Codes, stores and links unlock with Pro. ', h('span', { class: 'blurs', 'aria-hidden': 'true' }, 'CODE123 · store name')));
-    box.appendChild(h('div', { class: 'price2' }, h('a', { class: 'btn main', href: '/lifetime', onclick: function () { track('find_unlock_pro'); } }, 'Unlock Pro')));
-    box.appendChild(h('div', { class: 'micro' }, 'Counts and values only. The details stay on our server until you have Pro. Already Pro? ', h('button', { type: 'button', class: 'linkbtn', onclick: renderSignin }, 'Sign in')));
+    box.appendChild(h('div', { class: 'price2' }, h('a', { class: 'btn main', href: '/lifetime', onclick: function () { track('find_unlock_pro'); } }, ex ? 'Show me the savings' : ch ? 'Show me the cheaper offer' : cl ? 'Show me which is cheapest' : n ? 'See the total price of each offer' : 'Unlock Pro')));
+    box.appendChild(h('div', { class: 'micro' }, (ex ? 'Offers may not combine, so this is the most you could take off. ' : '') + 'Offers change without notice. The details stay on our server until you have Pro. Already Pro? ', h('button', { type: 'button', class: 'linkbtn', onclick: renderSignin }, 'Sign in')));
     return box;
   }
   function offerRow(o) {
@@ -481,11 +492,18 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
     var card = h('div', { class: 'card' });
     card.appendChild(h('h2', {}, j.product.name + (j.product.variant ? ' · ' + j.product.variant : '')));
     card.appendChild(h('div', { class: 'sub' }, cname(j.country)));
-    card.appendChild(h('div', { class: 'best', style: 'border-color:var(--border);background:var(--bg3)' }, h('h3', {}, r.reason === 'search_unavailable' ? 'We couldn\'t search right now' : r.reason === 'unreadable' ? 'We couldn\'t read the results' : 'No current offer passed our checks'),
+    card.appendChild(h('div', { class: 'best', style: 'border-color:var(--border);background:var(--bg3)' }, h('h3', {}, r.reason === 'search_unavailable' ? 'We couldn\'t search right now' : r.reason === 'unreadable' ? 'We couldn\'t read the results' : r.lastSeen ? 'No fresh offer found' : 'No current offer passed our checks'),
       h('p', {}, r.reason === 'search_unavailable' ? 'The search didn\'t finish, so we can\'t say anything about prices. This did not use a check. Here is where to compare yourself.' : r.reason === 'unreadable' ? 'The search ran but we couldn\'t read what came back, so we can\'t say anything about prices. This did not use a check. Please try again, or compare on the stores below.' : 'We found no price, coupon or cashback dated within the last 30 days that passed our rules. This did not use a check.')));
-    if (r.lastSeen) card.appendChild(h('div', { class: 'note' }, h('b', {}, 'Last report we found: '), money(r.lastSeen.price, r.lastSeen.currency) + ' at ' + r.lastSeen.store + ', ' + r.lastSeen.dateHuman + ' (' + r.lastSeen.ageDays + ' days ago). It is old and may no longer apply. ', ext(r.lastSeen.sourceUrl, 'Source')));
+    if (r.lastSeen) {
+      var rep = function (x, first) { return h('div', { class: 'note' }, h('b', {}, first ? 'Last report we found: ' : ''), money(x.price, x.currency) + ' at ' + x.store + ', ' + x.dateHuman + ' (' + x.ageDays + ' days ago). ', ext(x.sourceUrl, 'Source')); };
+      card.appendChild(h('p', { style: 'margin:14px 0 6px;font-size:14px' }, 'These reports are old and may no longer apply. Check the store before you buy.'));
+      card.appendChild(rep(r.lastSeen, true));
+      (r.older || []).forEach(function (x) { card.appendChild(rep(x, false)); });
+      if (!r.older && r.olderCount) card.appendChild(h('div', { class: 'note', style: 'margin-top:8px;border-style:dashed' }, '🔒 ', h('b', {}, r.olderCount === 1 ? '1 more older report. ' : r.olderCount + ' more older reports. '), 'The price, store and source are in Pro.'));
+    }
+    if (r.reason === 'no_current_offer') card.appendChild(h('div', { class: 'note', style: 'margin-top:12px' }, h('b', {}, 'Want us to watch this one? '), 'Pro checks it for you and emails you when a fresh offer appears. ', h('a', { href: '/lifetime', style: 'color:var(--gold);font-weight:700', onclick: function () { track('find_unlock_pro'); } }, 'Track it with Pro →')));
     (r.newer || []).forEach(function (nw) { card.appendChild(h('div', { class: 'note' }, h('b', {}, 'Newer model: '), nw.title + ' · ' + nw.store + ', reported ' + nw.dateHuman + '. ', ext(nw.sourceUrl, 'Source'))); });
-    if (r.reason === 'no_current_offer') { var sl0 = statusLine({ coupon: 0, cashback: 0 }); if (sl0) card.appendChild(sl0); }
+    if (r.reason === 'no_current_offer') { var sl0 = statusLine({ coupon: 0, cashback: 0 }); if (sl0) { sl0.style.marginTop = '12px'; card.appendChild(sl0); } }
     card.appendChild(h('h3', { style: 'margin-top:16px' }, 'Compare on these stores'));
     var links = h('div', { class: 'links' }); (r.links || []).forEach(function (l) { links.appendChild(ext(l.url, l.store)); }); card.appendChild(links);
     if (r.history) card.appendChild(h('p', { style: 'margin-top:14px' }, h('a', { href: r.history.url, style: 'color:var(--gold);font-weight:700' }, 'See our dated price history →')));
