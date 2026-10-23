@@ -242,6 +242,24 @@ function totalOf(a) {
 }
 
 // What the browser may receive. For free users every locked detail (code, store, link, shipping) stays on the server.
+
+// Rejected pages: free users get only counts by reason (no stores or prices); Pro gets the full list.
+function rejCat(why) {
+  const w = String(why || '');
+  if (/days old|expired/.test(w)) return 'old';
+  if (/no date on the page|no expiry/.test(w)) return 'undated';
+  if (/not in the search results|no store named|unrecognised|prediction|no usable price|implausible|no cashback rate|no model named|second check|not https|not a valid/i.test(w)) return 'other';
+  return 'match';
+}
+function rejectedOut(rejected, pro) {
+  const list = rejected || [];
+  const sum = { count: list.length, old: 0, undated: 0, match: 0, other: 0 };
+  list.forEach((r) => { sum[rejCat(r.why)]++; });
+  const out = { rejectedSummary: sum };
+  if (pro) out.rejected = list.slice(0, 12).map((r) => ({ what: r.what, why: r.why }));
+  return out;
+}
+
 function shape(ev, tier, extras, ctx) {
   const best = pickBest(ev.accepted);
   const rest = ev.accepted.filter((a) => a !== best && a.kind !== 'newer_model');
@@ -264,7 +282,7 @@ function shape(ev, tier, extras, ctx) {
   const out = {
     best: best ? pub(best, pro) : null,
     newer: newer.map((a) => pub(a, false)),
-    rejected: ev.rejected.slice(0, 8).map((r) => ({ what: r.what, why: r.why })),
+    ...rejectedOut(ev.rejected, pro),
     warnings: [],
     counts: { coupon: ev.accepted.filter((a) => a.kind === 'coupon').length, cashback: ev.accepted.filter((a) => a.kind === 'cashback').length },
     proof: ev.proof || null,
@@ -372,6 +390,7 @@ function buildFallback({ productName, country, stale, deal, newer, hadSearchErro
     lastSeen: lastSeen ? view(lastSeen) : null,
     // Free users see only that more old reports exist; Pro sees them.
     olderCount: more.length,
+    olderOldestDays: more.length ? more[more.length - 1].ageDays : undefined,
     older: tier === 'pro' ? more.map(view) : undefined,
     undated: tier === 'pro' && (undated || []).length ? undated.map((u) => ({ store: u.store, kind: u.kind, price: u.price, currency: u.currency, condition: u.condition, sourceUrl: u.sourceUrl, sourceTitle: u.sourceTitle })) : undefined,
     undatedCount: tier !== 'pro' && (undated || []).length ? undated.length : undefined,
@@ -381,4 +400,4 @@ function buildFallback({ productName, country, stale, deal, newer, hadSearchErro
   };
 }
 
-module.exports = { parseDate, parseExpiry, ageDays, normalizeFinding, evaluate, pickBest, shape, storeLinks, matchDeal, buildFallback, normUrl, PREDICT, human, iso };
+module.exports = { rejectedOut, rejCat, parseDate, parseExpiry, ageDays, normalizeFinding, evaluate, pickBest, shape, storeLinks, matchDeal, buildFallback, normUrl, PREDICT, human, iso };

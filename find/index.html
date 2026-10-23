@@ -4,7 +4,7 @@
 <meta charset="UTF-8"><link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Find Cheaper Options for Any Product | Zroppix</title>
-<meta name="description" content="Search any product. We look for dated prices, coupons with expiry dates and cashback, show the sources, and list what we rejected. Free to try.">
+<meta name="description" content="Search any product. We look for dated prices, coupons with expiry dates and cashback, show the sources, and tell you what we rejected. Free to try.">
 <link rel="canonical" href="https://zroppix.com/find">
 <meta name="robots" content="index, follow">
 <meta property="og:type" content="website"><meta property="og:url" content="https://zroppix.com/find"><meta property="og:title" content="Find Cheaper Options for Any Product | Zroppix"><meta property="og:description" content="Dated prices, coupons with expiry dates and cashback, with sources. Free to try."><meta property="og:site_name" content="Zroppix">
@@ -127,7 +127,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
 <main>
 <span class="tagline">Free to try</span>
 <h1>Find it <span>for less</span></h1>
-<p class="lead">Type or paste any product. We search for prices, coupons and cashback that have a date on the page, show you the sources, and list what we rejected.</p>
+<p class="lead">Type or paste any product. We search for prices, coupons and cashback that have a date on the page, show you the sources, and tell you what we rejected.</p>
 
 <form class="sbar" id="searchForm" role="search" autocomplete="off">
 <label class="sr" for="q">Product name or link</label>
@@ -145,7 +145,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
 <section class="how">
 <h2>What we check before showing an offer</h2>
 <ul>
-<li>The page must show a date, and the date must be within the last 30 days. Older reports are listed as rejected, with their age. A store listing with no date is never shown as an offer; Pro lists it separately and marks it as undated.</li>
+<li>The page must show a date, and the date must be within the last 30 days. Older reports are counted as rejected; Pro lists each one with its store, price and age. A store listing with no date is never shown as an offer; Pro lists it separately and marks it as undated.</li>
 <li>A coupon needs an expiry date. No expiry, no coupon.</li>
 <li>Every offer links to the page it came from, and that page must have appeared in our search. Nothing is made up.</li>
 <li>A second check confirms it's the same model and variant you chose.</li>
@@ -343,9 +343,20 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
   function when(o) { return o.dateHuman + ' (' + (o.ageDays === 0 ? 'today' : o.ageDays + (o.ageDays === 1 ? ' day ago' : ' days ago')) + ')'; }
   var KIND = { price: 'More store prices', coupon: 'Coupon codes', cashback: 'Cashback offers', refurb: 'Refurbished and open-box' };
 
-  function rejectedBox(rej) {
-    if (!rej || !rej.length) return null;
-    return h('details', { class: 'rej' }, h('summary', {}, 'Checked and rejected (' + rej.length + ')'), h('ul', {}, rej.map(function (r) { return h('li', {}, r.what + ': ' + r.why); })));
+  function rejSummaryText(sm) {
+    var parts = [];
+    if (sm.old) parts.push(sm.old + ' too old');
+    if (sm.undated) parts.push(sm.undated + ' with no date on the page');
+    if (sm.match) parts.push(sm.match + ' not clearly the same product');
+    if (sm.other) parts.push(sm.other + ' failed a basic check');
+    return parts.join(', ');
+  }
+  function rejectedBox(rej, sm) {
+    if (rej && rej.length) {
+      return h('details', { class: 'rej' }, h('summary', {}, 'Checked and rejected (' + rej.length + ')'), h('ul', {}, rej.map(function (r) { return h('li', {}, r.what + ': ' + r.why); })));
+    }
+    if (!sm || !sm.count) return null;
+    return h('div', { class: 'rej' }, h('b', { style: 'color:var(--subtle)' }, 'Checked and rejected: ' + sm.count + (sm.count === 1 ? ' page. ' : ' pages. ')), rejSummaryText(sm) + '. ', h('span', { style: 'display:block;margin-top:4px' }, 'Stores, prices and the reason for each are shown in Pro.'));
   }
   // ---- result screens (free and Pro) ----
   function fmtDate(iso) { try { return new Date(iso + 'T00:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }); } catch (_) { return iso; } }
@@ -567,7 +578,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
     }
     var sl = statusLine(r.counts); if (sl) stack.push(sl);
     var ub = undatedBox(r.undated); if (ub) stack.push(ub);
-    var rb = rejectedBox(r.rejected); if (rb) stack.push(rb);
+    var rb = rejectedBox(r.rejected, r.rejectedSummary); if (rb) stack.push(rb);
     if (r.history) stack.push(h('p', {}, h('a', { href: r.history.url, style: 'color:var(--gold);font-weight:700' }, 'See the full price history →')));
     stack.push(pro ? h('div', { class: 'card', style: 'background:var(--bg3)' }, watchBox(j.product, 'drop')) : nextCard(j.product));
     stack.push(againBox('Search a different product'));
@@ -587,7 +598,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
       card.appendChild(h('p', { style: 'margin:14px 0 6px;font-size:14px' }, 'These reports are old and may no longer apply. Check the store before you buy.'));
       card.appendChild(rep(r.lastSeen, true));
       (r.older || []).forEach(function (x) { card.appendChild(rep(x, false)); });
-      if (!r.older && r.olderCount) card.appendChild(h('div', { class: 'note', style: 'margin-top:8px;border-style:dashed' }, '🔒 ', h('b', {}, r.olderCount === 1 ? '1 more older report. ' : r.olderCount + ' more older reports. '), 'The price, store and source are in Pro.'));
+      if (!r.older && r.olderCount) card.appendChild(h('div', { class: 'pro', style: 'margin-top:10px' }, row(r.olderCount + ' more older ' + (r.olderCount === 1 ? 'report' : 'reports'), 'The stores and prices we found, so you know where to look first' + (r.olderOldestDays ? ' \u00b7 oldest is ' + (r.olderOldestDays >= 60 ? Math.round(r.olderOldestDays / 30) + ' months' : r.olderOldestDays + ' days') + ' old' : ''), 'prices in Pro'), h('div', { class: 'price2' }, h('a', { class: 'btn main', href: '/lifetime', onclick: function () { track('find_unlock_pro'); } }, 'See the older ' + (r.olderCount === 1 ? 'report' : 'reports')))));
     }
     if (r.reason === 'no_current_offer') card.appendChild(watchBox(j.product, 'empty'));
     (r.newer || []).forEach(function (nw) { card.appendChild(h('div', { class: 'note' }, h('b', {}, 'Newer model: '), nw.title + ' · ' + nw.store + ', reported ' + nw.dateHuman + '. ', ext(nw.sourceUrl, 'Source'))); });
@@ -597,7 +608,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
     if (r.history) card.appendChild(h('p', { style: 'margin-top:14px' }, h('a', { href: r.history.url, style: 'color:var(--gold);font-weight:700' }, 'See our dated price history →')));
     if (r.undatedCount) card.appendChild(h('div', { class: 'note', style: 'margin-top:8px;border-style:dashed' }, '🔒 ', h('b', {}, r.undatedCount === 1 ? '1 store listing found. ' : r.undatedCount + ' store listings found. '), 'The price and store are in Pro, clearly marked as undated.'));
     var ub = undatedBox(r.undated); if (ub) card.appendChild(ub);
-    var rb = rejectedBox(r.rejected); if (rb) card.appendChild(rb);
+    var rb = rejectedBox(r.rejected, r.rejectedSummary); if (rb) card.appendChild(rb);
     card.appendChild(h('p', { class: 'micro', style: 'margin-top:12px' }, 'Prices change. Try again in a few days, or ', ext(CWS, 'add the free extension to see the history on the page.')));
     card.appendChild(againBox('Search a different product'));
     showCard(card, j.product.name, 'no current offer');
