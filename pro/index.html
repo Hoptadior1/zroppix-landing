@@ -104,7 +104,8 @@ h1{font-size:40px;line-height:1.1;margin:10px 0 12px;letter-spacing:-.5px}h1 em{
     lifetime: { n: 'Zroppix Lifetime', pr: '$149', per: ' once', eb: 'LIFETIME ACCESS', h1: 'Pay once. <em>Use Zroppix forever.</em>', lead: 'One payment, no subscription. Everything we build for Zroppix is included.', list: [['BUY or WAIT verdict on every Amazon product', 'Know if today\'s price is worth it.'], ['90-day price history and price drop alerts', 'Set a target and get notified when it is hit.'], ['Prime Day deal tracker', 'Real deals versus manufactured discounts.'], ['All future features included', 'Everything we build, at no extra charge.']] }
   };
   function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
-  var fromFind = !!q;
+  var fromFind = !!q || P.get('src') === 'find';
+  if (fromFind && P.get('from') === 'gate') { $('h1').innerHTML = 'Check as many products as you like, <em>and see every store and link.</em>'; $('lead').textContent = 'Pro removes the check limit and opens everything we find: the store, price and link, plus shipping and total price.'; }
   if (!fromFind) { $('grp').style.display = 'none'; $('also').style.display = 'none'; }
   if (!fromFind && PLANS[plan]) {
     var C = PLANS[plan]; document.title = 'Start ' + C.n + ' | Zroppix';
@@ -123,6 +124,7 @@ h1{font-size:40px;line-height:1.1;margin:10px 0 12px;letter-spacing:-.5px}h1 em{
   }
   if (!fromFind) { $('faqin').textContent = 'Your plan is linked to the email you pay with. Sign in to Zroppix with that same email to use it.'; $('faqcancel').innerHTML = ONCE ? $('faqcancel').innerHTML : 'One click from your Paddle receipt email or your Zroppix account. Your access runs until the end of the period you paid for.'; }
   function track(n) { try { if (window.gtag) window.gtag('event', n); } catch (_) {} }
+  if (fromFind && !q) $('back').href = '/find';
   track('pro_page_view_' + plan);
   if (q) { var pe = $('prod'); pe.style.display = 'block'; var b = document.createElement('b'); b.textContent = q + (v ? ' · ' + v : ''); pe.appendChild(b); pe.appendChild(document.createTextNode('Your locked offers for this product open as soon as you are in.')); $('back').href = '/find?q=' + encodeURIComponent(q); }
   function trialText(it) {

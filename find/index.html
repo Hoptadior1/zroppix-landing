@@ -428,7 +428,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
   // ---------- Pro checkout (monthly plan, Paddle overlay) ----------
   function openPro(where) {
     track('find_pro_click_' + where);
-    var u = '/pro'; if (state.cur && state.cur.name) u += '?q=' + encodeURIComponent(state.cur.name) + (state.cur.variant ? '&v=' + encodeURIComponent(state.cur.variant) : '');
+    var u = '/pro?src=find'; if (where === 'gate') u += '&from=gate'; else if (state.cur && state.cur.name) u += '&q=' + encodeURIComponent(state.cur.name) + (state.cur.variant ? '&v=' + encodeURIComponent(state.cur.variant) : '');
     location.href = u;
   }
   var warmed = false;
