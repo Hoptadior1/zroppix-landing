@@ -426,52 +426,15 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
   }
 
   // ---------- Pro checkout (monthly plan, Paddle overlay) ----------
-  var PADDLE_TOKEN = 'live_f1eda9271a93d8a241d6446b64c', PRO_PRICE = 'pri_01krkmfh45bs9q5zhasvcdfpnb';
-  var paddleReady = null;
-  function loadPaddle() {
-    if (paddleReady) return paddleReady;
-    paddleReady = new Promise(function (ok, no) {
-      if (window.Paddle) return ok(window.Paddle);
-      var sc = document.createElement('script'); sc.src = 'https://cdn.paddle.com/paddle/v2/paddle.js'; sc.async = true;
-      sc.onload = function () { try { window.Paddle.Initialize({ token: PADDLE_TOKEN, eventCallback: function (ev) { if (ev && ev.name === 'checkout.completed') paidDone(ev.data); } }); ok(window.Paddle); } catch (e) { no(e); } };
-      sc.onerror = function () { paddleReady = null; no(new Error('load')); };
-      document.head.appendChild(sc);
-    });
-    return paddleReady;
-  }
   function openPro(where) {
     track('find_pro_click_' + where);
-    loadPaddle().then(function (P) { track('find_pro_checkout_open'); P.Checkout.open({ items: [{ priceId: PRO_PRICE, quantity: 1 }], settings: { displayMode: 'overlay', theme: 'dark' } }); })
-      .catch(function () { location.href = '/lifetime'; }); // checkout script blocked: fall back to the plans page
+    var u = '/pro'; if (state.cur && state.cur.name) u += '?q=' + encodeURIComponent(state.cur.name) + (state.cur.variant ? '&v=' + encodeURIComponent(state.cur.variant) : '');
+    location.href = u;
   }
   function proCta(label, where, note) {
     var btn = h('button', { class: 'btn main', type: 'button', onclick: function () { openPro(where); } }, label);
-    loadPaddle().catch(function () {}); // warm up so the overlay opens instantly
     return h('div', { class: 'price2' }, btn,
       h('div', { class: 'cnote' }, note || 'Pro is $14/month. Cancel anytime with one click. ', h('a', { href: '/lifetime', style: 'color:var(--subtle);text-decoration:underline', onclick: function () { track('find_pro_lifetime_link'); } }, 'Prefer to pay once?')));
-  }
-  function paidDone(d) {
-    track('find_pro_paid');
-    var em = ''; try { em = (d && d.customer && d.customer.email) || ''; } catch (_) {}
-    var q = state.cur ? state.cur.name : '', v = state.cur && state.cur.variant ? state.cur.variant : '';
-    var status = h('div', { class: 'micro', 'aria-live': 'polite', style: 'margin-top:10px' }, 'Setting up your Pro access…');
-    var card = h('div', { class: 'card' }, h('h2', {}, '✅ You\'re in. Welcome to Pro'),
-      h('p', {}, em ? ['We\'re emailing a sign-in link to ', h('b', {}, em), '. Open it on this device and we\'ll search ' + (q ? q : 'your product') + ' again with everything unlocked.'] : 'We\'re emailing you a sign-in link. Open it on this device to unlock everything.'), status,
-      h('div', { class: 'micro' }, 'Nothing after a minute? Check spam, or ', h('button', { type: 'button', class: 'linkbtn', onclick: renderSignin }, 'sign in with the email you paid with'), '.'));
-    transient(card);
-    if (!em) { status.textContent = 'Use the button below with the email you paid with.'; return; }
-    var tries = 0, delays = [1500, 7000, 35000], sent = false;
-    function attempt() {
-      if (sent) return;
-      api('pro', { action: 'login', email: em, hp: '', q: q, v: v, afterPay: true }).then(function (r) {
-        // the answer is the same whether or not the plan is active yet, so we only retry on a schedule
-        tries++;
-        if (r.status === 200 && tries === 1) status.textContent = 'Payment received. Finishing setup…';
-        if (tries < delays.length) setTimeout(attempt, delays[tries] - delays[tries - 1]);
-        else status.textContent = 'If the email hasn\'t arrived, give it a minute and check spam. Your payment is safe either way.';
-      });
-    }
-    setTimeout(attempt, delays[0]);
   }
   function proBox(r) {
     var ORD = { coupon: 0, cashback: 1, refurb: 2, price: 3 };
