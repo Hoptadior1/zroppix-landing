@@ -309,7 +309,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
     var go = h('button', { class: 'btn main', type: 'button', style: 'margin-top:16px;width:100%', onclick: function () { if (noChecks) return renderGate(); runCheck(cands[chosen]); } },
       noChecks ? 'Get more free checks' : state.pro ? 'Check prices' : (state.left != null && state.total > 1 ? 'Use a check (' + state.left + ' left)' : 'Use my free check'));
     transient(h('div', { class: 'card' }, h('h2', {}, degraded ? 'Is this what you mean?' : vague ? '“' + q.slice(0, 60) + '” could be many products. Which one do you mean?' : 'Which one do you mean?'), h('div', { class: 'sub' }, vague ? 'Pick a specific model so the search compares the same product. Choosing or correcting is free.' : degraded ? 'We could not suggest matches right now, so we will search for exactly what you typed.' : 'Pick the closest match. Choosing or correcting is free.'),
-      list, go, h('div', { class: 'micro' }, 'Only showing offers uses a check. If nothing qualifies, it is not used.'), againBox()));
+      list, go, noChecks ? h('div', { class: 'cnote', style: 'text-align:center;margin-top:10px' }, 'Or ', h('button', { type: 'button', class: 'linkbtn', onclick: function () { openPro('gate'); } }, 'get unlimited checks with Pro · $14/month')) : h('div', { class: 'micro' }, 'Only showing offers uses a check. If nothing qualifies, it is not used.'), againBox()));
   }
 
   var STEPS = ['Searching stores, coupon pages and cashback sites', 'Reading the pages and their dates', 'Rejecting anything old, undated or for a different model', 'Double-checking the best offers'];
