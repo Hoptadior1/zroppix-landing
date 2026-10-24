@@ -119,6 +119,11 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
 .verdict{font-size:13.5px;color:var(--green);margin:6px 0 2px;font-weight:700}
 .linkbtn{background:none;border:0;color:var(--gold);font:inherit;font-size:13px;font-weight:700;cursor:pointer;padding:0;text-decoration:underline}
 .linkbtn:hover{color:#D4B864}
+.lead .sh{display:none}
+.meta{margin:0 0 12px}.meta + .sbar{margin-top:0}
+.searching .micro,.searching #examples{display:none}
+.meta{scroll-margin-top:84px}
+@media(max-width:600px){.lead .lg,.lg2{display:none}.lead .sh{display:inline}.lead{margin-bottom:14px}.searching .tagline{display:none}.meta{flex-wrap:nowrap;gap:8px;justify-content:space-between;font-size:12.5px}.meta>span:first-child{white-space:nowrap}.meta select{max-width:112px;padding:4px 6px;font-size:12.5px}#left,#signinBtn{white-space:nowrap;font-size:12.5px}#stage{margin-top:14px}}
 </style>
 <style id="mnav">.nav-toggle{display:none;background:none;border:1px solid var(--border,#2a2a40);color:var(--text,#fff);border-radius:10px;width:42px;height:42px;font-size:22px;line-height:1;cursor:pointer}
 @media(max-width:900px){nav:not([aria-label]){flex-wrap:wrap;gap:0}nav:not([aria-label]) .nav-toggle{display:block}nav:not([aria-label]) .nav-links{display:none!important;width:100%;flex-direction:column;align-items:stretch;gap:0;padding:8px 0 4px;margin:0;order:3}nav.open .nav-links{display:flex!important}nav:not([aria-label]) .nav-links li{list-style:none;display:block;width:100%;margin:0;padding:0;text-align:left}nav:not([aria-label]) .nav-links a{display:block;width:100%;box-sizing:border-box;text-align:left;padding:13px 4px;border-bottom:1px solid var(--border,#2a2a40);font-size:16px;white-space:normal}nav:not([aria-label]) .nav-links li:last-child a{border:0;margin-top:10px;text-align:center!important;border-radius:10px;padding:13px 16px!important}}</style></head>
@@ -127,20 +132,20 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
 <main>
 <span class="tagline">Free to try</span>
 <h1>Find it <span>for less</span></h1>
-<p class="lead">Type or paste any product. We search for prices, coupons and cashback that have a date on the page, show you the sources, and tell you what we rejected.</p>
+<p class="lead"><span class="lg">Type or paste any product. We search for prices, coupons and cashback that have a date on the page, show you the sources, and tell you what we rejected.</span><span class="sh">Dated prices, coupons and cashback, with sources.</span></p>
 
+<div class="meta"><span>Prices for: <label class="sr" for="country">Country</label><select id="country"></select></span><span id="left"></span><button type="button" class="linkbtn" id="signinBtn"><span class="lg2">Already </span>Pro? Sign in</button></div>
 <form class="sbar" id="searchForm" role="search" autocomplete="off">
 <label class="sr" for="q">Product name or link</label>
 <input id="q" name="q" type="text" maxlength="200" placeholder="Product name or link" enterkeyhint="search">
 <button class="btn main" type="submit" id="goBtn">🔎 Find cheaper</button>
 </form>
 <div class="micro">Free to try. No signup. Choosing a product or searching again never uses a check.</div>
-<div class="meta"><span>Prices for: <label class="sr" for="country">Country</label><select id="country"></select></span><span id="left"></span><button type="button" class="linkbtn" id="signinBtn">Already Pro? Sign in</button></div>
 <div class="chips" id="examples" aria-label="Examples"></div>
-<p class="honest">Results are reports from named sources on the dates shown. They are not live prices and can end at any time. We don't predict prices.</p>
 <noscript><p class="note">This tool needs JavaScript. You can still compare prices yourself on <a href="/find">Amazon</a>, <a href="https://www.bestbuy.com/">Best Buy</a> and <a href="https://www.walmart.com/">Walmart</a>.</p></noscript>
 
 <div id="stage" aria-live="polite"></div>
+<p class="honest">Results are reports from named sources on the dates shown. They are not live prices and can end at any time. We don't predict prices.</p>
 
 <section class="how">
 <h2>What we check before showing an offer</h2>
@@ -274,7 +279,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
   // ---------- flow: match -> confirm -> check ----------
   function start(q) {
     q = (q || '').trim(); if (q.length < 2 || state.busy) return;
-    state.busy = true; goBtn.disabled = true; track('find_search');
+    state.busy = true; goBtn.disabled = true; track('find_search'); document.body.classList.add('searching'); try { if (window.matchMedia('(max-width:600px)').matches) document.querySelector('.meta').scrollIntoView({ block: 'start', behavior: 'smooth' }); } catch (_) {}
     if (lastCard && lastTitle) { keepForLater(lastCard, lastTitle, lastSub); lastCard = null; lastTitle = ''; } // the previous result stays open below while you search
     transient(h('div', { class: 'card' }, h('h2', {}, 'Finding the product…'), h('ul', { class: 'steps' }, h('li', { class: 'on' }, h('span', { class: 'spin' }), 'Matching what you typed'))));
     api('match', { q: q }).then(function (r) {
