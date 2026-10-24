@@ -309,6 +309,9 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .price-list li:last-child { border-bottom: none; }
 .price-list li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
 .price-list li.pro-only { color: var(--gold); }
+.price-list li.grp { font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 12px 0 4px; border-bottom: 0; }
+.price-list li.grp::before { content: none; }
+.price-list li.grp:first-child { padding-top: 0; }
 .price-list li.pro-only::before { content: '★'; color: var(--gold); }
 
 .lifetime-pricing-block { max-width: 1100px; margin: 32px auto 0; padding: 0 20px; }
@@ -608,23 +611,23 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
     <div class="pricing-grid">
       <div class="price-card">
         <div class="price-plan">Free</div><div class="price-number">$0</div><div class="price-period">forever</div>
-        <ul class="price-list"><li>BUY or WAIT verdict</li><li>Price history on Amazon</li><li>Overpay risk score</li><li>What others paid</li><li>Track up to 3 products</li><li>Email price alerts</li></ul>
+        <ul class="price-list"><li class="grp">Chrome extension</li><li>BUY or WAIT verdict</li><li>Price history on Amazon</li><li>Overpay risk score</li><li>What others paid</li><li>Track up to 3 products</li><li>Email price alerts</li><li class="grp">Find it for less (web tool)</li><li>1 free check, 2 more with your email</li><li>See the best dated offer and its source</li></ul>
         <a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="btn-outline" style="display:block;text-align:center;font-size:14px;padding:12px;">Install Free</a>
       </div>
       <div class="price-card">
         <div class="price-plan">Pro</div><div class="price-number">$14</div><div class="price-period">per month</div>
-        <ul class="price-list"><li>Everything in Free</li><li class="pro-only">AI drop predictions</li><li class="pro-only">Why the price will drop</li><li class="pro-only">Drop timeframe</li><li class="pro-only">Confidence score</li><li>Works on Amazon</li><li>Unlimited tracking</li><li>Instant email alerts</li></ul>
+        <ul class="price-list"><li>Everything in Free</li><li class="grp">Chrome extension</li><li class="pro-only">AI drop predictions</li><li class="pro-only">Why the price will drop</li><li class="pro-only">Drop timeframe</li><li class="pro-only">Confidence score</li><li>Works on Amazon</li><li>Unlimited tracking</li><li>Instant email alerts</li><li class="grp">Find it for less (web tool)</li><li class="pro-only">Every store, price and link we find</li><li class="pro-only">Shipping and total price</li><li class="pro-only">Unlimited checks (fair use)</li><li class="pro-only">Watch up to 20 products daily</li></ul>
         <a href="#" onclick="openCheckout('pri_01krkmfh45bs9q5zhasvcdfpnb'); return false;" class="btn-outline" style="display:block;text-align:center;font-size:14px;padding:12px;">Get Pro</a>
       </div>
       <div class="price-card featured">
         <div class="featured-badge">Most Popular</div>
         <div class="price-plan">Family</div><div class="price-number">$24</div><div class="price-period">per month</div>
-        <ul class="price-list"><li>Everything in Pro</li><li class="pro-only">Up to 5 family members</li><li class="pro-only">Shared price alerts</li><li class="pro-only">Family savings dashboard</li><li>Unlimited tracking</li><li>AI drop predictions</li><li>Works on Amazon</li></ul>
+        <ul class="price-list"><li>Everything in Pro</li><li class="grp">Chrome extension</li><li class="pro-only">Up to 5 family members</li><li class="pro-only">Shared price alerts</li><li class="pro-only">Family savings dashboard</li><li>Unlimited tracking</li><li>AI drop predictions</li><li>Works on Amazon</li><li class="grp">Find it for less (web tool)</li><li class="pro-only">Every store, price and link we find</li><li class="pro-only">Shipping and total price</li><li class="pro-only">Unlimited checks (fair use)</li><li class="pro-only">Watch up to 20 products daily</li></ul>
         <a href="#" onclick="openCheckout('pri_01krkmjj5xxns1egknqgkgt3hb'); return false;" class="btn-gold" style="display:block;text-align:center;font-size:14px;padding:12px;">Get Family</a>
       </div>
       <div class="price-card">
         <div class="price-plan">Elite</div><div class="price-number">$49</div><div class="price-period">per month</div>
-        <ul class="price-list"><li>Everything in Pro</li><li class="pro-only">AI Shopping Assistant</li><li class="pro-only">Price crash alerts</li><li class="pro-only">VIP deal alerts first</li><li class="pro-only">Reseller calculator</li><li>API access</li><li>Priority support</li></ul>
+        <ul class="price-list"><li>Everything in Pro</li><li class="grp">Chrome extension</li><li class="pro-only">AI Shopping Assistant</li><li class="pro-only">Price crash alerts</li><li class="pro-only">VIP deal alerts first</li><li class="pro-only">Reseller calculator</li><li>API access</li><li>Priority support</li><li class="grp">Find it for less (web tool)</li><li class="pro-only">Every store, price and link we find</li><li class="pro-only">Shipping and total price</li><li class="pro-only">Unlimited checks (fair use)</li><li class="pro-only">Watch up to 20 products daily</li></ul>
         <a href="#" onclick="openCheckout('pri_01krkmkf66j5wychvkn0tmy6ky'); return false;" class="btn-outline" style="display:block;text-align:center;font-size:14px;padding:12px;">Get Elite</a>
       </div>
     </div>

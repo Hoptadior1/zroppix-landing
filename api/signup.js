@@ -26,6 +26,18 @@ async function drainQueue() {
   }
 }
 
+// One bonus per person, not per spelling: Gmail ignores dots and +tags, and most providers ignore +tags.
+const DISPOSABLE = new Set(['mailinator.com', 'guerrillamail.com', 'guerrillamail.net', '10minutemail.com', '10minutemail.net', 'tempmail.com', 'temp-mail.org', 'temp-mail.io', 'yopmail.com', 'trashmail.com', 'sharklasers.com', 'getnada.com', 'dispostable.com', 'maildrop.cc', 'throwawaymail.com', 'fakeinbox.com', 'mintemail.com', 'emailondeck.com', 'mohmal.com', 'tempail.com', 'burnermail.io', 'mailnesia.com', 'spamgourmet.com', 'moakt.com', 'tmpmail.org', 'inboxkitten.com']);
+function canonEmail(email) {
+  const at = email.lastIndexOf('@'); if (at < 1) return email;
+  let local = email.slice(0, at), dom = email.slice(at + 1);
+  if (dom === 'googlemail.com') dom = 'gmail.com';
+  local = local.split('+')[0];
+  if (dom === 'gmail.com') local = local.replace(/\./g, '');
+  return local + '@' + dom;
+}
+function isDisposable(email) { return DISPOSABLE.has(email.slice(email.lastIndexOf('@') + 1)); }
+
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return send(res, 405, { error: 'method' });
   if (!sameSite(req)) return send(res, 403, { error: 'forbidden' });
@@ -58,6 +70,8 @@ module.exports = async (req, res) => {
     const email = clean(body.email, 254).toLowerCase();
     if (!EMAIL_RE.test(email)) return send(res, 400, { error: 'bad_email' });
     const h = sha(email);
+    if (action === 'bonus' && isDisposable(email)) return send(res, 400, { error: 'disposable' });
+    const hb = sha(canonEmail(email)); // identity used for the one-bonus-per-person rule
 
     await drainQueue();
 
@@ -75,7 +89,7 @@ module.exports = async (req, res) => {
 
     // bonus: send a confirmation link. The bonus is granted only when the link is opened.
     const token = crypto.randomBytes(24).toString('base64url');
-    await store.setJson('tok:' + token, { kind: 'bonus', h, ts: Date.now() }, 7 * 86400);
+    await store.setJson('tok:' + token, { kind: 'bonus', h: hb, ts: Date.now() }, 7 * 86400);
     await store.hset('emails', h, JSON.stringify({ email, ts: new Date().toISOString() }));
     bump('bonus_requested');
     const link = c.siteUrl + '/find?confirm=' + token;
