@@ -431,7 +431,10 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
     var u = '/pro'; if (state.cur && state.cur.name) u += '?q=' + encodeURIComponent(state.cur.name) + (state.cur.variant ? '&v=' + encodeURIComponent(state.cur.variant) : '');
     location.href = u;
   }
+  var warmed = false;
+  function warm() { if (warmed) return; warmed = true; try { [['preconnect', 'https://cdn.paddle.com'], ['preconnect', 'https://buy.paddle.com'], ['prefetch', 'https://cdn.paddle.com/paddle/v2/paddle.js'], ['prefetch', '/pro']].forEach(function (x) { var l = document.createElement('link'); l.rel = x[0]; l.href = x[1]; if (x[0] === 'preconnect') l.crossOrigin = ''; document.head.appendChild(l); }); } catch (_) {} } // only for people who see a Pro offer
   function proCta(label, where, note) {
+    warm();
     var btn = h('button', { class: 'btn main', type: 'button', onclick: function () { openPro(where); } }, label);
     return h('div', { class: 'price2' }, btn,
       h('div', { class: 'cnote' }, note || 'Pro is $14/month. Cancel anytime with one click. ', h('a', { href: '/lifetime', style: 'color:var(--subtle);text-decoration:underline', onclick: function () { track('find_pro_lifetime_link'); } }, 'Prefer to pay once?')));

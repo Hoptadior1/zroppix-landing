@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="en"><head><meta charset="UTF-8"><link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://cdn.paddle.com" crossorigin><link rel="preconnect" href="https://buy.paddle.com" crossorigin><link rel="dns-prefetch" href="https://checkout-service.paddle.com">
+<script async src="https://cdn.paddle.com/paddle/v2/paddle.js" id="pjs"></script>
 <title>Start Zroppix Pro | Zroppix</title>
 <meta name="robots" content="noindex, nofollow"><link rel="canonical" href="https://zroppix.com/find">
 <style>
@@ -29,7 +31,9 @@ h1{font-size:40px;line-height:1.1;margin:10px 0 12px;letter-spacing:-.5px}h1 em{
 .sum{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
 .sum b{font-size:18px}.sum .pr{font-size:26px;font-weight:900}.sum .pr small{font-size:14px;font-weight:600;color:var(--subtle)}
 .terms{font-size:13.5px;color:var(--subtle);margin-bottom:14px}
-.pcheck{min-height:420px;border-radius:12px;overflow:hidden}
+.pcheck{min-height:560px;border-radius:12px;overflow:hidden}
+.mini{list-style:none;margin:0 0 14px;display:grid;gap:5px;font-size:14px;color:#fff}.mini li{color:var(--subtle)}
+.sk{display:flex;flex-wrap:wrap;gap:12px}.sk i{display:block;width:100%;border-radius:8px;background:linear-gradient(90deg,#1a1a26 25%,#242436 50%,#1a1a26 75%);background-size:200% 100%;animation:sh 1.2s linear infinite}@keyframes sh{to{background-position:-200% 0}}
 .ld{display:flex;align-items:center;gap:10px;color:var(--subtle);font-size:14px;padding:30px 4px}
 .spin{width:16px;height:16px;border:2px solid var(--gold);border-top-color:transparent;border-radius:50%;animation:sp .8s linear infinite;display:inline-block}@keyframes sp{to{transform:rotate(360deg)}}
 .safe{display:flex;justify-content:center;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--muted);margin-top:14px}
@@ -69,7 +73,8 @@ h1{font-size:40px;line-height:1.1;margin:10px 0 12px;letter-spacing:-.5px}h1 em{
     <div id="buy">
       <div class="sum"><b>Zroppix Pro</b><span class="pr">$14<small>/month</small></span></div>
       <div class="terms" id="terms">Cancel anytime. Any free trial is shown below before you pay.</div>
-      <div class="pcheck" id="pcheck"><div class="ld"><span class="spin"></span>Opening secure checkout…</div></div>
+      <ul class="mini"><li>✓ Every store, price and link we found</li><li>✓ Shipping and total on each offer</li><li>✓ Unlimited checks and daily watches</li></ul>
+      <div class="pcheck" id="pcheck"><div class="sk" id="sk"><i style="width:44%;height:52px"></i><i style="width:46%;height:52px;margin-left:4%"></i><i style="height:46px"></i><i style="height:46px"></i><i style="height:92px"></i></div></div>
       <div class="safe"><span>🔒 Secure checkout by Paddle</span><span>Cards, PayPal, Apple Pay</span></div>
     </div>
     <div class="done" id="done">
@@ -80,7 +85,6 @@ h1{font-size:40px;line-height:1.1;margin:10px 0 12px;letter-spacing:-.5px}h1 em{
     </div>
   </aside>
 </div>
-<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
 <script>
 (function () {
   var TOKEN = 'live_f1eda9271a93d8a241d6446b64c', PRICE = 'pri_01krkmfh45bs9q5zhasvcdfpnb';
@@ -96,7 +100,7 @@ h1{font-size:40px;line-height:1.1;margin:10px 0 12px;letter-spacing:-.5px}h1 em{
   function onEvent(ev) {
     if (!ev || !ev.name) return;
     if (ev.name === 'checkout.loaded') {
-      track('pro_checkout_loaded');
+      track('pro_checkout_loaded'); var sk = $('sk'); if (sk) sk.remove();
       var tr = ev.data && ev.data.items && trialText(ev.data.items[0]);
       if (tr) { $('terms').textContent = tr.charAt(0).toUpperCase() + tr.slice(1) + ', then $14/month. Cancel anytime, before the trial ends and you pay nothing.'; $('faqcharge').textContent = 'Your ' + tr + ' starts today. You are charged $14 when it ends, then every month, unless you cancel first.'; }
       else { $('terms').textContent = '$14 per month. Cancel anytime with one click.'; $('faqcharge').textContent = 'You are charged $14 today, then every month, unless you cancel first.'; }
@@ -124,10 +128,14 @@ h1{font-size:40px;line-height:1.1;margin:10px 0 12px;letter-spacing:-.5px}h1 em{
   function open() {
     try {
       Paddle.Initialize({ token: TOKEN, eventCallback: onEvent });
-      Paddle.Checkout.open({ items: [{ priceId: PRICE, quantity: 1 }], settings: { displayMode: 'inline', frameTarget: 'pcheck', frameInitialHeight: 480, frameStyle: 'width:100%;min-width:290px;background-color:transparent;border:none;', theme: 'dark', variant: 'one-page', locale: 'en' } });
+      Paddle.Checkout.open({ items: [{ priceId: PRICE, quantity: 1 }], settings: { displayMode: 'inline', frameTarget: 'pcheck', frameInitialHeight: 560, frameStyle: 'width:100%;min-width:290px;background-color:transparent;border:none;', theme: 'dark', variant: 'one-page', locale: 'en' } });
     } catch (e) { $('pcheck').textContent = 'The secure checkout could not load. Please disable blockers and refresh, or use the plans page.'; var a = document.createElement('a'); a.href = '/lifetime'; a.className = 'btn'; a.textContent = 'See plans'; $('pcheck').appendChild(a); }
   }
-  if (window.Paddle) open(); else window.addEventListener('load', function () { window.Paddle ? open() : open(); });
+  var started = false;
+  function go() { if (started) return; started = true; if (window.Paddle) open(); else fail(); }
+  function fail() { $('pcheck').textContent = 'The secure checkout could not load. Please turn off blockers and refresh.'; var a = document.createElement('a'); a.href = '/lifetime'; a.className = 'btn'; a.textContent = 'See plans'; $('pcheck').appendChild(a); }
+  var pj = $('pjs'); if (window.Paddle) go(); else { pj.addEventListener('load', go); pj.addEventListener('error', function () { started = true; fail(); }); }
+  setTimeout(function () { if ($('sk') && !started) { started = true; fail(); } }, 15000);
 })();
 </script>
 </body></html>
