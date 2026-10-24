@@ -51,29 +51,29 @@ h1{font-size:40px;line-height:1.1;margin:10px 0 12px;letter-spacing:-.5px}h1 em{
 <div class="top"><a class="logo" href="/">🛡️ Zroppix</a><a class="back" href="/find" id="back">← Back to results</a></div>
 <div class="wrap">
   <section>
-    <div class="eyebrow">ZROPPIX PRO</div>
-    <h1>See every offer we found, <em>with the store and the link.</em></h1>
-    <p class="lead">Free checks show the best dated offer. Pro opens everything we held back and tells you what each one really costs delivered.</p>
+    <div class="eyebrow" id="eb">ZROPPIX PRO</div>
+    <h1 id="h1">See every offer we found, <em>with the store and the link.</em></h1>
+    <p class="lead" id="lead">Free checks show the best dated offer. Pro opens everything we held back and tells you what each one really costs delivered.</p>
     <div class="prod" id="prod"></div>
-    <ul class="list">
+    <ul class="list" id="list">
       <li><i>✓</i><span>Store, price and link for every offer<small>Each one shows how old the report is, so you can check fast.</small></span></li>
       <li><i>✓</i><span>Shipping and total price<small>The cheapest listing isn't always the cheapest delivered.</small></span></li>
       <li><i>✓</i><span>Codes and cashback, unlocked<small>With the expiry dates and sources we found them on.</small></span></li>
       <li><i>✓</i><span>Unlimited checks, 20 products watched daily<small>We search again every day and email you only when something real turns up.</small></span></li>
     </ul>
-    <div class="assure hide-m"><div><b>Cancel in one click</b>No email, no call, no questions.</div><div><b>Honest by design</b>Dated sources only. No made-up discounts or countdowns.</div></div>
+    <div class="assure hide-m"><div id="as1"><b>Cancel in one click</b>No email, no call, no questions.</div><div><b>Honest by design</b>Dated sources only. No made-up discounts or countdowns.</div></div>
     <div class="faq">
       <details><summary>When am I charged?</summary><p id="faqcharge">The price and any free trial are shown in the payment form before you pay.</p></details>
-      <details><summary>How do I cancel?</summary><p>One click from your Paddle receipt email or your Zroppix account. Your access runs until the end of the period you paid for.</p></details>
-      <details><summary>How do I get in after paying?</summary><p>We email a sign-in link to the address you paid with. Open it on this device and your results unlock.</p></details>
+      <details><summary id="cq">How do I cancel?</summary><p id="faqcancel">One click from your Paddle receipt email or your Zroppix account. Your access runs until the end of the period you paid for.</p></details>
+      <details><summary>How do I get in after paying?</summary><p id="faqin">We email a sign-in link to the address you paid with. Open it on this device and your results unlock.</p></details>
       <details><summary>Who takes the payment?</summary><p>Paddle, our payment provider and Merchant of Record. Zroppix never sees your card number.</p></details>
     </div>
   </section>
   <aside class="panel" id="panel">
     <div id="buy">
-      <div class="sum"><b>Zroppix Pro</b><span class="pr">$14<small>/month</small></span></div>
+      <div class="sum"><b id="pname">Zroppix Pro</b><span class="pr" id="pr">$14<small>/month</small></span></div>
       <div class="terms" id="terms">Cancel anytime. Any free trial is shown below before you pay.</div>
-      <ul class="mini"><li>✓ Every store, price and link we found</li><li>✓ Shipping and total on each offer</li><li>✓ Unlimited checks and daily watches</li></ul>
+      <ul class="mini" id="mini"><li>✓ Every store, price and link we found</li><li>✓ Shipping and total on each offer</li><li>✓ Unlimited checks and daily watches</li></ul>
       <div class="pcheck" id="pcheck"><div class="sk" id="sk"><i style="width:44%;height:52px"></i><i style="width:46%;height:52px;margin-left:4%"></i><i style="height:46px"></i><i style="height:46px"></i><i style="height:92px"></i></div></div>
       <div class="safe"><span>🔒 Secure checkout by Paddle</span><span>Cards, PayPal, Apple Pay</span></div>
     </div>
@@ -87,12 +87,40 @@ h1{font-size:40px;line-height:1.1;margin:10px 0 12px;letter-spacing:-.5px}h1 em{
 </div>
 <script>
 (function () {
-  var TOKEN = 'live_f1eda9271a93d8a241d6446b64c', PRICE = 'pri_01krkmfh45bs9q5zhasvcdfpnb';
+  var TOKEN = 'live_f1eda9271a93d8a241d6446b64c';
   var P = new URLSearchParams(location.search), q = (P.get('q') || '').slice(0, 120), v = (P.get('v') || '').slice(0, 60);
+  var em0 = (P.get('e') || '').slice(0, 254); if (!/^[^\s@<>"]+@[^\s@<>"]+\.[^\s@<>"]+$/.test(em0)) em0 = '';
   var $ = function (i) { return document.getElementById(i); };
+  var SUB = { pro: 'pri_01krkmfh45bs9q5zhasvcdfpnb', family: 'pri_01krkmjj5xxns1egknqgkgt3hb', elite: 'pri_01krkmkf66j5wychvkn0tmy6ky', lifetime: 'pri_01ktbv4qnn6jhsmxc9sc9v0ts1' };
+  var plan = (P.get('plan') || 'pro').toLowerCase(); if (!SUB[plan]) plan = 'pro';
+  var PRICE = SUB[plan], ONCE = plan === 'lifetime';
+  var PLANS = {
+    family: { n: 'Zroppix Family', pr: '$24', per: '/month', eb: 'ZROPPIX FAMILY', h1: 'Everything in Pro, <em>for your whole family.</em>', lead: 'Up to 5 people share price alerts and one savings dashboard, so nobody in the house overpays.', list: [['Up to 5 family members', 'Each person gets their own access.'], ['Shared price alerts', 'One alert helps everyone in the family.'], ['Family savings dashboard', 'See what the whole family has saved.'], ['Unlimited tracking and AI drop predictions', 'Plus the Find tool with every store, price and link unlocked.']] },
+    elite: { n: 'Zroppix Elite', pr: '$49', per: '/month', eb: 'ZROPPIX ELITE', h1: 'The full toolkit, <em>first to every deal.</em>', lead: 'Everything in Pro, plus the AI Shopping Assistant, price crash alerts and VIP deal alerts before everyone else.', list: [['AI Shopping Assistant', 'Ask what to buy and when.'], ['Price crash and VIP deal alerts', 'You hear about deals first.'], ['Reseller calculator and API access', 'For people who buy to resell and build on our data.'], ['Priority support', 'And everything in Pro, including the Find tool unlocked.']] },
+    pro: { n: 'Zroppix Pro', pr: '$14', per: '/month', eb: 'ZROPPIX PRO', h1: 'Know when the price will drop, <em>and find it for less.</em>', lead: 'AI drop predictions and unlimited tracking on Amazon, plus every store, price and link in the Find tool.', list: [['AI drop predictions', 'Why the price will drop, when, and how confident we are.'], ['Unlimited tracking and instant email alerts', 'Never miss the drop.'], ['Find tool unlocked', 'Store, price and link for every offer, with shipping and total.'], ['Cancel in one click', 'No email, no call.']] },
+    lifetime: { n: 'Zroppix Lifetime', pr: '$149', per: ' once', eb: 'LIFETIME ACCESS', h1: 'Pay once. <em>Use Zroppix forever.</em>', lead: 'One payment, no subscription. Everything we build for Zroppix is included.', list: [['BUY or WAIT verdict on every Amazon product', 'Know if today\'s price is worth it.'], ['90-day price history and price drop alerts', 'Set a target and get notified when it is hit.'], ['Prime Day deal tracker', 'Real deals versus manufactured discounts.'], ['All future features included', 'Everything we build, at no extra charge.']] }
+  };
+  function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+  var fromFind = !!q;
+  if (!fromFind && PLANS[plan]) {
+    var C = PLANS[plan]; document.title = 'Start ' + C.n + ' | Zroppix';
+    $('eb').textContent = C.eb; $('h1').innerHTML = C.h1; $('lead').textContent = C.lead;
+    $('list').innerHTML = C.list.map(function (x) { return '<li><i>✓</i><span>' + esc(x[0]) + '<small>' + esc(x[1]) + '</small></span></li>'; }).join('');
+    $('mini').innerHTML = C.list.slice(0, 3).map(function (x) { return '<li>✓ ' + esc(x[0]) + '</li>'; }).join('');
+    $('back').href = '/'; $('back').textContent = '← Back to Zroppix';
+  }
+  if (!fromFind && plan !== 'pro' || fromFind && false) {}
+  $('pname').textContent = (PLANS[plan] || PLANS.pro).n; $('pr').innerHTML = (PLANS[plan] || PLANS.pro).pr + '<small>' + (PLANS[plan] || PLANS.pro).per + '</small>';
+  if (ONCE) {
+    $('terms').textContent = 'One payment of $149. No subscription, nothing to cancel.';
+    $('faqcharge').textContent = 'You are charged $149 once, today. There is no subscription and no renewal.';
+    $('cq').textContent = 'Is there a refund?'; $('faqcancel').innerHTML = 'See our <a href="/refund" style="text-decoration:underline">refund policy</a>. Paddle also handles order questions and returns.';
+    $('as1').innerHTML = '<b>One payment</b>No renewals, no surprise charges.';
+  }
+  if (!fromFind) { $('faqin').textContent = 'Your plan is linked to the email you pay with. Sign in to Zroppix with that same email to use it.'; $('faqcancel').innerHTML = ONCE ? $('faqcancel').innerHTML : 'One click from your Paddle receipt email or your Zroppix account. Your access runs until the end of the period you paid for.'; }
   function track(n) { try { if (window.gtag) window.gtag('event', n); } catch (_) {} }
+  track('pro_page_view_' + plan);
   if (q) { var pe = $('prod'); pe.style.display = 'block'; var b = document.createElement('b'); b.textContent = q + (v ? ' · ' + v : ''); pe.appendChild(b); pe.appendChild(document.createTextNode('Your locked offers for this product open as soon as you are in.')); $('back').href = '/find?q=' + encodeURIComponent(q); }
-  track('pro_page_view');
   function trialText(it) {
     try { var t = it && it.trial_period; if (t && t.frequency) return t.frequency + '-' + t.interval + ' free trial'; } catch (_) {}
     return '';
@@ -102,15 +130,23 @@ h1{font-size:40px;line-height:1.1;margin:10px 0 12px;letter-spacing:-.5px}h1 em{
     if (ev.name === 'checkout.loaded') {
       track('pro_checkout_loaded'); var sk = $('sk'); if (sk) sk.remove();
       var tr = ev.data && ev.data.items && trialText(ev.data.items[0]);
-      if (tr) { $('terms').textContent = tr.charAt(0).toUpperCase() + tr.slice(1) + ', then $14/month. Cancel anytime, before the trial ends and you pay nothing.'; $('faqcharge').textContent = 'Your ' + tr + ' starts today. You are charged $14 when it ends, then every month, unless you cancel first.'; }
-      else { $('terms').textContent = '$14 per month. Cancel anytime with one click.'; $('faqcharge').textContent = 'You are charged $14 today, then every month, unless you cancel first.'; }
+      if (tr && !ONCE) { var pm = PLANS[plan].pr; $('terms').textContent = tr.charAt(0).toUpperCase() + tr.slice(1) + ', then ' + pm + '/month. Cancel anytime, before the trial ends and you pay nothing.'; $('faqcharge').textContent = 'Your ' + tr + ' starts today. You are charged ' + pm + ' when it ends, then every month, unless you cancel first.'; }
+      else if (!ONCE) { var pm2 = PLANS[plan].pr; $('terms').textContent = pm2 + ' per month. Cancel anytime with one click.'; $('faqcharge').textContent = 'You are charged ' + pm2 + ' today, then every month, unless you cancel first.'; }
     }
     if (ev.name === 'checkout.completed') paid(ev.data);
   }
   function paid(d) {
-    track('find_pro_paid');
+    track(fromFind ? 'find_pro_paid' : 'paid_' + plan);
     var em = ''; try { em = (d && d.customer && d.customer.email) || ''; } catch (_) {}
     $('buy').style.display = 'none'; $('done').style.display = 'block'; window.scrollTo(0, 0);
+    if (!fromFind) {
+      document.querySelector('#done h2').textContent = "You're in. Welcome to " + PLANS[plan].n.replace('Zroppix ', '');
+      $('doneP').textContent = em ? 'Your plan is linked to ' + em + '. Sign in to Zroppix with that same email to use it.' : 'Sign in to Zroppix with the email you paid with to use your plan.';
+      document.querySelector('#done .steps').style.display = 'none';
+      $('goBtn').href = '/account'; $('goBtn').textContent = 'Go to my account';
+      $('doneFine').textContent = 'Your receipt is on its way from Paddle. Questions? Paddle also handles order help and returns.';
+      return;
+    }
     $('goBtn').href = q ? '/find?q=' + encodeURIComponent(q) : '/find';
     if (!em) { $('s2').textContent = 'Sign in with the email you paid with'; $('d2').className = 'dot'; return; }
     $('doneP').textContent = 'We are sending a sign-in link to ' + em + '.';
@@ -128,7 +164,7 @@ h1{font-size:40px;line-height:1.1;margin:10px 0 12px;letter-spacing:-.5px}h1 em{
   function open() {
     try {
       Paddle.Initialize({ token: TOKEN, eventCallback: onEvent });
-      Paddle.Checkout.open({ items: [{ priceId: PRICE, quantity: 1 }], settings: { displayMode: 'inline', frameTarget: 'pcheck', frameInitialHeight: 560, frameStyle: 'width:100%;min-width:290px;background-color:transparent;border:none;', theme: 'dark', variant: 'one-page', locale: 'en' } });
+      Paddle.Checkout.open({ items: [{ priceId: PRICE, quantity: 1 }], customer: em0 ? { email: em0 } : undefined, customData: em0 ? { email: em0 } : undefined, settings: { displayMode: 'inline', frameTarget: 'pcheck', frameInitialHeight: 560, frameStyle: 'width:100%;min-width:290px;background-color:transparent;border:none;', theme: 'dark', variant: 'one-page', locale: 'en' } });
     } catch (e) { $('pcheck').textContent = 'The secure checkout could not load. Please disable blockers and refresh, or use the plans page.'; var a = document.createElement('a'); a.href = '/lifetime'; a.className = 'btn'; a.textContent = 'See plans'; $('pcheck').appendChild(a); }
   }
   var started = false;

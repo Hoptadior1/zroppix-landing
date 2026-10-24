@@ -592,7 +592,6 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
   </div>
 </div>
 
-<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
 <script>
 const API = 'https://zroppix-backend.vercel.app'
 let currentUser = null
@@ -600,12 +599,10 @@ let apiKeyVisible = false
 let apiKeyValue = null
 
 // ── PADDLE CHECKOUT ──
-Paddle.Initialize({ token: 'live_f1eda9271a93d8a241d6446b64c' })
 function openCheckout(priceId) {
-  Paddle.Checkout.open({
-    items: [{ priceId: priceId, quantity: 1 }],
-    customData: { email: currentUser?.email || '' }
-  })
+  var P = {'pri_01krkmfh45bs9q5zhasvcdfpnb':'pro','pri_01krkmjj5xxns1egknqgkgt3hb':'family','pri_01krkmkf66j5wychvkn0tmy6ky':'elite','pri_01ktbv4qnn6jhsmxc9sc9v0ts1':'lifetime'}[priceId] || 'pro';
+  var e = ''; try { e = (typeof currentUser !== 'undefined' && currentUser && currentUser.email) || ''; } catch (_) {}
+  location.href = '/pro?plan=' + P + (e ? '&e=' + encodeURIComponent(e) : '');
 }
 
 // ── STATE MANAGEMENT ──
