@@ -1,7 +1,8 @@
 'use strict';
 // POST /api/pro
 //   {action:'status'}                 -> who is signed in on this browser (cookie), and whether they have Pro
-//   {action:'login', email, hp}       -> emails a one-time sign-in link, but only if the email has an active plan.
+//   {action:'login', email, hp, q, v} -> emails a one-time sign-in link, but only if the email has an active plan.
+//                                        q/v (optional) = the product being looked at; the link then searches it again after sign-in.
 //                                        The answer is the same either way, so this cannot be used to find customers.
 //   {action:'claim', token}           -> the sign-in link was opened: one use, 15 minutes, starts a session (HttpOnly cookie)
 //   {action:'logout'}                 -> ends this browser's session
@@ -44,14 +45,19 @@ module.exports = async (req, res) => {
       if (!P.EMAIL_RE.test(email)) return send(res, 400, { error: 'bad_email' });
       const eh = sha(email);
       if (!(await within('prologine', eh, c.proLoginPerEmailHour, 'hour'))) return send(res, 429, { error: 'slow_down' });
-      const plan = await P.lookupPlan(email);
+      const plan = await P.lookupPlan(email, !!body.afterPay);
       if (!plan.ok) return send(res, 503, { error: 'unavailable' });
       if (plan.pro) {
+        // Retries right after payment (the plan can take a few seconds to appear) must not send the same email twice.
+        if (body.afterPay && await store.getJson('plsent:' + eh)) return send(res, 200, { ok: true });
+        const q = clean(body.q, 120).replace(/[<>"`]/g, ''), v = clean(body.v, 60).replace(/[<>"`]/g, '');
         const token = P.newToken(24);
         await store.setJson('ptok:' + token, { eh, email, ts: Date.now() }, 900);
-        const m = proLoginEmail(c.siteUrl + '/find#pro=' + token);
+        const qs = q.length > 1 ? '?q=' + encodeURIComponent(q) + (v ? '&v=' + encodeURIComponent(v) : '') + '&go=1' : '';
+        const m = proLoginEmail(c.siteUrl + '/find' + qs + '#pro=' + token, q.length > 1 ? q + (v ? ' ' + v : '') : '');
         const r = await sendEmail({ to: email, subject: m.subject, html: m.html, text: m.text });
         if (!r.ok) return send(res, 503, { error: 'email_unavailable' });
+        if (body.afterPay) await store.setJson('plsent:' + eh, { ts: Date.now() }, 60);
         bump('pro_login_sent');
       } else bump('pro_login_nopro');
       return send(res, 200, { ok: true });

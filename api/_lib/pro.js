@@ -19,12 +19,12 @@ const normEmail = (e) => clean(e, 254).toLowerCase();
 const mask = (e) => { const [u, d] = String(e).split('@'); return (u ? u[0] : '') + '***@' + (d || ''); };
 
 // Ask the backend what plan an email has. Returns {ok, pro, plan}. ok=false means "could not find out".
-async function lookupPlan(email) {
+async function lookupPlan(email, fresh) {
   const c = cfg();
   const eh = sha(email);
   const ck = 'pplan:' + eh;
   const cached = await store.getJson(ck);
-  if (cached) return cached;
+  if (cached && !(fresh && !cached.pro)) return cached; // fresh: a cached "not Pro" must not hide a purchase made seconds ago
   let data;
   try {
     const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), 4500);

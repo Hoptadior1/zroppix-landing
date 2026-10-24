@@ -35,11 +35,11 @@ function waitlistEmail() {
   };
 }
 
-function proLoginEmail(link) {
+function proLoginEmail(link, product) {
   return {
     subject: 'Your Zroppix Pro sign-in link',
-    text: 'Use this link to sign in to Zroppix Pro on this device:\n' + link + '\n\nIt works once and expires in 15 minutes. If you did not ask for it, ignore this email and nothing happens. Never forward this link: anyone who opens it gets into your Pro access.\n\nZroppix is independent and not affiliated with Amazon or any store.',
-    html: '<div style="font-family:system-ui,sans-serif;max-width:480px;margin:auto;color:#222"><h2 style="margin:0 0 12px">Sign in to Zroppix Pro</h2><p>Use the button to sign in on this device. The link works <b>once</b> and expires in 15 minutes.</p><p style="margin:20px 0"><a href="' + esc(link) + '" style="background:#C9A84C;color:#0D0D14;text-decoration:none;font-weight:700;padding:12px 20px;border-radius:8px;display:inline-block">Sign in to Pro</a></p><p style="font-size:13px;color:#555">If you did not ask for this, ignore this email and nothing happens. Never forward this link: anyone who opens it gets into your Pro access.</p><p style="font-size:12px;color:#777">Zroppix is independent and not affiliated with Amazon or any store.</p></div>',
+    text: 'Use this link to sign in to Zroppix Pro on this device:\n' + link + (product ? '\n\nWe will search again for ' + product + ' once you are in, so you see everything that was locked.' : '') + '\n\nIt works once and expires in 15 minutes. If you did not ask for it, ignore this email and nothing happens. Never forward this link: anyone who opens it gets into your Pro access.\n\nZroppix is independent and not affiliated with Amazon or any store.',
+    html: '<div style="font-family:system-ui,sans-serif;max-width:480px;margin:auto;color:#222"><h2 style="margin:0 0 12px">Sign in to Zroppix Pro</h2><p>Use the button to sign in on this device. The link works <b>once</b> and expires in 15 minutes.</p>' + (product ? '<p>Once you are in we will search again for <b>' + esc(product) + '</b>, so you see everything that was locked.</p>' : '') + '<p style="margin:20px 0"><a href="' + esc(link) + '" style="background:#C9A84C;color:#0D0D14;text-decoration:none;font-weight:700;padding:12px 20px;border-radius:8px;display:inline-block">Sign in to Pro</a></p><p style="font-size:13px;color:#555">If you did not ask for this, ignore this email and nothing happens. Never forward this link: anyone who opens it gets into your Pro access.</p><p style="font-size:12px;color:#777">Zroppix is independent and not affiliated with Amazon or any store.</p></div>',
   };
 }
 

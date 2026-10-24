@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><script>(function(){try{var u=new URL(location.href),c=u.searchParams.get("confirm"),m=location.hash.match(/^#pro=([A-Za-z0-9_-]{20,64})$/);if(c)sessionStorage.setItem("zx_t_confirm",c);if(m)sessionStorage.setItem("zx_t_pro",m[1]);if(c||m)history.replaceState(null,"","/find")}catch(e){}})();</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-S3Z0V2CZNF"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-S3Z0V2CZNF");</script>
+<head><script>(function(){try{var u=new URL(location.href),c=u.searchParams.get("confirm"),m=location.hash.match(/^#pro=([A-Za-z0-9_-]{20,64})$/);if(c)sessionStorage.setItem("zx_t_confirm",c);if(m)sessionStorage.setItem("zx_t_pro",m[1]);if(c||m)history.replaceState(null,"","/find"+(m&&/[?&]go=1/.test(u.search)?u.search:""))}catch(e){}})();</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-S3Z0V2CZNF"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-S3Z0V2CZNF");</script>
 <meta charset="UTF-8"><link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Find Cheaper Options for Any Product | Zroppix</title>
@@ -117,6 +117,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
 .protag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.7px;color:#0D0D14;background:var(--gold);border-radius:6px;padding:2px 8px;margin-left:8px;vertical-align:middle}
 @media(max-width:600px){.prow{flex-direction:column;gap:4px}.val{text-align:left}}
 .verdict{font-size:13.5px;color:var(--green);margin:6px 0 2px;font-weight:700}
+.cnote{margin-top:9px;font-size:13px;color:var(--muted);line-height:1.5}
 .linkbtn{background:none;border:0;color:var(--gold);font:inherit;font-size:13px;font-weight:700;cursor:pointer;padding:0;text-decoration:underline}
 .linkbtn:hover{color:#D4B864}
 .lead .sh{display:none}
@@ -174,7 +175,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
   var stage = $('stage'), qEl = $('q'), goBtn = $('goBtn');
   var CWS = 'https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf';
   var COUNTRIES = 'US GB CA AU DE FR ES IT NL IE IN KE NG ZA GH TZ UG EG AE SA SG MY PH PK BD LK ID TH VN JP KR HK TW CN BR MX AR CL CO PE NZ SE NO DK FI PL PT AT BE CH CZ GR HU RO TR UA IL'.split(' ');
-  var state = { visitor: null, country: 'US', left: null, total: null, history: [], busy: false, pro: null };
+  var state = { visitor: null, country: 'US', left: null, total: null, history: [], busy: false, pro: null, cur: null, auto: false };
 
   // ---------- helpers (everything from the server is rendered as text, never as HTML) ----------
   function h(tag, props) {
@@ -290,6 +291,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
       if (r.status !== 200) return transient(msgCard('Something went wrong', 'We could not reach the search. Check your connection and try again.'));
       var c = r.json.candidates || [];
       if (r.json.notProduct || !c.length) return transient(h('div', { class: 'card' }, h('h2', {}, 'That doesn\'t look like a product'), h('p', {}, 'Try a product name, like "Sony WH-1000XM5", or paste a product link.'), againBox('Try another search')));
+      if (state.auto && state.pro && !r.json.vague) { state.auto = false; return runCheck(c[0]); }
+      state.auto = false;
       renderCandidates(q, c, !!r.json.degraded, !!r.json.vague);
     });
   }
@@ -315,6 +318,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
     var lis = STEPS.map(function (s, i) { return h('li', { class: i === 0 ? 'on' : '' }, i === 0 ? h('span', { class: 'spin' }) : h('span', { style: 'width:14px' }), s); });
     transient(h('div', { class: 'card' }, h('h2', {}, pass2 ? 'Looking a second way…' : 'Checking ' + cand.name + '…'), h('div', { class: 'sub' }, pass2 ? 'Nothing fresh on the first search, so we are trying different search words. This did not use a check.' : 'This can take up to a minute.'), h('ul', { class: 'steps' }, lis)));
     var n = 0; var tm = setInterval(function () { if (n < lis.length - 1) { lis[n].className = 'done'; lis[n].firstChild.replaceWith(document.createTextNode('✓')); n++; lis[n].className = 'on'; lis[n].firstChild.replaceWith(h('span', { class: 'spin' })); } }, 9000);
+    state.cur = { name: cand.name, variant: cand.variant || '' };
     api('check', { candidate: { name: cand.name, variant: cand.variant }, pass: pass2 ? 2 : 1 }).then(function (r) {
       clearInterval(tm); state.busy = false; goBtn.disabled = false;
       if (r.json && r.json.remaining) setRemaining(r.json.remaining);
@@ -420,6 +424,55 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
     });
     return box;
   }
+
+  // ---------- Pro checkout (monthly plan, Paddle overlay) ----------
+  var PADDLE_TOKEN = 'live_f1eda9271a93d8a241d6446b64c', PRO_PRICE = 'pri_01krkmfh45bs9q5zhasvcdfpnb';
+  var paddleReady = null;
+  function loadPaddle() {
+    if (paddleReady) return paddleReady;
+    paddleReady = new Promise(function (ok, no) {
+      if (window.Paddle) return ok(window.Paddle);
+      var sc = document.createElement('script'); sc.src = 'https://cdn.paddle.com/paddle/v2/paddle.js'; sc.async = true;
+      sc.onload = function () { try { window.Paddle.Initialize({ token: PADDLE_TOKEN, eventCallback: function (ev) { if (ev && ev.name === 'checkout.completed') paidDone(ev.data); } }); ok(window.Paddle); } catch (e) { no(e); } };
+      sc.onerror = function () { paddleReady = null; no(new Error('load')); };
+      document.head.appendChild(sc);
+    });
+    return paddleReady;
+  }
+  function openPro(where) {
+    track('find_pro_click_' + where);
+    loadPaddle().then(function (P) { track('find_pro_checkout_open'); P.Checkout.open({ items: [{ priceId: PRO_PRICE, quantity: 1 }], settings: { displayMode: 'overlay', theme: 'dark' } }); })
+      .catch(function () { location.href = '/lifetime'; }); // checkout script blocked: fall back to the plans page
+  }
+  function proCta(label, where, note) {
+    var btn = h('button', { class: 'btn main', type: 'button', onclick: function () { openPro(where); } }, label);
+    loadPaddle().catch(function () {}); // warm up so the overlay opens instantly
+    return h('div', { class: 'price2' }, btn,
+      h('div', { class: 'cnote' }, note || 'Pro is $14/month. Cancel anytime with one click. ', h('a', { href: '/lifetime', style: 'color:var(--subtle);text-decoration:underline', onclick: function () { track('find_pro_lifetime_link'); } }, 'Prefer to pay once?')));
+  }
+  function paidDone(d) {
+    track('find_pro_paid');
+    var em = ''; try { em = (d && d.customer && d.customer.email) || ''; } catch (_) {}
+    var q = state.cur ? state.cur.name : '', v = state.cur && state.cur.variant ? state.cur.variant : '';
+    var status = h('div', { class: 'micro', 'aria-live': 'polite', style: 'margin-top:10px' }, 'Setting up your Pro access…');
+    var card = h('div', { class: 'card' }, h('h2', {}, '✅ You\'re in. Welcome to Pro'),
+      h('p', {}, em ? ['We\'re emailing a sign-in link to ', h('b', {}, em), '. Open it on this device and we\'ll search ' + (q ? q : 'your product') + ' again with everything unlocked.'] : 'We\'re emailing you a sign-in link. Open it on this device to unlock everything.'), status,
+      h('div', { class: 'micro' }, 'Nothing after a minute? Check spam, or ', h('button', { type: 'button', class: 'linkbtn', onclick: renderSignin }, 'sign in with the email you paid with'), '.'));
+    transient(card);
+    if (!em) { status.textContent = 'Use the button below with the email you paid with.'; return; }
+    var tries = 0, delays = [1500, 7000, 35000], sent = false;
+    function attempt() {
+      if (sent) return;
+      api('pro', { action: 'login', email: em, hp: '', q: q, v: v, afterPay: true }).then(function (r) {
+        // the answer is the same whether or not the plan is active yet, so we only retry on a schedule
+        tries++;
+        if (r.status === 200 && tries === 1) status.textContent = 'Payment received. Finishing setup…';
+        if (tries < delays.length) setTimeout(attempt, delays[tries] - delays[tries - 1]);
+        else status.textContent = 'If the email hasn\'t arrived, give it a minute and check spam. Your payment is safe either way.';
+      });
+    }
+    setTimeout(attempt, delays[0]);
+  }
   function proBox(r) {
     var ORD = { coupon: 0, cashback: 1, refurb: 2, price: 3 };
     var tz = (r.teasers || []).slice().sort(function (a, b) { return ORD[a.kind] - ORD[b.kind]; });
@@ -453,7 +506,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
     box.appendChild(row('Shipping and total price', 'cost, delivery time, ships to your country', 'on every offer'));
     box.appendChild(row('Watch up to 20 products', 'we search again every day and email you when something better turns up', 'included'));
     if (tz.some(function (t) { return t.kind === 'coupon' || t.kind === 'cashback'; })) box.appendChild(h('p', { style: 'margin-top:12px;font-size:13.5px' }, 'Codes, stores and links unlock with Pro. ', h('span', { class: 'blurs', 'aria-hidden': 'true' }, 'CODE123 · store name')));
-    box.appendChild(h('div', { class: 'price2' }, h('a', { class: 'btn main', href: '/lifetime', onclick: function () { track('find_unlock_pro'); } }, ex ? 'Show me the savings' : ch ? 'Show me the cheaper offer' : cl ? 'Show me which is cheapest' : n ? 'See the total price of each offer' : 'Unlock Pro')));
+    box.appendChild(proCta(ex ? 'Get the codes and save' : ch ? 'Reveal the cheaper store' : cl ? 'Find my lowest total' : n ? 'See every offer with shipping' : 'Unlock Pro', 'box'));
     box.appendChild(h('div', { class: 'micro' }, (ex ? 'Offers may not combine, so this is the most you could take off. ' : '') + 'Offers change without notice. The details stay on our server until you have Pro. Already Pro? ', h('button', { type: 'button', class: 'linkbtn', onclick: renderSignin }, 'Sign in')));
     return box;
   }
@@ -609,7 +662,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
         pb.appendChild(h('p', { style: 'font-size:14px;color:var(--subtle);margin-bottom:8px' }, r.lockedSave ? ['If one is still available, you could save up to about ', h('b', { style: 'color:var(--gold)' }, money(r.lockedSave.usd, r.lockedSave.currency) + ' off the regular price'), '. Pro shows the store and link for each, with its age, so you can check fast.'] : 'Pro shows the store, price and link for each, with its age, so you can check fast.'));
         if (r.undatedCount) pb.appendChild(row(r.undatedCount + (r.undatedCount === 1 ? ' store listing' : ' store listings'), 'Prices and stores shown in Pro, clearly marked as undated', 'prices in Pro'));
         if (r.olderCount) pb.appendChild(row(r.olderCount + ' more older ' + (r.olderCount === 1 ? 'report' : 'reports'), 'The store and price we found, so you know where to look first' + (r.olderOldestDays ? ' \u00b7 oldest is ' + (r.olderOldestDays >= 60 ? Math.round(r.olderOldestDays / 30) + ' months' : r.olderOldestDays + ' days') + ' old' : ''), 'prices in Pro'));
-        pb.appendChild(h('div', { class: 'price2' }, h('a', { class: 'btn main', href: '/lifetime', onclick: function () { track('find_unlock_pro'); } }, 'See what Pro found')));
+        pb.appendChild(proCta(r.lockedSave ? 'Show me where to save' : 'Show me what Pro found', 'fallback'));
         card.appendChild(pb);
       }
     }
@@ -659,7 +712,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
     var f = h('form', { class: 'form', onsubmit: function (e) { e.preventDefault(); out.textContent = ''; api('signup', { action: 'bonus', email: email.value, hp: hp.value }).then(function (r) { if (r.status === 200) { track('find_bonus_requested'); out.appendChild(h('div', { class: 'ok' }, r.json.queued ? 'Almost there: the email will arrive in a few minutes. Check your inbox and spam.' : 'Sent. Open the link in the email to add the checks to this browser. Check spam if you don\'t see it.')); f.style.display = 'none'; } else out.appendChild(h('div', { class: 'err' }, r.status === 429 ? 'Too many tries. Please try again later.' : 'That didn\'t work. Check the address and try again.')); }); } },
       email, hp, h('button', { class: 'btn main', type: 'submit' }, 'Send me the link'));
     transient(h('div', { class: 'card' }, h('h2', {}, 'You\'ve used your free check'), h('p', {}, 'Confirm your email and we\'ll add 2 more free checks to this browser. Matching and searching again stay free.'), f, out, h('div', { class: 'micro' }, 'We use your address only to send this confirmation link.'),
-      h('div', { style: 'margin-top:14px' }, h('b', { style: 'font-size:14px' }, 'Or get Pro for unlimited checks'), h('div', { style: 'display:flex;gap:10px;margin-top:8px;flex-wrap:wrap' }, h('a', { class: 'btn main', href: '/lifetime' }, 'See Pro'), h('button', { class: 'btn alt', type: 'button', onclick: renderSignin }, 'Already Pro? Sign in')))));
+      h('div', { style: 'margin-top:14px' }, h('b', { style: 'font-size:14px' }, 'Or get Pro for unlimited checks'), h('div', { style: 'display:flex;gap:10px;margin-top:8px;flex-wrap:wrap' }, h('button', { class: 'btn main', type: 'button', onclick: function () { openPro('gate'); } }, 'Get Pro · $14/month'), h('button', { class: 'btn alt', type: 'button', onclick: renderSignin }, 'Already Pro? Sign in')))));
   }
 
   // ---------- events ----------
@@ -690,10 +743,13 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
         : 'That sign-in link has expired or was already used. Request a new one below.';
       if (!ok) renderSignin();
       stage.insertBefore(h('div', { class: 'banner' }, msg), stage.firstChild);
+      if (ok && params.get('go') === '1' && q0) { state.auto = true; track('find_pro_autorun'); }
+      if (ok || params.get('go') === '1') startQ0();
     });
   } else loadStatus();
   var q0 = params.get('q');
-  if (q0 && q0.trim().length > 1) { noindex(); qEl.value = q0.slice(0, 200); start(q0); }
+  function startQ0() { if (q0 && q0.trim().length > 1) { noindex(); if (params.get('go') === '1') history.replaceState(null, '', '/find'); qEl.value = q0.slice(0, 200); start(q0); } }
+  if (!ptok) startQ0();
 })();
 </script>
 <script>(function(){var n=document.querySelector("nav:not([aria-label])"),b=document.getElementById("navtg");if(!n||!b)return;b.addEventListener("click",function(){var o=n.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false");b.textContent=o?"\u2715":"\u2630";});})();</script></body>
