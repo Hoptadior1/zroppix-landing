@@ -32,6 +32,7 @@ h1{font-size:40px;line-height:1.1;margin:10px 0 12px;letter-spacing:-.5px}h1 em{
 .sum b{font-size:18px}.sum .pr{font-size:26px;font-weight:900}.sum .pr small{font-size:14px;font-weight:600;color:var(--subtle)}
 .terms{font-size:13.5px;color:var(--subtle);margin-bottom:14px}
 .pcheck{min-height:560px;border-radius:12px;overflow:hidden}
+.grp{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin:6px 0 2px}.also{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.25);border-radius:12px;padding:12px 14px;margin:0 0 20px;font-size:14px;color:var(--subtle)}.also b{color:#fff}
 .mini{list-style:none;margin:0 0 14px;display:grid;gap:5px;font-size:14px;color:#fff}.mini li{color:var(--subtle)}
 .sk{display:flex;flex-wrap:wrap;gap:12px}.sk i{display:block;width:100%;border-radius:8px;background:linear-gradient(90deg,#1a1a26 25%,#242436 50%,#1a1a26 75%);background-size:200% 100%;animation:sh 1.2s linear infinite}@keyframes sh{to{background-position:-200% 0}}
 .ld{display:flex;align-items:center;gap:10px;color:var(--subtle);font-size:14px;padding:30px 4px}
@@ -55,12 +56,14 @@ h1{font-size:40px;line-height:1.1;margin:10px 0 12px;letter-spacing:-.5px}h1 em{
     <h1 id="h1">See every offer we found, <em>with the store and the link.</em></h1>
     <p class="lead" id="lead">Free checks show the best dated offer. Pro opens everything we held back and tells you what each one really costs delivered.</p>
     <div class="prod" id="prod"></div>
+    <div class="grp" id="grp">Unlocked for your search</div>
     <ul class="list" id="list">
       <li><i>✓</i><span>Store, price and link for every offer<small>Each one shows how old the report is, so you can check fast.</small></span></li>
       <li><i>✓</i><span>Shipping and total price<small>The cheapest listing isn't always the cheapest delivered.</small></span></li>
       <li><i>✓</i><span>Codes and cashback, unlocked<small>With the expiry dates and sources we found them on.</small></span></li>
       <li><i>✓</i><span>Unlimited checks, 20 products watched daily<small>We search again every day and email you only when something real turns up.</small></span></li>
     </ul>
+    <div class="also" id="also"><b>Also included in Pro:</b> AI drop predictions on top of the free BUY or WAIT verdict: when the price is likely to drop, why, and how confident we are. Plus unlimited tracking and instant email alerts in the Chrome extension.</div>
     <div class="assure hide-m"><div id="as1"><b>Cancel in one click</b>No email, no call, no questions.</div><div><b>Honest by design</b>Dated sources only. No made-up discounts or countdowns.</div></div>
     <div class="faq">
       <details><summary>When am I charged?</summary><p id="faqcharge">The price and any free trial are shown in the payment form before you pay.</p></details>
@@ -73,7 +76,7 @@ h1{font-size:40px;line-height:1.1;margin:10px 0 12px;letter-spacing:-.5px}h1 em{
     <div id="buy">
       <div class="sum"><b id="pname">Zroppix Pro</b><span class="pr" id="pr">$14<small>/month</small></span></div>
       <div class="terms" id="terms">Cancel anytime. Any free trial is shown below before you pay.</div>
-      <ul class="mini" id="mini"><li>✓ Every store, price and link we found</li><li>✓ Shipping and total on each offer</li><li>✓ Unlimited checks and daily watches</li></ul>
+      <ul class="mini" id="mini"><li>✓ Every store, price and link we found</li><li>✓ Shipping and total on each offer</li><li>✓ Plus AI drop predictions in the extension</li></ul>
       <div class="pcheck" id="pcheck"><div class="sk" id="sk"><i style="width:44%;height:52px"></i><i style="width:46%;height:52px;margin-left:4%"></i><i style="height:46px"></i><i style="height:46px"></i><i style="height:92px"></i></div></div>
       <div class="safe"><span>🔒 Secure checkout by Paddle</span><span>Cards, PayPal, Apple Pay</span></div>
     </div>
@@ -102,6 +105,7 @@ h1{font-size:40px;line-height:1.1;margin:10px 0 12px;letter-spacing:-.5px}h1 em{
   };
   function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
   var fromFind = !!q;
+  if (!fromFind) { $('grp').style.display = 'none'; $('also').style.display = 'none'; }
   if (!fromFind && PLANS[plan]) {
     var C = PLANS[plan]; document.title = 'Start ' + C.n + ' | Zroppix';
     $('eb').textContent = C.eb; $('h1').innerHTML = C.h1; $('lead').textContent = C.lead;
