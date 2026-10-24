@@ -136,7 +136,7 @@ function evaluate(rawFindings, ctx) {
       if ((f.kind === 'price' || f.kind === 'refurb') && f.price > 0 && f.price <= 100000) {
         const j0 = judge[f.id];
         const key = (f.store + '|' + f.price + '|' + f.kind).toLowerCase();
-        if (!(j0 && (j0.same_product === false || j0.verdict === 'reject')) && !undated.some((u) => u.key === key) && undated.length < 4) undated.push({ key, id: f.id, kind: f.kind, store: f.store, price: f.price, currency: f.currency, condition: f.condition, sourceUrl: f.sourceUrl, sourceTitle: f.sourceTitle });
+        if (!(j0 && (j0.same_product === false || j0.verdict === 'reject')) && !undated.some((u) => u.key === key) && undated.length < 4) undated.push({ key, id: f.id, kind: f.kind, store: f.store, price: f.price, listPrice: (f.listPrice > f.price && f.price >= 0.2 * f.listPrice && f.listPrice < 100000) ? f.listPrice : null, currency: f.currency, condition: f.condition, sourceUrl: f.sourceUrl, sourceTitle: f.sourceTitle });
       }
       return rej('no date on the page');
     }
@@ -380,19 +380,30 @@ function matchDeal(name, index) {
   return bs >= 0.75 ? { slug: best.slug, title: best.title } : null;
 }
 
+function lockedSaving(items) {
+  let best = null;
+  (items || []).forEach((x) => { const d = x.listPrice > x.price ? x.listPrice - x.price : 0; if (d > 0 && (!best || d > best.d)) best = { d, currency: x.currency }; });
+  if (!best) return undefined;
+  const rough = best.d >= 20 ? Math.floor(best.d / 5) * 5 : Math.floor(best.d);
+  return rough >= 5 ? { usd: rough, currency: best.currency } : undefined;
+}
+
 function buildFallback({ productName, country, stale, deal, newer, hadSearchError, unreadable, tier, undated }) {
   const sorted = (stale || []).slice().sort((a, b) => a.ageDays - b.ageDays);
   const lastSeen = sorted[0] || null;
-  const view = (x) => ({ store: x.store, price: x.price, currency: x.currency, dateHuman: x.dateHuman, ageDays: x.ageDays, sourceUrl: x.sourceUrl, sourceTitle: x.sourceTitle });
+  const saveOf = (x) => (x.listPrice > x.price ? r2(x.listPrice - x.price) : 0);
+  const view = (x) => ({ store: x.store, price: x.price, currency: x.currency, dateHuman: x.dateHuman, ageDays: x.ageDays, sourceUrl: x.sourceUrl, sourceTitle: x.sourceTitle, saveUsd: tier === 'pro' ? (saveOf(x) || undefined) : undefined });
   const more = sorted.slice(1, 4);
   return {
     reason: hadSearchError ? 'search_unavailable' : unreadable ? 'unreadable' : 'no_current_offer',
     lastSeen: lastSeen ? view(lastSeen) : null,
     // Free users see only that more old reports exist; Pro sees them.
     olderCount: more.length,
+    // One rough figure from the LOCKED items only (older reports and undated listings), never from the free last report.
+    lockedSave: tier !== 'pro' ? lockedSaving(more.concat(undated || [])) : undefined,
     olderOldestDays: more.length ? more[more.length - 1].ageDays : undefined,
     older: tier === 'pro' ? more.map(view) : undefined,
-    undated: tier === 'pro' && (undated || []).length ? undated.map((u) => ({ store: u.store, kind: u.kind, price: u.price, currency: u.currency, condition: u.condition, sourceUrl: u.sourceUrl, sourceTitle: u.sourceTitle })) : undefined,
+    undated: tier === 'pro' && (undated || []).length ? undated.map((u) => ({ store: u.store, kind: u.kind, price: u.price, currency: u.currency, saveUsd: u.listPrice > u.price ? r2(u.listPrice - u.price) : undefined, condition: u.condition, sourceUrl: u.sourceUrl, sourceTitle: u.sourceTitle })) : undefined,
     undatedCount: tier !== 'pro' && (undated || []).length ? undated.length : undefined,
     links: storeLinks(productName, country),
     history: deal ? { url: '/deals/' + deal.slug, title: deal.title } : null,
