@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="UTF-8"><link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<html lang="en"><head><meta charset="UTF-8"><script async src="https://www.googletagmanager.com/gtag/js?id=G-S3Z0V2CZNF"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-S3Z0V2CZNF");</script><link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://cdn.paddle.com" crossorigin><link rel="preconnect" href="https://buy.paddle.com" crossorigin><link rel="dns-prefetch" href="https://checkout-service.paddle.com">
 <script async src="https://cdn.paddle.com/paddle/v2/paddle.js" id="pjs"></script>
@@ -123,7 +123,10 @@ h1{font-size:40px;line-height:1.1;margin:10px 0 12px;letter-spacing:-.5px}h1 em{
     $('as1').innerHTML = '<b>One payment</b>No renewals, no surprise charges.';
   }
   if (!fromFind) { $('faqin').textContent = 'Your plan is linked to the email you pay with. Sign in to Zroppix with that same email to use it.'; $('faqcancel').innerHTML = ONCE ? $('faqcancel').innerHTML : 'One click from your Paddle receipt email or your Zroppix account. Your access runs until the end of the period you paid for.'; }
-  function track(n) { try { if (window.gtag) window.gtag('event', n); } catch (_) {} }
+  function track(n, x) { try { if (window.gtag) window.gtag('event', n, x || {}); } catch (_) {} }
+  function val(d) { var v = 0; try { v = Number(d.totals.total) || 0; } catch (_) {} return v; }
+  function ccy(d) { return (d && d.currency_code) || 'USD'; }
+  function gaItem() { return [{ item_id: plan, item_name: PLANS[plan].n, price: parseFloat(PLANS[plan].pr.replace('$', '')), quantity: 1 }]; }
   if (fromFind && !q) $('back').href = '/find';
   track('pro_page_view_' + plan);
   if (q) { var pe = $('prod'); pe.style.display = 'block'; var b = document.createElement('b'); b.textContent = q + (v ? ' · ' + v : ''); pe.appendChild(b); pe.appendChild(document.createTextNode('Your locked offers for this product open as soon as you are in.')); $('back').href = '/find?q=' + encodeURIComponent(q); }
@@ -134,7 +137,7 @@ h1{font-size:40px;line-height:1.1;margin:10px 0 12px;letter-spacing:-.5px}h1 em{
   function onEvent(ev) {
     if (!ev || !ev.name) return;
     if (ev.name === 'checkout.loaded') {
-      track('pro_checkout_loaded'); var sk = $('sk'); if (sk) sk.remove();
+      track('pro_checkout_loaded'); track('begin_checkout', { currency: ccy(ev.data), value: val(ev.data) || parseFloat(PLANS[plan].pr.replace('$', '')), items: gaItem(), plan: plan }); var sk = $('sk'); if (sk) sk.remove();
       var tr = ev.data && ev.data.items && trialText(ev.data.items[0]);
       if (tr && !ONCE) { var pm = PLANS[plan].pr; $('terms').textContent = tr.charAt(0).toUpperCase() + tr.slice(1) + ', then ' + pm + '/month. Cancel anytime, before the trial ends and you pay nothing.'; $('faqcharge').textContent = 'Your ' + tr + ' starts today. You are charged ' + pm + ' when it ends, then every month, unless you cancel first.'; }
       else if (!ONCE) { var pm2 = PLANS[plan].pr; $('terms').textContent = pm2 + ' per month. Cancel anytime with one click.'; $('faqcharge').textContent = 'You are charged ' + pm2 + ' today, then every month, unless you cancel first.'; }
@@ -143,6 +146,8 @@ h1{font-size:40px;line-height:1.1;margin:10px 0 12px;letter-spacing:-.5px}h1 em{
   }
   function paid(d) {
     track(fromFind ? 'find_pro_paid' : 'paid_' + plan);
+    var trial = false; try { trial = !!(d.items && d.items[0] && d.items[0].trial_period); } catch (_) {}
+    track('purchase', { transaction_id: (d && (d.transaction_id || d.id)) || undefined, currency: ccy(d), value: val(d), items: gaItem(), plan: plan, trial: trial, from_find: fromFind });
     var em = ''; try { em = (d && d.customer && d.customer.email) || ''; } catch (_) {}
     $('buy').style.display = 'none'; $('done').style.display = 'block'; window.scrollTo(0, 0);
     if (!fromFind) {
@@ -180,4 +185,4 @@ h1{font-size:40px;line-height:1.1;margin:10px 0 12px;letter-spacing:-.5px}h1 em{
   setTimeout(function () { if ($('sk') && !started) { started = true; fail(); } }, 15000);
 })();
 </script>
-</body></html>
+<script>document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a[href]");if(!a||!window.gtag)return;var h=a.getAttribute("href")||"";if(h.indexOf("chromewebstore.google.com")>-1)gtag("event","extension_install_click",{page:location.pathname,label:(a.textContent||"").trim().slice(0,40)});else if(h.indexOf("/pro")===0||h.indexOf("/lifetime")===0)gtag("event","pricing_click",{page:location.pathname,to:h.split("?")[0]})},true);</script></body></html>

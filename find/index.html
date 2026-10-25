@@ -199,9 +199,9 @@ html.embed .meta{scroll-margin-top:0}
     e.appendChild(c.nodeType ? c : document.createTextNode(String(c)));
   }
   function safeUrl(u) { try { var x = new URL(u); return x.protocol === 'https:' ? x.href : null; } catch (_) { return null; } }
-  function ext(u, text, cls) { var s = safeUrl(u); return s ? h('a', { href: s, target: '_blank', rel: 'noopener nofollow noreferrer', class: cls }, text) : h('span', {}, text); }
+  function ext(u, text, cls) { var s = safeUrl(u); return s ? h('a', { href: s, target: '_blank', rel: 'noopener nofollow noreferrer', class: cls, onclick: function () { track('find_offer_click'); } }, text) : h('span', {}, text); }
   function money(n, cur) { try { return new Intl.NumberFormat('en-US', { style: 'currency', currency: cur || 'USD', maximumFractionDigits: n % 1 ? 2 : 0 }).format(n); } catch (_) { return (cur || '') + ' ' + n; } }
-  function track(n) { try { if (window.gtag) window.gtag('event', n); } catch (_) {} }
+  function track(n, x) { try { if (window.gtag) { var o = { src: window.__zxEmbed ? 'home' : 'find', country: state.country, tier: state.pro ? 'pro' : 'free' }; if (x) for (var k in x) o[k] = x[k]; window.gtag('event', n, o); } } catch (_) {} }
   function lsGet(k) { try { return localStorage.getItem(k); } catch (_) { return null; } }
   function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (_) {} }
   function rid() {
@@ -334,7 +334,7 @@ html.embed .meta{scroll-margin-top:0}
       if (r.status !== 200) return transient(msgCard('Something went wrong', 'The check did not finish and was not used. Please try again.'));
       var j = r.json;
       if (!pass2 && j.status !== 'ok' && j.result && j.result.retry) return runCheck(cand, true);
-      if (j.status === 'ok') { track('find_result_ok'); renderResult(j); } else { track('find_result_fallback'); renderFallback(j); }
+      if (j.status === 'ok') { track('find_result_ok', { cached: !!j.cached }); renderResult(j); } else { track('find_result_fallback'); renderFallback(j); }
     });
   }
   function storeLinksClient(name) {
@@ -685,6 +685,7 @@ html.embed .meta{scroll-margin-top:0}
 
   // ---------- out of checks: confirm email for more ----------
   function renderGate() {
+    track('find_limit_reached');
     var email = h('input', { type: 'email', placeholder: 'you@example.com', 'aria-label': 'Email', required: 'required', maxlength: '254', autocomplete: 'email' });
     var hp = h('input', { class: 'hp', type: 'text', name: 'website', tabindex: '-1', autocomplete: 'off', 'aria-hidden': 'true' });
     var out = h('div', {});
@@ -759,5 +760,5 @@ html.embed .meta{scroll-margin-top:0}
   if (!ptok) startQ0();
 })();
 </script>
-<script>(function(){var n=document.querySelector("nav:not([aria-label])"),b=document.getElementById("navtg");if(!n||!b)return;b.addEventListener("click",function(){var o=n.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false");b.textContent=o?"\u2715":"\u2630";});})();</script></body>
+<script>(function(){var n=document.querySelector("nav:not([aria-label])"),b=document.getElementById("navtg");if(!n||!b)return;b.addEventListener("click",function(){var o=n.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false");b.textContent=o?"\u2715":"\u2630";});})();</script><script>document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a[href]");if(!a||!window.gtag)return;var h=a.getAttribute("href")||"";if(h.indexOf("chromewebstore.google.com")>-1)gtag("event","extension_install_click",{page:location.pathname,label:(a.textContent||"").trim().slice(0,40)});else if(h.indexOf("/pro")===0||h.indexOf("/lifetime")===0)gtag("event","pricing_click",{page:location.pathname,to:h.split("?")[0]})},true);</script></body>
 </html>
