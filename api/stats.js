@@ -43,6 +43,7 @@ module.exports = async (req, res) => {
         health: await build(new Date(Date.now() - 86400000).toISOString().slice(0, 10)),
         sources: Object.keys(src).map((k) => ({ source: k, count: src[k] })).sort((x, y) => y.count - x.count).slice(0, 20),
         limits: { out_of_checks: g('limit_checks'), daily_ip_cap: g('limit_ip'), pro_fair_use: g('limit_pro'), bonus_requested: g('bonus_requested'), bonus_claimed: g('bonus_claimed') },
+        nothing_why: { checks: g('check_fallback'), had_undated: g('fb_had_undated'), had_old: g('fb_had_old'), no_findings: g('fb_no_findings'), rej_old: g('fb_rej_old'), rej_undated: g('fb_rej_undated'), rej_match: g('fb_rej_match'), rej_other: g('fb_rej_other') },
         why: { no_offers: g('why_nooffers'), search_error: g('why_searcherr'), unreadable: g('why_unreadable'), busy: g('why_busy') },
         speed: { runs: lat.n, avg_s: lat.n ? Math.round(lat.sum / lat.n / 100) / 10 : null, slowest_s: Math.round(lat.max / 100) / 10, under10: lat.b0, s10_20: lat.b1, s20_30: lat.b2, s30_45: lat.b3, over45: lat.b4 },
       });

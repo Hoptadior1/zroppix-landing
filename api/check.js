@@ -93,6 +93,15 @@ module.exports = async (req, res) => {
       bump(parsed ? 'check_fallback' : 'check_unreadable');
       bump(!parsed ? 'why_unreadable' : hadSearchError ? 'why_searcherr' : 'why_nooffers');
       if (!parsed || hadSearchError) await refundIp();
+      // Why a clean search still showed nothing: counted once per live search, never with names or prices.
+      if (ran && parsed && !hadSearchError) {
+        const rj = ev.rejected || [];
+        if ((ev.undated || []).length) bump('fb_had_undated');           // prices were found, but the pages show no date
+        if ((ev.stale || []).length) bump('fb_had_old');                  // prices were found, but older than the freshness limit
+        if (!rj.length && !(ev.undated || []).length) bump('fb_no_findings'); // the search turned up nothing usable at all
+        const seen = {}; rj.forEach((x) => { seen[R.rejCat(x.why)] = 1; });
+        Object.keys(seen).forEach((k) => bump('fb_rej_' + k));
+      }
       if (ran) await trackLatency(Date.now() - started);
       await trackProduct(product.name, false); await trackCountry(country, 'n'); await trackVisitor('uvc', visitor);
       return send(res, 200, { status: 'fallback', tier, product, country, checkedAt: now.toISOString(), cached, judged, remaining: { left: al.left, total: al.total },

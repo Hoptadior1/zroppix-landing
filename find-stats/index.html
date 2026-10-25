@@ -31,6 +31,7 @@ table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:7px 4px;b
 <div id="alerthint" class="card"></div>
 <div class="cols"><div class="card"><h2>Top searched products</h2><div id="top"></div></div><div class="card"><h2>Searches that found nothing</h2><div id="none"></div></div></div>
 <div class="cols"><div class="card"><h2>Where searches came from</h2><div id="srcs"></div></div><div class="card"><h2>Visitors who wanted more</h2><div id="lims"></div></div></div>
+<div class="card"><h2>When a clean search found nothing, why</h2><div id="nw"></div></div>
 <div class="cols"><div class="card"><h2>Why checks showed no offers</h2><div id="why"></div></div><div class="card"><h2>How fast checks are</h2><div id="speed"></div></div></div>
 <div class="card"><h2>Per day</h2><div id="perday"></div></div>
 </div></div>
@@ -118,6 +119,8 @@ table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:7px 4px;b
       $('lims').appendChild(kv([['Ran out of free checks', L.out_of_checks, 'The clearest sign of demand for Pro.'], ['Hit the daily address cap', L.daily_ip_cap], ['Pro fair-use limit', L.pro_fair_use], ['Asked for bonus checks (email)', L.bonus_requested], ['Confirmed their email', L.bonus_claimed]]));
       var W = ins.why, wt = W.no_offers + W.search_error + W.unreadable + W.busy; $('why').textContent = '';
       $('why').appendChild(wt ? kv([['Nothing cheaper found', W.no_offers, 'A normal result, but nothing for the visitor to buy.', wt], ['Search failed', W.search_error, 'Our side. Not counted against the visitor.', wt], ['Answer unreadable', W.unreadable, 'Our side. Worth fixing first.', wt], ['Busy (daily spend cap reached)', W.busy, 'Raise FIND_DAILY_CAP_USD if this is not zero.', wt]]) : el('div', 'empty', 'No failures recorded yet.'));
+      var N = ins.nothing_why, nt = N.checks; $('nw').textContent = '';
+      $('nw').appendChild(nt ? kv([['Prices found, but pages show no date', N.had_undated, 'We never show an undated price as an offer. Pro sees them listed separately.', nt], ['Prices found, but older than the freshness limit', N.had_old, 'Limit is FIND_MAX_AGE_DAYS (30 by default).', nt], ['Nothing usable found at all', N.no_findings, 'The search found no store pages for this product.', nt], ['Some pages rejected as a different product', N.rej_match, '', nt], ['Some pages rejected as too old', N.rej_old, '', nt], ['Some pages rejected as undated', N.rej_undated, '', nt]]) : el('div', 'empty', 'No data yet. This counts from the day it was deployed.'));
       var S = ins.speed; $('speed').textContent = '';
       $('speed').appendChild(S.runs ? kv([['Average', S.avg_s + ' s', 'Live searches only. Cached results are instant.'], ['Slowest', S.slowest_s + ' s'], ['Under 10 s', S.under10, '', S.runs], ['10 to 20 s', S.s10_20, '', S.runs], ['20 to 30 s', S.s20_30, '', S.runs], ['30 to 45 s', S.s30_45, '', S.runs], ['Over 45 s', S.over45, 'Most visitors leave before this.', S.runs]]) : el('div', 'empty', 'No timed checks yet. This counts from the day it was deployed.'));
       var nm = {}; pr.per_day.forEach(function (x) { nm[x.day] = x; });
