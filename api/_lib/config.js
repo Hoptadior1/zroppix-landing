@@ -17,7 +17,6 @@ function cfg() {
     kvToken: e.KV_REST_API_TOKEN || e.UPSTASH_REDIS_REST_TOKEN || '',
     salt: e.FIND_SALT || '',
     adminToken: e.FIND_ADMIN_TOKEN || '',
-    alertEmail: e.FIND_ALERT_EMAIL || '', // where the daily summary goes
     ownerKey: e.FIND_OWNER_KEY || '', // lets the owner see the Pro view for testing
     fromEmail: e.FIND_FROM || 'Zroppix <hello@zroppix.com>',
     siteUrl: (e.FIND_SITE_URL || 'https://zroppix.com').replace(/\/+$/, ''),

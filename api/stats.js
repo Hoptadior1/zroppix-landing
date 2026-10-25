@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const { cfg } = require('./_lib/config');
 const store = require('./_lib/store');
 const { send, sha } = require('./_lib/util');
+const { build } = require('./_lib/health');
 
 function pairs(arr) { const o = {}; for (let i = 0; i + 1 < (arr || []).length; i += 2) o[arr[i]] = Number(arr[i + 1]) || 0; return o; }
 
@@ -39,7 +40,7 @@ module.exports = async (req, res) => {
         funnel: { searches: g('searches'), checks, found: g('check_ok'), offer_clicks: g('ev_offer_click'), pro_clicks: g('ev_pro_click'), pro_views: g('ev_pro_view'), checkout_opened: g('ev_checkout_loaded'), checkout_paid: g('ev_checkout_paid'), watches: g('ev_watch_added'), signins: g('ev_signin_click') },
         visitors: { per_day: uvDays, today: uvDays[0] || null },
         countries: Object.keys(cl).map((k) => cl[k]).sort((x, y) => y.searches - x.searches).slice(0, 25),
-        alerts: { configured: !!c.alertEmail, cron_secret: !!c.cronSecret },
+        health: await build(new Date(Date.now() - 86400000).toISOString().slice(0, 10)),
         sources: Object.keys(src).map((k) => ({ source: k, count: src[k] })).sort((x, y) => y.count - x.count).slice(0, 20),
         limits: { out_of_checks: g('limit_checks'), daily_ip_cap: g('limit_ip'), pro_fair_use: g('limit_pro'), bonus_requested: g('bonus_requested'), bonus_claimed: g('bonus_claimed') },
         why: { no_offers: g('why_nooffers'), search_error: g('why_searcherr'), unreadable: g('why_unreadable'), busy: g('why_busy') },
