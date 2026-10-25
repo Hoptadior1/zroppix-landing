@@ -201,7 +201,8 @@ html.embed .meta{scroll-margin-top:0}
   function safeUrl(u) { try { var x = new URL(u); return x.protocol === 'https:' ? x.href : null; } catch (_) { return null; } }
   function ext(u, text, cls) { var s = safeUrl(u); return s ? h('a', { href: s, target: '_blank', rel: 'noopener nofollow noreferrer', class: cls, onclick: function () { track('find_offer_click'); } }, text) : h('span', {}, text); }
   function money(n, cur) { try { return new Intl.NumberFormat('en-US', { style: 'currency', currency: cur || 'USD', maximumFractionDigits: n % 1 ? 2 : 0 }).format(n); } catch (_) { return (cur || '') + ' ' + n; } }
-  function track(n, x) { try { if (window.gtag) { var o = { src: window.__zxEmbed ? 'home' : 'find', country: state.country, tier: state.pro ? 'pro' : 'free' }; if (x) for (var k in x) o[k] = x[k]; window.gtag('event', n, o); } } catch (_) {} }
+  var REF = ''; try { REF = String(new URLSearchParams(location.search).get('from') || '').replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 60); } catch (_) {}
+  function track(n, x) { try { if (window.gtag) { var o = { src: window.__zxEmbed ? 'home' : 'find', country: state.country, tier: state.pro ? 'pro' : 'free' }; if (REF) o.ref = REF; if (x) for (var k in x) o[k] = x[k]; window.gtag('event', n, o); } } catch (_) {} }
   function lsGet(k) { try { return localStorage.getItem(k); } catch (_) { return null; } }
   function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (_) {} }
   function rid() {
