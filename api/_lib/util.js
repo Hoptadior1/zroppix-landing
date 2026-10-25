@@ -22,7 +22,7 @@ function clean(s, max) {
 
 function validVisitor(v) { return typeof v === 'string' && /^[A-Za-z0-9_-]{16,64}$/.test(v) ? v : null; }
 
-const COUNTRIES = new Set(('AE AR AT AU BD BE BR CA CH CL CN CO CZ DE DK EG ES FI FR GB GH GR HK HU ID IE IL IN IT JP KE KR LK MX MY NG NL NO NZ PE PH PK PL PT RO SA SE SG TH TR TW TZ UA UG US VN ZA ZM ZW').split(' '));
+const COUNTRIES = new Set(('AD AE AF AG AI AL AM AO AR AT AU AW AZ BA BB BD BE BF BG BH BI BJ BM BN BO BR BS BT BW BY BZ CA CD CG CH CI CL CM CN CO CR CU CV CY CZ DE DJ DK DM DO DZ EC EE EG ER ES ET FI FJ FR GA GB GD GE GH GM GN GQ GR GT GU GY HK HN HR HT HU ID IE IL IN IQ IS IT JM JO JP KE KG KH KM KN KR KW KY KZ LA LB LC LI LK LR LS LT LU LV LY MA MC MD ME MG MK ML MM MN MO MR MT MU MV MW MX MY MZ NA NE NG NI NL NO NP NZ OM PA PE PG PH PK PL PR PS PT PY QA RO RS RW SA SB SC SD SE SG SI SK SL SN SO SR SS ST SV SZ TD TG TH TJ TM TN TO TR TT TW TZ UA UG US UY UZ VC VE VN VU WS YE ZA ZM ZW').split(' '));
 function pickCountry(req, body) {
   const asked = body && typeof body.country === 'string' ? body.country.toUpperCase() : '';
   if (COUNTRIES.has(asked)) return asked;

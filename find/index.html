@@ -178,7 +178,8 @@ html.embed .meta{scroll-margin-top:0}
   var $ = function (id) { return document.getElementById(id); };
   var stage = $('stage'), qEl = $('q'), goBtn = $('goBtn');
   var CWS = 'https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf';
-  var COUNTRIES = 'US GB CA AU DE FR ES IT NL IE IN KE NG ZA GH TZ UG EG AE SA SG MY PH PK BD LK ID TH VN JP KR HK TW CN BR MX AR CL CO PE NZ SE NO DK FI PL PT AT BE CH CZ GR HU RO TR UA IL'.split(' ');
+  var COUNTRIES = 'AD AE AF AG AI AL AM AO AR AT AU AW AZ BA BB BD BE BF BG BH BI BJ BM BN BO BR BS BT BW BY BZ CA CD CG CH CI CL CM CN CO CR CU CV CY CZ DE DJ DK DM DO DZ EC EE EG ER ES ET FI FJ FR GA GB GD GE GH GM GN GQ GR GT GU GY HK HN HR HT HU ID IE IL IN IQ IS IT JM JO JP KE KG KH KM KN KR KW KY KZ LA LB LC LI LK LR LS LT LU LV LY MA MC MD ME MG MK ML MM MN MO MR MT MU MV MW MX MY MZ NA NE NG NI NL NO NP NZ OM PA PE PG PH PK PL PR PS PT PY QA RO RS RW SA SB SC SD SE SG SI SK SL SN SO SR SS ST SV SZ TD TG TH TJ TM TN TO TR TT TW TZ UA UG US UY UZ VC VE VN VU WS YE ZA ZM ZW'.split(' ');
+  var CORE = 'US GB CA AU DE FR ES IT NL IE IN KE NG ZA GH TZ UG EG AE SA SG MY PH PK BD LK ID TH VN JP KR HK TW CN BR MX AR CL CO PE NZ SE NO DK FI PL PT AT BE CH CZ GR HU RO TR UA IL ZM ZW'.split(' ');
   var state = { visitor: null, country: 'US', left: null, total: null, history: [], busy: false, pro: null, cur: null, auto: false };
 
   // ---------- helpers (everything from the server is rendered as text, never as HTML) ----------
@@ -227,7 +228,8 @@ html.embed .meta{scroll-margin-top:0}
   var sel = $('country');
   function fillCountries() {
     sel.textContent = '';
-    COUNTRIES.forEach(function (c) { var o = h('option', { value: c }, cname(c)); if (c === state.country) o.selected = true; sel.appendChild(o); });
+    var list = COUNTRIES.slice().sort(function (x, y) { return cname(x).localeCompare(cname(y)); });
+    list.forEach(function (c) { var o = h('option', { value: c }, cname(c)); if (c === state.country) o.selected = true; sel.appendChild(o); });
   }
   sel.addEventListener('change', function () { state.country = sel.value; lsSet('zx_country', state.country); });
   function setCountryFromServer(c) {
@@ -581,7 +583,7 @@ html.embed .meta{scroll-margin-top:0}
     var r = j.result, b = r.best, pro = j.tier === 'pro';
     var card = h('div', { class: 'card' });
     card.appendChild(h('h2', {}, j.product.name + (j.product.variant ? ' · ' + j.product.variant : '')));
-    card.appendChild(h('div', { class: 'sub' }, (j.cached ? 'Saved result from earlier today · ' : 'Checked just now · ') + cname(j.country) + (pro ? ' · Pro view' : '') + (j.judged === false ? ' · not double-checked' : '')));
+    card.appendChild(h('div', { class: 'sub' }, (j.cached ? 'Saved result from earlier today · ' : 'Checked just now · ') + cname(j.country) + (CORE.indexOf(j.country) < 0 ? ' · limited local results, showing global stores' : '') + (pro ? ' · Pro view' : '') + (j.judged === false ? ' · not double-checked' : '')));
     var pl = proofLine(r.proof); if (pl) card.appendChild(pl);
     card.appendChild(bestBlock(b, pro, r.history));
     (r.warnings || []).forEach(function (w) { card.appendChild(h('div', { class: 'warn' }, '⚠ ' + w)); });
