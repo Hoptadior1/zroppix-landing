@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
       const checks = g('check_ok') + g('check_fallback') + g('check_unreadable');
       return send(res, 200, {
         days: n,
-        funnel: { searches: g('searches'), checks, found: g('check_ok'), offer_clicks: g('ev_offer_click'), pro_clicks: g('ev_pro_click'), pro_views: g('ev_pro_view'), checkout_opened: g('ev_checkout_loaded'), checkout_paid: g('ev_checkout_paid'), watches: g('ev_watch_added'), signins: g('ev_signin_click') },
+        funnel: { searches: g('queries'), checks, found: g('check_ok'), offer_clicks: g('ev_offer_click'), pro_clicks: g('ev_pro_click'), pro_views: g('ev_pro_view'), checkout_opened: g('ev_checkout_loaded'), checkout_paid: g('ev_checkout_paid'), watches: g('ev_watch_added'), signins: g('ev_signin_click') },
         visitors: { per_day: uvDays, today: uvDays[0] || null },
         countries: Object.keys(cl).map((k) => cl[k]).sort((x, y) => y.searches - x.searches).slice(0, 25),
         health: await build(new Date(Date.now() - 86400000).toISOString().slice(0, 10)),
@@ -69,7 +69,7 @@ module.exports = async (req, res) => {
       const spend = (Number(await store.get('spend:' + d)) || 0) / 1e6;
       const aiChecks = s.check_ai || 0;
       out.push({ day: d, spend_usd: Math.round(spend * 1000) / 1000, ai_checks: aiChecks, cache_hits: s.check_cache || 0, shown_offers: s.check_ok || 0, fallbacks: s.check_fallback || 0, errors: s.check_ai_error || 0,
-        searches: s.searches || 0, matches_ai: s.match_ai || 0, avg_cost_per_check_usd: aiChecks ? Math.round((spend / aiChecks) * 1000) / 1000 : null,
+        searches: s.queries || 0, web_searches: s.searches || 0, matches_ai: s.match_ai || 0, avg_cost_per_check_usd: aiChecks ? Math.round((spend / aiChecks) * 1000) / 1000 : null,
         share_no_offer: (s.check_ok || 0) + (s.check_fallback || 0) ? Math.round(((s.check_fallback || 0) / ((s.check_ok || 0) + (s.check_fallback || 0))) * 100) : null,
         bonus_requested: s.bonus_requested || 0, bonus_claimed: s.bonus_claimed || 0, waitlist: s.waitlist || 0, pro_login_sent: s.pro_login_sent || 0, pro_login_nopro: s.pro_login_nopro || 0, pro_signins: s.pro_signin || 0,
         second_searches: s.check_pass2 || 0, watches_requested: s.watch_requested || 0, watches_confirmed: s.watch_confirmed || 0, watches_pro: s.watch_added_pro || 0, watch_searches: s.watch_ai || 0, alerts_sent: s.watch_sent || 0, watch_stops: s.watch_stop || 0, watch_unsubs: s.watch_unsub || 0 });

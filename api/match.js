@@ -32,7 +32,7 @@ module.exports = async (req, res) => {
     const ip = ipHash(req);
     if (!(await within('match', ip, c.matchPerHour, 'hour')) || !(await within('matchd', ip, c.matchPerDay, 'day'))) return send(res, 429, { error: 'slow_down' });
 
-    bump('searches'); await trackSource(body.ref); await trackVisitor('uv', visitor); await trackCountry(pickCountry(req, body), 's');
+    bump('queries'); await trackSource(body.ref); await trackVisitor('uv', visitor); await trackCountry(pickCountry(req, body), 's');
     // Every answer also says how many checks this visitor has left and which country we guessed.
     const al = await allowance(visitor);
     const meta = { remaining: { left: al.left, total: al.total }, country: pickCountry(req, body) };
