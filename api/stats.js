@@ -17,6 +17,20 @@ module.exports = async (req, res) => {
       const rows = (await store.lrange('dbg', 0, 19)) || [];
       return send(res, 200, { runs: rows.map((r) => { try { return JSON.parse(r); } catch (_) { return null; } }).filter(Boolean) });
     }
+    if (req.url && /[?&]products=1/.test(req.url)) {
+      const n = Math.max(1, Math.min(14, Number((/[?&]days=(\d+)/.exec(req.url) || [])[1]) || 7));
+      const tot = {}, none = {}, perDay = [];
+      for (let i = 0; i < n; i++) {
+        const d = new Date(Date.now() - i * 86400000).toISOString().slice(0, 10);
+        const a = pairs(await store.hgetall('prod:' + d)), b = pairs(await store.hgetall('prodn:' + d));
+        let sa = 0, sb = 0;
+        for (const k of Object.keys(a)) { tot[k] = (tot[k] || 0) + a[k]; sa += a[k]; }
+        for (const k of Object.keys(b)) { none[k] = (none[k] || 0) + b[k]; sb += b[k]; }
+        perDay.push({ day: d, searches: sa, nothing: sb, distinct: Object.keys(a).length });
+      }
+      const top = (o) => Object.keys(o).map((k) => ({ product: k, count: o[k] })).sort((x, y) => y.count - x.count).slice(0, 20);
+      return send(res, 200, { days: n, top: top(tot), nothing: top(none), per_day: perDay });
+    }
     const days = [];
     for (let i = 0; i < 14; i++) days.push(new Date(Date.now() - i * 86400000).toISOString().slice(0, 10));
     const out = [];

@@ -4,7 +4,7 @@
 const { cfg } = require('./_lib/config');
 const store = require('./_lib/store');
 const { send, readBody, sameSite, ipHash, clean, validVisitor, pickCountry, isOwner, normName, sha } = require('./_lib/util');
-const { isKilled, reserve, settle, bump } = require('./_lib/spend');
+const { isKilled, reserve, settle, bump, trackProduct } = require('./_lib/spend');
 const { within, allowance, consume } = require('./_lib/limits');
 const ai = require('./_lib/anthropic');
 const P = require('./_lib/prompts');
@@ -86,6 +86,7 @@ module.exports = async (req, res) => {
     const hist = deal ? { url: '/deals/' + deal.slug, title: deal.title, lowest: deal.lowest || null, average: deal.average || null, updated: deal.updated || null } : null;
     if (!offers.length) {
       bump(parsed ? 'check_fallback' : 'check_unreadable');
+      await trackProduct(product.name, false);
       return send(res, 200, { status: 'fallback', tier, product, country, checkedAt: now.toISOString(), cached, judged, remaining: { left: al.left, total: al.total },
         result: Object.assign(R.buildFallback({ productName: product.name, country, stale: ev.stale, deal, newer: ev.accepted.filter((a) => a.kind === 'newer_model').slice(0, 1), unreadable: !parsed, tier, undated: ev.undated || [] }), R.rejectedOut(ev.rejected, tier === 'pro'), { retry: !!(stored && parsed && judged && !ev.pass2 && body.pass !== 2) }) });
     }
@@ -97,6 +98,7 @@ module.exports = async (req, res) => {
       left = al.left - 1;
     }
     bump('check_ok');
+    await trackProduct(product.name, true);
     return send(res, 200, { status: 'ok', tier, product, country, checkedAt: now.toISOString(), cached, judged, remaining: { left, total: al.total },
       result: R.shape(ev, tier, { history: hist }, { productName: product.name, country }) });
   } catch (e) {

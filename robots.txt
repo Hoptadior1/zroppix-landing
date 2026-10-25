@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /find-stats
 
 Sitemap: https://zroppix.com/sitemap.xml

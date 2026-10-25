@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Find stats</title>
+<style>
+:root{--gold:#C9A84C;--bg:#0B0B12;--bg2:#12121A;--border:#22223A;--green:#4FD1A5;--muted:#7A78A0;--red:#E5646B}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#eee;font:15px/1.5 system-ui,-apple-system,sans-serif;padding:24px 20px 60px}
+.w{max-width:980px;margin:0 auto}h1{font-size:22px;margin:0 0 4px}.sub{color:var(--muted);font-size:13px;margin-bottom:18px}
+.login{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px;max-width:460px}
+input{width:100%;background:#0b0b12;border:1px solid var(--border);border-radius:10px;color:#fff;padding:12px;font-size:16px;margin:8px 0 12px}
+button{background:var(--gold);color:#0B0B12;border:0;border-radius:10px;font-weight:800;padding:11px 18px;font-size:15px;cursor:pointer}
+.err{color:#f1a0a5;font-size:13px;margin-top:8px;min-height:18px}
+.tabs{display:flex;gap:8px;margin:16px 0;flex-wrap:wrap}.tab{background:var(--bg2);border:1px solid var(--border);border-radius:99px;padding:6px 14px;font-size:13px;color:#bbb;cursor:pointer}.tab.on{border-color:var(--gold);color:var(--gold);font-weight:700}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.k{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:14px}.k b{display:block;font-size:26px}.k span{font-size:12px;color:var(--muted)}
+.g{color:var(--green)}.r{color:var(--red)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:14px;overflow-x:auto}
+.card h2{font-size:13px;margin:0 0 10px;color:var(--gold);letter-spacing:.05em;text-transform:uppercase}
+table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:7px 4px;border-top:1px solid var(--border);text-align:left;vertical-align:top}th{color:var(--muted);font-weight:600;font-size:12px;border-top:0}td.n,th.n{text-align:right;white-space:nowrap}
+.bar{height:6px;background:#1c1c2c;border-radius:4px;overflow:hidden;margin-top:4px}.bar i{display:block;height:100%;background:var(--gold)}.bar.red i{background:var(--red)}
+.empty{color:var(--muted);font-size:14px;padding:6px 0}
+@media(max-width:700px){.kpis{grid-template-columns:1fr 1fr}.cols{grid-template-columns:1fr}}
+</style></head><body><div class="w">
+<h1>Find stats</h1><div class="sub" id="sub">Private page. Your token stays in this tab only.</div>
+<div class="login" id="login"><label for="tok">Admin token</label><input id="tok" type="password" autocomplete="off" placeholder="Paste FIND_ADMIN_TOKEN"><button id="go" type="button">Show stats</button><div class="err" id="err"></div></div>
+<div id="app" style="display:none">
+<div class="tabs" id="tabs"></div>
+<div class="kpis" id="kpis"></div>
+<div class="cols"><div class="card"><h2>Top searched products</h2><div id="top"></div></div><div class="card"><h2>Searches that found nothing</h2><div id="none"></div></div></div>
+<div class="card"><h2>Per day</h2><div id="perday"></div></div>
+</div></div>
+<script>
+(function () {
+  var tok = '', days = 7;
+  function $(i) { return document.getElementById(i); }
+  function el(t, c, x) { var e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; }
+  function get(path) {
+    return fetch(path, { headers: { Authorization: 'Bearer ' + tok }, cache: 'no-store' }).then(function (r) {
+      if (r.status === 401) throw new Error('Wrong token.');
+      if (r.status === 404) throw new Error('Stats are switched off. Set FIND_ADMIN_TOKEN in Vercel.');
+      if (!r.ok) throw new Error('Could not load (' + r.status + ').');
+      return r.json();
+    });
+  }
+  function table(rows, cols, empty) {
+    if (!rows.length) return el('div', 'empty', empty);
+    var t = el('table'), hr = el('tr');
+    cols.forEach(function (c) { hr.appendChild(el('th', c.n ? 'n' : '', c.h)); });
+    t.appendChild(hr);
+    rows.forEach(function (r) {
+      var tr = el('tr');
+      cols.forEach(function (c) {
+        var td = el('td', (c.n ? 'n ' : '') + (c.cls ? c.cls : ''));
+        td.appendChild(document.createTextNode(c.f(r)));
+        if (c.bar) { var b = el('div', 'bar' + (c.red ? ' red' : '')), i = el('i'); i.style.width = Math.max(3, Math.round(100 * r[c.k] / c.bar)) + '%'; b.appendChild(i); td.appendChild(b); }
+        tr.appendChild(td);
+      });
+      t.appendChild(tr);
+    });
+    return t;
+  }
+  function rank(list, red) {
+    var max = list.length ? list[0].count : 1;
+    return table(list, [{ h: 'Product', f: function (r) { return r.product; }, bar: max, k: 'count', red: red }, { h: 'Times', n: 1, f: function (r) { return String(r.count); }, cls: red ? 'r' : '' }], red ? 'Nothing yet.' : 'No searches recorded yet. Counting starts from the day this was deployed.');
+  }
+  function kpi(v, l, c) { var d = el('div', 'k'), b = el('b', c || '', v); d.appendChild(b); d.appendChild(el('span', '', l)); return d; }
+  function money(n) { return '$' + (Math.round(n * 100) / 100).toFixed(2); }
+  function load() {
+    $('err').textContent = '';
+    return Promise.all([get('/api/stats'), get('/api/stats?products=1&days=' + days)]).then(function (a) {
+      var st = a[0], pr = a[1], d = st.days.slice(0, days);
+      $('login').style.display = 'none'; $('app').style.display = 'block';
+      var sum = function (k) { return d.reduce(function (s, x) { return s + (x[k] || 0); }, 0); };
+      var shown = sum('shown_offers'), fb = sum('fallbacks'), spend = sum('spend_usd');
+      var kp = $('kpis'); kp.textContent = '';
+      kp.appendChild(kpi(String(sum('searches')), 'Searches'));
+      kp.appendChild(kpi(String(shown + fb), 'Checks that finished'));
+      kp.appendChild(kpi(shown + fb ? Math.round(100 * shown / (shown + fb)) + '%' : '-', 'Found offers', 'g'));
+      kp.appendChild(kpi(money(spend), 'AI spend (cap ' + money(st.cap_usd) + '/day)'));
+      var tabs = $('tabs'); tabs.textContent = '';
+      [[1, 'Today'], [7, 'Last 7 days'], [14, 'Last 14 days']].forEach(function (x) {
+        var t = el('span', 'tab' + (x[0] === days ? ' on' : ''), x[1]); t.onclick = function () { days = x[0]; load().catch(fail); }; tabs.appendChild(t);
+      });
+      $('top').textContent = ''; $('top').appendChild(rank(pr.top, false));
+      $('none').textContent = ''; $('none').appendChild(rank(pr.nothing, true));
+      var nm = {}; pr.per_day.forEach(function (x) { nm[x.day] = x; });
+      $('perday').textContent = ''; $('perday').appendChild(table(d, [
+        { h: 'Day', f: function (r) { return r.day; } },
+        { h: 'Searches', n: 1, f: function (r) { return String(r.searches || 0); } },
+        { h: 'Checks', n: 1, f: function (r) { return String((r.shown_offers || 0) + (r.fallbacks || 0)); } },
+        { h: 'Found', n: 1, cls: 'g', f: function (r) { return String(r.shown_offers || 0); } },
+        { h: 'Nothing', n: 1, cls: 'r', f: function (r) { return String(r.fallbacks || 0); } },
+        { h: 'Spend', n: 1, f: function (r) { return money(r.spend_usd || 0); } },
+        { h: 'Pro sign-ins', n: 1, f: function (r) { return String(r.pro_signins || 0); } }
+      ], 'No data yet.'));
+      $('sub').textContent = 'Private page. Your token stays in this tab only. Updated ' + new Date().toLocaleTimeString();
+    });
+  }
+  function fail(e) { $('login').style.display = 'block'; $('app').style.display = 'none'; $('err').textContent = (e && e.message) || 'Could not load.'; }
+  $('go').onclick = function () { tok = $('tok').value.trim(); if (!tok) return; load().catch(fail); };
+  $('tok').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('go').click(); });
+})();
+</script><script>document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a[href]");if(!a||!window.gtag)return;var h=a.getAttribute("href")||"";if(h.indexOf("chromewebstore.google.com")>-1)gtag("event","extension_install_click",{page:location.pathname,label:(a.textContent||"").trim().slice(0,40)});else if(h.indexOf("/pro")===0||h.indexOf("/lifetime")===0)gtag("event","pricing_click",{page:location.pathname,to:h.split("?")[0]})},true);</script></body></html>

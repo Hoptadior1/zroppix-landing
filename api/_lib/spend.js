@@ -46,4 +46,25 @@ async function bump(name, n) {
   } catch (_) { /* stats must never break a request */ }
 }
 
-module.exports = { isKilled, reserve, settle, spentToday, bump };
+// Anonymous per-day tally of searched product names (no visitor, address or email stored).
+// Capped so random text cannot grow it without limit: past MAXN different names a day, new ones count under "(other)".
+const MAXN = 3000;
+async function trackProduct(name, found) {
+  try {
+    const f = String(name || '').toLowerCase().replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 60);
+    if (!f) return;
+    const day = today();
+    const k = 'prod:' + day;
+    let field = f;
+    if ((await store.hget(k, f)) == null && (await store.hlen(k)) >= MAXN) field = '(other)';
+    const c = await store.hincrby(k, field, 1);
+    if (c === 1) await store.expire(k, 31 * 86400);
+    if (!found) {
+      const kn = 'prodn:' + day;
+      const c2 = await store.hincrby(kn, field, 1);
+      if (c2 === 1) await store.expire(kn, 31 * 86400);
+    }
+  } catch (_) { /* never break a request */ }
+}
+
+module.exports = { isKilled, reserve, settle, spentToday, bump, trackProduct };
