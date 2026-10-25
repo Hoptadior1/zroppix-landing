@@ -34,7 +34,7 @@ module.exports = async (req, res) => {
       const g = (k) => st[k] || 0;
       const cl = {};
       for (const k of Object.keys(ctry)) { const m = /^([A-Z]{2}):([sfn])$/.exec(k); if (m) { cl[m[1]] = cl[m[1]] || { country: m[1], searches: 0, found: 0, nothing: 0 }; cl[m[1]][{ s: 'searches', f: 'found', n: 'nothing' }[m[2]]] = ctry[k]; } }
-      const checks = g('check_ok') + g('check_fallback') + g('check_unreadable');
+      const checks = g('check_ok') + g('check_fallback'); // same definition as the top tile and the per-day table
       return send(res, 200, {
         days: n,
         funnel: { searches: g('queries'), checks, found: g('check_ok'), offer_clicks: g('ev_offer_click'), pro_clicks: g('ev_pro_click'), pro_views: g('ev_pro_view'), checkout_opened: g('ev_checkout_loaded'), checkout_paid: g('ev_checkout_paid'), watches: g('ev_watch_added'), signins: g('ev_signin_click') },
