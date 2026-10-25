@@ -4,8 +4,8 @@
 const { cfg } = require('./_lib/config');
 const store = require('./_lib/store');
 const { send, readBody, sameSite, ipHash, clean, validVisitor, pickCountry, isOwner, normName, sha } = require('./_lib/util');
-const { isKilled, reserve, settle, bump, trackProduct } = require('./_lib/spend');
-const { within, allowance, consume } = require('./_lib/limits');
+const { isKilled, reserve, settle, bump, trackProduct, trackLatency } = require('./_lib/spend');
+const { within, allowance, consume, refund } = require('./_lib/limits');
 const ai = require('./_lib/anthropic');
 const P = require('./_lib/prompts');
 const R = require('./_lib/rules');
@@ -34,6 +34,7 @@ module.exports = async (req, res) => {
   let customer = null;
   const started = Date.now();
   let ticket = null;
+  let refundIp = async () => {};
   try {
     if (await isKilled()) return send(res, 503, { error: 'paused' });
     const ip = ipHash(req);
@@ -43,11 +44,14 @@ module.exports = async (req, res) => {
       if (w && w.pro) { tier = 'pro'; unmetered = true; customer = w; }
     }
     // Free visitors are limited per network address. Owner and Pro customers are limited per person instead (below).
-    if (!unmetered && !(await within('check', ip, c.checkPerIpDay, 'day'))) return send(res, 429, { error: 'daily_limit' });
-    if (customer && !(await within('prouse', customer.eh, c.proPerDay, 'day'))) return send(res, 429, { error: 'pro_limit' });
+    let ipCounted = false;
+    // Our own failures (search error, unreadable answer, busy) must not use up the visitor's daily allowance.
+    refundIp = async () => { if (ipCounted) { ipCounted = false; await refund('check', ip, 'day'); } };
+    if (!unmetered) { if (!(await within('check', ip, c.checkPerIpDay, 'day'))) { bump('limit_ip'); return send(res, 429, { error: 'daily_limit' }); } ipCounted = true; }
+    if (customer && !(await within('prouse', customer.eh, c.proPerDay, 'day'))) { bump('limit_pro'); return send(res, 429, { error: 'pro_limit' }); }
 
     const al = await allowance(visitor);
-    if (!unmetered && al.left <= 0) return send(res, 402, { error: 'no_checks', left: 0, bonusAvailable: al.bonus === 0 });
+    if (!unmetered && al.left <= 0) { bump('limit_checks'); return send(res, 402, { error: 'no_checks', left: 0, bonusAvailable: al.bonus === 0 }); }
 
     const now = new Date();
     const deal = R.matchDeal(product.name, DEALS);
@@ -58,25 +62,26 @@ module.exports = async (req, res) => {
     let hadSearchError = false;
     let parsed = true;
 
+    let ran = false; // true when this request ran a live search (not served from the cache)
     let stored = false; // true when this result sits in the cache, so a second search can build on it
-    const fallbackNow = () => send(res, 200, { status: 'fallback', tier, product, country, checkedAt: now.toISOString(), cached: false, remaining: { left: al.left, total: al.total },
-      result: R.buildFallback({ productName: product.name, country, stale: [], deal, newer: [], hadSearchError: true }) });
+    const fallbackNow = async () => { bump('why_searcherr'); await refundIp(); await trackLatency(Date.now() - started); return send(res, 200, { status: 'fallback', tier, product, country, checkedAt: now.toISOString(), cached: false, remaining: { left: al.left, total: al.total },
+      result: R.buildFallback({ productName: product.name, country, stale: [], deal, newer: [], hadSearchError: true }) }); };
 
     if (!ev) {
       const r1 = await RS.research({ product, country, pass: 1, started, now });
-      if (r1.busy) return send(res, 503, { error: 'busy' });
-      if (r1.failed) return fallbackNow(); // never an empty page, even if the search failed
-      ev = r1.out; judged = r1.didJudge; hadSearchError = r1.searchErr; parsed = r1.ok;
+      if (r1.busy) { bump('why_busy'); await refundIp(); return send(res, 503, { error: 'busy' }); }
+      if (r1.failed) return await fallbackNow(); // never an empty page, even if the search failed
+      ran = true; ev = r1.out; judged = r1.didJudge; hadSearchError = r1.searchErr; parsed = r1.ok;
       // Cache only runs we could read. A run that found offers is kept for the full time; a clean "nothing found" only briefly.
       if (parsed && judged && !hadSearchError && r1.hadResults) { await store.setJson(cacheKey, ev, (ev.accepted.length ? c.cacheHours * 3600 : 1800)); stored = true; }
     } else if (body.pass === 2 && !ev.pass2 && !hasOffers(ev)) {
       // Second search: different wording, merged with the first result. Only after a first search that found no offers, and only once.
       if (!unmetered && !(await within('check2', ipHash(req), c.checkPerIpDay, 'day'))) return send(res, 429, { error: 'daily_limit' });
       const r2 = await RS.research({ product, country, pass: 2, started, now });
-      if (r2.busy) return send(res, 503, { error: 'busy' });
+      if (r2.busy) { bump('why_busy'); await refundIp(); return send(res, 503, { error: 'busy' }); }
       if (r2.failed) { bump('check_cache'); }
       else {
-        const merged = RS.merge(ev, r2.out);
+        ran = true; const merged = RS.merge(ev, r2.out);
         ev = merged; judged = r2.didJudge;
         if (r2.ok && r2.didJudge && !r2.searchErr) { await store.setJson(cacheKey, ev, (hasOffers(ev) ? c.cacheHours * 3600 : 1800)); stored = true; }
       }
@@ -86,6 +91,9 @@ module.exports = async (req, res) => {
     const hist = deal ? { url: '/deals/' + deal.slug, title: deal.title, lowest: deal.lowest || null, average: deal.average || null, updated: deal.updated || null } : null;
     if (!offers.length) {
       bump(parsed ? 'check_fallback' : 'check_unreadable');
+      bump(!parsed ? 'why_unreadable' : hadSearchError ? 'why_searcherr' : 'why_nooffers');
+      if (!parsed || hadSearchError) await refundIp();
+      if (ran) await trackLatency(Date.now() - started);
       await trackProduct(product.name, false);
       return send(res, 200, { status: 'fallback', tier, product, country, checkedAt: now.toISOString(), cached, judged, remaining: { left: al.left, total: al.total },
         result: Object.assign(R.buildFallback({ productName: product.name, country, stale: ev.stale, deal, newer: ev.accepted.filter((a) => a.kind === 'newer_model').slice(0, 1), unreadable: !parsed, tier, undated: ev.undated || [] }), R.rejectedOut(ev.rejected, tier === 'pro'), { retry: !!(stored && parsed && judged && !ev.pass2 && body.pass !== 2) }) });
@@ -94,15 +102,17 @@ module.exports = async (req, res) => {
     let left = al.left;
     if (!unmetered) {
       const ok = await consume(visitor);
-      if (!ok) return send(res, 402, { error: 'no_checks', left: 0, bonusAvailable: al.bonus === 0 });
+      if (!ok) { bump('limit_checks'); return send(res, 402, { error: 'no_checks', left: 0, bonusAvailable: al.bonus === 0 }); }
       left = al.left - 1;
     }
     bump('check_ok');
+    if (ran) await trackLatency(Date.now() - started);
     await trackProduct(product.name, true);
     return send(res, 200, { status: 'ok', tier, product, country, checkedAt: now.toISOString(), cached, judged, remaining: { left, total: al.total },
       result: R.shape(ev, tier, { history: hist }, { productName: product.name, country }) });
   } catch (e) {
     if (ticket) { try { await settle(ticket, 0); } catch (_) { /* ignore */ } }
+    try { await refundIp(); } catch (_) { /* ignore */ }
     return send(res, 503, { error: 'unavailable' });
   }
 };

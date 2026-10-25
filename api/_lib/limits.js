@@ -35,4 +35,14 @@ async function addBonus(visitor, n) {
   return v;
 }
 
-module.exports = { within, allowance, consume, addBonus };
+// Give back one use of a window counter (used when a check failed for our own reasons, so the visitor is not punished).
+async function refund(scope, id, per) {
+  try {
+    const win = per === 'hour' ? hourKey() : today();
+    const key = `rl:${scope}:${id}:${win}`;
+    const n = await store.incrBy(key, -1);
+    if (n < 0) await store.incrBy(key, -n);
+  } catch (_) { /* ignore */ }
+}
+
+module.exports = { within, allowance, consume, addBonus, refund };

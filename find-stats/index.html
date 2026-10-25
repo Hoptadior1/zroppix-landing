@@ -18,6 +18,7 @@ button{background:var(--gold);color:#0B0B12;border:0;border-radius:10px;font-wei
 .card h2{font-size:13px;margin:0 0 10px;color:var(--gold);letter-spacing:.05em;text-transform:uppercase}
 table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:7px 4px;border-top:1px solid var(--border);text-align:left;vertical-align:top}th{color:var(--muted);font-weight:600;font-size:12px;border-top:0}td.n,th.n{text-align:right;white-space:nowrap}
 .bar{height:6px;background:#1c1c2c;border-radius:4px;overflow:hidden;margin-top:4px}.bar i{display:block;height:100%;background:var(--gold)}.bar.red i{background:var(--red)}
+.kv{padding:9px 0;border-top:1px solid var(--border)}.kv:first-child{border-top:0;padding-top:2px}.kvt{display:flex;justify-content:space-between;gap:10px}.kvt b{font-weight:800}.kvn{font-size:12.5px;color:var(--muted);margin-top:2px}
 .empty{color:var(--muted);font-size:14px;padding:6px 0}
 @media(max-width:700px){.kpis{grid-template-columns:1fr 1fr}.cols{grid-template-columns:1fr}}
 </style></head><body><div class="w">
@@ -27,6 +28,8 @@ table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:7px 4px;b
 <div class="tabs" id="tabs"></div>
 <div class="kpis" id="kpis"></div>
 <div class="cols"><div class="card"><h2>Top searched products</h2><div id="top"></div></div><div class="card"><h2>Searches that found nothing</h2><div id="none"></div></div></div>
+<div class="cols"><div class="card"><h2>Where searches came from</h2><div id="srcs"></div></div><div class="card"><h2>Visitors who wanted more</h2><div id="lims"></div></div></div>
+<div class="cols"><div class="card"><h2>Why checks showed no offers</h2><div id="why"></div></div><div class="card"><h2>How fast checks are</h2><div id="speed"></div></div></div>
 <div class="card"><h2>Per day</h2><div id="perday"></div></div>
 </div></div>
 <script>
@@ -59,16 +62,32 @@ table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:7px 4px;b
     });
     return t;
   }
-  function rank(list, red) {
+  function rank(list, red, emptyText, head) {
     var max = list.length ? list[0].count : 1;
-    return table(list, [{ h: 'Product', f: function (r) { return r.product; }, bar: max, k: 'count', red: red }, { h: 'Times', n: 1, f: function (r) { return String(r.count); }, cls: red ? 'r' : '' }], red ? 'Nothing yet.' : 'No searches recorded yet. Counting starts from the day this was deployed.');
+    return table(list, [{ h: head || 'Product', f: function (r) { return r.product; }, bar: max, k: 'count', red: red }, { h: 'Times', n: 1, f: function (r) { return String(r.count); }, cls: red ? 'r' : '' }], red ? 'Nothing yet.' : (emptyText || 'No searches recorded yet. Counting starts from the day this was deployed.'));
+  }
+  function label(k) {
+    if (k === 'home') return 'Homepage'; if (k === 'find-direct') return 'Find page (direct visit)'; if (k === 'unknown') return 'Unknown'; if (k === '(other)') return 'Other pages';
+    if (k.indexOf('blog-') === 0) return 'Blog: ' + k.slice(5); if (k.indexOf('deal-') === 0) return 'Deal: ' + k.slice(5); return k;
+  }
+  function kv(rows) {
+    var wrap = el('div');
+    rows.forEach(function (r) {
+      var row = el('div', 'kv'), top = el('div', 'kvt');
+      top.appendChild(el('span', '', r[0])); top.appendChild(el('b', '', String(r[1])));
+      row.appendChild(top);
+      if (r[2]) row.appendChild(el('div', 'kvn', r[2]));
+      if (r[3]) { var b = el('div', 'bar'), i = el('i'); i.style.width = (r[1] ? Math.max(2, Math.round(100 * r[1] / r[3])) : 0) + '%'; b.appendChild(i); row.appendChild(b); }
+      wrap.appendChild(row);
+    });
+    return wrap;
   }
   function kpi(v, l, c) { var d = el('div', 'k'), b = el('b', c || '', v); d.appendChild(b); d.appendChild(el('span', '', l)); return d; }
   function money(n) { return '$' + (Math.round(n * 100) / 100).toFixed(2); }
   function load() {
     $('err').textContent = '';
-    return Promise.all([get('/api/stats'), get('/api/stats?products=1&days=' + days)]).then(function (a) {
-      var st = a[0], pr = a[1], d = st.days.slice(0, days);
+    return Promise.all([get('/api/stats'), get('/api/stats?products=1&days=' + days), get('/api/stats?insights=1&days=' + days)]).then(function (a) {
+      var st = a[0], pr = a[1], ins = a[2], d = st.days.slice(0, days);
       $('login').style.display = 'none'; $('app').style.display = 'block';
       var sum = function (k) { return d.reduce(function (s, x) { return s + (x[k] || 0); }, 0); };
       var shown = sum('shown_offers'), fb = sum('fallbacks'), spend = sum('spend_usd');
@@ -83,6 +102,13 @@ table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:7px 4px;b
       });
       $('top').textContent = ''; $('top').appendChild(rank(pr.top, false));
       $('none').textContent = ''; $('none').appendChild(rank(pr.nothing, true));
+      $('srcs').textContent = ''; $('srcs').appendChild(rank(ins.sources.map(function (x) { return { product: label(x.source), count: x.count }; }), false, 'No sources recorded yet. This counts from the day it was deployed.', 'Page'));
+      var L = ins.limits; $('lims').textContent = '';
+      $('lims').appendChild(kv([['Ran out of free checks', L.out_of_checks, 'The clearest sign of demand for Pro.'], ['Hit the daily address cap', L.daily_ip_cap], ['Pro fair-use limit', L.pro_fair_use], ['Asked for bonus checks (email)', L.bonus_requested], ['Confirmed their email', L.bonus_claimed]]));
+      var W = ins.why, wt = W.no_offers + W.search_error + W.unreadable + W.busy; $('why').textContent = '';
+      $('why').appendChild(wt ? kv([['Nothing cheaper found', W.no_offers, 'A normal result, but nothing for the visitor to buy.', wt], ['Search failed', W.search_error, 'Our side. Not counted against the visitor.', wt], ['Answer unreadable', W.unreadable, 'Our side. Worth fixing first.', wt], ['Busy (daily spend cap reached)', W.busy, 'Raise FIND_DAILY_CAP_USD if this is not zero.', wt]]) : el('div', 'empty', 'No failures recorded yet.'));
+      var S = ins.speed; $('speed').textContent = '';
+      $('speed').appendChild(S.runs ? kv([['Average', S.avg_s + ' s', 'Live searches only. Cached results are instant.'], ['Slowest', S.slowest_s + ' s'], ['Under 10 s', S.under10, '', S.runs], ['10 to 20 s', S.s10_20, '', S.runs], ['20 to 30 s', S.s20_30, '', S.runs], ['30 to 45 s', S.s30_45, '', S.runs], ['Over 45 s', S.over45, 'Most visitors leave before this.', S.runs]]) : el('div', 'empty', 'No timed checks yet. This counts from the day it was deployed.'));
       var nm = {}; pr.per_day.forEach(function (x) { nm[x.day] = x; });
       $('perday').textContent = ''; $('perday').appendChild(table(d, [
         { h: 'Day', f: function (r) { return r.day; } },

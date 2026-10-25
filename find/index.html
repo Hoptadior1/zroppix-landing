@@ -218,7 +218,7 @@ html.embed .meta{scroll-margin-top:0}
     var ctl = new AbortController(); var t = setTimeout(function () { ctl.abort(); }, 70000);
     var headers = { 'Content-Type': 'application/json' };
     var owner = lsGet('zx_owner'); if (owner) headers['x-find-owner'] = owner;
-    body.visitor = state.visitor; body.country = state.country;
+    body.visitor = state.visitor; body.country = state.country; body.ref = REF || (window.__zxEmbed ? 'home' : 'find-direct');
     return fetch('/api/' + path, { method: 'POST', headers: headers, body: JSON.stringify(body), signal: ctl.signal })
       .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { status: r.status, json: j }; }); })
       .catch(function () { return { status: 0, json: { error: 'network' } }; })
