@@ -411,7 +411,7 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
 </style>
 <style id="mnav">.nav-toggle{display:none;background:none;border:1px solid var(--border,#2a2a40);color:var(--text,#fff);border-radius:10px;width:42px;height:42px;font-size:22px;line-height:1;cursor:pointer}
 @media(max-width:900px){nav:not([aria-label]){flex-wrap:wrap;gap:0}nav:not([aria-label]) .nav-toggle{display:block}nav:not([aria-label]) .nav-links{display:none!important;width:100%;flex-direction:column;align-items:stretch;gap:0;padding:8px 0 4px;margin:0;order:3}nav.open .nav-links{display:flex!important}nav:not([aria-label]) .nav-links li{list-style:none;display:block;width:100%;margin:0;padding:0;text-align:left}nav:not([aria-label]) .nav-links a{display:block;width:100%;box-sizing:border-box;text-align:left;padding:13px 4px;border-bottom:1px solid var(--border,#2a2a40);font-size:16px;white-space:normal}nav:not([aria-label]) .nav-links li:last-child a{border:0;margin-top:10px;text-align:center!important;border-radius:10px;padding:13px 16px!important}}</style><style id="heroLean">
-.hs-s{display:none}
+.hs-s{display:none}.lb-s{display:none}
 .hero::before{content:"";position:absolute;left:50%;top:60px;width:min(900px,120%);height:420px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(201,168,76,.16),rgba(201,168,76,0) 70%);pointer-events:none;z-index:0;animation:hxGlow 9s ease-in-out infinite alternate}
 .hero>*{position:relative;z-index:1}
 @keyframes hxGlow{from{opacity:.55;transform:translateX(-50%) scale(.96)}to{opacity:1;transform:translateX(-50%) scale(1.06)}}
@@ -430,15 +430,15 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
 .hx-r6{border-top:1px solid #22223A;padding:9px 0;align-items:center}.hx.pre .hx-r6{opacity:0;transform:translateY(10px)}.hx.in .hx-r6{opacity:1;transform:none;transition:opacity .5s ease .65s,transform .5s ease .65s}.hx.pre .hx-r1,.hx.pre .hx-r2,.hx.pre .hx-r3,.hx.pre .hx-r4,.hx.pre .hx-r5{opacity:0;transform:translateY(10px)}
 .hx.in .hx-r1,.hx.in .hx-r2,.hx.in .hx-r3,.hx.in .hx-r4,.hx.in .hx-r5{opacity:1;transform:none;transition:opacity .5s ease,transform .5s ease}
 .hx.in .hx-r2{transition-delay:.25s}.hx.in .hx-r3{transition-delay:.5s}.hx.in .hx-r4{transition-delay:.8s}.hx.in .hx-r5{transition-delay:1.1s}
-@media(max-width:600px){#lifetimeBanner{display:none!important}.hero-eyebrow,.hero-trust{display:none}.hero{padding:56px 20px 40px}.hero h1{font-size:31px;letter-spacing:-.5px;line-height:1.16;margin-bottom:22px}.hs-l{display:none}.hs-s{display:block;color:#F1EFFA;font-weight:700;font-size:19px;line-height:1.4;max-width:320px;margin:0 auto;text-wrap:balance}.hero-subtitle{margin-bottom:30px}.hx{margin-top:44px}.hx-card{padding:18px 18px}.hx-row{font-size:15.5px}.hx-r2,.hx-r3,.hx-r6{padding:12px 0}.hx-price{font-size:24px}.hx-total{padding:13px 14px;font-size:16px}.hx-more{font-size:14px;margin-top:12px}.hx-fine{font-size:11.5px;margin-top:12px}}
+@media(max-width:600px){#lifetimeBanner{display:flex!important;flex-wrap:nowrap!important;align-items:center;justify-content:center;gap:10px;padding:11px 40px 11px 16px!important}#lifetimeBanner .lifetime-banner-text{display:block!important;text-align:left}#lifetimeBanner .lb-l,#lifetimeBanner .lifetime-banner-badge{display:none!important}#lifetimeBanner .lb-s{display:block;font-size:12.5px;line-height:1.35;color:#9a98b8}#lifetimeBanner .lb-s b{color:#C9A84C;font-size:13.5px}#lifetimeBanner .lifetime-banner-btn{padding:8px 12px!important;font-size:13px!important;white-space:nowrap;margin:0!important}#lifetimeBanner .lifetime-banner-close{position:absolute;right:12px;top:50%;transform:translateY(-50%)}.hero-trust{display:none}.hero-eyebrow{margin-bottom:22px}.hero{padding:34px 20px 40px}.hero h1{font-size:31px;letter-spacing:-.5px;line-height:1.16;margin-bottom:20px}.hs-l{display:none}.hs-s{display:block;color:#F1EFFA;font-weight:700;font-size:19px;line-height:1.4;max-width:320px;margin:0 auto;text-wrap:balance}.hero-subtitle{margin-bottom:30px}.hx{margin-top:44px}.hx-card{padding:18px 18px}.hx-row{font-size:15.5px}.hx-r2,.hx-r3,.hx-r6{padding:12px 0}.hx-price{font-size:24px}.hx-total{padding:13px 14px;font-size:16px}.hx-more{font-size:14px;margin-top:12px}.hx-fine{font-size:11.5px;margin-top:12px}}
 @media(prefers-reduced-motion:reduce){.hero::before{animation:none}.hx.pre .hx-r1,.hx.pre .hx-r2,.hx.pre .hx-r3,.hx.pre .hx-r4,.hx.pre .hx-r5{opacity:1;transform:none}}
 </style></head>
 <body>
 
 <div class="lifetime-banner" id="lifetimeBanner">
-  <div class="lifetime-banner-text">
+  <div class="lifetime-banner-text"><span class="lb-s">🏅 <b>Pay once, $149</b><br>Limited to 497 founding members</span>
     <span class="lifetime-banner-badge">🏅 Founding Member</span>
-    <span>Lifetime access for <strong>$149 — one payment, never pay again.</strong> Limited to 497 people ever.</span>
+    <span class="lb-l">Lifetime access for <strong>$149 — one payment, never pay again.</strong> Limited to 497 people ever.</span>
   </div>
   <a href="/lifetime" class="lifetime-banner-btn">Lock It In →</a>
   <span class="lifetime-banner-close" onclick="document.getElementById('lifetimeBanner').style.display='none'">×</span>

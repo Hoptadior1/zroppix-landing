@@ -128,7 +128,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
 html.embed nav,html.embed .tagline,html.embed h1,html.embed .lead,html.embed .how,html.embed footer,html.embed .honest,html.embed noscript{display:none!important}
 html.embed body{background:transparent;min-height:0;overflow:hidden}html.embed main{max-width:none;padding:0 0 4px}
 html.embed .meta{scroll-margin-top:0}
-@media(max-width:600px){html.embed #examples{display:none!important}}
+
 </style>
 <style id="mnav">.nav-toggle{display:none;background:none;border:1px solid var(--border,#2a2a40);color:var(--text,#fff);border-radius:10px;width:42px;height:42px;font-size:22px;line-height:1;cursor:pointer}
 @media(max-width:900px){nav:not([aria-label]){flex-wrap:wrap;gap:0}nav:not([aria-label]) .nav-toggle{display:block}nav:not([aria-label]) .nav-links{display:none!important;width:100%;flex-direction:column;align-items:stretch;gap:0;padding:8px 0 4px;margin:0;order:3}nav.open .nav-links{display:flex!important}nav:not([aria-label]) .nav-links li{list-style:none;display:block;width:100%;margin:0;padding:0;text-align:left}nav:not([aria-label]) .nav-links a{display:block;width:100%;box-sizing:border-box;text-align:left;padding:13px 4px;border-bottom:1px solid var(--border,#2a2a40);font-size:16px;white-space:normal}nav:not([aria-label]) .nav-links li:last-child a{border:0;margin-top:10px;text-align:center!important;border-radius:10px;padding:13px 16px!important}}</style></head>
@@ -733,7 +733,7 @@ html.embed .meta{scroll-margin-top:0}
     var phone = window.matchMedia && matchMedia('(max-width:600px)').matches;
     qEl.placeholder = phone ? 'What are you buying?' : 'What are you about to buy? e.g. Sony WH-1000XM5'; goBtn.textContent = 'See if it\u2019s cheaper \u2192';
     var mic = document.querySelector('.micro'); if (mic) mic.textContent = phone ? 'First check free \u00b7 No sign-up' : 'Any product, any store \u00b7 First check free \u00b7 No sign-up \u00b7 Choosing a product never uses a check';
-    if (phone) { var mt = document.querySelector('.meta'), mc = document.querySelector('.micro'); if (mt && mc) { mc.insertAdjacentElement('afterend', mt); mt.style.marginTop = '14px'; } }
+    if (phone) { var mt = document.querySelector('.meta'), mc = document.querySelector('.micro'); var mx = document.getElementById('examples'); if (mt && mc) { (mx || mc).insertAdjacentElement('afterend', mt); mt.style.marginTop = '14px'; } }
     if (!phone && !(window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches)) {
       var tries = ['Sony WH-1000XM5', 'Nintendo Switch 2', 'Dyson Airwrap', 'Kindle Paperwhite', 'AirPods Pro', '65-inch 4K TV'], ti = 0, ci = 0, del = false;
       var tick = function () {
