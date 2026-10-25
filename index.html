@@ -410,7 +410,29 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
 }
 </style>
 <style id="mnav">.nav-toggle{display:none;background:none;border:1px solid var(--border,#2a2a40);color:var(--text,#fff);border-radius:10px;width:42px;height:42px;font-size:22px;line-height:1;cursor:pointer}
-@media(max-width:900px){nav:not([aria-label]){flex-wrap:wrap;gap:0}nav:not([aria-label]) .nav-toggle{display:block}nav:not([aria-label]) .nav-links{display:none!important;width:100%;flex-direction:column;align-items:stretch;gap:0;padding:8px 0 4px;margin:0;order:3}nav.open .nav-links{display:flex!important}nav:not([aria-label]) .nav-links li{list-style:none;display:block;width:100%;margin:0;padding:0;text-align:left}nav:not([aria-label]) .nav-links a{display:block;width:100%;box-sizing:border-box;text-align:left;padding:13px 4px;border-bottom:1px solid var(--border,#2a2a40);font-size:16px;white-space:normal}nav:not([aria-label]) .nav-links li:last-child a{border:0;margin-top:10px;text-align:center!important;border-radius:10px;padding:13px 16px!important}}</style></head>
+@media(max-width:900px){nav:not([aria-label]){flex-wrap:wrap;gap:0}nav:not([aria-label]) .nav-toggle{display:block}nav:not([aria-label]) .nav-links{display:none!important;width:100%;flex-direction:column;align-items:stretch;gap:0;padding:8px 0 4px;margin:0;order:3}nav.open .nav-links{display:flex!important}nav:not([aria-label]) .nav-links li{list-style:none;display:block;width:100%;margin:0;padding:0;text-align:left}nav:not([aria-label]) .nav-links a{display:block;width:100%;box-sizing:border-box;text-align:left;padding:13px 4px;border-bottom:1px solid var(--border,#2a2a40);font-size:16px;white-space:normal}nav:not([aria-label]) .nav-links li:last-child a{border:0;margin-top:10px;text-align:center!important;border-radius:10px;padding:13px 16px!important}}</style><style id="heroLean">
+.hs-s{display:none}
+.hero::before{content:"";position:absolute;left:50%;top:60px;width:min(900px,120%);height:420px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(201,168,76,.16),rgba(201,168,76,0) 70%);pointer-events:none;z-index:0;animation:hxGlow 9s ease-in-out infinite alternate}
+.hero>*{position:relative;z-index:1}
+@keyframes hxGlow{from{opacity:.55;transform:translateX(-50%) scale(.96)}to{opacity:1;transform:translateX(-50%) scale(1.06)}}
+.hx{max-width:560px;margin:26px auto 0;text-align:left}
+.hx-card{background:linear-gradient(180deg,#14141f,#0f0f18);border:1px solid #3a3358;border-radius:16px;padding:14px 16px;box-shadow:0 20px 60px rgba(201,168,76,.08)}
+.hx-tag{font-size:10.5px;font-weight:800;letter-spacing:.09em;color:#C9A84C;margin-bottom:8px}
+.hx-row{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:14.5px;color:#ddd}
+.hx-r1{padding-bottom:10px;font-size:15.5px;color:#fff}.hx-mute{font-weight:500;color:#7A78A0;font-size:13px}
+.hx-price{font-size:22px;font-weight:900;color:#fff;white-space:nowrap}.hx-price s{font-size:13.5px;color:#7A78A0;font-weight:500}
+.hx-r2,.hx-r3{border-top:1px solid #22223A;padding:9px 0;align-items:center}
+.hx-g{color:#4FD1A5}.hx-lock{color:#C9A84C;font-weight:700;white-space:nowrap;font-size:13.5px}
+.hx-total{margin-top:4px;background:rgba(29,158,117,.13);border:1px solid #1D9E75;border-radius:10px;padding:10px 12px;font-size:14.5px;color:#fff}
+.hx-more{margin-top:9px;font-size:13px;color:#9a98b8;display:flex;justify-content:space-between;gap:8px}
+.hx-fine{text-align:center;font-size:12.5px;color:#7A78A0;margin-top:10px;line-height:1.5}
+.hx-ext{max-width:560px;margin:16px auto 0;text-align:center;font-size:14px;color:#ccc;line-height:1.5}.hx-ext a{color:#C9A84C;font-weight:700;text-decoration:underline}
+.hx.pre .hx-r1,.hx.pre .hx-r2,.hx.pre .hx-r3,.hx.pre .hx-r4,.hx.pre .hx-r5{opacity:0;transform:translateY(10px)}
+.hx.in .hx-r1,.hx.in .hx-r2,.hx.in .hx-r3,.hx.in .hx-r4,.hx.in .hx-r5{opacity:1;transform:none;transition:opacity .5s ease,transform .5s ease}
+.hx.in .hx-r2{transition-delay:.25s}.hx.in .hx-r3{transition-delay:.5s}.hx.in .hx-r4{transition-delay:.8s}.hx.in .hx-r5{transition-delay:1.1s}
+@media(max-width:600px){.hero-eyebrow,.hero-trust{display:none}.hero{padding-top:36px}.hs-l{display:none}.hs-s{display:inline}.hero-subtitle{margin-bottom:18px;font-size:16px}.hx{margin-top:16px}.hx-fine{font-size:11.5px}}
+@media(prefers-reduced-motion:reduce){.hero::before{animation:none}.hx.pre .hx-r1,.hx.pre .hx-r2,.hx.pre .hx-r3,.hx.pre .hx-r4,.hx.pre .hx-r5{opacity:1;transform:none}}
+</style></head>
 <body>
 
 <div class="lifetime-banner" id="lifetimeBanner">
@@ -440,24 +462,23 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
     Stop paying more than you have to
   </div>
   <h1>Is that really the best price?<br><span class="gradient">Find out before you pay.</span></h1>
-  <p class="hero-subtitle">Type any product. We search stores, coupons and cashback and show you what is cheaper, with the source for every offer.</p>
+  <p class="hero-subtitle"><span class="hs-l">Type any product. We search stores, coupons and cashback and show you what is cheaper, with the source for every offer.</span><span class="hs-s">Type any product. We search stores, coupons and cashback and show what is cheaper.</span></p>
   <div class="find-embed" style="max-width:760px;margin:0 auto;text-align:left">
     <iframe id="findFrame" src="/find?embed=1" title="Find it for less: search any product" style="width:100%;height:230px;border:0;background:transparent;display:block" scrolling="no"></iframe>
     <noscript><p style="text-align:center"><a href="/find" style="color:#C9A84C;font-weight:700">Open the Find tool →</a></p></noscript>
   </div>
-  <div id="heroExample" style="max-width:640px;margin:22px auto 0;text-align:left">
-    <div style="font-size:11px;font-weight:800;letter-spacing:.08em;color:#C9A84C;margin-bottom:8px;text-align:center">EXAMPLE OF WHAT YOU COULD SEE</div>
-    <div style="background:#12121A;border:1px solid #3a3358;border-radius:14px;padding:16px 18px">
-      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap"><b style="font-size:16px">65-inch 4K TV <span style="font-weight:500;color:#7A78A0;font-size:13px">(example)</span></b><span style="font-size:22px;font-weight:900">$648 <s style="font-size:14px;color:#7A78A0;font-weight:500">$848</s></span></div>
-      <div style="font-size:13px;color:#7A78A0;margin:4px 0 8px">Offer found with its date and source</div>
-      <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;border-top:1px solid #22223A;padding:10px 0;font-size:14px"><span>🏷️ Coupon code, <b style="color:#4FD1A5">$40 off</b></span><span style="background:#0A0A10;border:1px dashed #555;border-radius:6px;padding:3px 10px;color:#7A78A0;filter:blur(3px);user-select:none" aria-hidden="true">SAVE40XX</span></div>
-      <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;border-top:1px solid #22223A;padding:10px 0;font-size:14px"><span>💵 Cashback, <b style="color:#4FD1A5">up to $32 back</b></span><span style="color:#C9A84C;font-weight:700;white-space:nowrap">Pro 🔒</span></div>
-      <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;border-top:1px solid #22223A;padding:10px 0;font-size:14px"><span>2 more offers with store and link</span><span style="color:#C9A84C;font-weight:700;white-space:nowrap">Pro 🔒</span></div>
-      <div style="margin-top:6px;background:rgba(29,158,117,.13);border:1px solid #1D9E75;border-radius:10px;padding:10px 12px;font-size:14.5px;color:#fff"><b style="color:#4FD1A5">Up to $272 off the regular price</b> if they combine</div>
+  <div id="heroExample" class="hx">
+    <div class="hx-card">
+      <div class="hx-tag">EXAMPLE OF WHAT YOU COULD SEE</div>
+      <div class="hx-row hx-r1"><b>65-inch 4K TV <span class="hx-mute">(example)</span></b><span class="hx-price">$648 <s>$848</s></span></div>
+      <div class="hx-row hx-r2"><span>🏷️ Coupon code, <b class="hx-g">$40 off</b></span><span class="hx-lock">Pro 🔒</span></div>
+      <div class="hx-row hx-r3"><span>💵 Cashback, <b class="hx-g">up to $32 back</b></span><span class="hx-lock">Pro 🔒</span></div>
+      <div class="hx-total hx-r4"><b class="hx-g">Up to $<span id="hxCount">272</span> off</b> the regular price if they combine</div>
+      <div class="hx-more hx-r5">+ 2 more offers with store and link <span class="hx-lock">Pro 🔒</span></div>
     </div>
-    <div style="text-align:center;font-size:13px;color:#7A78A0;margin-top:10px;line-height:1.5">Illustrative example. Offers may not combine, savings vary and some searches find nothing cheaper. Pro is $14/month, cancel anytime.</div>
+    <div class="hx-fine">Illustrative example. Offers may not combine, savings vary and some searches find nothing cheaper. Pro is $14/month, cancel anytime.</div>
   </div>
-  <div style="max-width:640px;margin:18px auto 0;text-align:center;font-size:14.5px;color:#ccc;line-height:1.5">Shopping on Amazon? <a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" target="_blank" rel="noopener" style="color:#C9A84C;font-weight:700;text-decoration:underline">Add the free Chrome extension</a> for an instant BUY or WAIT verdict on every product page.</div>
+  <div class="hx-ext">Shopping on Amazon? <a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" target="_blank" rel="noopener">Add the free Chrome extension</a> for an instant BUY or WAIT verdict on every product page.</div>
   <div class="hero-trust">
     <div class="trust-item"><span class="trust-check">✓</span> First check free</div>
     <div class="trust-item"><span class="trust-check">✓</span> No sign-up</div>
@@ -779,6 +800,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 </script>
-<script>(function(){var n=document.querySelector("nav:not([aria-label])"),b=document.getElementById("navtg");if(!n||!b)return;b.addEventListener("click",function(){var o=n.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false");b.textContent=o?"\u2715":"\u2630";});})();</script><script>(function(){var f=document.getElementById('findFrame');if(!f)return;window.addEventListener('message',function(e){if(e.origin!==location.origin)return;var d=e.data;if(!d||!d.zxFind)return;if(d.h)f.style.height=d.h+'px';if(d.busy){var x=document.getElementById('heroExample');if(x)x.style.display='none'}})})();</script>
+<script>(function(){var n=document.querySelector("nav:not([aria-label])"),b=document.getElementById("navtg");if(!n||!b)return;b.addEventListener("click",function(){var o=n.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false");b.textContent=o?"\u2715":"\u2630";});})();</script><script>(function(){var f=document.getElementById('findFrame');if(!f)return;window.addEventListener('message',function(e){if(e.origin!==location.origin)return;var d=e.data;if(!d||!d.zxFind)return;if(d.h)f.style.height=d.h+'px';if(d.busy){var x=document.getElementById('heroExample');if(x)x.style.display='none'}})})();
+(function(){var x=document.getElementById('heroExample');if(!x)return;var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;if(rm||!('IntersectionObserver' in window)){x.classList.add('in');return}x.classList.add('pre');var c=document.getElementById('hxCount');var go=function(){x.classList.add('in');if(c){var t0=null,end=272;var step=function(ts){if(!t0)t0=ts;var p=Math.min(1,(ts-t0-800)/900);if(p<0){c.textContent='0';requestAnimationFrame(step);return}c.textContent=Math.round(end*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(step)};c.textContent='0';requestAnimationFrame(step)}};new IntersectionObserver(function(es,o){es.forEach(function(e){if(e.isIntersecting){go();o.disconnect()}})},{threshold:.25}).observe(x)})();</script>
 </body>
 </html>

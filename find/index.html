@@ -128,6 +128,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
 html.embed nav,html.embed .tagline,html.embed h1,html.embed .lead,html.embed .how,html.embed footer,html.embed .honest,html.embed noscript{display:none!important}
 html.embed body{background:transparent;min-height:0;overflow:hidden}html.embed main{max-width:none;padding:0 0 4px}
 html.embed .meta{scroll-margin-top:0}
+@media(max-width:600px){html.embed #examples{display:none!important}}
 </style>
 <style id="mnav">.nav-toggle{display:none;background:none;border:1px solid var(--border,#2a2a40);color:var(--text,#fff);border-radius:10px;width:42px;height:42px;font-size:22px;line-height:1;cursor:pointer}
 @media(max-width:900px){nav:not([aria-label]){flex-wrap:wrap;gap:0}nav:not([aria-label]) .nav-toggle{display:block}nav:not([aria-label]) .nav-links{display:none!important;width:100%;flex-direction:column;align-items:stretch;gap:0;padding:8px 0 4px;margin:0;order:3}nav.open .nav-links{display:flex!important}nav:not([aria-label]) .nav-links li{list-style:none;display:block;width:100%;margin:0;padding:0;text-align:left}nav:not([aria-label]) .nav-links a{display:block;width:100%;box-sizing:border-box;text-align:left;padding:13px 4px;border-bottom:1px solid var(--border,#2a2a40);font-size:16px;white-space:normal}nav:not([aria-label]) .nav-links li:last-child a{border:0;margin-top:10px;text-align:center!important;border-radius:10px;padding:13px 16px!important}}</style></head>
@@ -726,8 +727,20 @@ html.embed .meta{scroll-margin-top:0}
   } else loadStatus();
   if (window.__zxEmbed) {
     noindex();
-    qEl.placeholder = 'What are you about to buy? e.g. Sony WH-1000XM5'; goBtn.textContent = 'See if it\u2019s cheaper \u2192';
-    var mic = document.querySelector('.micro'); if (mic) mic.textContent = 'Any product, any store \u00b7 First check free \u00b7 No sign-up \u00b7 Choosing a product never uses a check';
+    var phone = window.matchMedia && matchMedia('(max-width:600px)').matches;
+    qEl.placeholder = phone ? 'What are you buying?' : 'What are you about to buy? e.g. Sony WH-1000XM5'; goBtn.textContent = 'See if it\u2019s cheaper \u2192';
+    var mic = document.querySelector('.micro'); if (mic) mic.textContent = phone ? 'First check free \u00b7 No sign-up' : 'Any product, any store \u00b7 First check free \u00b7 No sign-up \u00b7 Choosing a product never uses a check';
+    if (!phone && !(window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches)) {
+      var tries = ['Sony WH-1000XM5', 'Nintendo Switch 2', 'Dyson Airwrap', 'Kindle Paperwhite', 'AirPods Pro', '65-inch 4K TV'], ti = 0, ci = 0, del = false;
+      var tick = function () {
+        if (qEl.value || document.activeElement === qEl || document.body.classList.contains('searching')) return setTimeout(tick, 1500);
+        var w = tries[ti];
+        if (!del) { ci++; if (ci >= w.length) { del = true; qEl.placeholder = 'Try: ' + w; return setTimeout(tick, 1600); } }
+        else { ci -= 2; if (ci <= 0) { ci = 0; del = false; ti = (ti + 1) % tries.length; qEl.placeholder = 'What are you about to buy?'; return setTimeout(tick, 400); } }
+        qEl.placeholder = 'Try: ' + w.slice(0, ci); setTimeout(tick, del ? 28 : 70);
+      };
+      setTimeout(tick, 2200);
+    }
     var bs = document.createElement('base'); bs.target = '_top'; document.head.appendChild(bs); // links leave the frame
     var lastH = 0;
     var report = function () {
