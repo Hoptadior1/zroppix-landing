@@ -4,7 +4,7 @@
 const { cfg } = require('./_lib/config');
 const store = require('./_lib/store');
 const { send, readBody, sameSite, ipHash, clean, validVisitor, pickCountry, isOwner, normName, sha } = require('./_lib/util');
-const { isKilled, reserve, settle, bump, trackProduct, trackLatency } = require('./_lib/spend');
+const { isKilled, reserve, settle, bump, trackProduct, trackLatency, trackVisitor, trackCountry } = require('./_lib/spend');
 const { within, allowance, consume, refund } = require('./_lib/limits');
 const ai = require('./_lib/anthropic');
 const P = require('./_lib/prompts');
@@ -94,7 +94,7 @@ module.exports = async (req, res) => {
       bump(!parsed ? 'why_unreadable' : hadSearchError ? 'why_searcherr' : 'why_nooffers');
       if (!parsed || hadSearchError) await refundIp();
       if (ran) await trackLatency(Date.now() - started);
-      await trackProduct(product.name, false);
+      await trackProduct(product.name, false); await trackCountry(country, 'n'); await trackVisitor('uvc', visitor);
       return send(res, 200, { status: 'fallback', tier, product, country, checkedAt: now.toISOString(), cached, judged, remaining: { left: al.left, total: al.total },
         result: Object.assign(R.buildFallback({ productName: product.name, country, stale: ev.stale, deal, newer: ev.accepted.filter((a) => a.kind === 'newer_model').slice(0, 1), unreadable: !parsed, tier, undated: ev.undated || [] }), R.rejectedOut(ev.rejected, tier === 'pro'), { retry: !!(stored && parsed && judged && !ev.pass2 && body.pass !== 2) }) });
     }
@@ -107,7 +107,7 @@ module.exports = async (req, res) => {
     }
     bump('check_ok');
     if (ran) await trackLatency(Date.now() - started);
-    await trackProduct(product.name, true);
+    await trackProduct(product.name, true); await trackCountry(country, 'f'); await trackVisitor('uvc', visitor);
     return send(res, 200, { status: 'ok', tier, product, country, checkedAt: now.toISOString(), cached, judged, remaining: { left, total: al.total },
       result: R.shape(ev, tier, { history: hist }, { productName: product.name, country }) });
   } catch (e) {

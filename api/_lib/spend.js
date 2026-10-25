@@ -94,4 +94,29 @@ async function trackLatency(ms) {
   } catch (_) { /* never break a request */ }
 }
 
-module.exports = { isKilled, reserve, settle, spentToday, bump, trackProduct, trackSource, trackLatency };
+// Unique visitors per day, without storing the browser ID: only a one-way scramble of it, capped, deleted after about 31 days.
+const { sha } = require('./util');
+async function trackVisitor(kind, visitor) {
+  try {
+    if (!visitor) return;
+    const k = kind + ':' + today();
+    const f = sha('uv|' + visitor).slice(0, 16);
+    if ((await store.hget(k, f)) != null) return;
+    if ((await store.hlen(k)) >= 50000) return;
+    await store.hset(k, f, '1');
+    if ((await store.hlen(k)) === 1) await store.expire(k, 31 * 86400);
+  } catch (_) { /* never break a request */ }
+}
+
+// Searches, and found / nothing results, per country.
+async function trackCountry(country, kind) {
+  try {
+    const c = String(country || '').toUpperCase().replace(/[^A-Z]/g, '').slice(0, 2);
+    if (!c) return;
+    const k = 'ctry:' + today();
+    const n = await store.hincrby(k, c + ':' + kind, 1);
+    if (n === 1) await store.expire(k, 31 * 86400);
+  } catch (_) { /* never break a request */ }
+}
+
+module.exports = { isKilled, reserve, settle, spentToday, bump, trackProduct, trackSource, trackLatency, trackVisitor, trackCountry };

@@ -3,7 +3,7 @@
 const { cfg } = require('./_lib/config');
 const store = require('./_lib/store');
 const { send, readBody, sameSite, ipHash, clean, validVisitor, normName, sha, pickCountry } = require('./_lib/util');
-const { isKilled, reserve, settle, bump, trackSource } = require('./_lib/spend');
+const { isKilled, reserve, settle, bump, trackSource, trackVisitor, trackCountry } = require('./_lib/spend');
 const { within, allowance } = require('./_lib/limits');
 const ai = require('./_lib/anthropic');
 const P = require('./_lib/prompts');
@@ -32,7 +32,7 @@ module.exports = async (req, res) => {
     const ip = ipHash(req);
     if (!(await within('match', ip, c.matchPerHour, 'hour')) || !(await within('matchd', ip, c.matchPerDay, 'day'))) return send(res, 429, { error: 'slow_down' });
 
-    await trackSource(body.ref);
+    bump('searches'); await trackSource(body.ref); await trackVisitor('uv', visitor); await trackCountry(pickCountry(req, body), 's');
     // Every answer also says how many checks this visitor has left and which country we guessed.
     const al = await allowance(visitor);
     const meta = { remaining: { left: al.left, total: al.total }, country: pickCountry(req, body) };

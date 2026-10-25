@@ -10,7 +10,7 @@ input{width:100%;background:#0b0b12;border:1px solid var(--border);border-radius
 button{background:var(--gold);color:#0B0B12;border:0;border-radius:10px;font-weight:800;padding:11px 18px;font-size:15px;cursor:pointer}
 .err{color:#f1a0a5;font-size:13px;margin-top:8px;min-height:18px}
 .tabs{display:flex;gap:8px;margin:16px 0;flex-wrap:wrap}.tab{background:var(--bg2);border:1px solid var(--border);border-radius:99px;padding:6px 14px;font-size:13px;color:#bbb;cursor:pointer}.tab.on{border-color:var(--gold);color:var(--gold);font-weight:700}
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px}
 .k{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:14px}.k b{display:block;font-size:26px}.k span{font-size:12px;color:var(--muted)}
 .g{color:var(--green)}.r{color:var(--red)}
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -27,6 +27,8 @@ table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:7px 4px;b
 <div id="app" style="display:none">
 <div class="tabs" id="tabs"></div>
 <div class="kpis" id="kpis"></div>
+<div class="cols"><div class="card"><h2>What visitors did next</h2><div id="funnel"></div></div><div class="card"><h2>Where visitors are from</h2><div id="ctry"></div></div></div>
+<div id="alerthint" class="card" style="display:none"></div>
 <div class="cols"><div class="card"><h2>Top searched products</h2><div id="top"></div></div><div class="card"><h2>Searches that found nothing</h2><div id="none"></div></div></div>
 <div class="cols"><div class="card"><h2>Where searches came from</h2><div id="srcs"></div></div><div class="card"><h2>Visitors who wanted more</h2><div id="lims"></div></div></div>
 <div class="cols"><div class="card"><h2>Why checks showed no offers</h2><div id="why"></div></div><div class="card"><h2>How fast checks are</h2><div id="speed"></div></div></div>
@@ -92,7 +94,9 @@ table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:7px 4px;b
       var sum = function (k) { return d.reduce(function (s, x) { return s + (x[k] || 0); }, 0); };
       var shown = sum('shown_offers'), fb = sum('fallbacks'), spend = sum('spend_usd');
       var kp = $('kpis'); kp.textContent = '';
+      var uv = (ins.visitors && ins.visitors.per_day) || [], uvs = uv.reduce(function (t, x) { return t + x.searched; }, 0);
       kp.appendChild(kpi(String(sum('searches')), 'Searches'));
+      kp.appendChild(kpi(days === 1 ? String(uvs) : String(uv.length ? Math.round(10 * uvs / uv.length) / 10 : 0), days === 1 ? 'People searching' : 'People per day (avg)'));
       kp.appendChild(kpi(String(shown + fb), 'Checks that finished'));
       kp.appendChild(kpi(shown + fb ? Math.round(100 * shown / (shown + fb)) + '%' : '-', 'Found offers', 'g'));
       kp.appendChild(kpi(money(spend), 'AI spend (cap ' + money(st.cap_usd) + '/day)'));
@@ -103,6 +107,12 @@ table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:7px 4px;b
       $('top').textContent = ''; $('top').appendChild(rank(pr.top, false));
       $('none').textContent = ''; $('none').appendChild(rank(pr.nothing, true));
       $('srcs').textContent = ''; $('srcs').appendChild(rank(ins.sources.map(function (x) { return { product: label(x.source), count: x.count }; }), false, 'No sources recorded yet. This counts from the day it was deployed.', 'Page'));
+      var F = ins.funnel, fm = Math.max(F.searches, 1); $('funnel').textContent = '';
+      $('funnel').appendChild(kv([['Searched', F.searches, '', fm], ['Finished a check', F.checks, 'Checks shown to the visitor.', fm], ['Found offers', F.found, '', fm], ['Clicked an offer', F.offer_clicks, 'Went to a store. This is the product working.', fm], ['Clicked a Pro button', F.pro_clicks, '', fm], ['Opened the Pro page', F.pro_views, 'Includes people who arrived from elsewhere.', fm], ['Checkout opened', F.checkout_opened, '', fm], ['Checkout reported complete', F.checkout_paid, 'From the browser. Paddle has the real number.', fm], ['Added a price watch', F.watches, '', fm]]));
+      $('ctry').textContent = '';
+      $('ctry').appendChild(table(ins.countries, [{ h: 'Country', f: function (r) { return r.country; } }, { h: 'Searches', n: 1, f: function (r) { return String(r.searches); } }, { h: 'Found', n: 1, cls: 'g', f: function (r) { return String(r.found); } }, { h: 'Nothing', n: 1, cls: 'r', f: function (r) { return String(r.nothing); } }], 'No countries recorded yet. This counts from the day it was deployed.'));
+      var ah = $('alerthint'), A = ins.alerts || {};
+      if (!A.configured || !A.cron_secret) { ah.style.display = 'block'; ah.textContent = ''; ah.appendChild(el('h2', '', 'Daily summary email is off')); ah.appendChild(el('div', 'empty', 'Set ' + [A.configured ? '' : 'FIND_ALERT_EMAIL', A.cron_secret ? '' : 'CRON_SECRET'].filter(Boolean).join(' and ') + ' in Vercel and redeploy. Then you get one email each morning, and a warning when something looks wrong.')); } else { ah.style.display = 'none'; }
       var L = ins.limits; $('lims').textContent = '';
       $('lims').appendChild(kv([['Ran out of free checks', L.out_of_checks, 'The clearest sign of demand for Pro.'], ['Hit the daily address cap', L.daily_ip_cap], ['Pro fair-use limit', L.pro_fair_use], ['Asked for bonus checks (email)', L.bonus_requested], ['Confirmed their email', L.bonus_claimed]]));
       var W = ins.why, wt = W.no_offers + W.search_error + W.unreadable + W.busy; $('why').textContent = '';

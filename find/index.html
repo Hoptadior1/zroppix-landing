@@ -202,7 +202,9 @@ html.embed .meta{scroll-margin-top:0}
   function ext(u, text, cls) { var s = safeUrl(u); return s ? h('a', { href: s, target: '_blank', rel: 'noopener nofollow noreferrer', class: cls, onclick: function () { track('find_offer_click'); } }, text) : h('span', {}, text); }
   function money(n, cur) { try { return new Intl.NumberFormat('en-US', { style: 'currency', currency: cur || 'USD', maximumFractionDigits: n % 1 ? 2 : 0 }).format(n); } catch (_) { return (cur || '') + ' ' + n; } }
   var REF = ''; try { REF = String(new URLSearchParams(location.search).get('from') || '').replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 60); } catch (_) {}
-  function track(n, x) { try { if (window.gtag) { var o = { src: window.__zxEmbed ? 'home' : 'find', country: state.country, tier: state.pro ? 'pro' : 'free' }; if (REF) o.ref = REF; if (x) for (var k in x) o[k] = x[k]; window.gtag('event', n, o); } } catch (_) {} }
+  // Anonymous server-side counter (not blocked by ad blockers): only the step name is sent.
+  function beacon(n) { try { var m = n === 'find_offer_click' ? 'offer_click' : /^find_pro_(click|lifetime)/.test(n) ? 'pro_click' : n === 'find_watch_added' ? 'watch_added' : n === 'find_pro_signin' ? 'signin_click' : ''; if (m) fetch('/api/ev', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ev: m }), keepalive: true }).catch(function () {}); } catch (_) {} }
+  function track(n, x) { beacon(n); try { if (window.gtag) { var o = { src: window.__zxEmbed ? 'home' : 'find', country: state.country, tier: state.pro ? 'pro' : 'free' }; if (REF) o.ref = REF; if (x) for (var k in x) o[k] = x[k]; window.gtag('event', n, o); } } catch (_) {} }
   function lsGet(k) { try { return localStorage.getItem(k); } catch (_) { return null; } }
   function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (_) {} }
   function rid() {

@@ -123,7 +123,8 @@ h1{font-size:40px;line-height:1.1;margin:10px 0 12px;letter-spacing:-.5px}h1 em{
     $('as1').innerHTML = '<b>One payment</b>No renewals, no surprise charges.';
   }
   if (!fromFind) { $('faqin').textContent = 'Your plan is linked to the email you pay with. Sign in to Zroppix with that same email to use it.'; $('faqcancel').innerHTML = ONCE ? $('faqcancel').innerHTML : 'One click from your Paddle receipt email or your Zroppix account. Your access runs until the end of the period you paid for.'; }
-  function track(n, x) { try { if (window.gtag) window.gtag('event', n, x || {}); } catch (_) {} }
+  function beacon(n) { try { var m = /^pro_page_view/.test(n) ? 'pro_view' : n === 'pro_checkout_loaded' ? 'checkout_loaded' : n === 'purchase' ? 'checkout_paid' : ''; if (m) fetch('/api/ev', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ev: m }), keepalive: true }).catch(function () {}); } catch (_) {} }
+  function track(n, x) { beacon(n); try { if (window.gtag) window.gtag('event', n, x || {}); } catch (_) {} }
   function val(d) { var v = 0; try { v = Number(d.totals.total) || 0; } catch (_) {} return v; }
   function ccy(d) { return (d && d.currency_code) || 'USD'; }
   function gaItem() { return [{ item_id: plan, item_name: PLANS[plan].n, price: parseFloat(PLANS[plan].pr.replace('$', '')), quantity: 1 }]; }
