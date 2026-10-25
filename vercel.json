@@ -786,32 +786,47 @@
       ]
     },
     {
-      "source": "/find",
-      "has": [
-        {
-          "type": "query",
-          "key": "q"
-        }
-      ],
+      "source": "/",
       "headers": [
         {
-          "key": "X-Robots-Tag",
-          "value": "noindex, follow"
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/pro",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
         }
       ]
     },
     {
       "source": "/find",
-      "has": [
-        {
-          "type": "query",
-          "key": "confirm"
-        }
-      ],
       "headers": [
         {
-          "key": "X-Robots-Tag",
-          "value": "noindex, follow"
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/lifetime",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/account",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
         }
       ]
     }
