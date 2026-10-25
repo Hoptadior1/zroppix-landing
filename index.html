@@ -427,10 +427,10 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
 .hx-total{line-height:1.45}.hx-sub{display:block;font-size:12.5px;color:#9a98b8;margin-top:2px}.hx-cta{display:block;margin-top:12px;text-align:center;background:linear-gradient(135deg,#C9A84C,#F5A623);color:#0B0B12;font-weight:800;font-size:15px;padding:13px 14px;border-radius:12px;text-decoration:none}.hx-cta:hover{filter:brightness(1.06)}.hx-more{margin-top:9px;font-size:13px;color:#9a98b8;display:flex;justify-content:space-between;gap:8px}
 .hx-fine{text-align:center;font-size:12.5px;color:#7A78A0;margin-top:10px;line-height:1.5}
 .hx-ext{max-width:560px;margin:16px auto 0;text-align:center;font-size:14px;color:#ccc;line-height:1.5}.hx-ext a{color:#C9A84C;font-weight:700;text-decoration:underline}
-.hx.pre .hx-r1,.hx.pre .hx-r2,.hx.pre .hx-r3,.hx.pre .hx-r4,.hx.pre .hx-r5{opacity:0;transform:translateY(10px)}
+.hx-r6{border-top:1px solid #22223A;padding:9px 0;align-items:center}.hx.pre .hx-r6{opacity:0;transform:translateY(10px)}.hx.in .hx-r6{opacity:1;transform:none;transition:opacity .5s ease .65s,transform .5s ease .65s}.hx.pre .hx-r1,.hx.pre .hx-r2,.hx.pre .hx-r3,.hx.pre .hx-r4,.hx.pre .hx-r5{opacity:0;transform:translateY(10px)}
 .hx.in .hx-r1,.hx.in .hx-r2,.hx.in .hx-r3,.hx.in .hx-r4,.hx.in .hx-r5{opacity:1;transform:none;transition:opacity .5s ease,transform .5s ease}
 .hx.in .hx-r2{transition-delay:.25s}.hx.in .hx-r3{transition-delay:.5s}.hx.in .hx-r4{transition-delay:.8s}.hx.in .hx-r5{transition-delay:1.1s}
-@media(max-width:600px){.hero h1{font-size:31px;letter-spacing:-.5px;line-height:1.14;margin-bottom:16px}.hx-card{padding:18px 18px}.hx-row{font-size:15.5px}.hx-r2,.hx-r3{padding:12px 0}.hx-price{font-size:24px}.hx-total{padding:13px 14px;font-size:16px}.hx-more{font-size:14px;margin-top:12px}.hx-fine{margin-top:12px}.hero-eyebrow,.hero-trust{display:none}.hero{padding-top:40px;padding-left:20px;padding-right:20px}.hs-l{display:none}.hs-s{display:inline}.hero-subtitle{margin-bottom:18px;font-size:16px}.hx{margin-top:16px}.hx-fine{font-size:11.5px}}
+@media(max-width:600px){#lifetimeBanner{display:none!important}.hero-eyebrow,.hero-trust{display:none}.hero{padding:56px 20px 40px}.hero h1{font-size:31px;letter-spacing:-.5px;line-height:1.16;margin-bottom:22px}.hs-l{display:none}.hs-s{display:block;color:#F1EFFA;font-weight:700;font-size:19px;line-height:1.4;max-width:320px;margin:0 auto;text-wrap:balance}.hero-subtitle{margin-bottom:30px}.hx{margin-top:44px}.hx-card{padding:18px 18px}.hx-row{font-size:15.5px}.hx-r2,.hx-r3,.hx-r6{padding:12px 0}.hx-price{font-size:24px}.hx-total{padding:13px 14px;font-size:16px}.hx-more{font-size:14px;margin-top:12px}.hx-fine{font-size:11.5px;margin-top:12px}}
 @media(prefers-reduced-motion:reduce){.hero::before{animation:none}.hx.pre .hx-r1,.hx.pre .hx-r2,.hx.pre .hx-r3,.hx.pre .hx-r4,.hx.pre .hx-r5{opacity:1;transform:none}}
 </style></head>
 <body>
@@ -462,7 +462,7 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
     Stop paying more than you have to
   </div>
   <h1>Is that really the best price?<br><span class="gradient">Find out before you pay.</span></h1>
-  <p class="hero-subtitle"><span class="hs-l">Type any product. We search stores, coupons and cashback and show you what is cheaper, with the source for every offer.</span><span class="hs-s">Type any product. We search stores, coupons and cashback and show what is cheaper.</span></p>
+  <p class="hero-subtitle"><span class="hs-l">Type any product. We search stores, coupons and cashback and show you what is cheaper, with the source for every offer.</span><span class="hs-s">One search. Every store, coupon and cashback.</span></p>
   <div class="find-embed" style="max-width:760px;margin:0 auto;text-align:left">
     <iframe id="findFrame" src="/find?embed=1" title="Find it for less: search any product" style="width:100%;height:230px;border:0;background:transparent;display:block" scrolling="no"></iframe>
     <noscript><p style="text-align:center"><a href="/find" style="color:#C9A84C;font-weight:700">Open the Find tool →</a></p></noscript>
@@ -473,6 +473,7 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
       <div class="hx-row hx-r1"><b>65-inch 4K TV <span class="hx-mute">(example)</span></b><span class="hx-price">$648 <s>$848</s></span></div>
       <div class="hx-row hx-r2"><span>🏷️ Coupon code, <b class="hx-g">$40 off</b></span><span class="hx-lock">Pro 🔒</span></div>
       <div class="hx-row hx-r3"><span>💵 Cashback, <b class="hx-g">up to $32 back</b></span><span class="hx-lock">Pro 🔒</span></div>
+      <div class="hx-row hx-r6"><span>📦 Open-box, <b class="hx-g">from $579</b></span><span class="hx-lock">Pro 🔒</span></div>
       <div class="hx-total hx-r4">You could save <b class="hx-g">up to $<span id="hxCount">272</span></b><span class="hx-sub">compared with the regular price, if the offers combine</span></div>
       <div class="hx-more hx-r5">+ 2 more offers with store and link <span class="hx-lock">Pro 🔒</span></div>
       <a class="hx-cta hx-r5" href="/pro?src=find" data-zx="hero-example">Unlock codes and links · $14/month →</a>

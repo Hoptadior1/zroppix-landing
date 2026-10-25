@@ -733,6 +733,7 @@ html.embed .meta{scroll-margin-top:0}
     var phone = window.matchMedia && matchMedia('(max-width:600px)').matches;
     qEl.placeholder = phone ? 'What are you buying?' : 'What are you about to buy? e.g. Sony WH-1000XM5'; goBtn.textContent = 'See if it\u2019s cheaper \u2192';
     var mic = document.querySelector('.micro'); if (mic) mic.textContent = phone ? 'First check free \u00b7 No sign-up' : 'Any product, any store \u00b7 First check free \u00b7 No sign-up \u00b7 Choosing a product never uses a check';
+    if (phone) { var mt = document.querySelector('.meta'), mc = document.querySelector('.micro'); if (mt && mc) { mc.insertAdjacentElement('afterend', mt); mt.style.marginTop = '14px'; } }
     if (!phone && !(window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches)) {
       var tries = ['Sony WH-1000XM5', 'Nintendo Switch 2', 'Dyson Airwrap', 'Kindle Paperwhite', 'AirPods Pro', '65-inch 4K TV'], ti = 0, ci = 0, del = false;
       var tick = function () {
