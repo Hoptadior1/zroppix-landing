@@ -437,58 +437,32 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
 <section class="hero">
   <div class="hero-eyebrow">
     <div class="hero-eyebrow-dot"></div>
-    AI Powered Price Intelligence
+    Stop paying more than you have to
   </div>
-  <h1>Stop overpaying.<br><span class="gradient">Know when to buy.</span></h1>
-  <p class="hero-subtitle">Paste any Amazon URL below and see instantly if you're about to overpay — powered by 90 days of real price history. Free. No account needed.</p>
-  <div class="parser-section">
-    <div class="parser-box" id="parserBox">
-      <div class="parser-input-row">
-        <input type="url" id="parserInput" class="parser-input" placeholder="Paste any Amazon product URL here..." autocomplete="off" spellcheck="false" />
-        <button class="parser-btn" id="parserBtn" onclick="runParser()">Check Price →</button>
-      </div>
-      <div class="parser-hint">e.g. amazon.com/dp/B08N5WRWNW — works on any Amazon product</div>
-    </div>
-    <div class="parser-loading" id="parserLoading" style="display:none;">
-      <div class="parser-spinner"></div>
-      <span>Analyzing 90 days of price data...</span>
-    </div>
-    <div class="parser-result" id="parserResult" style="display:none;">
-      <div class="parser-result-inner">
-        <div class="parser-product-name" id="parserProductName"></div>
-        <div class="parser-verdict-card" id="parserVerdictCard">
-          <div class="parser-verdict-text" id="parserVerdictText"></div>
-          <div class="parser-saving" id="parserSaving"></div>
-          <div class="parser-paid-less" id="parserPaidLess"></div>
-        </div>
-        <div class="parser-stats">
-          <div class="parser-stat"><div class="parser-stat-label">90-day low</div><div class="parser-stat-val green" id="parserLow"></div></div>
-          <div class="parser-stat"><div class="parser-stat-label">Average</div><div class="parser-stat-val" id="parserAvg"></div></div>
-          <div class="parser-stat"><div class="parser-stat-label">Highest</div><div class="parser-stat-val red" id="parserHigh"></div></div>
-          <div class="parser-stat"><div class="parser-stat-label">Today</div><div class="parser-stat-val" id="parserCurrent"></div></div>
-        </div>
-        <a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="parser-cta-btn" target="_blank">🛡️ Install Zroppix for real-time alerts on this product →</a>
-        <div class="parser-reset" onclick="resetParser()">← Check another product</div>
-        <div id="parserCounter" class="parser-counter"></div>
-      </div>
-    </div>
-    <div class="parser-error" id="parserError" style="display:none;">
-      <span id="parserErrorText"></span>
-      <span class="parser-reset" onclick="resetParser()" style="display:inline;padding:0;margin-left:6px;">Try again →</span>
-    </div>
-    <div class="parser-limit" id="parserLimit" style="display:none;">
-      <div class="parser-limit-icon">🛡️</div>
-      <div class="parser-limit-title">You've used your 3 free checks today</div>
-      <div class="parser-limit-sub">Install Zroppix free to get 10 checks per day — directly on every Amazon product page.</div>
-      <a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="parser-limit-btn" target="_blank">🛡️ Install Zroppix Free — 10 Checks/Day →</a>
-      <div class="parser-reset" onclick="resetParserLimit()" style="margin-top:8px;">← Try again tomorrow</div>
-    </div>
+  <h1>Is that really the best price?<br><span class="gradient">Find out before you pay.</span></h1>
+  <p class="hero-subtitle">Type any product. We search stores, coupons and cashback and show you what is cheaper, with the source for every offer.</p>
+  <div class="find-embed" style="max-width:760px;margin:0 auto;text-align:left">
+    <iframe id="findFrame" src="/find?embed=1" title="Find it for less: search any product" style="width:100%;height:230px;border:0;background:transparent;display:block" scrolling="no"></iframe>
+    <noscript><p style="text-align:center"><a href="/find" style="color:#C9A84C;font-weight:700">Open the Find tool →</a></p></noscript>
   </div>
+  <div id="heroExample" style="max-width:640px;margin:22px auto 0;text-align:left">
+    <div style="font-size:11px;font-weight:800;letter-spacing:.08em;color:#C9A84C;margin-bottom:8px;text-align:center">EXAMPLE OF WHAT YOU COULD SEE</div>
+    <div style="background:#12121A;border:1px solid #3a3358;border-radius:14px;padding:16px 18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap"><b style="font-size:16px">65-inch 4K TV <span style="font-weight:500;color:#7A78A0;font-size:13px">(example)</span></b><span style="font-size:22px;font-weight:900">$648 <s style="font-size:14px;color:#7A78A0;font-weight:500">$848</s></span></div>
+      <div style="font-size:13px;color:#7A78A0;margin:4px 0 8px">Offer found with its date and source</div>
+      <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;border-top:1px solid #22223A;padding:10px 0;font-size:14px"><span>🏷️ Coupon code, <b style="color:#4FD1A5">$40 off</b></span><span style="background:#0A0A10;border:1px dashed #555;border-radius:6px;padding:3px 10px;color:#7A78A0;filter:blur(3px);user-select:none" aria-hidden="true">SAVE40XX</span></div>
+      <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;border-top:1px solid #22223A;padding:10px 0;font-size:14px"><span>💵 Cashback, <b style="color:#4FD1A5">up to $32 back</b></span><span style="color:#C9A84C;font-weight:700;white-space:nowrap">Pro 🔒</span></div>
+      <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;border-top:1px solid #22223A;padding:10px 0;font-size:14px"><span>2 more offers with store and link</span><span style="color:#C9A84C;font-weight:700;white-space:nowrap">Pro 🔒</span></div>
+      <div style="margin-top:6px;background:rgba(29,158,117,.13);border:1px solid #1D9E75;border-radius:10px;padding:10px 12px;font-size:14.5px;color:#fff"><b style="color:#4FD1A5">Up to $272 off the regular price</b> if they combine</div>
+    </div>
+    <div style="text-align:center;font-size:13px;color:#7A78A0;margin-top:10px;line-height:1.5">Illustrative example. Offers may not combine, savings vary and some searches find nothing cheaper. Pro is $14/month, cancel anytime.</div>
+  </div>
+  <div style="max-width:640px;margin:18px auto 0;text-align:center;font-size:14.5px;color:#ccc;line-height:1.5">Shopping on Amazon? <a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" target="_blank" rel="noopener" style="color:#C9A84C;font-weight:700;text-decoration:underline">Add the free Chrome extension</a> for an instant BUY or WAIT verdict on every product page.</div>
   <div class="hero-trust">
-    <div class="trust-item"><span class="trust-check">✓</span> Free forever — no card needed</div>
-    <div class="trust-item"><span class="trust-check">✓</span> Installs in 10 seconds</div>
-    <div class="trust-item"><span class="trust-check">✓</span> Works on Amazon instantly</div>
-    <div class="trust-item"><span class="trust-check">✓</span> BUY or WAIT from 90-day history</div>
+    <div class="trust-item"><span class="trust-check">✓</span> First check free</div>
+    <div class="trust-item"><span class="trust-check">✓</span> No sign-up</div>
+    <div class="trust-item"><span class="trust-check">✓</span> Any product, any store</div>
+    <div class="trust-item"><span class="trust-check">✓</span> Cancel Pro anytime</div>
   </div>
 </section>
 
@@ -786,57 +760,6 @@ function openCheckout(priceId) {
 }
 </script>
 <script>
-const PARSER_LIMIT = 3
-const PARSER_KEY = 'zroppix_web_checks'
-function getChecksToday() { try { const s = localStorage.getItem(PARSER_KEY); if (!s) return { count: 0, date: null }; return JSON.parse(s); } catch(e) { return { count: 0, date: null }; } }
-function incrementChecks() { try { const today = new Date().toDateString(); const d = getChecksToday(); const n = d.date === today ? d.count + 1 : 1; localStorage.setItem(PARSER_KEY, JSON.stringify({ count: n, date: today })); return n; } catch(e) { return 1; } }
-function checksUsedToday() { try { const today = new Date().toDateString(); const d = getChecksToday(); return d.date === today ? d.count : 0; } catch(e) { return 0; } }
-function showLimitReached() { ['parserLoading','parserBox','parserResult','parserError'].forEach(id => document.getElementById(id).style.display = 'none'); document.getElementById('parserLimit').style.display = 'block'; }
-async function runParser() {
-  const input = document.getElementById('parserInput');
-  const url = input.value.trim();
-  if (!url) { showParserError('Please paste an Amazon product URL first.'); return; }
-  if (!url.includes('amazon.')) { showParserError('Please paste a valid Amazon product URL (e.g. amazon.com/dp/...)'); return; }
-  if (checksUsedToday() >= PARSER_LIMIT) { showLimitReached(); return; }
-  document.getElementById('parserBox').style.display = 'none';
-  document.getElementById('parserLoading').style.display = 'flex';
-  document.getElementById('parserResult').style.display = 'none';
-  document.getElementById('parserError').style.display = 'none';
-  try {
-    const res = await fetch('https://zroppix-backend.vercel.app/api/prices/lookup', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url }) });
-    const data = await res.json();
-    if (!res.ok || data.error) { showParserError(data.error || 'Something went wrong. Please try again.'); return; }
-    showParserResult(data, incrementChecks());
-  } catch (err) { showParserError('Could not connect. Please check your connection and try again.'); }
-}
-function showParserResult(data, checksUsed) {
-  document.getElementById('parserLoading').style.display = 'none';
-  document.getElementById('parserResult').style.display = 'block';
-  const remaining = PARSER_LIMIT - (checksUsed || checksUsedToday());
-  const counter = document.getElementById('parserCounter');
-  if (counter) { counter.textContent = remaining <= 0 ? 'Last free check used — install for unlimited' : remaining + ' free check' + (remaining === 1 ? '' : 's') + ' remaining today'; counter.style.color = remaining <= 0 ? '#E24B4A' : '#7A78A0'; }
-  const isWait = data.verdict === 'WAIT';
-  document.getElementById('parserVerdictCard').className = 'parser-verdict-card ' + (isWait ? 'wait' : 'buy');
-  document.getElementById('parserProductName').textContent = data.product_name && data.product_name !== 'Amazon Product' ? data.product_name : 'Amazon Product · ASIN: ' + (data.asin || '');
-  document.getElementById('parserVerdictText').textContent = data.verdict;
-  document.getElementById('parserSaving').textContent = isWait && data.potential_saving > 0 ? 'You could save $' + data.potential_saving.toFixed(2) : !isWait ? '✓ Great price right now' : '';
-  document.getElementById('parserPaidLess').textContent = data.percent_paid_less + '% of buyers paid less than this price';
-  document.getElementById('parserLow').textContent = '$' + data.stats.lowest.toFixed(2);
-  document.getElementById('parserAvg').textContent = '$' + data.stats.average.toFixed(2);
-  document.getElementById('parserHigh').textContent = '$' + data.stats.highest.toFixed(2);
-  document.getElementById('parserCurrent').textContent = '$' + data.current_price.toFixed(2);
-}
-function showParserError(msg) { document.getElementById('parserLoading').style.display = 'none'; document.getElementById('parserBox').style.display = 'block'; document.getElementById('parserError').style.display = 'flex'; document.getElementById('parserErrorText').textContent = msg; }
-function resetParser() { document.getElementById('parserBox').style.display = 'block'; ['parserResult','parserError','parserLoading','parserLimit'].forEach(id => document.getElementById(id).style.display = 'none'); document.getElementById('parserInput').value = ''; document.getElementById('parserInput').focus(); }
-function resetParserLimit() { document.getElementById('parserLimit').style.display = 'none'; document.getElementById('parserBox').style.display = 'block'; document.getElementById('parserInput').focus(); }
-document.getElementById('parserInput').addEventListener('keydown', function(e) { if (e.key === 'Enter') runParser(); });
-window.addEventListener('DOMContentLoaded', function() {
-  const used = checksUsedToday();
-  const remaining = PARSER_LIMIT - used;
-  const hint = document.querySelector('.parser-hint');
-  if (used > 0 && remaining > 0 && hint) { hint.textContent = remaining + ' free check' + (remaining === 1 ? '' : 's') + ' remaining today · e.g. amazon.com/dp/B08N5WRWNW'; hint.style.color = remaining === 1 ? '#E24B4A' : '#3A3A5C'; }
-  if (used >= PARSER_LIMIT) showLimitReached();
-});
 document.querySelectorAll('.faq-question').forEach(q => {
   q.addEventListener('click', () => {
     const item = q.parentElement;
@@ -856,5 +779,6 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 </script>
-<script>(function(){var n=document.querySelector("nav:not([aria-label])"),b=document.getElementById("navtg");if(!n||!b)return;b.addEventListener("click",function(){var o=n.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false");b.textContent=o?"\u2715":"\u2630";});})();</script></body>
+<script>(function(){var n=document.querySelector("nav:not([aria-label])"),b=document.getElementById("navtg");if(!n||!b)return;b.addEventListener("click",function(){var o=n.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false");b.textContent=o?"\u2715":"\u2630";});})();</script><script>(function(){var f=document.getElementById('findFrame');if(!f)return;window.addEventListener('message',function(e){if(e.origin!==location.origin)return;var d=e.data;if(!d||!d.zxFind)return;if(d.h)f.style.height=d.h+'px';if(d.busy){var x=document.getElementById('heroExample');if(x)x.style.display='none'}})})();</script>
+</body>
 </html>

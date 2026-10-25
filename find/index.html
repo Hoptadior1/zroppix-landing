@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><script>(function(){try{var u=new URL(location.href),c=u.searchParams.get("confirm"),m=location.hash.match(/^#pro=([A-Za-z0-9_-]{20,64})$/);if(c)sessionStorage.setItem("zx_t_confirm",c);if(m)sessionStorage.setItem("zx_t_pro",m[1]);if(c||m)history.replaceState(null,"","/find"+(m&&/[?&]go=1/.test(u.search)?u.search:""))}catch(e){}})();</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-S3Z0V2CZNF"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-S3Z0V2CZNF");</script>
+<head><script>(function(){try{if(/[?&]embed=1(&|$)/.test(location.search)){document.documentElement.className="embed";window.__zxEmbed=1}}catch(e){}})();</script><script>(function(){try{var u=new URL(location.href),c=u.searchParams.get("confirm"),m=location.hash.match(/^#pro=([A-Za-z0-9_-]{20,64})$/);if(c)sessionStorage.setItem("zx_t_confirm",c);if(m)sessionStorage.setItem("zx_t_pro",m[1]);if(c||m)history.replaceState(null,"","/find"+(m&&/[?&]go=1/.test(u.search)?u.search:""))}catch(e){}})();</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-S3Z0V2CZNF"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-S3Z0V2CZNF",window.__zxEmbed?{send_page_view:false}:{});</script>
 <meta charset="UTF-8"><link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Find Cheaper Options for Any Product | Zroppix</title>
@@ -125,6 +125,9 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
 .searching .micro,.searching #examples{display:none}
 .meta{scroll-margin-top:84px}
 @media(max-width:600px){.lead .lg,.lg2{display:none}.lead .sh{display:inline}.lead{margin-bottom:14px}.searching .tagline{display:none}.meta{flex-wrap:nowrap;gap:8px;justify-content:space-between;font-size:12.5px}.meta>span:first-child{white-space:nowrap}.meta select{max-width:112px;padding:4px 6px;font-size:12.5px}#left,#signinBtn{white-space:nowrap;font-size:12.5px}#stage{margin-top:14px}}
+html.embed nav,html.embed .tagline,html.embed h1,html.embed .lead,html.embed .how,html.embed footer,html.embed .honest,html.embed noscript{display:none!important}
+html.embed body{background:transparent;min-height:0;overflow:hidden}html.embed main{max-width:none;padding:0 0 4px}
+html.embed .meta{scroll-margin-top:0}
 </style>
 <style id="mnav">.nav-toggle{display:none;background:none;border:1px solid var(--border,#2a2a40);color:var(--text,#fff);border-radius:10px;width:42px;height:42px;font-size:22px;line-height:1;cursor:pointer}
 @media(max-width:900px){nav:not([aria-label]){flex-wrap:wrap;gap:0}nav:not([aria-label]) .nav-toggle{display:block}nav:not([aria-label]) .nav-links{display:none!important;width:100%;flex-direction:column;align-items:stretch;gap:0;padding:8px 0 4px;margin:0;order:3}nav.open .nav-links{display:flex!important}nav:not([aria-label]) .nav-links li{list-style:none;display:block;width:100%;margin:0;padding:0;text-align:left}nav:not([aria-label]) .nav-links a{display:block;width:100%;box-sizing:border-box;text-align:left;padding:13px 4px;border-bottom:1px solid var(--border,#2a2a40);font-size:16px;white-space:normal}nav:not([aria-label]) .nav-links li:last-child a{border:0;margin-top:10px;text-align:center!important;border-radius:10px;padding:13px 16px!important}}</style></head>
@@ -280,7 +283,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
   // ---------- flow: match -> confirm -> check ----------
   function start(q) {
     q = (q || '').trim(); if (q.length < 2 || state.busy) return;
-    state.busy = true; goBtn.disabled = true; track('find_search'); document.body.classList.add('searching'); try { if (window.matchMedia('(max-width:600px)').matches) document.querySelector('.meta').scrollIntoView({ block: 'start', behavior: 'smooth' }); } catch (_) {}
+    state.busy = true; goBtn.disabled = true; track('find_search'); document.body.classList.add('searching'); try { if (!window.__zxEmbed && window.matchMedia('(max-width:600px)').matches) document.querySelector('.meta').scrollIntoView({ block: 'start', behavior: 'smooth' }); } catch (_) {}
     if (lastCard && lastTitle) { keepForLater(lastCard, lastTitle, lastSub); lastCard = null; lastTitle = ''; } // the previous result stays open below while you search
     transient(h('div', { class: 'card' }, h('h2', {}, 'Finding the product…'), h('ul', { class: 'steps' }, h('li', { class: 'on' }, h('span', { class: 'spin' }), 'Matching what you typed'))));
     api('match', { q: q }).then(function (r) {
@@ -429,7 +432,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
   function openPro(where) {
     track('find_pro_click_' + where);
     var u = '/pro?src=find'; if (where === 'gate') u += '&from=gate'; else if (state.cur && state.cur.name) u += '&q=' + encodeURIComponent(state.cur.name) + (state.cur.variant ? '&v=' + encodeURIComponent(state.cur.variant) : '');
-    location.href = u;
+    try { (window.top || window).location.href = u; } catch (_) { location.href = u; }
   }
   var warmed = false;
   function warm() { if (warmed) return; warmed = true; try { [['preconnect', 'https://cdn.paddle.com'], ['preconnect', 'https://buy.paddle.com'], ['prefetch', 'https://cdn.paddle.com/paddle/v2/paddle.js'], ['prefetch', '/pro']].forEach(function (x) { var l = document.createElement('link'); l.rel = x[0]; l.href = x[1]; if (x[0] === 'preconnect') l.crossOrigin = ''; document.head.appendChild(l); }); } catch (_) {} } // only for people who see a Pro offer
@@ -721,6 +724,21 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
       if (ok || params.get('go') === '1') startQ0();
     });
   } else loadStatus();
+  if (window.__zxEmbed) {
+    noindex();
+    qEl.placeholder = 'What are you about to buy? e.g. Sony WH-1000XM5'; goBtn.textContent = 'See if it\u2019s cheaper \u2192';
+    var mic = document.querySelector('.micro'); if (mic) mic.textContent = 'Any product, any store \u00b7 First check free \u00b7 No sign-up \u00b7 Choosing a product never uses a check';
+    var bs = document.createElement('base'); bs.target = '_top'; document.head.appendChild(bs); // links leave the frame
+    var lastH = 0;
+    var report = function () {
+      var hh = Math.ceil(document.body.getBoundingClientRect().height) + 6;
+      var busy = document.body.classList.contains('searching');
+      if (hh !== lastH || busy) { lastH = hh; try { parent.postMessage({ zxFind: true, h: hh, busy: busy }, location.origin); } catch (_) {} }
+    };
+    if (window.ResizeObserver) new ResizeObserver(report).observe(document.body);
+    new MutationObserver(report).observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ['class'] });
+    window.addEventListener('load', report); report();
+  }
   var q0 = params.get('q');
   function startQ0() { if (q0 && q0.trim().length > 1) { noindex(); if (params.get('go') === '1') history.replaceState(null, '', '/find'); qEl.value = q0.slice(0, 200); start(q0); } }
   if (!ptok) startQ0();
