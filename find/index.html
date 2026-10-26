@@ -705,6 +705,7 @@ html.embed .meta{scroll-margin-top:0}
 
   // ---------- page load: ?q= prefill, ?confirm= claim ----------
   var params = new URLSearchParams(location.search);
+  var ph0 = String(params.get('ph') || '').slice(0, 80); // custom placeholder for the box on blog posts
   var pf0 = params.get('pf'); // prefill only: used by the box on price pages. Nothing runs until the visitor taps the button.
   function noindex() { var m = document.querySelector('meta[name=robots]'); if (m) m.setAttribute('content', 'noindex, follow'); }
   var tok = params.get('confirm'); try { var st0 = sessionStorage.getItem('zx_t_confirm'); if (st0) { tok = st0; sessionStorage.removeItem('zx_t_confirm'); } } catch (_) {}
@@ -736,10 +737,11 @@ html.embed .meta{scroll-margin-top:0}
     noindex();
     var phone = window.matchMedia && matchMedia('(max-width:600px)').matches;
     qEl.placeholder = phone ? 'What are you buying?' : 'What are you about to buy? e.g. Sony WH-1000XM5'; goBtn.textContent = 'See if it\u2019s cheaper \u2192';
-    if (pf0) { var ex = document.getElementById('examples'); if (ex) ex.style.display = 'none'; }
+    if (ph0) qEl.placeholder = ph0;
+    if (pf0 || ph0) { var ex = document.getElementById('examples'); if (ex) ex.style.display = 'none'; }
     var mic = document.querySelector('.micro'); if (mic) mic.textContent = phone ? 'First check free \u00b7 No sign-up' : 'Any product, any store \u00b7 First check free \u00b7 No sign-up \u00b7 Choosing a product never uses a check';
     if (phone) { var mt = document.querySelector('.meta'), mc = document.querySelector('.micro'); var mx = document.getElementById('examples'); if (mt && mc) { (mx || mc).insertAdjacentElement('afterend', mt); mt.style.marginTop = '14px'; } }
-    if (!phone && !(window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches)) {
+    if (!ph0 && !pf0 && !phone && !(window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches)) {
       var tries = ['Sony WH-1000XM5', 'Nintendo Switch 2', 'Dyson Airwrap', 'Kindle Paperwhite', 'AirPods Pro', '65-inch 4K TV'], ti = 0, ci = 0, del = false;
       var tick = function () {
         if (qEl.value || document.activeElement === qEl || document.body.classList.contains('searching')) return setTimeout(tick, 1500);
