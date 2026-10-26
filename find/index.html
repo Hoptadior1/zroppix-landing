@@ -204,7 +204,7 @@ html.embed .meta{scroll-margin-top:0}
   var REF = ''; try { REF = String(new URLSearchParams(location.search).get('from') || '').replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 60); } catch (_) {}
   // Anonymous server-side counter (not blocked by ad blockers): only the step name is sent.
   function beacon(n) { try { var m = n === 'find_offer_click' ? 'offer_click' : /^find_pro_(click|lifetime)/.test(n) ? 'pro_click' : n === 'find_watch_added' ? 'watch_added' : n === 'find_pro_signin' ? 'signin_click' : ''; if (m) fetch('/api/ev', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ev: m }), keepalive: true }).catch(function () {}); } catch (_) {} }
-  function track(n, x) { beacon(n); try { if (window.gtag) { var o = { src: window.__zxEmbed ? 'home' : 'find', country: state.country, tier: state.pro ? 'pro' : 'free' }; if (REF) o.ref = REF; if (x) for (var k in x) o[k] = x[k]; window.gtag('event', n, o); } } catch (_) {} }
+  function track(n, x) { beacon(n); try { if (window.gtag) { var o = { src: window.__zxEmbed ? (REF ? 'page' : 'home') : 'find', country: state.country, tier: state.pro ? 'pro' : 'free' }; if (REF) o.ref = REF; if (x) for (var k in x) o[k] = x[k]; window.gtag('event', n, o); } } catch (_) {} }
   function lsGet(k) { try { return localStorage.getItem(k); } catch (_) { return null; } }
   function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (_) {} }
   function rid() {
@@ -705,6 +705,7 @@ html.embed .meta{scroll-margin-top:0}
 
   // ---------- page load: ?q= prefill, ?confirm= claim ----------
   var params = new URLSearchParams(location.search);
+  var pf0 = params.get('pf'); // prefill only: used by the box on price pages. Nothing runs until the visitor taps the button.
   function noindex() { var m = document.querySelector('meta[name=robots]'); if (m) m.setAttribute('content', 'noindex, follow'); }
   var tok = params.get('confirm'); try { var st0 = sessionStorage.getItem('zx_t_confirm'); if (st0) { tok = st0; sessionStorage.removeItem('zx_t_confirm'); } } catch (_) {}
   if (tok) {
@@ -735,6 +736,7 @@ html.embed .meta{scroll-margin-top:0}
     noindex();
     var phone = window.matchMedia && matchMedia('(max-width:600px)').matches;
     qEl.placeholder = phone ? 'What are you buying?' : 'What are you about to buy? e.g. Sony WH-1000XM5'; goBtn.textContent = 'See if it\u2019s cheaper \u2192';
+    if (pf0) { var ex = document.getElementById('examples'); if (ex) ex.style.display = 'none'; }
     var mic = document.querySelector('.micro'); if (mic) mic.textContent = phone ? 'First check free \u00b7 No sign-up' : 'Any product, any store \u00b7 First check free \u00b7 No sign-up \u00b7 Choosing a product never uses a check';
     if (phone) { var mt = document.querySelector('.meta'), mc = document.querySelector('.micro'); var mx = document.getElementById('examples'); if (mt && mc) { (mx || mc).insertAdjacentElement('afterend', mt); mt.style.marginTop = '14px'; } }
     if (!phone && !(window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches)) {
@@ -760,6 +762,7 @@ html.embed .meta{scroll-margin-top:0}
     window.addEventListener('load', report); report();
   }
   var q0 = params.get('q');
+  if (pf0 && !q0) { qEl.value = String(pf0).slice(0, 200); }
   function startQ0() { if (q0 && q0.trim().length > 1) { noindex(); if (params.get('go') === '1') history.replaceState(null, '', '/find'); qEl.value = q0.slice(0, 200); start(q0); } }
   if (!ptok) startQ0();
 })();
