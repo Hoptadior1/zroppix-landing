@@ -700,6 +700,36 @@
       "source": "/blog/ninja-slushi-price-history",
       "destination": "/deals/ninja-slushi-price-history",
       "permanent": true
+    },
+    {
+      "source": "/blog/track-amazon-prices-over-time",
+      "destination": "/blog/amazon-price-history",
+      "permanent": true
+    },
+    {
+      "source": "/blog/amazon-price-history-checker",
+      "destination": "/blog/amazon-price-history",
+      "permanent": true
+    },
+    {
+      "source": "/blog/check-amazon-prices",
+      "destination": "/blog/amazon-price-history",
+      "permanent": true
+    },
+    {
+      "source": "/blog/price-watch-amazon",
+      "destination": "/blog/amazon-price-watch",
+      "permanent": true
+    },
+    {
+      "source": "/blog/amazon-price-drop-alert",
+      "destination": "/blog/amazon-price-watch",
+      "permanent": true
+    },
+    {
+      "source": "/blog/best-free-amazon-deal-checker",
+      "destination": "/blog/amazon-deal-checker",
+      "permanent": true
     }
   ],
   "headers": [
