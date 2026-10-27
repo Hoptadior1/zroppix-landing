@@ -9,33 +9,6 @@ const { build } = require('./_lib/health');
 function pairs(arr) { const o = {}; for (let i = 0; i + 1 < (arr || []).length; i += 2) o[arr[i]] = Number(arr[i + 1]) || 0; return o; }
 
 
-// Paid sales live in the backend database. Ask it (owner-only) and summarise the last n days.
-async function salesSummary(c, n) {
-  try {
-    const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), 5000);
-    const r = await fetch(c.backendUrl + '/api/payments/sales', { signal: ctl.signal, headers: { Accept: 'application/json', 'x-admin-token': c.adminToken } });
-    clearTimeout(t);
-    if (r.status === 404) return { ok: false, note: 'The backend has no STATS_TOKEN set yet, so sales cannot be read.' };
-    if (r.status === 401) return { ok: false, note: 'The backend STATS_TOKEN does not match FIND_ADMIN_TOKEN.' };
-    if (!r.ok) return { ok: false, note: 'The backend could not return sales (HTTP ' + r.status + ').' };
-    const data = await r.json(); const since = Date.now() - n * 86400000;
-    const rows = (data.sales || []).filter((x) => new Date(x.paid_at).getTime() >= since);
-    const first = rows.filter((x) => !x.renewal);
-    const usd = (x) => (x.currency === 'USD' && Number.isFinite(x.amount_minor)) ? x.amount_minor / 100 : 0;
-    const agg = (key) => { const m = {}; first.forEach((x) => { const k = (x[key] || '(not recorded)'); m[k] = m[k] || { k, n: 0, usd: 0 }; m[k].n++; m[k].usd += usd(x); }); return Object.keys(m).map((k) => m[k]).sort((a, b) => b.n - a.n || b.usd - a.usd).slice(0, 15); };
-    const mask = (e) => { e = String(e || ''); const i = e.indexOf('@'); return i > 1 ? e.slice(0, 2) + '***' + e.slice(i) : '***'; };
-    return {
-      ok: true, days: n,
-      new_sales: first.length, renewals: rows.length - first.length,
-      lifetime: first.filter((x) => x.is_lifetime).length, pro: first.filter((x) => !x.is_lifetime).length,
-      revenue_usd: Math.round(first.reduce((a, x) => a + usd(x), 0) * 100) / 100,
-      other_currency: first.filter((x) => x.currency && x.currency !== 'USD').length,
-      by_page: agg('from_tag'), by_source: agg('src'), by_product: agg('product_q'),
-      recent: rows.slice(0, 10).map((x) => ({ when: x.paid_at, plan: x.is_lifetime ? 'lifetime' : (x.plan || 'pro'), renewal: !!x.renewal, usd: usd(x), page: x.from_tag || x.src || '', product: x.product_q || '' })),
-    };
-  } catch (e) { return { ok: false, note: 'Could not reach the backend to read sales.' }; }
-}
-
 module.exports = async (req, res) => {
   const c = cfg();
   if (!c.adminToken) return send(res, 404, { error: 'not_found' });
@@ -76,7 +49,6 @@ module.exports = async (req, res) => {
         pages: group(pgf, 30),
         traffic: group(trf, 15),
         after_limit: { limit_screens: alf.limit || 0, limit_checks_server: g('limit_checks'), returned: alf.return_after_limit || 0, pro_click: alf.pro_click || 0, pro_view: alf.pro_view || 0, checkout_loaded: alf.checkout_loaded || 0, checkout_paid: alf.checkout_paid || 0 },
-        sales: await salesSummary(c, n),
         countries: Object.keys(cl).map((k) => cl[k]).sort((x, y) => y.searches - x.searches).slice(0, 25),
         health: await build(new Date(Date.now() - 86400000).toISOString().slice(0, 10)),
         sources: Object.keys(src).map((k) => ({ source: k, count: src[k] })).sort((x, y) => y.count - x.count).slice(0, 20),
