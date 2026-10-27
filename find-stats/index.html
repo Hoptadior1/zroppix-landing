@@ -28,6 +28,10 @@ table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:7px 4px;b
 <div class="tabs" id="tabs"></div>
 <div class="kpis" id="kpis"></div>
 <div class="cols"><div class="card"><h2>What visitors did next</h2><div id="funnel"></div></div><div class="card"><h2>Where visitors are from</h2><div id="ctry"></div></div></div>
+<div class="card"><h2>Paying customers: where they came from</h2><div id="sales"></div></div>
+<div class="card"><h2>Each page: from the Find box to Pro to payment</h2><div id="pgtab" style="overflow-x:auto"></div></div>
+<div class="card"><h2>Where visitors first came from</h2><div id="trtab" style="overflow-x:auto"></div></div>
+<div class="card"><h2>After running out of free checks</h2><div id="aftlim"></div></div>
 <div id="alerthint" class="card"></div>
 <div class="cols"><div class="card"><h2>Top searched products</h2><div id="top"></div></div><div class="card"><h2>Searches that found nothing</h2><div id="none"></div></div></div>
 <div class="cols"><div class="card"><h2>Where searches came from</h2><div id="srcs"></div></div><div class="card"><h2>Visitors who wanted more</h2><div id="lims"></div></div></div>
@@ -110,6 +114,25 @@ table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:7px 4px;b
       $('srcs').textContent = ''; $('srcs').appendChild(rank(ins.sources.map(function (x) { return { product: label(x.source), count: x.count }; }), false, 'No sources recorded yet. This counts from the day it was deployed.', 'Page'));
       var F = ins.funnel, fm = Math.max(F.searches, 1); $('funnel').textContent = '';
       $('funnel').appendChild(kv([['Searched', F.searches, '', fm], ['Finished a check', F.checks, 'Checks shown to the visitor.', fm], ['Found offers', F.found, '', fm], ['Clicked an offer', F.offer_clicks, 'Went to a store. This is the product working.', fm], ['Clicked a Pro button', F.pro_clicks, '', fm], ['Opened the Pro page', F.pro_views, 'Includes people who arrived from elsewhere.', fm], ['Checkout opened', F.checkout_opened, '', fm], ['Checkout reported complete', F.checkout_paid, 'From the browser. Paddle has the real number.', fm], ['Added a price watch', F.watches, '', fm]]));
+      var SL = ins.sales || { ok: false, note: 'No sales data.' }; var sb = $('sales'); sb.textContent = '';
+      if (!SL.ok) { sb.appendChild(el('div', 'empty', SL.note || 'Sales are not available yet.')); }
+      else {
+        sb.appendChild(kv([['New paying customers', SL.new_sales, 'First payments only. Renewals are not counted (' + SL.renewals + ' in this period).'], ['Pro (monthly)', SL.pro], ['Lifetime', SL.lifetime], ['Revenue (USD, before fees)', money(SL.revenue_usd), SL.other_currency ? SL.other_currency + ' payment(s) in another currency are not included.' : '']]));
+        if (SL.new_sales) {
+          sb.appendChild(el('h3', '', 'By page that sent them to checkout'));
+          sb.appendChild(table(SL.by_page, [{ h: 'Page', f: function (r) { return label(r.k); } }, { h: 'Sales', n: 1, f: function (r) { return String(r.n); } }, { h: 'USD', n: 1, f: function (r) { return money(r.usd); } }], 'None yet.'));
+          if (SL.by_product.length && SL.by_product[0].k !== '(not recorded)') { sb.appendChild(el('h3', '', 'By product they were checking')); sb.appendChild(table(SL.by_product, [{ h: 'Product', f: function (r) { return r.k; } }, { h: 'Sales', n: 1, f: function (r) { return String(r.n); } }], 'None yet.')); }
+          sb.appendChild(el('h3', '', 'Latest payments'));
+          sb.appendChild(table(SL.recent, [{ h: 'When', f: function (r) { return String(r.when).slice(0, 16).replace('T', ' '); } }, { h: 'Plan', f: function (r) { return r.plan + (r.renewal ? ' (renewal)' : ''); } }, { h: 'From', f: function (r) { return label(r.page) || '-'; } }, { h: 'USD', n: 1, f: function (r) { return money(r.usd); } }], 'None yet.'));
+        } else { sb.appendChild(el('div', 'empty', 'No paid sales in this period yet. Each new sale will show here with the page it came from.')); }
+      }
+      function pct(a, b) { return b ? Math.round(1000 * a / b) / 10 + '%' : '-'; }
+      var FCOLS = function (first, lab) { return [{ h: first, f: lab }, { h: 'Saw box', n: 1, f: function (r) { return String(r.box_view); } }, { h: 'Searched', n: 1, f: function (r) { return String(r.search) + ' (' + pct(r.search, r.box_view) + ')'; } }, { h: 'Found', n: 1, cls: 'g', f: function (r) { return String(r.found); } }, { h: 'Clicked Pro', n: 1, f: function (r) { return String(r.pro_click); } }, { h: 'Reached Pro page', n: 1, f: function (r) { return String(r.pro_view); } }, { h: 'Checkout', n: 1, f: function (r) { return String(r.checkout_loaded); } }, { h: 'Paid', n: 1, cls: 'g', f: function (r) { return String(r.checkout_paid); } }]; };
+      $('pgtab').textContent = ''; $('pgtab').appendChild(table(ins.pages || [], FCOLS('Page', function (r) { return label(r.key); }), 'Nothing recorded yet. This counts from the day it was deployed.'));
+      $('pgtab').appendChild(el('div', 'empty', 'Saw box = once per visitor session per page. Searched shows the share of those who searched. A page sends people to Pro either from inside the Find box (Clicked Pro) or from its own buttons (Reached Pro page).'));
+      $('trtab').textContent = ''; $('trtab').appendChild(table(ins.traffic || [], FCOLS('Source', function (r) { return r.key; }), 'Nothing recorded yet. This counts from the day it was deployed.'));
+      var AL = ins.after_limit || {}; $('aftlim').textContent = '';
+      $('aftlim').appendChild(kv([['Times the "out of checks" screen showed', AL.limit_screens || 0, 'Browsers that had used their free check.'], ['Came back on a later day', AL.returned || 0, 'People who ran out and returned the next day or later.'], ['Clicked a Pro button afterwards', AL.pro_click || 0], ['Reached the Pro page', AL.pro_view || 0], ['Opened checkout', AL.checkout_loaded || 0], ['Paid', AL.checkout_paid || 0, 'Counted from their browser. Paddle shows the real payments.']]));
       $('ctry').textContent = '';
       $('ctry').appendChild(table(ins.countries, [{ h: 'Country', f: function (r) { return r.country; } }, { h: 'Searches', n: 1, f: function (r) { return String(r.searches); } }, { h: 'Found', n: 1, cls: 'g', f: function (r) { return String(r.found); } }, { h: 'Nothing', n: 1, cls: 'r', f: function (r) { return String(r.nothing); } }], 'No countries recorded yet. This counts from the day it was deployed.'));
       var ah = $('alerthint'), H = ins.health || { flags: [] }; ah.textContent = '';

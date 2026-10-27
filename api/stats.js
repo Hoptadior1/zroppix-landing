@@ -8,6 +8,34 @@ const { build } = require('./_lib/health');
 
 function pairs(arr) { const o = {}; for (let i = 0; i + 1 < (arr || []).length; i += 2) o[arr[i]] = Number(arr[i + 1]) || 0; return o; }
 
+
+// Paid sales live in the backend database. Ask it (owner-only) and summarise the last n days.
+async function salesSummary(c, n) {
+  try {
+    const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), 5000);
+    const r = await fetch(c.backendUrl + '/api/payments/sales', { signal: ctl.signal, headers: { Accept: 'application/json', 'x-admin-token': c.adminToken } });
+    clearTimeout(t);
+    if (r.status === 404) return { ok: false, note: 'The backend has no STATS_TOKEN set yet, so sales cannot be read.' };
+    if (r.status === 401) return { ok: false, note: 'The backend STATS_TOKEN does not match FIND_ADMIN_TOKEN.' };
+    if (!r.ok) return { ok: false, note: 'The backend could not return sales (HTTP ' + r.status + ').' };
+    const data = await r.json(); const since = Date.now() - n * 86400000;
+    const rows = (data.sales || []).filter((x) => new Date(x.paid_at).getTime() >= since);
+    const first = rows.filter((x) => !x.renewal);
+    const usd = (x) => (x.currency === 'USD' && Number.isFinite(x.amount_minor)) ? x.amount_minor / 100 : 0;
+    const agg = (key) => { const m = {}; first.forEach((x) => { const k = (x[key] || '(not recorded)'); m[k] = m[k] || { k, n: 0, usd: 0 }; m[k].n++; m[k].usd += usd(x); }); return Object.keys(m).map((k) => m[k]).sort((a, b) => b.n - a.n || b.usd - a.usd).slice(0, 15); };
+    const mask = (e) => { e = String(e || ''); const i = e.indexOf('@'); return i > 1 ? e.slice(0, 2) + '***' + e.slice(i) : '***'; };
+    return {
+      ok: true, days: n,
+      new_sales: first.length, renewals: rows.length - first.length,
+      lifetime: first.filter((x) => x.is_lifetime).length, pro: first.filter((x) => !x.is_lifetime).length,
+      revenue_usd: Math.round(first.reduce((a, x) => a + usd(x), 0) * 100) / 100,
+      other_currency: first.filter((x) => x.currency && x.currency !== 'USD').length,
+      by_page: agg('from_tag'), by_source: agg('src'), by_product: agg('product_q'),
+      recent: rows.slice(0, 10).map((x) => ({ when: x.paid_at, plan: x.is_lifetime ? 'lifetime' : (x.plan || 'pro'), renewal: !!x.renewal, usd: usd(x), page: x.from_tag || x.src || '', product: x.product_q || '' })),
+    };
+  } catch (e) { return { ok: false, note: 'Could not reach the backend to read sales.' }; }
+}
+
 module.exports = async (req, res) => {
   const c = cfg();
   if (!c.adminToken) return send(res, 404, { error: 'not_found' });
@@ -20,11 +48,15 @@ module.exports = async (req, res) => {
     }
     if (req.url && /[?&]insights=1/.test(req.url)) {
       const n = Math.max(1, Math.min(14, Number((/[?&]days=(\d+)/.exec(req.url) || [])[1]) || 7));
+      const pgf = {}, trf = {}, alf = {};
       const src = {}, st = {}, ctry = {}, uvDays = [], lat = { n: 0, sum: 0, max: 0, b0: 0, b1: 0, b2: 0, b3: 0, b4: 0 };
       for (let i = 0; i < n; i++) {
         const d = new Date(Date.now() - i * 86400000).toISOString().slice(0, 10);
         const a = pairs(await store.hgetall('srcs:' + d)); for (const k of Object.keys(a)) src[k] = (src[k] || 0) + a[k];
         const b = pairs(await store.hgetall('stat:' + d)); for (const k of Object.keys(b)) st[k] = (st[k] || 0) + b[k];
+        const _p = pairs(await store.hgetall('pgf:' + d)); for (const k of Object.keys(_p)) pgf[k] = (pgf[k] || 0) + _p[k];
+        const _t = pairs(await store.hgetall('trf:' + d)); for (const k of Object.keys(_t)) trf[k] = (trf[k] || 0) + _t[k];
+        const _a = pairs(await store.hgetall('alf:' + d)); for (const k of Object.keys(_a)) alf[k] = (alf[k] || 0) + _a[k];
         const cc = pairs(await store.hgetall('ctry:' + d)); for (const k of Object.keys(cc)) ctry[k] = (ctry[k] || 0) + cc[k];
         uvDays.push({ day: d, searched: await store.hlen('uv:' + d), checked: await store.hlen('uvc:' + d) });
         const l = pairs(await store.hgetall('lat:' + d));
@@ -34,11 +66,17 @@ module.exports = async (req, res) => {
       const g = (k) => st[k] || 0;
       const cl = {};
       for (const k of Object.keys(ctry)) { const m = /^([A-Z]{2}):([sfn])$/.exec(k); if (m) { cl[m[1]] = cl[m[1]] || { country: m[1], searches: 0, found: 0, nothing: 0 }; cl[m[1]][{ s: 'searches', f: 'found', n: 'nothing' }[m[2]]] = ctry[k]; } }
+      const STEPS = ['box_view', 'search', 'found', 'nothing', 'pro_click', 'pro_view', 'checkout_loaded', 'checkout_paid'];
+      const group = (h, top) => { const m = {}; for (const k of Object.keys(h)) { const i = k.lastIndexOf('|'); if (i < 1) continue; const key = k.slice(0, i), ev = k.slice(i + 1); if (STEPS.indexOf(ev) < 0) continue; m[key] = m[key] || { key }; m[key][ev] = (m[key][ev] || 0) + h[k]; } return Object.keys(m).map((k) => { const r = m[k]; STEPS.forEach((e) => { r[e] = r[e] || 0; }); return r; }).sort((x, y) => (y.box_view + y.pro_view) - (x.box_view + x.pro_view)).slice(0, top); };
       const checks = g('check_ok') + g('check_fallback'); // same definition as the top tile and the per-day table
       return send(res, 200, {
         days: n,
         funnel: { searches: g('queries'), checks, found: g('check_ok'), offer_clicks: g('ev_offer_click'), pro_clicks: g('ev_pro_click'), pro_views: g('ev_pro_view'), checkout_opened: g('ev_checkout_loaded'), checkout_paid: g('ev_checkout_paid'), watches: g('ev_watch_added'), signins: g('ev_signin_click') },
         visitors: { per_day: uvDays, today: uvDays[0] || null },
+        pages: group(pgf, 30),
+        traffic: group(trf, 15),
+        after_limit: { limit_screens: alf.limit || 0, limit_checks_server: g('limit_checks'), returned: alf.return_after_limit || 0, pro_click: alf.pro_click || 0, pro_view: alf.pro_view || 0, checkout_loaded: alf.checkout_loaded || 0, checkout_paid: alf.checkout_paid || 0 },
+        sales: await salesSummary(c, n),
         countries: Object.keys(cl).map((k) => cl[k]).sort((x, y) => y.searches - x.searches).slice(0, 25),
         health: await build(new Date(Date.now() - 86400000).toISOString().slice(0, 10)),
         sources: Object.keys(src).map((k) => ({ source: k, count: src[k] })).sort((x, y) => y.count - x.count).slice(0, 20),

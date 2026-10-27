@@ -68,6 +68,22 @@ async function trackProduct(name, found) {
 }
 
 // Anonymous per-day tally of where searches started (a page tag such as "home" or "blog-black-friday-..."), capped like the product tally.
+// Anonymous per-page / per-traffic-source funnel tally. Only short tags are stored: no visitor, address or email.
+async function trackFunnel(pg, tr, ev, afterLimit) {
+  try {
+    const d = today();
+    const add = async (k, field, cap) => {
+      let f = field;
+      if ((await store.hget(k, f)) == null && (await store.hlen(k)) >= cap) f = '(other)|' + ev;
+      const c = await store.hincrby(k, f, 1);
+      if (c === 1) await store.expire(k, 40 * 86400);
+    };
+    await add('pgf:' + d, pg + '|' + ev, 700);
+    await add('trf:' + d, tr + '|' + ev, 400);
+    if (afterLimit) await add('alf:' + d, ev, 60);
+  } catch (_) { /* never break a request */ }
+}
+
 async function trackSource(ref) {
   try {
     const f = String(ref || '').toLowerCase().replace(/[^a-z0-9-]/g, '').slice(0, 60) || 'unknown';
@@ -119,4 +135,4 @@ async function trackCountry(country, kind) {
   } catch (_) { /* never break a request */ }
 }
 
-module.exports = { isKilled, reserve, settle, spentToday, bump, trackProduct, trackSource, trackLatency, trackVisitor, trackCountry };
+module.exports = { isKilled, reserve, settle, spentToday, bump, trackProduct, trackSource, trackFunnel, trackLatency, trackVisitor, trackCountry };
