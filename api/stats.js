@@ -40,13 +40,13 @@ module.exports = async (req, res) => {
       const cl = {};
       for (const k of Object.keys(ctry)) { const m = /^([A-Z]{2}):([sfn])$/.exec(k); if (m) { cl[m[1]] = cl[m[1]] || { country: m[1], searches: 0, found: 0, nothing: 0 }; cl[m[1]][{ s: 'searches', f: 'found', n: 'nothing' }[m[2]]] = ctry[k]; } }
       const STEPS = ['box_view', 'search', 'found', 'nothing', 'pro_click', 'pro_view', 'checkout_loaded', 'checkout_paid'];
-      const group = (h, top) => { const m = {}; for (const k of Object.keys(h)) { const i = k.lastIndexOf('|'); if (i < 1) continue; const key = k.slice(0, i), ev = k.slice(i + 1); if (STEPS.indexOf(ev) < 0) continue; m[key] = m[key] || { key }; m[key][ev] = (m[key][ev] || 0) + h[k]; } return Object.keys(m).map((k) => { const r = m[k]; STEPS.forEach((e) => { r[e] = r[e] || 0; }); return r; }).sort((x, y) => (y.box_view + y.pro_view) - (x.box_view + x.pro_view)).slice(0, top); };
+      const group = (h, top) => { const m = {}; for (const k of Object.keys(h)) { const i = k.lastIndexOf('|'); if (i < 1) continue; const key = k.slice(0, i), ev = k.slice(i + 1); if (STEPS.indexOf(ev) < 0) continue; m[key] = m[key] || { key }; m[key][ev] = (m[key][ev] || 0) + h[k]; } return Object.keys(m).map((k) => { const r = m[k]; STEPS.forEach((e) => { r[e] = r[e] || 0; }); return r; }).sort((x, y) => ((y.checkout_paid * 1e6 + y.checkout_loaded * 1e4 + (y.pro_click + y.pro_view) * 1e2 + y.box_view) - (x.checkout_paid * 1e6 + x.checkout_loaded * 1e4 + (x.pro_click + x.pro_view) * 1e2 + x.box_view))).slice(0, top); };
       const checks = g('check_ok') + g('check_fallback'); // same definition as the top tile and the per-day table
       return send(res, 200, {
         days: n,
         funnel: { searches: g('queries'), checks, found: g('check_ok'), offer_clicks: g('ev_offer_click'), pro_clicks: g('ev_pro_click'), pro_views: g('ev_pro_view'), checkout_opened: g('ev_checkout_loaded'), checkout_paid: g('ev_checkout_paid'), watches: g('ev_watch_added'), signins: g('ev_signin_click') },
         visitors: { per_day: uvDays, today: uvDays[0] || null },
-        pages: group(pgf, 30),
+        pages: group(pgf, 40),
         traffic: group(trf, 15),
         after_limit: { limit_screens: alf.limit || 0, limit_checks_server: g('limit_checks'), returned: alf.return_after_limit || 0, pro_click: alf.pro_click || 0, pro_view: alf.pro_view || 0, checkout_loaded: alf.checkout_loaded || 0, checkout_paid: alf.checkout_paid || 0 },
         countries: Object.keys(cl).map((k) => cl[k]).sort((x, y) => y.searches - x.searches).slice(0, 25),
