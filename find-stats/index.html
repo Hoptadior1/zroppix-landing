@@ -27,10 +27,9 @@ table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:7px 4px;b
 <div id="app" style="display:none">
 <div class="tabs" id="tabs"></div>
 <div class="kpis" id="kpis"></div>
-<div class="cols"><div class="card"><h2>What visitors did next</h2><div id="funnel"></div></div><div class="card"><h2>Where visitors are from</h2><div id="ctry"></div></div></div>
+<div class="cols"><div class="card"><h2>What visitors did next</h2><div id="funnel"></div></div><div class="card"><h2>Visitor country</h2><div id="vctab" style="overflow-x:auto"></div></div></div>
 <div class="card"><h2>Each page: from the Find box to Pro to payment</h2><div id="pgtab" style="overflow-x:auto"></div></div>
 <div class="card"><h2>Where visitors first came from</h2><div id="trtab" style="overflow-x:auto"></div></div>
-<div class="card"><h2>Visitor country</h2><div id="vctab" style="overflow-x:auto"></div></div>
 <div class="card"><h2>After running out of free checks</h2><div id="aftlim"></div></div>
 <div id="alerthint" class="card"></div>
 <div class="cols"><div class="card"><h2>Top searched products</h2><div id="top"></div></div><div class="card"><h2>Searches that found nothing</h2><div id="none"></div></div></div>
@@ -120,12 +119,10 @@ table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:7px 4px;b
       $('pgtab').appendChild(el('div', 'empty', 'Saw box = once per visitor session per page. Searched shows the share of those who searched. A page sends people to Pro either from inside the Find box (Clicked Pro) or from its own buttons (Reached Pro page).'));
       $('trtab').textContent = ''; $('trtab').appendChild(table(ins.traffic || [], FCOLS('Source', function (r) { return r.key; }), 'Nothing recorded yet. This counts from the day it was deployed.'));
       var cname = function (c) { if (c === 'XX') return 'Unknown'; try { return new Intl.DisplayNames(['en'], { type: 'region' }).of(c) + ' (' + c + ')'; } catch (e) { return c; } };
-      $('vctab').textContent = ''; $('vctab').appendChild(table(ins.visitor_countries || [], FCOLS('Country', function (r) { return cname(r.key); }), 'Nothing recorded yet. This counts from the day it was deployed.'));
-      $('vctab').appendChild(el('div', 'empty', 'The visitor\'s own country, from the request. Only the two-letter code is counted, never the address. A visitor shows once per page per session, so read it as sessions.'));
+      $('vctab').textContent = ''; $('vctab').appendChild(table(ins.visitor_countries || [], [{ h: 'Country', f: function (r) { return cname(r.key); } }, { h: 'Saw box', n: 1, f: function (r) { return String(r.box_view); } }, { h: 'Searched', n: 1, f: function (r) { return String(r.search); } }, { h: 'Found', n: 1, cls: 'g', f: function (r) { return String(r.found); } }, { h: 'Nothing', n: 1, cls: 'r', f: function (r) { return String(r.nothing); } }, { h: 'Clicked Pro', n: 1, f: function (r) { return String(r.pro_click); } }, { h: 'Paid', n: 1, cls: 'g', f: function (r) { return String(r.checkout_paid); } }], 'Nothing recorded yet. This counts from the day it was deployed.'));
+      $('vctab').appendChild(el('div', 'empty', 'The visitor\'s own country, from the request. Only the two-letter code is counted, never the address. Counts are sessions, not people.'));
       var AL = ins.after_limit || {}; $('aftlim').textContent = '';
       $('aftlim').appendChild(kv([['Times the "out of checks" screen showed', AL.limit_screens || 0, 'Browsers that had used their free check.'], ['Came back on a later day', AL.returned || 0, 'People who ran out and returned the next day or later.'], ['Clicked a Pro button afterwards', AL.pro_click || 0], ['Reached the Pro page', AL.pro_view || 0], ['Opened checkout', AL.checkout_loaded || 0], ['Paid', AL.checkout_paid || 0, 'Counted from their browser. Paddle shows the real payments.']]));
-      $('ctry').textContent = '';
-      $('ctry').appendChild(table(ins.countries, [{ h: 'Country', f: function (r) { return r.country; } }, { h: 'Searches', n: 1, f: function (r) { return String(r.searches); } }, { h: 'Found', n: 1, cls: 'g', f: function (r) { return String(r.found); } }, { h: 'Nothing', n: 1, cls: 'r', f: function (r) { return String(r.nothing); } }], 'No countries recorded yet. This counts from the day it was deployed.'));
       var ah = $('alerthint'), H = ins.health || { flags: [] }; ah.textContent = '';
       ah.appendChild(el('h2', '', 'Yesterday (' + (H.day || '') + '): ' + (H.bad ? 'needs a look' : 'nothing looks wrong')));
       if (H.flags.length) { H.flags.forEach(function (f) { ah.appendChild(el('div', 'kvn', f)); }); } else { ah.appendChild(el('div', 'empty', 'No warnings: spend, speed, failures and traffic are all normal.')); }
