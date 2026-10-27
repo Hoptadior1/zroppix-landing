@@ -69,7 +69,7 @@ async function trackProduct(name, found) {
 
 // Anonymous per-day tally of where searches started (a page tag such as "home" or "blog-black-friday-..."), capped like the product tally.
 // Anonymous per-page / per-traffic-source funnel tally. Only short tags are stored: no visitor, address or email.
-async function trackFunnel(pg, tr, ev, afterLimit) {
+async function trackFunnel(pg, tr, ev, afterLimit, cc) {
   try {
     const d = today();
     const add = async (k, field, cap) => {
@@ -80,6 +80,7 @@ async function trackFunnel(pg, tr, ev, afterLimit) {
     };
     await add('pgf:' + d, pg + '|' + ev, 700);
     await add('trf:' + d, tr + '|' + ev, 400);
+    if (cc) await add('vcf:' + d, cc + '|' + ev, 300);
     if (afterLimit) await add('alf:' + d, ev, 60);
   } catch (_) { /* never break a request */ }
 }

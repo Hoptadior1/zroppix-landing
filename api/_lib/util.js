@@ -30,6 +30,12 @@ function pickCountry(req, body) {
   return COUNTRIES.has(h) ? h : 'US';
 }
 
+// The visitor's own country as a two-letter code (from the host's request header). Never the address itself.
+function visitorCountry(req) {
+  const h = String((req.headers && req.headers['x-vercel-ip-country']) || '').toUpperCase();
+  return /^[A-Z]{2}$/.test(h) ? h : 'XX';
+}
+
 function send(res, code, obj) {
   res.statusCode = code;
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -68,4 +74,4 @@ function normName(s) {
   return clean(s, 200).toLowerCase().replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
-module.exports = { sha, ipHash, today, hourKey, clean, validVisitor, pickCountry, send, readBody, sameSite, isOwner, normName, COUNTRIES };
+module.exports = { sha, ipHash, today, hourKey, clean, validVisitor, pickCountry, visitorCountry, send, readBody, sameSite, isOwner, normName, COUNTRIES };

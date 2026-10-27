@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
     }
     if (req.url && /[?&]insights=1/.test(req.url)) {
       const n = Math.max(1, Math.min(14, Number((/[?&]days=(\d+)/.exec(req.url) || [])[1]) || 7));
-      const pgf = {}, trf = {}, alf = {};
+      const pgf = {}, trf = {}, alf = {}, vcf = {};
       const src = {}, st = {}, ctry = {}, uvDays = [], lat = { n: 0, sum: 0, max: 0, b0: 0, b1: 0, b2: 0, b3: 0, b4: 0 };
       for (let i = 0; i < n; i++) {
         const d = new Date(Date.now() - i * 86400000).toISOString().slice(0, 10);
@@ -29,6 +29,7 @@ module.exports = async (req, res) => {
         const b = pairs(await store.hgetall('stat:' + d)); for (const k of Object.keys(b)) st[k] = (st[k] || 0) + b[k];
         const _p = pairs(await store.hgetall('pgf:' + d)); for (const k of Object.keys(_p)) pgf[k] = (pgf[k] || 0) + _p[k];
         const _t = pairs(await store.hgetall('trf:' + d)); for (const k of Object.keys(_t)) trf[k] = (trf[k] || 0) + _t[k];
+        const _v = pairs(await store.hgetall('vcf:' + d)); for (const k of Object.keys(_v)) vcf[k] = (vcf[k] || 0) + _v[k];
         const _a = pairs(await store.hgetall('alf:' + d)); for (const k of Object.keys(_a)) alf[k] = (alf[k] || 0) + _a[k];
         const cc = pairs(await store.hgetall('ctry:' + d)); for (const k of Object.keys(cc)) ctry[k] = (ctry[k] || 0) + cc[k];
         uvDays.push({ day: d, searched: await store.hlen('uv:' + d), checked: await store.hlen('uvc:' + d) });
@@ -48,6 +49,7 @@ module.exports = async (req, res) => {
         visitors: { per_day: uvDays, today: uvDays[0] || null },
         pages: group(pgf, 40),
         traffic: group(trf, 15),
+        visitor_countries: group(vcf, 30),
         after_limit: { limit_screens: alf.limit || 0, limit_checks_server: g('limit_checks'), returned: alf.return_after_limit || 0, pro_click: alf.pro_click || 0, pro_view: alf.pro_view || 0, checkout_loaded: alf.checkout_loaded || 0, checkout_paid: alf.checkout_paid || 0 },
         countries: Object.keys(cl).map((k) => cl[k]).sort((x, y) => y.searches - x.searches).slice(0, 25),
         health: await build(new Date(Date.now() - 86400000).toISOString().slice(0, 10)),

@@ -1,7 +1,7 @@
 'use strict';
 // POST /api/ev  {ev:'offer_click'|...}  -> counts one step of the funnel for the owner's stats page.
 // Anonymous: only the event name, the page tag and the traffic-source tag are counted. Unknown names are ignored. Rate limited per network address.
-const { send, readBody, sameSite, ipHash } = require('./_lib/util');
+const { send, readBody, sameSite, ipHash, visitorCountry } = require('./_lib/util');
 const { within } = require('./_lib/limits');
 const { bump, trackFunnel } = require('./_lib/spend');
 
@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
     // Which page and which kind of visitor (first-touch traffic source) this step belongs to.
     const pg = String(body.pg || '').toLowerCase().replace(/[^a-z0-9-]/g, '').slice(0, 60) || 'unknown';
     const tr = /^[a-z0-9:._-]{1,45}$/.test(String(body.tr || '')) ? String(body.tr) : 'unknown';
-    await trackFunnel(pg, tr, ev, body.al === 1 || body.al === true);
+    await trackFunnel(pg, tr, ev, body.al === 1 || body.al === true, visitorCountry(req));
   } catch (_) { /* never an error for a counter */ }
   return send(res, 200, { ok: true });
 };
