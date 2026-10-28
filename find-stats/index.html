@@ -40,7 +40,7 @@ table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:7px 4px;b
 </div></div>
 <script>
 (function () {
-  var tok = '', days = 7;
+  var tok = '', days = 7, off = 0;
   function $(i) { return document.getElementById(i); }
   function el(t, c, x) { var e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; }
   function get(path) {
@@ -92,8 +92,8 @@ table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:7px 4px;b
   function money(n) { return '$' + (Math.round(n * 100) / 100).toFixed(2); }
   function load() {
     $('err').textContent = '';
-    return Promise.all([get('/api/stats'), get('/api/stats?products=1&days=' + days), get('/api/stats?insights=1&days=' + days)]).then(function (a) {
-      var st = a[0], pr = a[1], ins = a[2], d = st.days.slice(0, days);
+    return Promise.all([get('/api/stats'), get('/api/stats?products=1&days=' + days + '&offset=' + off), get('/api/stats?insights=1&days=' + days + '&offset=' + off)]).then(function (a) {
+      var st = a[0], pr = a[1], ins = a[2], d = st.days.slice(off, off + days);
       $('login').style.display = 'none'; $('app').style.display = 'block';
       var sum = function (k) { return d.reduce(function (s, x) { return s + (x[k] || 0); }, 0); };
       var shown = sum('shown_offers'), fb = sum('fallbacks'), spend = sum('spend_usd');
@@ -105,9 +105,11 @@ table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:7px 4px;b
       kp.appendChild(kpi(shown + fb ? Math.round(100 * shown / (shown + fb)) + '%' : '-', 'Found offers', 'g'));
       kp.appendChild(kpi(money(spend), 'AI spend (cap ' + money(st.cap_usd) + '/day)'));
       var tabs = $('tabs'); tabs.textContent = '';
-      [[1, 'Today'], [7, 'Last 7 days'], [14, 'Last 14 days']].forEach(function (x) {
-        var t = el('span', 'tab' + (x[0] === days ? ' on' : ''), x[1]); t.onclick = function () { days = x[0]; load().catch(fail); }; tabs.appendChild(t);
+      [[1, 0, 'Today'], [1, 1, 'Yesterday'], [7, 0, 'Last 7 days'], [14, 0, 'Last 14 days']].forEach(function (x) {
+        var t = el('span', 'tab' + (x[0] === days && x[1] === off ? ' on' : ''), x[2]); t.onclick = function () { days = x[0]; off = x[1]; load().catch(fail); }; tabs.appendChild(t);
       });
+      var u0 = new Date(); u0.setUTCHours(0, 0, 0, 0);
+      tabs.appendChild(el('div', 'empty', 'Each day runs on UTC and starts at ' + u0.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' your time.')); tabs.lastChild.style.flexBasis = '100%'; tabs.lastChild.style.margin = '0';
       $('top').textContent = ''; $('top').appendChild(rank(pr.top, false));
       $('none').textContent = ''; $('none').appendChild(rank(pr.nothing, true));
       $('srcs').textContent = ''; $('srcs').appendChild(rank(ins.sources.map(function (x) { return { product: label(x.source), count: x.count }; }), false, 'No sources recorded yet. This counts from the day it was deployed.', 'Page'));

@@ -6,6 +6,7 @@ const store = require('./_lib/store');
 const { send, sha } = require('./_lib/util');
 const { build } = require('./_lib/health');
 
+function offsetOf(url) { return Math.max(0, Math.min(13, Number((/[?&]offset=(\d+)/.exec(url || '') || [])[1]) || 0)); }
 function pairs(arr) { const o = {}; for (let i = 0; i + 1 < (arr || []).length; i += 2) o[arr[i]] = Number(arr[i + 1]) || 0; return o; }
 
 
@@ -21,10 +22,11 @@ module.exports = async (req, res) => {
     }
     if (req.url && /[?&]insights=1/.test(req.url)) {
       const n = Math.max(1, Math.min(14, Number((/[?&]days=(\d+)/.exec(req.url) || [])[1]) || 7));
+      const off = offsetOf(req.url);
       const pgf = {}, trf = {}, alf = {}, vcf = {};
       const src = {}, st = {}, ctry = {}, uvDays = [], lat = { n: 0, sum: 0, max: 0, b0: 0, b1: 0, b2: 0, b3: 0, b4: 0 };
       for (let i = 0; i < n; i++) {
-        const d = new Date(Date.now() - i * 86400000).toISOString().slice(0, 10);
+        const d = new Date(Date.now() - (i + offsetOf(req.url)) * 86400000).toISOString().slice(0, 10);
         const a = pairs(await store.hgetall('srcs:' + d)); for (const k of Object.keys(a)) src[k] = (src[k] || 0) + a[k];
         const b = pairs(await store.hgetall('stat:' + d)); for (const k of Object.keys(b)) st[k] = (st[k] || 0) + b[k];
         const _p = pairs(await store.hgetall('pgf:' + d)); for (const k of Object.keys(_p)) pgf[k] = (pgf[k] || 0) + _p[k];
@@ -52,7 +54,7 @@ module.exports = async (req, res) => {
         visitor_countries: group(vcf, 30),
         after_limit: { limit_screens: alf.limit || 0, limit_checks_server: g('limit_checks'), returned: alf.return_after_limit || 0, pro_click: alf.pro_click || 0, pro_view: alf.pro_view || 0, checkout_loaded: alf.checkout_loaded || 0, checkout_paid: alf.checkout_paid || 0 },
         countries: Object.keys(cl).map((k) => cl[k]).sort((x, y) => y.searches - x.searches).slice(0, 25),
-        health: await build(new Date(Date.now() - 86400000).toISOString().slice(0, 10)),
+        health: await build(new Date(Date.now() - (off + 1) * 86400000).toISOString().slice(0, 10)),
         sources: Object.keys(src).map((k) => ({ source: k, count: src[k] })).sort((x, y) => y.count - x.count).slice(0, 20),
         limits: { out_of_checks: g('limit_checks'), daily_ip_cap: g('limit_ip'), pro_fair_use: g('limit_pro'), bonus_requested: g('bonus_requested'), bonus_claimed: g('bonus_claimed') },
         nothing_why: { checks: g('check_fallback'), had_undated: g('fb_had_undated'), had_old: g('fb_had_old'), no_findings: g('fb_no_findings'), rej_old: g('fb_rej_old'), rej_undated: g('fb_rej_undated'), rej_match: g('fb_rej_match'), rej_other: g('fb_rej_other') },
@@ -64,7 +66,7 @@ module.exports = async (req, res) => {
       const n = Math.max(1, Math.min(14, Number((/[?&]days=(\d+)/.exec(req.url) || [])[1]) || 7));
       const tot = {}, none = {}, perDay = [];
       for (let i = 0; i < n; i++) {
-        const d = new Date(Date.now() - i * 86400000).toISOString().slice(0, 10);
+        const d = new Date(Date.now() - (i + offsetOf(req.url)) * 86400000).toISOString().slice(0, 10);
         const a = pairs(await store.hgetall('prod:' + d)), b = pairs(await store.hgetall('prodn:' + d));
         let sa = 0, sb = 0;
         for (const k of Object.keys(a)) { tot[k] = (tot[k] || 0) + a[k]; sa += a[k]; }
