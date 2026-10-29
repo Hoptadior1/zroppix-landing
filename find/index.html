@@ -733,9 +733,10 @@ html.embed .rp .stickb{display:none}
       h('div', { class: 'hh' }, usd2(rep.lowest.total, rep.currency)),
       h('div', { class: 'hsub' }, free.store + ' · reported ' + free.dateHuman + ' · ' + shipWord(rep.lowest.shipState, null, rep.currency) + '. ' + (rep.rows && rep.rows.length === 1 ? (rep.weakSource ? 'Reported on a price-listing site, not a store page.' : 'No other dated store price passed our checks.') : 'No store offer we found was lower.')));
     var extra = []; if (rep.coupons) extra.push(pluralN(rep.coupons, 'coupon', 'coupons')); if (rep.cashback) extra.push(rep.cashback + ' cashback'); if (rep.openbox) extra.push(pluralN(rep.openbox, 'open-box offer', 'open-box offers'));
-    if (!pro && extra.length) {
-      box.appendChild(h('div', { class: 'hsub', style: 'margin-top:8px' }, 'Pro also found ', h('b', {}, extra.join(', ')), ', which could bring the total lower.'));
-      warm(); box.appendChild(rbtn('See them · Pro $14/month', 'big', function () { openPro('hero'); }));
+    if (!pro) {
+      if (extra.length) box.appendChild(h('div', { class: 'hsub', style: 'margin-top:8px' }, 'Pro also found ', h('b', {}, extra.join(', ')), ', which could bring the total lower.'));
+      else box.appendChild(h('div', { class: 'hsub', style: 'margin-top:8px' }, 'Prices change. ', h('b', {}, 'Pro searches every day'), ' for up to 20 products and emails you when a lower dated price appears. Free watches 1 product.'));
+      warm(); box.appendChild(rbtn(extra.length ? 'See them · Pro $14/month' : 'Get alerts when it drops · Pro $14/month', 'big', function () { openPro('hero'); }));
       box.appendChild(h('div', { class: 'fine', style: 'text-align:center' }, '3-day money-back guarantee · Cancel in one click'));
     }
     return box;
@@ -887,7 +888,11 @@ html.embed .rp .stickb{display:none}
     if (rep.heldStores > 0) lines.push(['Every store and link', rep.heldStores + ' held back']);
     if (rep.coupons > 0) lines.push(['Codes with expiry dates', rep.couponEnds ? pluralN(rep.coupons, 'found', 'found') + ' · ends ' + fmtDay(rep.couponEnds) : pluralN(rep.coupons, 'found', 'found')]);
     if (rep.openbox > 0) lines.push(['Open-box offer', pluralN(rep.openbox, 'found', 'found')]);
-    lines.push(['Daily watch', 'up to 20 products']);
+    if (r.undatedCount > 0) lines.push(['Store listings with no date', pluralN(r.undatedCount, 'listing', 'listings') + ', marked as undated']);
+    var rn = r.rejectedSummary && r.rejectedSummary.count ? r.rejectedSummary.count : 0;
+    if (rn > 0) lines.push(['Every rejected report, with store and price', rn + ' hidden']);
+    lines.push(['Checks', 'unlimited (free: 1 a week)']);
+    lines.push(['Daily watch', 'up to 20 products (free: 1)']);
     if (lines.length < 2) return null;
     var card = h('div', { class: 'rc gold' }, h('h2', { class: 'rk' }, 'What you\'d miss without Pro'));
     lines.forEach(function (l) { card.appendChild(h('div', { class: 'ln' }, h('b', {}, l[0]), h('span', {}, l[1]))); });
@@ -919,8 +924,8 @@ html.embed .rp .stickb{display:none}
     if (!pro) { var mc = missCard(r, rep); if (mc) stack.push(mc); }
     stack.push(afterBuyCard(j));
     stack.push(againBox('Search a different product'));
-    if (!pro && rep.gap > 0) {
-      stack.push(h('div', { class: 'stickb' }, h('span', {}, h('b', { style: 'color:var(--green)' }, 'Save up to ' + usd2(rep.gap, rep.currency)), ' on this product'), h('a', { href: '#', onclick: function (e) { e.preventDefault(); openPro('sticky'); } }, 'Unlock · $14/mo')));
+    if (!pro) {
+      stack.push(h('div', { class: 'stickb' }, h('span', {}, rep.gap > 0 ? [h('b', { style: 'color:var(--green)' }, 'Save up to ' + usd2(rep.gap, rep.currency)), ' on this product'] : [h('b', {}, 'Get alerts'), ' when this price drops']), h('a', { href: '#', onclick: function (e) { e.preventDefault(); openPro('sticky'); } }, 'Unlock · $14/mo')));
     }
     var wrap = h('div', { class: 'rp' }, stack);
     showCard(wrap, j.product.name, usd2(rep.lowest.total, rep.currency));
