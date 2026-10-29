@@ -306,6 +306,7 @@ function buildReport(accepted, shown, ctx, hist) {
     rows: sorted.map((a) => ({ free: a === shown, dateHuman: a.dateHuman, ageDays: a.ageDays, shipState: (a.shipping && a.shipping.state) || 'not_stated' })),
   };
   rep.verdict = verdictOf(lowTotal, rep, hist, cur);
+  rep.timeline = hist && Array.isArray(hist.points) ? hist.points.slice(0, 4).map((x) => ({ d: x.d, t: x.t, s: x.s })) : null;
   return rep;
 }
 // BUY / FAIR / WAIT is a call about THIS price, never a forecast. It always says what it is based on:
@@ -473,7 +474,7 @@ function matchDeal(name, index) {
     const modelsOk = ma.length === 0 || ma.every((t) => mb.has(t));
     if (modelsOk && score > bs) { bs = score; best = d; }
   }
-  return bs >= 0.75 ? { slug: best.slug, title: best.title } : null;
+  return bs >= 0.75 ? { slug: best.slug, title: best.title, lowest: best.lowest || null, average: best.average || null, updated: best.updated || null, points: Array.isArray(best.points) ? best.points : null } : null;
 }
 
 function lockedSaving(items) {

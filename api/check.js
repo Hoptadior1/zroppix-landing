@@ -88,7 +88,7 @@ module.exports = async (req, res) => {
     } else { bump('check_cache'); stored = true; }
 
     const offers = ev.accepted.filter((a) => OFFER_KINDS.has(a.kind));
-    const hist = deal ? { url: '/deals/' + deal.slug, title: deal.title, lowest: deal.lowest || null, average: deal.average || null, updated: deal.updated || null } : null;
+    const hist = deal ? { url: '/deals/' + deal.slug, title: deal.title, lowest: deal.lowest || null, average: deal.average || null, updated: deal.updated || null, points: deal.points || null } : null;
     if (!offers.length) {
       bump(parsed ? 'check_fallback' : 'check_unreadable');
       bump(!parsed ? 'why_unreadable' : hadSearchError ? 'why_searcherr' : 'why_nooffers');
