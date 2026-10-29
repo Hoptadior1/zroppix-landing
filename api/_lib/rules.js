@@ -298,6 +298,7 @@ function buildReport(accepted, shown, ctx, hist) {
     currency: cur, listPrice, freeTotal,
     lowest: low ? { total: lowTotal, price: low.price, dateHuman: low.dateHuman, ageDays: low.ageDays, shipState: (low.shipping && low.shipping.state) || 'not_stated' } : null,
     gap, freeIsLowest: !gap,
+    spread: sorted.length > 1 ? r2((comparable(sorted[sorted.length - 1]) - lowTotal) / comparable(sorted[sorted.length - 1])) : null,
     heldStores: held.length, heldCheaper: gap ? held.filter((a) => comparable(a) < freeTotal).length : 0,
     openbox: refs.length, coupons: coupons.length, cashback: accepted.filter((a) => a.kind === 'cashback').length, couponEnds: exp,
     weakSource: srcKind === 'article' ? 'price_site' : null,
@@ -307,23 +308,50 @@ function buildReport(accepted, shown, ctx, hist) {
   rep.verdict = verdictOf(lowTotal, rep, hist, cur);
   return rep;
 }
-// BUY / FAIR / WAIT is only ever a position inside DATED history we hold, never a forecast. Without history it is "NO CALL".
+// BUY / FAIR / WAIT is a call about THIS price, never a forecast. It always says what it is based on:
+// dated price history we hold, the list price a page states, how far the stores differ, or (when there is nothing to compare) "compare first".
 function verdictOf(L, rep, hist, cur) {
-  if (L == null) return { call: 'NOCALL', text: 'We found no store price to judge. Coupons, cashback or open-box offers are listed below.' };
+  if (L == null) return { call: 'WAIT', chip: 'No store price', text: 'No store price passed our checks, so there is nothing to buy at yet. Coupons, cashback or open-box offers are listed below, or set a watch and we search again every day.' };
+  const usd = !cur || cur === 'USD';
   const lower = rep.freeIsLowest ? '' : ' It is judged on the lowest offer we found, not the free one.';
-  if (hist && hist.lowest && hist.average && cur === 'USD') {
+  const weak = rep.weakSource ? ' The price comes from a price-listing site, not a store page, so check the live price first.' : '';
+  const cap = (call) => (rep.weakSource && call === 'BUY' ? 'FAIR' : call);
+  const hasL = !!(hist && hist.lowest && usd), hasA = !!(hist && hist.average && usd);
+  const upd = hist && hist.updated && /^\d{4}-\d{2}-\d{2}$/.test(hist.updated) ? ' (history updated ' + new Date(hist.updated + 'T00:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) + ')' : '';
+  if (hasL && hasA) {
     const lo = hist.lowest, av = hist.average;
     const right = rep.listPrice && rep.listPrice > av ? rep.listPrice : null;
     const max = right || av; const min = Math.min(lo, L);
     const pos = Math.max(0, Math.min(1, (L - min) / ((max - min) || 1)));
     const bar = { pos: Math.round(pos * 100), lowLabel: money0(lo) + ' lowest on record', highLabel: right ? money0(right) + ' list' : money0(av) + ' average', pin: money0(L) + ' lowest found' };
-    const upd = hist.updated && /^\d{4}-\d{2}-\d{2}$/.test(hist.updated) ? ' (history updated ' + new Date(hist.updated + 'T00:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) + ')' : '';
-    if (L <= lo * 1.03) return { call: 'BUY', chip: 'Near its lowest on record', text: 'The lowest total we found is at or near the lowest price in our dated history.' + lower + ' If you need it, this is a good point to buy.' + upd, bar };
-    if (L <= av * 1.02) return { call: 'FAIR', chip: 'Lower prices have been reported', text: 'Below its usual price in our dated history, but lower prices have been reported before.' + lower + ' Buy now if you need it, or set an alert.' + upd, bar };
-    return { call: 'WAIT', chip: 'Above its usual price', text: 'Above its usual price in our dated history, and lower prices have been reported before.' + lower + ' If you can wait, set an alert.' + upd, bar };
+    if (L <= lo * 1.03) return { call: cap('BUY'), chip: 'Near its lowest on record', basis: 'history', text: 'The lowest total we found is at or near the lowest price in our dated history.' + lower + ' If you need it, this is a good point to buy.' + weak + upd, bar };
+    if (L <= av * 1.02) return { call: 'FAIR', chip: 'Lower prices have been reported', basis: 'history', text: (L < av * 0.95 ? 'Below its usual price in our dated history' : 'About its usual price in our dated history') + ', but lower prices have been reported before.' + lower + ' Buy now if you need it, or set an alert.' + weak + upd, bar };
+    return { call: 'WAIT', chip: 'Above its usual price', basis: 'history', text: 'Above its usual price in our dated history, and lower prices have been reported before.' + lower + ' If you can wait, set an alert.' + weak + upd, bar };
   }
-  if (rep.regularPrice) return { call: 'NOCALL', chip: 'No discount found', text: 'The prices we found match the list price. We have no dated price history for this product, so we can\'t say if it is low.' };
-  return { call: 'NOCALL', chip: 'No price history yet', text: 'We don\'t have dated price history for this product, so we can\'t say if this price is low. We can only show what we found today.' + lower };
+  if (hasL) {
+    const lo = hist.lowest, pct = Math.round(((L - lo) / lo) * 100);
+    if (L <= lo * 1.05) return { call: cap('BUY'), chip: 'Near its lowest on record', basis: 'history', text: 'The lowest price in our dated history is ' + money0(lo) + ', and the lowest we found is within 5% of it.' + lower + weak + upd };
+    if (L >= lo * 1.35) return { call: 'WAIT', chip: 'Well above its lowest', basis: 'history', text: 'The lowest price in our dated history is ' + money0(lo) + '. The lowest we found is about ' + pct + '% above it.' + lower + ' If you can wait, set an alert.' + weak + upd };
+    return { call: 'FAIR', chip: 'Above its lowest on record', basis: 'history', text: 'The lowest price in our dated history is ' + money0(lo) + '. The lowest we found is about ' + pct + '% above it.' + lower + ' Buy now if you need it, or set an alert.' + weak + upd };
+  }
+  if (hasA) {
+    const av = hist.average, pct = Math.round(((L - av) / av) * 100);
+    if (L <= av * 0.9) return { call: cap('BUY'), chip: 'Below its usual price', basis: 'history', text: 'The average price in our dated history is ' + money0(av) + ', and the lowest we found is about ' + Math.abs(pct) + '% below it.' + lower + weak + upd };
+    if (L <= av * 1.05) return { call: 'FAIR', chip: 'About its usual price', basis: 'history', text: 'The average price in our dated history is ' + money0(av) + ', and the lowest we found is about the same.' + lower + ' Buy now if you need it, or set an alert.' + weak + upd };
+    return { call: 'WAIT', chip: 'Above its usual price', basis: 'history', text: 'The average price in our dated history is ' + money0(av) + ', and the lowest we found is about ' + pct + '% above it.' + lower + ' If you can wait, set an alert.' + weak + upd };
+  }
+  if (rep.listPrice) {
+    const d = 1 - L / rep.listPrice, pct = Math.round(d * 100);
+    if (d >= 0.25) return { call: cap('BUY'), chip: 'Based on the list price', basis: 'list', text: 'The lowest we found is about ' + pct + '% below the ' + money0(rep.listPrice) + ' list price the pages state. We have no price history for this product, so we can\'t say if it was cheaper before.' + lower + weak };
+    if (d >= 0.10) return { call: 'FAIR', chip: 'Based on the list price', basis: 'list', text: 'The lowest we found is about ' + pct + '% below the ' + money0(rep.listPrice) + ' list price the pages state. We have no price history for this product, so we can\'t say if it was cheaper before.' + lower + ' Buy now if you need it, or set an alert.' + weak };
+    return { call: 'WAIT', chip: 'Little or no discount', basis: 'list', text: d > 0.005 ? 'The lowest we found is only about ' + pct + '% below the ' + money0(rep.listPrice) + ' list price the pages state.' + lower + ' If you can wait, set an alert.' + weak : 'The prices we found match the ' + money0(rep.listPrice) + ' list price. We found no discount.' + lower + ' If you can wait, set an alert.' + weak };
+  }
+  const n = (rep.rows || []).length;
+  if (n >= 2 && rep.spread != null) {
+    if (rep.spread <= 0.10) return { call: 'FAIR', chip: 'Limited data', basis: 'stores', text: 'The ' + n + ' dated store prices we found are within ' + Math.max(1, Math.round(rep.spread * 100)) + '% of each other, so no store looks like an overcharge. We have no price history or list price to say if it is low.' + lower + ' Buy now if you need it, or set an alert.' + weak };
+    return { call: 'WAIT', chip: 'Limited data', basis: 'stores', text: 'The ' + n + ' dated store prices we found differ by about ' + Math.round(rep.spread * 100) + '%, and we have no price history or list price to say which is fair.' + lower + ' Compare the stores below, or set an alert before you buy.' + weak };
+  }
+  return { call: 'WAIT', chip: 'Compare first', basis: 'none', text: 'We found one dated store price and nothing to compare it with: no price history and no list price. One price can\'t show a good deal, so compare the stores or set an alert before you buy.' + weak };
 }
 const money0 = (n) => '$' + (n % 1 ? n.toFixed(2) : String(n));
 
@@ -356,7 +384,7 @@ function shape(ev, tier, extras, ctx) {
     proof: ev.proof || null,
   };
   // Safety information is never locked.
-  if (best && best.seller === 'third_party') out.warnings.push('The best offer is from a third-party seller, not the manufacturer or the store itself. Check the seller rating and return terms before you buy.');
+  if (best && best.seller === 'third_party') out.warnings.push('This offer is from a third-party seller, not the manufacturer or the store itself. Check the seller rating and return terms before you buy.');
   if (best && best.ships === 'no') out.warnings.push('The store may not ship to your country. Check before you rely on this price.');
 
   if (pro) {
