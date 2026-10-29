@@ -5,7 +5,7 @@ const { cfg } = require('./_lib/config');
 const store = require('./_lib/store');
 const { send, readBody, sameSite, ipHash, clean, validVisitor, pickCountry, isOwner, normName, sha } = require('./_lib/util');
 const { isKilled, reserve, settle, bump, trackProduct, trackLatency, trackVisitor, trackCountry } = require('./_lib/spend');
-const { within, allowance, consume, refund } = require('./_lib/limits');
+const { within, allowance, consume, refund, nextWeekStart } = require('./_lib/limits');
 const ai = require('./_lib/anthropic');
 const P = require('./_lib/prompts');
 const R = require('./_lib/rules');
@@ -51,7 +51,7 @@ module.exports = async (req, res) => {
     if (customer && !(await within('prouse', customer.eh, c.proPerDay, 'day'))) { bump('limit_pro'); return send(res, 429, { error: 'pro_limit' }); }
 
     const al = await allowance(visitor);
-    if (!unmetered && al.left <= 0) { bump('limit_checks'); return send(res, 402, { error: 'no_checks', left: 0, bonusAvailable: al.bonus === 0 }); }
+    if (!unmetered && al.left <= 0) { bump('limit_checks'); return send(res, 402, { error: 'no_checks', left: 0, bonusAvailable: al.bonus === 0, next: al.nextFree || nextWeekStart(new Date()) }); }
 
     const now = new Date();
     const deal = R.matchDeal(product.name, DEALS);
@@ -64,7 +64,7 @@ module.exports = async (req, res) => {
 
     let ran = false; // true when this request ran a live search (not served from the cache)
     let stored = false; // true when this result sits in the cache, so a second search can build on it
-    const fallbackNow = async () => { bump('why_searcherr'); await refundIp(); await trackLatency(Date.now() - started); return send(res, 200, { status: 'fallback', tier, product, country, checkedAt: now.toISOString(), cached: false, remaining: { left: al.left, total: al.total },
+    const fallbackNow = async () => { bump('why_searcherr'); await refundIp(); await trackLatency(Date.now() - started); return send(res, 200, { status: 'fallback', tier, product, country, checkedAt: now.toISOString(), cached: false, remaining: { left: al.left, total: al.total, next: al.nextFree || undefined },
       result: R.buildFallback({ productName: product.name, country, stale: [], deal, newer: [], hadSearchError: true }) }); };
 
     if (!ev) {
@@ -104,20 +104,20 @@ module.exports = async (req, res) => {
       }
       if (ran) await trackLatency(Date.now() - started);
       await trackProduct(product.name, false); await trackCountry(country, 'n'); await trackVisitor('uvc', visitor);
-      return send(res, 200, { status: 'fallback', tier, product, country, checkedAt: now.toISOString(), cached, judged, remaining: { left: al.left, total: al.total },
+      return send(res, 200, { status: 'fallback', tier, product, country, checkedAt: now.toISOString(), cached, judged, remaining: { left: al.left, total: al.total, next: al.nextFree || undefined },
         result: Object.assign(R.buildFallback({ productName: product.name, country, stale: ev.stale, deal, newer: ev.accepted.filter((a) => a.kind === 'newer_model').slice(0, 1), unreadable: !parsed, tier, undated: ev.undated || [] }), R.rejectedOut(ev.rejected, tier === 'pro'), { retry: !!(stored && parsed && judged && !ev.pass2 && body.pass !== 2) }) });
     }
     // Real offers are shown: this is where a check is used.
     let left = al.left;
     if (!unmetered) {
       const ok = await consume(visitor);
-      if (!ok) { bump('limit_checks'); return send(res, 402, { error: 'no_checks', left: 0, bonusAvailable: al.bonus === 0 }); }
+      if (!ok) { bump('limit_checks'); return send(res, 402, { error: 'no_checks', left: 0, bonusAvailable: al.bonus === 0, next: al.nextFree || nextWeekStart(new Date()) }); }
       left = al.left - 1;
     }
     bump('check_ok');
     if (ran) await trackLatency(Date.now() - started);
     await trackProduct(product.name, true); await trackCountry(country, 'f'); await trackVisitor('uvc', visitor);
-    return send(res, 200, { status: 'ok', tier, product, country, checkedAt: now.toISOString(), cached, judged, remaining: { left, total: al.total },
+    return send(res, 200, { status: 'ok', tier, product, country, checkedAt: now.toISOString(), cached, judged, remaining: { left, total: al.total, next: left === 0 && !unmetered ? nextWeekStart(new Date()) : undefined },
       result: R.shape(ev, tier, { history: hist }, { productName: product.name, country }) });
   } catch (e) {
     if (ticket) { try { await settle(ticket, 0); } catch (_) { /* ignore */ } }

@@ -260,12 +260,79 @@ function rejectedOut(rejected, pro) {
   return out;
 }
 
+
+// ---- Buy Report: the free offer, the verdict, and what Pro would add ----
+// Free users see ONE offer. It is chosen by a fixed rule (not "the cheapest"), so the page can say honestly when Pro found a lower total.
+const STORE_RANK = ['amazon', 'walmart', 'best buy', 'target', 'costco', 'apple', 'ebay'];
+function storeRank(s) { const n = normName(s || ''); const i = STORE_RANK.findIndex((r) => n.includes(r)); return i < 0 ? 50 : i; }
+const comparable = (a) => (a && a.price != null ? r2(a.price + (a.shipping && a.shipping.cost ? a.shipping.cost : 0)) : null);
+function pickFree(accepted, ctx) {
+  const prices = accepted.filter((a) => a.kind === 'price' && a.price > 0);
+  if (!prices.length) return pickBest(accepted);
+  const cnt = {}; prices.forEach((p) => { cnt[p.currency] = (cnt[p.currency] || 0) + 1; });
+  const cur = Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a])[0];
+  const list = prices.filter((p) => p.currency === cur);
+  const fresh = list.filter((a) => a.ageDays != null && a.ageDays <= 14);
+  const pool = fresh.length ? fresh : list;
+  const kindOf = (a) => (ctx && ctx.productName ? storeTarget(a, ctx.productName, ctx.country).kind : 'article');
+  const stores = pool.filter((a) => kindOf(a) !== 'article');
+  const use = stores.length ? stores : pool;
+  return use.slice().sort((a, b) => storeRank(a.store) - storeRank(b.store) || a.price - b.price)[0];
+}
+function modeOf(list) { const c = {}; list.forEach((x) => { c[x] = (c[x] || 0) + 1; }); const k = Object.keys(c).sort((a, b) => c[b] - c[a] || Number(b) - Number(a))[0]; return k == null ? null : Number(k); }
+function buildReport(accepted, shown, ctx, hist) {
+  const cur = shown ? shown.currency : null;
+  const pool = accepted.filter((a) => a.kind === 'price' && a.price > 0 && a.currency === cur);
+  const sorted = pool.slice().sort((a, b) => comparable(a) - comparable(b));
+  const low = sorted[0] || null;
+  const freeTotal = shown && shown.kind === 'price' ? comparable(shown) : null;
+  const held = pool.filter((a) => a !== shown);
+  const lowTotal = low ? comparable(low) : null;
+  const gap = freeTotal != null && lowTotal != null && lowTotal < freeTotal ? r2(freeTotal - lowTotal) : 0;
+  const listPrice = modeOf(pool.map((a) => a.listPrice).filter(Boolean));
+  const srcKind = shown ? (ctx && ctx.productName ? storeTarget(shown, ctx.productName, ctx.country).kind : 'article') : null;
+  const refs = accepted.filter((a) => a.kind === 'refurb');
+  const coupons = accepted.filter((a) => a.kind === 'coupon');
+  const exp = coupons.map((c) => c.expiresIso).filter(Boolean).sort()[0] || null;
+  const rep = {
+    currency: cur, listPrice, freeTotal,
+    lowest: low ? { total: lowTotal, price: low.price, dateHuman: low.dateHuman, ageDays: low.ageDays, shipState: (low.shipping && low.shipping.state) || 'not_stated' } : null,
+    gap, freeIsLowest: !gap,
+    heldStores: held.length, heldCheaper: gap ? held.filter((a) => comparable(a) < freeTotal).length : 0,
+    openbox: refs.length, coupons: coupons.length, cashback: accepted.filter((a) => a.kind === 'cashback').length, couponEnds: exp,
+    weakSource: srcKind === 'article' ? 'price_site' : null,
+    regularPrice: !!(listPrice && lowTotal != null && lowTotal >= listPrice * 0.995),
+    rows: sorted.map((a) => ({ free: a === shown, dateHuman: a.dateHuman, ageDays: a.ageDays, shipState: (a.shipping && a.shipping.state) || 'not_stated' })),
+  };
+  rep.verdict = verdictOf(lowTotal, rep, hist, cur);
+  return rep;
+}
+// BUY / FAIR / WAIT is only ever a position inside DATED history we hold, never a forecast. Without history it is "NO CALL".
+function verdictOf(L, rep, hist, cur) {
+  if (L == null) return { call: 'NOCALL', text: 'We found no store price to judge. Coupons, cashback or open-box offers are listed below.' };
+  const lower = rep.freeIsLowest ? '' : ' It is judged on the lowest offer we found, not the free one.';
+  if (hist && hist.lowest && hist.average && cur === 'USD') {
+    const lo = hist.lowest, av = hist.average;
+    const right = rep.listPrice && rep.listPrice > av ? rep.listPrice : null;
+    const max = right || av; const min = Math.min(lo, L);
+    const pos = Math.max(0, Math.min(1, (L - min) / ((max - min) || 1)));
+    const bar = { pos: Math.round(pos * 100), lowLabel: money0(lo) + ' lowest on record', highLabel: right ? money0(right) + ' list' : money0(av) + ' average', pin: money0(L) + ' lowest found' };
+    const upd = hist.updated && /^\d{4}-\d{2}-\d{2}$/.test(hist.updated) ? ' (history updated ' + new Date(hist.updated + 'T00:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) + ')' : '';
+    if (L <= lo * 1.03) return { call: 'BUY', chip: 'Near its lowest on record', text: 'The lowest total we found is at or near the lowest price in our dated history.' + lower + ' If you need it, this is a good point to buy.' + upd, bar };
+    if (L <= av * 1.02) return { call: 'FAIR', chip: 'Lower prices have been reported', text: 'Below its usual price in our dated history, but lower prices have been reported before.' + lower + ' Buy now if you need it, or set an alert.' + upd, bar };
+    return { call: 'WAIT', chip: 'Above its usual price', text: 'Above its usual price in our dated history, and lower prices have been reported before.' + lower + ' If you can wait, set an alert.' + upd, bar };
+  }
+  if (rep.regularPrice) return { call: 'NOCALL', chip: 'No discount found', text: 'The prices we found match the list price. We have no dated price history for this product, so we can\'t say if it is low.' };
+  return { call: 'NOCALL', chip: 'No price history yet', text: 'We don\'t have dated price history for this product, so we can\'t say if this price is low. We can only show what we found today.' + lower };
+}
+const money0 = (n) => '$' + (n % 1 ? n.toFixed(2) : String(n));
+
 function shape(ev, tier, extras, ctx) {
-  const best = pickBest(ev.accepted);
+  const pro = tier === 'pro';
+  const best = pro ? pickBest(ev.accepted) : pickFree(ev.accepted, ctx);
   const rest = ev.accepted.filter((a) => a !== best && a.kind !== 'newer_model');
   const newer = ev.accepted.filter((a) => a.kind === 'newer_model').slice(0, 1);
   const base = best && best.kind === 'price' ? best.price : null;
-  const pro = tier === 'pro';
   const pub = (a, full) => {
     const o = {
       id: a.id, kind: a.kind, store: a.store, title: a.title, price: a.price, currency: a.currency, percent: a.percent,
@@ -280,7 +347,8 @@ function shape(ev, tier, extras, ctx) {
     return o;
   };
   const out = {
-    best: best ? pub(best, pro) : null,
+    best: best ? pub(best, pro || best.kind === 'price') : null,
+    report: buildReport(ev.accepted, best, ctx, extras && extras.history),
     newer: newer.map((a) => pub(a, false)),
     ...rejectedOut(ev.rejected, pro),
     warnings: [],

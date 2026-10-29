@@ -128,25 +128,85 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
 html.embed nav,html.embed .tagline,html.embed h1,html.embed .lead,html.embed .how,html.embed footer,html.embed .honest,html.embed noscript{display:none!important}
 html.embed body{background:transparent;min-height:0;overflow:hidden}html.embed main{max-width:none;padding:0 0 4px}
 html.embed .meta{scroll-margin-top:0}
+/* ---- front door (full page only) ---- */
+html:not(.embed) .fcard{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:18px}
+html:not(.embed) .flabel{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+html:not(.embed) .sbar{flex-direction:column;gap:10px}
+html:not(.embed) .sbar .btn{width:100%;font-size:16px;padding:14px}
+html:not(.embed) .fcard .micro{text-align:center}
+html:not(.embed) #examples{display:none}
+.fchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;justify-content:center}
+.fchips span{font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid var(--border);color:var(--muted)}
+html.embed .flabel,html.embed .fchips{display:none!important}
+html.embed .fcard .meta{margin-top:14px}
+html:not(.embed) .fcard .meta{margin:14px 0 0;justify-content:space-between;flex-wrap:wrap!important;gap:8px 14px!important}
+html:not(.embed) .fcard .meta>span:first-child{white-space:normal!important}
+.fcard{scroll-margin-top:84px}
+.kick{font-size:12px;letter-spacing:.9px;text-transform:uppercase;color:var(--gold);font-weight:800;margin-bottom:8px}
+.cand .okc{margin-left:auto;flex:none;font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid rgba(29,158,117,.45);color:var(--green);visibility:hidden}
+.cand[aria-checked=true] .okc{visibility:visible}
+.btn.green{background:var(--green);color:#fff}.btn.green:hover{background:#23b387}
+/* ---- Buy Report ---- */
+.rp{display:flex;flex-direction:column;gap:14px}
+.rp .rc{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:16px 18px}
+.rp .rc.gold{border:1.5px solid rgba(201,168,76,.55);background:linear-gradient(180deg,rgba(201,168,76,.12),rgba(201,168,76,.03))}
+.rp h2.rk{font-size:12px;letter-spacing:.9px;text-transform:uppercase;color:var(--gold);font-weight:800;margin:0 0 10px;line-height:1.3}
+.rp h2.ttl{font-size:25px;line-height:1.15;font-weight:900;margin:10px 0 6px}
+.rp .pill{display:inline-block;font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid var(--border);color:var(--muted)}
+.rp .pill.g{color:var(--green);border-color:rgba(29,158,117,.45)}.rp .pill.y{color:var(--gold);border-color:rgba(201,168,76,.45)}.rp .pill.r{color:var(--red);border-color:rgba(226,75,74,.45)}
+.rp .mut{color:var(--muted);font-size:13px}.rp .fine{font-size:12px;color:var(--muted);line-height:1.5;margin-top:8px}
+.rp .rb{display:block;width:100%;text-align:center;font-family:inherit;cursor:pointer;font-weight:800;border-radius:12px;padding:13px;font-size:15px;background:var(--gold);color:#0D0D14;border:0;line-height:1.25}
+.rp .rb.big{font-size:16px;margin:12px 0 6px}.rp .rb.o{background:var(--bg3);color:var(--gold);border:1px solid rgba(201,168,76,.5)}
+.rp .lk{filter:blur(4px);opacity:.6;user-select:none;pointer-events:none}
+.rp .hero{border:2px solid var(--green);background:linear-gradient(180deg,rgba(29,158,117,.16),rgba(29,158,117,.03));border-radius:18px;padding:18px}
+.rp .hk{color:var(--green);font-weight:800;letter-spacing:.6px;font-size:12.5px}
+.rp .hh{font-size:30px;font-weight:900;line-height:1.1;margin:4px 0}
+.rp .hsub{font-size:13.5px;color:var(--subtle)}.rp .hsub b{color:#fff}
+.rp .cmp2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.rp .cmp2>div{border-radius:12px;padding:12px;border:1px solid var(--border);background:var(--bg3);min-width:0}.rp .cmp2 .p{border-color:var(--green);background:rgba(29,158,117,.1)}
+.rp .cmp2 small{display:block;color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase}
+.rp .cmp2 b{font-size:26px;font-weight:900;display:block;margin:2px 0}
+.rp .vrow{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.rp .vcall{font-size:24px;font-weight:900}.rp .vtxt{font-size:15px;color:var(--subtle);line-height:1.4}
+.rp .bar{position:relative;height:10px;border-radius:6px;background:linear-gradient(90deg,var(--green),var(--gold) 55%,var(--red));margin:34px 0 26px}
+.rp .pin{position:absolute;top:-30px;transform:translateX(-50%);font-size:11px;font-weight:800;white-space:nowrap}
+.rp .pin:after{content:"";display:block;width:2px;height:24px;background:#fff;margin:2px auto 0}
+.rp .tick{position:absolute;top:16px;font-size:10.5px;color:var(--muted);white-space:nowrap}
+.rp .tr{display:grid;grid-template-columns:1.3fr .8fr .9fr;gap:8px;padding:10px 0;border-top:1px solid var(--border);font-size:13.5px;align-items:center}
+.rp .tr.th{border-top:0;color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase}
+.rp .tr.best{background:rgba(29,158,117,.08);border-radius:8px;padding-left:6px}
+.rp .why{margin:6px 0 8px;border:1px solid var(--border);border-radius:12px;padding:12px 14px;background:var(--bg3);font-size:13.5px;line-height:1.7;color:var(--subtle)}
+.rp .why .wk{font-size:11.5px;font-weight:800;letter-spacing:.6px;color:var(--gold);margin-bottom:6px}
+.rp .nudge{margin:10px 0 0;background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.35);border-radius:12px;padding:12px 14px;font-size:13.5px;color:var(--subtle)}
+.rp .ln{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid var(--border);font-size:14px}
+.rp .ln:first-of-type{border-top:0}.rp .ln span{color:var(--muted);font-size:13px;text-align:right}
+.rp .rj{font-size:13px;color:var(--subtle);padding:8px 0;border-top:1px solid var(--border)}.rp .rj b{color:var(--red)}
+.rp .stickb{position:sticky;bottom:0;z-index:20;margin:0 -4px;background:rgba(13,13,20,.97);border:1px solid var(--border);border-radius:12px;padding:10px 14px;display:flex;gap:10px;align-items:center}
+.rp .stickb span{font-size:13px;color:var(--subtle);flex:1}.rp .stickb a{background:var(--gold);color:#0D0D14;font-weight:800;border-radius:10px;padding:11px 16px;font-size:14px;white-space:nowrap}
+html.embed .rp .stickb{display:none}
+@media(max-width:600px){.rp .hh{font-size:26px}.rp .cmp2 b{font-size:22px}.rp .tr{grid-template-columns:1.25fr .85fr .9fr;font-size:13px}}
+
 
 </style>
 <style id="mnav">.nav-toggle{display:none;background:none;border:1px solid var(--border,#2a2a40);color:var(--text,#fff);border-radius:10px;width:42px;height:42px;font-size:22px;line-height:1;cursor:pointer}
 @media(max-width:900px){nav:not([aria-label]){flex-wrap:wrap;gap:0}nav:not([aria-label]) .nav-toggle{display:block}nav:not([aria-label]) .nav-links{display:none!important;width:100%;flex-direction:column;align-items:stretch;gap:0;padding:8px 0 4px;margin:0;order:3}nav.open .nav-links{display:flex!important}nav:not([aria-label]) .nav-links li{list-style:none;display:block;width:100%;margin:0;padding:0;text-align:left}nav:not([aria-label]) .nav-links a{display:block;width:100%;box-sizing:border-box;text-align:left;padding:13px 4px;border-bottom:1px solid var(--border,#2a2a40);font-size:16px;white-space:normal}nav:not([aria-label]) .nav-links li:last-child a{border:0;margin-top:10px;text-align:center!important;border-radius:10px;padding:13px 16px!important}}</style></head>
 <body>
-<nav><a href="/" class="nav-logo">🛡️ Zroppix</a><button class="nav-toggle" id="navtg" type="button" aria-label="Menu" aria-expanded="false">☰</button><ul class="nav-links"><li><a href="/deals">Deals</a></li><li><a href="/blog">Blog</a></li><li><a href="/black-friday">Black Friday</a></li><li><a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="nav-cta">Add to Chrome — Free</a></li></ul></nav>
+<nav><a href="/" class="nav-logo">🛡️ Zroppix</a><button class="nav-toggle" id="navtg" type="button" aria-label="Menu" aria-expanded="false">☰</button><ul class="nav-links"><li><a href="/deals">Deals</a></li><li><a href="/blog">Blog</a></li><li><a href="/protect" style="color:var(--gold)!important">Protect</a></li><li><a href="/black-friday">Black Friday</a></li><li><a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="nav-cta">Add to Chrome — Free</a></li></ul></nav>
 <main>
-<span class="tagline">Free to try</span>
-<h1>Find it <span>for less</span></h1>
-<p class="lead"><span class="lg">Type or paste any product. We search for prices, coupons and cashback that have a date on the page, show you the sources, and tell you what we rejected.</span><span class="sh">Dated prices, coupons and cashback, with sources.</span></p>
+<h1>Before you pay, see if it's cheaper</h1>
+<p class="lead"><span class="lg">Paste any product. We show dated prices, coupons and cashback, and what we rejected.</span><span class="sh">Dated prices, coupons and cashback, with sources.</span></p>
 
-<div class="meta"><span>Prices for: <label class="sr" for="country">Country</label><select id="country"></select></span><span id="left"></span><button type="button" class="linkbtn" id="signinBtn"><span class="lg2">Already </span>Pro? Sign in</button></div>
+<div class="fcard">
+<label class="flabel" for="q">Product name or link</label>
 <form class="sbar" id="searchForm" role="search" autocomplete="off">
-<label class="sr" for="q">Product name or link</label>
-<input id="q" name="q" type="text" maxlength="200" placeholder="Product name or link" enterkeyhint="search">
-<button class="btn main" type="submit" id="goBtn">🔎 Find cheaper</button>
+<input id="q" name="q" type="text" maxlength="200" placeholder="e.g. Sony WH-1000XM5" enterkeyhint="search">
+<button class="btn main" type="submit" id="goBtn">See if it’s cheaper →</button>
 </form>
-<div class="micro">Free to try. No signup. Choosing a product or searching again never uses a check.</div>
+<div class="micro">First check free · No sign-up · We don't predict prices</div>
+<div class="fchips" aria-label="What you get"><span>Lowest total with shipping</span><span>Coupons + cashback</span><span>Buy or wait</span><span>Protect after you buy</span></div>
 <div class="chips" id="examples" aria-label="Examples"></div>
+<div class="meta"><span>Prices for: <label class="sr" for="country">Country</label><select id="country"></select></span><span id="left"></span><button type="button" class="linkbtn" id="signinBtn"><span class="lg2">Already </span>Pro? Sign in</button></div>
+</div>
 <noscript><p class="note">This tool needs JavaScript. You can still compare prices yourself on <a href="/find">Amazon</a>, <a href="https://www.bestbuy.com/">Best Buy</a> and <a href="https://www.walmart.com/">Walmart</a>.</p></noscript>
 
 <div id="stage" aria-live="polite"></div>
@@ -258,9 +318,9 @@ html.embed .meta{scroll-margin-top:0}
       return;
     }
     $('signinBtn').style.display = '';
-    el.textContent = state.left == null ? '' : (state.left > 0 ? state.left + (state.left === 1 ? ' free check left' : ' free checks left') : 'No free checks left');
+    el.textContent = state.left == null ? '' : (state.left > 0 ? state.left + (state.left === 1 ? ' free check left' : ' free checks left') : 'No free checks left' + (state.next ? ' \u00b7 next free check opens ' + fmtDay(state.next) : ''));
   }
-  function setRemaining(r) { if (r && typeof r.left === 'number') { state.left = r.left; state.total = r.total; showLeft(); } }
+  function setRemaining(r) { if (r && typeof r.left === 'number') { state.left = r.left; state.total = r.total; state.next = r.next || null; showLeft(); } }
   fillCountries();
 
   // ---------- examples ----------
@@ -295,7 +355,7 @@ html.embed .meta{scroll-margin-top:0}
   // ---------- flow: match -> confirm -> check ----------
   function start(q) {
     q = (q || '').trim(); if (q.length < 2 || state.busy) return;
-    state.busy = true; goBtn.disabled = true; track('find_search'); document.body.classList.add('searching'); try { if (!window.__zxEmbed && window.matchMedia('(max-width:600px)').matches) document.querySelector('.meta').scrollIntoView({ block: 'start', behavior: 'smooth' }); } catch (_) {}
+    state.busy = true; goBtn.disabled = true; track('find_search'); document.body.classList.add('searching'); try { if (!window.__zxEmbed && window.matchMedia('(max-width:600px)').matches) document.querySelector('.fcard').scrollIntoView({ block: 'start', behavior: 'smooth' }); } catch (_) {}
     if (lastCard && lastTitle) { keepForLater(lastCard, lastTitle, lastSub); lastCard = null; lastTitle = ''; } // the previous result stays open below while you search
     transient(h('div', { class: 'card' }, h('h2', {}, 'Finding the product…'), h('ul', { class: 'steps' }, h('li', { class: 'on' }, h('span', { class: 'spin' }), 'Matching what you typed'))));
     api('match', { q: q }).then(function (r) {
@@ -317,13 +377,13 @@ html.embed .meta{scroll-margin-top:0}
     var list = h('div', { role: 'radiogroup', 'aria-label': 'Which one do you mean?' });
     cands.forEach(function (c, i) {
       var b = h('button', { type: 'button', class: 'cand', role: 'radio', 'aria-checked': i === 0 ? 'true' : 'false', onclick: function () { chosen = i; btns.forEach(function (x, j) { x.setAttribute('aria-checked', j === i ? 'true' : 'false'); }); } },
-        h('div', {}, h('b', {}, c.name + (c.variant ? ' · ' + c.variant : '')), h('small', {}, c.note || c.kind || '')), h('span', { class: 'dot' }));
+        h('div', {}, h('b', {}, c.name + (c.variant ? ' · ' + c.variant : '')), h('small', {}, c.note || c.kind || '')), h('span', { class: 'okc' }, '✓'));
       btns.push(b); list.appendChild(b);
     });
     var noChecks = state.left === 0 && !state.pro;
-    var go = h('button', { class: 'btn main', type: 'button', style: 'margin-top:16px;width:100%', onclick: function () { if (noChecks) return renderGate(); runCheck(cands[chosen]); } },
-      noChecks ? 'Get more free checks' : state.pro ? 'Check prices' : (state.left != null && state.total > 1 ? 'Use a check (' + state.left + ' left)' : 'Use my free check'));
-    transient(h('div', { class: 'card' }, h('h2', {}, degraded ? 'Is this what you mean?' : vague ? '“' + q.slice(0, 60) + '” could be many products. Which one do you mean?' : 'Which one do you mean?'), h('div', { class: 'sub' }, vague ? 'Pick a specific model so the search compares the same product. Choosing or correcting is free.' : degraded ? 'We could not suggest matches right now, so we will search for exactly what you typed.' : 'Pick the closest match. Choosing or correcting is free.'),
+    var go = h('button', { class: 'btn green', type: 'button', style: 'margin-top:12px;width:100%', onclick: function () { if (noChecks) return renderGate(); runCheck(cands[chosen]); } },
+      noChecks ? 'Get more free checks' : state.pro ? 'Yes, check this one' : 'Yes, check this one (uses 1 free check)');
+    transient(h('div', { class: 'card' }, h('h2', { class: 'kick' }, 'Is this the one?'), h('div', { class: 'sub' }, vague ? '“' + q.slice(0, 60) + '” could be many products. Pick a specific model so the search compares the same product. Choosing or correcting is free.' : degraded ? 'We could not suggest matches right now, so we will search for exactly what you typed.' : 'Pick the closest match. Choosing or correcting is free.'),
       list, go, noChecks ? h('div', { class: 'cnote', style: 'text-align:center;margin-top:10px' }, 'Or ', h('button', { type: 'button', class: 'linkbtn', onclick: function () { openPro('gate'); } }, 'get unlimited checks with Pro · $14/month')) : h('div', { class: 'micro' }, 'Only showing offers uses a check. If nothing qualifies, it is not used.'), againBox()));
   }
 
@@ -337,7 +397,7 @@ html.embed .meta{scroll-margin-top:0}
     api('check', { candidate: { name: cand.name, variant: cand.variant }, pass: pass2 ? 2 : 1 }).then(function (r) {
       clearInterval(tm); state.busy = false; goBtn.disabled = false;
       if (r.json && r.json.remaining) setRemaining(r.json.remaining);
-      if (r.status === 402) return renderGate();
+      if (r.status === 402) { if (r.json && r.json.next) state.next = r.json.next; showLeft(); return renderGate(); }
       if (r.status === 429) return transient(msgCard('Daily limit reached', 'You have reached today\'s limit of checks from this connection. Please come back tomorrow.'));
       if (r.status === 503) return transient(msgCard(r.json.error === 'busy' ? 'We\'re busy today' : 'Search is paused', 'We cap how much the tool can run each day so it stays free. Please try again tomorrow.', storeLinksClient(cand.name)));
       if (r.status !== 200) return transient(msgCard('Something went wrong', 'The check did not finish and was not used. Please try again.'));
@@ -588,7 +648,7 @@ html.embed .meta{scroll-margin-top:0}
     return card;
   }
 
-  function renderResult(j) {
+  function renderResultLegacy(j) {
     var r = j.result, b = r.best, pro = j.tier === 'pro';
     var card = h('div', { class: 'card' });
     card.appendChild(h('h2', {}, j.product.name + (j.product.variant ? ' · ' + j.product.variant : '')));
@@ -623,6 +683,245 @@ html.embed .meta{scroll-margin-top:0}
     stack.push(againBox('Search a different product'));
     var wrap = h('div', { style: 'display:flex;flex-direction:column;gap:16px' }, stack);
     showCard(wrap, j.product.name, offerLine(b));
+  }
+
+  // ---------- Buy Report ----------
+  function usd2(n, cur) { try { return new Intl.NumberFormat('en-US', { style: 'currency', currency: cur || 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n); } catch (_) { return (cur || '') + ' ' + Number(n).toFixed(2); } }
+  function fmtDay(iso) { try { return new Date(iso + 'T00:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' }); } catch (_) { return iso; } }
+  function lk(t) { return h('span', { class: 'lk', 'aria-hidden': 'true' }, t); }
+  function rbtn(label, cls, onclick) { return h('button', { type: 'button', class: 'rb ' + (cls || ''), onclick: onclick }, label); }
+  function rlink(url, label, cls) { var s = safeUrl(url); return s ? h('a', { href: s, target: '_blank', rel: 'noopener nofollow noreferrer', class: 'rb ' + (cls || ''), onclick: function () { track('find_offer_click'); } }, label) : null; }
+  function shipWord(st, cost, cur) { return st === 'free' ? 'free shipping' : st === 'paid' ? (cost != null ? '+ ' + usd2(cost, cur) + ' shipping' : '+ shipping') : 'shipping not stated'; }
+  function ageWord(d) { return d === 0 ? 'today' : d + (d === 1 ? ' day old' : ' days old'); }
+  function pluralN(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
+  function protectUrl(name) { return '/protect?from=find&p=' + encodeURIComponent(name || ''); }
+
+  function reportHeader(j, rep, pro) {
+    var meta = (j.cached ? 'Saved result from earlier today' : 'Checked just now') + (pro ? ' · Pro view' : '') + (j.judged === false ? ' · not double-checked' : '');
+    var bits = [j.product.variant ? j.product.variant : null, rep.listPrice ? 'List ' + usd2(rep.listPrice, rep.currency) : null, 'Every offer below is dated within 30 days'].filter(Boolean);
+    return h('div', { class: 'rc' }, h('span', { class: 'pill g' }, '✓ Exact product confirmed'), ' ', h('span', { class: 'pill' }, meta),
+      h('h2', { class: 'ttl' }, j.product.name), h('div', { class: 'mut' }, bits.join(' · ')),
+      CORE.indexOf(j.country) < 0 ? h('div', { class: 'mut', style: 'margin-top:6px' }, cname(j.country) + ': limited local results, showing global stores') : null);
+  }
+
+  function unlockHero(r, rep, free) {
+    var n = rep.heldCheaper, ob = rep.openbox;
+    var found = [];
+    if (n) found.push(h('b', {}, pluralN(n, 'cheaper store offer', 'cheaper store offers')));
+    if (ob) found.push(h('b', {}, pluralN(ob, 'open-box offer', 'open-box offers')));
+    var foundEl = h('div', { class: 'hsub' }, 'Found: ', found.length === 2 ? [found[0], ' and ', found[1]] : found, ', all dated within 30 days.');
+    var ship = rep.lowest.shipState === 'free' ? 'Delivered, free shipping' : rep.lowest.shipState === 'paid' ? 'Price plus shipping' : 'Price, shipping not stated';
+    var box = h('div', { class: 'hero' }, h('div', { class: 'hk' }, 'PRO FOUND A LOWER TOTAL'),
+      h('div', { class: 'hh' }, usd2(rep.gap, rep.currency) + ' less than the free offer'),
+      h('div', { class: 'cmp2' },
+        h('div', {}, h('small', {}, 'Free shows'), h('b', {}, usd2(rep.freeTotal, rep.currency)), h('span', { class: 'mut' }, free.store + ' · reported ' + free.dateHuman)),
+        h('div', { class: 'p' }, h('small', { style: 'color:var(--green)' }, 'Pro found'), h('b', { style: 'color:var(--green)' }, usd2(rep.lowest.total, rep.currency)), h('span', { class: 'mut' }, ship + ' · ' + rep.lowest.dateHuman))),
+      foundEl);
+    var more = [];
+    if (rep.gap > 14) more.push('That is more than one month of Pro, from this one report. ');
+    if (rep.couponEnds) more.push('A coupon\'s source shows it ends ' + fmtDay(rep.couponEnds) + '.');
+    if (more.length) box.appendChild(h('div', { class: 'hsub', style: 'margin-top:6px' }, more.join('')));
+    warm();
+    box.appendChild(rbtn('Unlock the ' + usd2(rep.lowest.total, rep.currency) + ' offer · Pro $14/month', 'big', function () { openPro('hero'); }));
+    box.appendChild(h('div', { class: 'fine', style: 'text-align:center' }, '3-day money-back guarantee · Cancel in one click · We can\'t promise any store will honor a price'));
+    return box;
+  }
+  function lowestHero(r, rep, free, pro) {
+    var box = h('div', { class: 'hero' }, h('div', { class: 'hk' }, rep.rows && rep.rows.length === 1 ? 'THE ONLY STORE PRICE WE FOUND' : pro ? 'LOWEST TOTAL WE FOUND' : 'THE FREE OFFER IS THE LOWEST WE FOUND'),
+      h('div', { class: 'hh' }, usd2(rep.lowest.total, rep.currency)),
+      h('div', { class: 'hsub' }, free.store + ' · reported ' + free.dateHuman + ' · ' + shipWord(rep.lowest.shipState, null, rep.currency) + '. ' + (rep.rows && rep.rows.length === 1 ? (rep.weakSource ? 'Reported on a price-listing site, not a store page.' : 'No other dated store price passed our checks.') : 'No store offer we found was lower.')));
+    var extra = []; if (rep.coupons) extra.push(pluralN(rep.coupons, 'coupon', 'coupons')); if (rep.cashback) extra.push(rep.cashback + ' cashback'); if (rep.openbox) extra.push(pluralN(rep.openbox, 'open-box offer', 'open-box offers'));
+    if (!pro && extra.length) {
+      box.appendChild(h('div', { class: 'hsub', style: 'margin-top:8px' }, 'Pro also found ', h('b', {}, extra.join(', ')), ', which could bring the total lower.'));
+      warm(); box.appendChild(rbtn('See them · Pro $14/month', 'big', function () { openPro('hero'); }));
+      box.appendChild(h('div', { class: 'fine', style: 'text-align:center' }, '3-day money-back guarantee · Cancel in one click'));
+    }
+    return box;
+  }
+
+  function verdictCard(j, rep, r, pro) {
+    var v = rep.verdict || { call: 'NOCALL', text: '' };
+    var col = v.call === 'BUY' ? 'var(--green)' : v.call === 'WAIT' ? 'var(--red)' : v.call === 'FAIR' ? 'var(--gold)' : 'var(--muted)';
+    var card = h('div', { class: 'rc' }, h('h2', { class: 'rk' }, 'Buy or wait?'));
+    var chips = [];
+    if (v.chip) chips.push(h('span', { class: 'pill ' + (v.call === 'BUY' ? 'g' : v.call === 'WAIT' ? 'r' : 'y') }, v.chip));
+    if (!pro && !rep.freeIsLowest) chips.push(h('span', { class: 'pill y' }, 'A lower total exists'));
+    card.appendChild(h('div', { class: 'vrow' }, h('span', { class: 'vcall', style: 'color:' + col }, v.call === 'NOCALL' ? 'NO CALL' : v.call), h('span', {}, chips)));
+    card.appendChild(h('div', { class: 'vtxt' }, v.text));
+    if (v.bar) {
+      card.appendChild(h('div', { class: 'bar' }, h('div', { class: 'pin', style: 'left:' + Math.max(8, Math.min(92, v.bar.pos)) + '%' }, v.bar.pin), h('span', { class: 'tick', style: 'left:0;transform:none' }, v.bar.lowLabel), h('span', { class: 'tick', style: 'right:0;left:auto;transform:none' }, v.bar.highLabel)));
+    }
+    var bf = new Date(), bfd = new Date(Date.UTC(2026, 10, 27));
+    card.appendChild(h('div', { class: 'fine' }, (v.bar ? 'Based on where the price sits in dated history. ' : '') + 'Not a forecast.' + (Date.now() < bfd.getTime() ? ' Black Friday is Nov 27.' : '') + ' ',
+      r.history ? h('a', { href: r.history.url, style: 'color:var(--gold);font-weight:700' }, 'See the dated price history →') : null));
+    var watchHolder = h('div', {});
+    var wb = rbtn('🔔 Watch this product daily', 'o', function () { wb.style.display = 'none'; watchHolder.appendChild(watchBox(j.product, 'drop')); });
+    wb.style.marginTop = '10px';
+    card.appendChild(wb); card.appendChild(watchHolder);
+    return card;
+  }
+
+  function whyBox(o, rep, j) {
+    var items = [
+      ['✓', ['Same model confirmed: ', j.product.name + (j.product.variant ? ', ' + j.product.variant : '')]],
+      ['✓', ['Dated ', h('b', {}, o.dateHuman), ', ' + o.ageDays + (o.ageDays === 1 ? ' day' : ' days') + ' old (limit is 30)']],
+      ['✓', ['Price stated on the source page']],
+      ['✓', ['Source: ', h('a', { href: safeUrl(o.sourceUrl) || '#', target: '_blank', rel: 'noopener nofollow noreferrer', style: 'text-decoration:underline' }, (o.sourceTitle || 'the page').slice(0, 60)), ' (opens the page)']]
+    ];
+    if (rep.weakSource) items.push(['!', ['This price was reported on a price-listing site, not a store page. Check the live price at a store.']]);
+    if (rep.regularPrice) items.push(['!', ['It matches the list price. We found no discount.']]);
+    if (j.tier !== 'pro' && !(rep.rows && rep.rows.length === 1)) items.push(['!', [rep.freeIsLowest ? 'This is the lowest total we found.' : 'Chosen as the free offer by a fixed rule (largest store first). It is not picked for being the cheapest.']]);
+    var box = h('div', { class: 'why' }, h('div', { class: 'wk' }, 'WHY WE SHOW THIS OFFER'));
+    items.forEach(function (it) { box.appendChild(h('div', {}, h('span', { style: 'color:' + (it[0] === '✓' ? 'var(--green)' : 'var(--gold)') }, it[0]), ' ', it[1])); });
+    return box;
+  }
+  function checkBtn(o) {
+    var t = o.target || {};
+    if (t.kind === 'search') return rlink(t.url, 'Check on ' + t.store + ' →', 'o');
+    if (t.kind === 'store') return rlink(t.url, 'Check on ' + o.store + ' →', 'o');
+    return rlink(o.sourceUrl, 'Read the source →', 'o');
+  }
+
+  function offersCardFree(j, rep, free) {
+    var rows = rep.rows || [];
+    var card = h('div', { class: 'rc tbl' }, h('h2', { class: 'rk' }, 'All offers we found'),
+      h('div', { class: 'mut', style: 'margin:-4px 0 6px' }, pluralN(rows.length, 'offer', 'offers') + (rows.length > 1 ? ' · 1 free, ' + (rows.length - 1) + ' with Pro' : '') + ' · cheapest total first'));
+    card.appendChild(h('div', { class: 'tr th' }, h('span', {}, 'Store'), h('span', {}, 'Price'), h('span', {}, 'Total')));
+    var fakeN = 0;
+    rows.forEach(function (x) {
+      if (x.free) {
+        var tot = free.total != null ? free.total : free.price;
+        card.appendChild(h('div', { class: 'tr best' }, h('span', {}, h('b', {}, free.store), ' ', h('span', { class: 'pill g' }, 'Free'), h('br'), h('span', { class: 'mut' }, free.dateHuman + ' · ' + shipWord(free.shipping && free.shipping.state, free.shipping && free.shipping.cost, free.currency))),
+          h('span', {}, usd2(free.price, free.currency)), h('span', {}, h('b', {}, usd2(tot, free.currency)))));
+        card.appendChild(whyBox(free, rep, j));
+        var cb = checkBtn(free);
+        if (cb) { var w = h('div', { style: 'padding:6px 0 4px' }, cb, h('div', { class: 'fine', style: 'text-align:center' }, 'Opens in a new tab. Reported ' + free.dateHuman + ', so check the live price and seller before you buy.')); card.appendChild(w); }
+      } else {
+        fakeN++;
+        card.appendChild(h('div', { class: 'tr' }, h('span', {}, h('b', { class: 'lk', 'aria-hidden': 'true' }, 'Store name ▒▒'), h('br'), h('span', { class: 'mut' }, x.dateHuman + ' · ' + shipWord(x.shipState, null, rep.currency))), lk('$▒▒▒.▒▒'), lk('$▒▒▒.▒▒')));
+      }
+    });
+    card.appendChild(h('div', { class: 'nudge' }, h('div', {}, h('b', { style: 'color:#fff' }, 'Bought it? '), 'If the price drops you may be able to claim the difference. ', h('a', { href: protectUrl(j.product.name), style: 'color:var(--gold);font-weight:800' }, 'Protect this purchase →'))));
+    card.appendChild(h('div', { class: 'fine' }, (rep.freeIsLowest ? 'The free offer is the lowest total we found. ' : 'The free offer is not the cheapest. Pro shows the ' + (rep.heldCheaper === 1 ? 'lower one' : rep.heldCheaper + ' lower ones') + '. ') + 'Total = price + shipping, only where the page states it. Customs and VAT may be added in your country.'));
+    return card;
+  }
+
+  function offersCardPro(j, rep, r) {
+    var list = (r.offers || []).filter(function (o) { return o.kind === 'price'; });
+    if (!list.length) return null;
+    var card = h('div', { class: 'rc tbl' }, h('h2', { class: 'rk' }, 'All offers we found ', h('span', { class: 'protag' }, 'PRO')),
+      h('div', { class: 'mut', style: 'margin:-4px 0 6px' }, pluralN(list.length, 'offer', 'offers') + ' · cheapest total first'));
+    card.appendChild(h('div', { class: 'tr th' }, h('span', {}, 'Store'), h('span', {}, 'Price'), h('span', {}, 'Total')));
+    list.forEach(function (o, i) {
+      var sh = o.shipping || { state: 'not_stated' };
+      var bits = [o.dateHuman, shipWord(sh.state, sh.cost, o.currency)];
+      if (o.ships === 'no') bits.push('⚠ may not ship to your country');
+      if (o.seller === 'third_party') bits.push('⚠ third-party seller');
+      card.appendChild(h('div', { class: 'tr' + (i === 0 ? ' best' : '') }, h('span', {}, h('b', {}, o.store), h('br'), h('span', { class: 'mut' }, bits.join(' · '))),
+        h('span', {}, usd2(o.price, o.currency)), h('span', {}, h('b', {}, o.total != null ? usd2(o.total, o.currency) : 'n/a'))));
+      if (i === 0) card.appendChild(whyBox(o, rep, j));
+      var b = checkBtn(o); if (b) card.appendChild(h('div', { style: 'padding:4px 0 8px' }, b, i === 0 ? h('div', { class: 'fine', style: 'text-align:center' }, 'Opens in a new tab. Reported ' + o.dateHuman + ', so check the live price and seller before you buy.') : null));
+    });
+    card.appendChild(h('div', { class: 'nudge' }, h('div', {}, h('b', { style: 'color:#fff' }, 'Bought it? '), 'If the price drops you may be able to claim the difference. ', h('a', { href: protectUrl(j.product.name), style: 'color:var(--gold);font-weight:800' }, 'Protect this purchase →'))));
+    card.appendChild(h('div', { class: 'fine' }, 'Total = price + shipping, only where the page states it. Customs and VAT may be added in your country.'));
+    return card;
+  }
+
+  function couponsCard(r, pro, base, cur) {
+    if (pro) {
+      var sv = (r.coupons || []).concat(r.cashbacks || []);
+      if (!sv.length) return null;
+      var c = h('div', { class: 'rc' }, h('h2', { class: 'rk' }, 'Coupons and cashback ', h('span', { class: 'protag' }, 'PRO')));
+      sv.forEach(function (o) { c.appendChild(savingRow(o, base, cur)); });
+      c.appendChild(h('div', { class: 'fine' }, 'Offers may not combine. Terms are on each store\'s page.'));
+      return c;
+    }
+    var tz = (r.teasers || []).filter(function (t) { return t.kind === 'coupon' || t.kind === 'cashback'; });
+    if (!tz.length) return null;
+    var card = h('div', { class: 'rc' }, h('h2', { class: 'rk' }, 'Coupons and cashback'));
+    tz.forEach(function (t) {
+      card.appendChild(h('div', { class: 'ln' }, h('b', { class: 'lk', 'aria-hidden': 'true' }, t.kind === 'coupon' ? 'Code ▒▒▒▒▒' : 'Cashback site'),
+        h('span', {}, (t.kind === 'coupon' ? (t.percent ? t.percent + '% off' : 'coupon') : (t.percent ? t.percent + '% back' : 'cashback')) + (t.expires ? ' · ends ' + fmtDay(t.expires) : t.kind === 'cashback' ? ' · rate shown on the page' : ''))));
+    });
+    card.appendChild(h('div', { class: 'fine' }, 'Codes unlock with Pro. Expiry dates come from the source page. Offers may not combine.'));
+    return card;
+  }
+  function openBoxCard(r, pro) {
+    if (pro) {
+      var rf = (r.offers || []).filter(function (o) { return o.kind === 'refurb'; });
+      if (!rf.length) return null;
+      var c = h('div', { class: 'rc' }, h('h2', { class: 'rk' }, 'Refurbished and open-box ', h('span', { class: 'protag' }, 'PRO')));
+      rf.forEach(function (o) {
+        c.appendChild(h('div', { class: 'ln' }, h('div', {}, h('b', {}, o.store), h('br'), h('span', { class: 'mut' }, (o.condition ? o.condition + ' · ' : '') + 'reported ' + o.dateHuman + ' · check the warranty and return terms')), h('span', { style: 'min-width:120px' }, usd2(o.price, o.currency), h('br'), checkBtn(o))));
+      });
+      return c;
+    }
+    var tz = (r.teasers || []).filter(function (t) { return t.kind === 'refurb'; });
+    if (!tz.length) return null;
+    var card = h('div', { class: 'rc' }, h('h2', { class: 'rk' }, 'Refurbished and open-box'));
+    tz.forEach(function (t) { card.appendChild(h('div', { class: 'ln' }, h('b', { class: 'lk', 'aria-hidden': 'true' }, 'Open-box · store ▒▒▒'), h('span', {}, t.ageDays != null ? 'reported ' + (t.ageDays === 0 ? 'today' : t.ageDays + ' days ago') : ''))); });
+    card.appendChild(h('div', { class: 'fine' }, pluralN(tz.length, 'offer', 'offers') + ' found. Pro shows the condition, store and link, and we flag what to check on warranty and returns.'));
+    return card;
+  }
+  function rejectedCard(r, pro) {
+    var pr = r.proof, sm = r.rejectedSummary, rej = r.rejected;
+    var n = rej && rej.length ? rej.length : sm && sm.count ? sm.count : 0;
+    if (!n && !(pr && pr.pages)) return null;
+    var card = h('div', { class: 'rc' }, h('h2', { class: 'rk' }, n ? 'What we checked and rejected (' + n + ')' : 'What we checked'));
+    if (pr && pr.pages) card.appendChild(h('div', { class: 'mut', style: 'margin:-4px 0 8px' }, pr.pages + ' pages read · ' + pr.sites + ' sites checked'));
+    if (rej && rej.length) rej.forEach(function (x) { card.appendChild(h('div', { class: 'rj' }, h('b', {}, 'Rejected'), ' · ' + x.what + ': ' + x.why)); });
+    else if (sm) {
+      if (sm.old) card.appendChild(h('div', { class: 'rj' }, h('b', {}, 'Rejected'), ' · ' + pluralN(sm.old, 'report', 'reports') + ' older than 30 days'));
+      if (sm.undated) card.appendChild(h('div', { class: 'rj' }, h('b', {}, 'Rejected'), ' · ' + pluralN(sm.undated, 'page', 'pages') + ' with no date'));
+      if (sm.match) card.appendChild(h('div', { class: 'rj' }, h('b', {}, 'Rejected'), ' · ' + pluralN(sm.match, 'page', 'pages') + ' not clearly the same product'));
+      if (sm.other) card.appendChild(h('div', { class: 'rj' }, h('b', {}, 'Rejected'), ' · ' + pluralN(sm.other, 'page', 'pages') + ' that failed a basic check'));
+    }
+    card.appendChild(h('div', { class: 'fine' }, 'This is why you can trust what\'s left.' + (pro ? '' : ' Pro shows each rejected report with its store, price and age.')));
+    return card;
+  }
+  function missCard(r, rep) {
+    var lines = [];
+    if (rep.gap > 0) lines.push(['The lowest total', usd2(rep.lowest.total, rep.currency) + ' vs ' + usd2(rep.freeTotal, rep.currency)]);
+    if (rep.heldStores > 0) lines.push(['Every store and link', rep.heldStores + ' held back']);
+    if (rep.coupons > 0) lines.push(['Codes with expiry dates', rep.couponEnds ? pluralN(rep.coupons, 'found', 'found') + ' · ends ' + fmtDay(rep.couponEnds) : pluralN(rep.coupons, 'found', 'found')]);
+    if (rep.openbox > 0) lines.push(['Open-box offer', pluralN(rep.openbox, 'found', 'found')]);
+    lines.push(['Daily watch', 'up to 20 products']);
+    if (lines.length < 2) return null;
+    var card = h('div', { class: 'rc gold' }, h('h2', { class: 'rk' }, 'What you\'d miss without Pro'));
+    lines.forEach(function (l) { card.appendChild(h('div', { class: 'ln' }, h('b', {}, l[0]), h('span', {}, l[1]))); });
+    warm(); card.appendChild(rbtn('Unlock everything · Pro $14/month', 'big', function () { openPro('miss'); }));
+    card.appendChild(h('div', { class: 'fine', style: 'text-align:center' }, rep.gap > 14 ? 'Pro is $14/month. This report alone shows ' + usd2(rep.gap, rep.currency) + ' less. 3-day money-back guarantee.' : 'Pro is $14/month. 3-day money-back guarantee. Cancel in one click.'));
+    return card;
+  }
+  function afterBuyCard(j) {
+    return h('div', { class: 'rc' }, h('h2', { class: 'rk' }, 'After you buy'), h('div', { style: 'font-size:14px;color:var(--subtle)' }, 'If the price drops, you may be able to claim the difference. We show the store\'s reported window, your deadline and a ready-to-send message.'),
+      h('a', { href: protectUrl(j.product.name), class: 'rb o', style: 'margin-top:10px' }, 'Protect this purchase →'));
+  }
+
+  function renderResult(j) {
+    var r = j.result, b = r.best, rep = r.report;
+    if (!b || b.kind !== 'price' || !rep || !rep.lowest) return renderResultLegacy(j);
+    var pro = j.tier === 'pro';
+    var stack = [reportHeader(j, rep, pro)];
+    (r.warnings || []).forEach(function (w) { stack.push(h('div', { class: 'warn' }, '⚠ ' + w)); });
+    if (!pro) stack.push(rep.gap > 0 ? unlockHero(r, rep, b) : lowestHero(r, rep, b, false));
+    else stack.push(lowestHero(r, rep, (r.offers || []).filter(function (o) { return o.kind === 'price'; })[0] || b, true));
+    stack.push(verdictCard(j, rep, r, pro));
+    stack.push(pro ? offersCardPro(j, rep, r) : offersCardFree(j, rep, b));
+    var cc = couponsCard(r, pro, b.price, b.currency); if (cc) stack.push(cc);
+    var ob = openBoxCard(r, pro); if (ob) stack.push(ob);
+    if (!cc) { var sl = statusLine(r.counts); if (sl) stack.push(sl); }
+    var ub = undatedBox(r.undated); if (ub) stack.push(ub);
+    var rc = rejectedCard(r, pro); if (rc) stack.push(rc);
+    (r.newer || []).forEach(function (nw) { stack.push(h('div', { class: 'note' }, h('b', {}, 'Newer model: '), nw.title + ' · ' + nw.store + ', reported ' + when(nw) + '. ', ext(nw.sourceUrl, 'Source'))); });
+    if (!pro) { var mc = missCard(r, rep); if (mc) stack.push(mc); }
+    stack.push(afterBuyCard(j));
+    stack.push(againBox('Search a different product'));
+    if (!pro && rep.gap > 0) {
+      stack.push(h('div', { class: 'stickb' }, h('span', {}, h('b', { style: 'color:var(--green)' }, 'Save up to ' + usd2(rep.gap, rep.currency)), ' on this product'), h('a', { href: '#', onclick: function (e) { e.preventDefault(); openPro('sticky'); } }, 'Unlock · $14/mo')));
+    }
+    var wrap = h('div', { class: 'rp' }, stack);
+    showCard(wrap, j.product.name, usd2(rep.lowest.total, rep.currency));
   }
 
   function renderFallback(j) {
@@ -700,7 +999,7 @@ html.embed .meta{scroll-margin-top:0}
     var out = h('div', {});
     var f = h('form', { class: 'form', onsubmit: function (e) { e.preventDefault(); out.textContent = ''; api('signup', { action: 'bonus', email: email.value, hp: hp.value }).then(function (r) { if (r.status === 200) { track('find_bonus_requested'); out.appendChild(h('div', { class: 'ok' }, r.json.queued ? 'Almost there: the email will arrive in a few minutes. Check your inbox and spam.' : 'Sent. Open the link in the email to add the checks to this browser. Check spam if you don\'t see it.')); f.style.display = 'none'; } else out.appendChild(h('div', { class: 'err' }, r.status === 429 ? 'Too many tries. Please try again later.' : r.json && r.json.error === 'disposable' ? 'Please use your regular email address. Temporary inboxes can\'t receive the extra checks.' : 'That didn\'t work. Check the address and try again.')); }); } },
       email, hp, h('button', { class: 'btn main', type: 'submit' }, 'Send me the link'));
-    transient(h('div', { class: 'card' }, h('h2', {}, 'You\'ve used your free check'), h('p', {}, 'Confirm your email and we\'ll add 2 more free checks to this browser. Matching and searching again stay free.'), f, out, h('div', { class: 'micro' }, 'We use your address only to send this confirmation link.'),
+    transient(h('div', { class: 'card' }, h('h2', {}, 'You\'ve used your free checks'), h('p', {}, 'Confirm your email and we\'ll add 2 more free checks to this browser. Matching and searching again stay free. After that you get 1 free check every week' + (state.next ? ' (the next one opens ' + fmtDay(state.next) + ')' : '') + '.'), f, out, h('div', { class: 'micro' }, 'We use your address only to send this confirmation link.'),
       h('div', { style: 'margin-top:14px' }, h('b', { style: 'font-size:14px' }, 'Or get Pro for unlimited checks'), h('div', { style: 'display:flex;gap:10px;margin-top:8px;flex-wrap:wrap' }, h('button', { class: 'btn main', type: 'button', onclick: function () { openPro('gate'); } }, 'Get Pro · $14/month'), h('button', { class: 'btn alt', type: 'button', onclick: renderSignin }, 'Already Pro? Sign in')))));
   }
 

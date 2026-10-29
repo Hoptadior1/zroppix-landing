@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
     bump('queries'); await trackSource(body.ref); await trackVisitor('uv', visitor); await trackCountry(pickCountry(req, body), 's');
     // Every answer also says how many checks this visitor has left and which country we guessed.
     const al = await allowance(visitor);
-    const meta = { remaining: { left: al.left, total: al.total }, country: pickCountry(req, body) };
+    const meta = { remaining: { left: al.left, total: al.total, next: al.nextFree || undefined }, country: pickCountry(req, body) };
     const reply = (code, obj) => send(res, code, Object.assign({}, obj, meta));
     const key = 'm:' + sha(normName(q));
     const hit = await store.getJson(key);
