@@ -37,6 +37,8 @@ function cfg() {
     freeChecks: num(e.FIND_FREE_CHECKS, 1),
     emailBonus: num(e.FIND_EMAIL_BONUS, 2),
     weeklyRefill: num(e.FIND_WEEKLY_REFILL, 1),
+    protectFree: num(e.FIND_PROTECT_FREE, 1),
+    protectPerIpDay: num(e.FIND_PROTECT_PER_IP_DAY, 4),
     maxSearches: Math.min(8, Math.max(1, num(e.FIND_MAX_SEARCHES, 4))),
     cacheHours: num(e.FIND_CACHE_HOURS, 6),
     matchPerHour: num(e.FIND_MATCH_PER_HOUR, 20),

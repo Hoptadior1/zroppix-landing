@@ -479,4 +479,4 @@ function buildFallback({ productName, country, stale, deal, newer, hadSearchErro
   };
 }
 
-module.exports = { rejectedOut, rejCat, parseDate, parseExpiry, ageDays, normalizeFinding, evaluate, pickBest, shape, storeLinks, matchDeal, buildFallback, normUrl, PREDICT, human, iso };
+module.exports = { storeTarget, rejectedOut, rejCat, parseDate, parseExpiry, ageDays, normalizeFinding, evaluate, pickBest, shape, storeLinks, matchDeal, buildFallback, normUrl, PREDICT, human, iso };

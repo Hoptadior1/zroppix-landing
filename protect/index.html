@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Price Adjustment Finder: Protect Your Purchase | Zroppix</title>
+<meta name="description" content="Bought something and the price dropped? See the store's reported price adjustment window, your deadline, any lower dated price, and a ready-to-send claim message. We never promise a store will approve a claim.">
+<link rel="canonical" href="https://zroppix.com/protect">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website"><meta property="og:url" content="https://zroppix.com/protect"><meta property="og:title" content="Price Adjustment Finder: Protect Your Purchase | Zroppix"><meta property="og:description" content="See your store's price adjustment window, your deadline and any lower dated price. Free to try.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--bg:#0D0D14;--bg2:#12121A;--bg3:#0A0A10;--border:#22223A;--gold:#C9A84C;--green:#1D9E75;--red:#E24B4A;--text:#fff;--muted:#7A78A0;--subtle:#ccc;}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+nav{display:flex;justify-content:space-between;align-items:center;padding:16px 48px;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(13,13,20,.96);backdrop-filter:blur(12px);z-index:100}
+.nav-logo{font-size:20px;font-weight:800;color:var(--gold)}
+.nav-links{display:flex;align-items:center;gap:32px;list-style:none}
+.nav-links a{color:var(--muted);font-size:14px;font-weight:500}
+.nav-cta{background:var(--gold);color:#0D0D14!important;padding:9px 20px;border-radius:8px;font-weight:700!important}
+@media(max-width:900px){nav{padding:14px 20px}}
+main{max-width:720px;margin:0 auto;padding:40px 20px 20px}
+h1{font-size:36px;line-height:1.15;font-weight:900;letter-spacing:-.5px;margin-bottom:10px}
+.lead{color:var(--subtle);font-size:16.5px;margin-bottom:20px}
+@media(max-width:600px){h1{font-size:28px}.lead{font-size:15px}main{padding-top:28px}}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:14px}
+.card.pro{border:1.5px solid rgba(201,168,76,.55);background:linear-gradient(180deg,rgba(201,168,76,.12),rgba(201,168,76,.03))}
+.step{display:flex;gap:10px;align-items:center;margin-bottom:12px}
+.n{width:26px;height:26px;border-radius:50%;background:var(--gold);color:#0D0D14;font-weight:900;text-align:center;line-height:26px;font-size:13px;flex:none}
+label{display:block;font-size:12px;color:var(--muted);font-weight:700;margin-top:10px}
+input,select{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:10px;color:#fff;padding:12px;font-size:16px;margin-top:4px;font-family:inherit}
+input:focus,select:focus{outline:none;border-color:var(--gold)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:520px){.g2{grid-template-columns:1fr}}
+.btn{display:block;width:100%;text-align:center;font-family:inherit;cursor:pointer;font-weight:800;border-radius:12px;padding:13px;font-size:15px;background:var(--gold);color:#0D0D14;border:0;line-height:1.25;margin-top:14px}
+.btn.g{background:var(--green);color:#fff}.btn.o{background:var(--bg3);color:var(--gold);border:1px solid rgba(201,168,76,.5)}
+.btn:disabled{opacity:.55;cursor:default}
+.chip{display:inline-block;font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid var(--border);color:var(--muted)}
+.chip.g{color:var(--green);border-color:rgba(29,158,117,.45)}.chip.y{color:var(--gold);border-color:rgba(201,168,76,.45)}.chip.r{color:var(--red);border-color:rgba(226,75,74,.45)}
+.row{display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap}
+.sub{color:var(--muted);font-size:13px}.fine{font-size:12px;color:var(--muted);line-height:1.5;margin-top:8px}
+.prog{height:8px;border-radius:6px;background:var(--border);overflow:hidden;margin:10px 0 6px}.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--gold))}
+.line{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--border);font-size:14.5px}
+.line span{color:var(--muted);font-size:13px;text-align:right}
+.msg{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:14px;color:var(--subtle);line-height:1.65;white-space:pre-wrap}
+.warn{background:rgba(226,75,74,.08);border:1px solid rgba(226,75,74,.35);border-radius:10px;padding:10px 12px;font-size:13.5px;color:var(--subtle);margin-top:10px}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:560px}
+th{text-align:left;color:var(--muted);font-size:11px;letter-spacing:.5px;text-transform:uppercase;padding:8px 10px;border-bottom:1px solid var(--border)}
+td{padding:10px;border-bottom:1px solid var(--border);vertical-align:top;color:var(--subtle)}
+td b{color:#fff}
+h2{font-size:21px;margin:30px 0 10px}
+section ul{margin-left:20px;color:var(--subtle);font-size:15px}section li{margin:8px 0}
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48px 24px;margin-top:50px}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-copy{font-size:13px;color:var(--muted)}
+.footer-links-row{display:flex;gap:20px}.footer-links-row a{font-size:13px;color:var(--muted)}
+@media(max-width:600px){footer{padding:26px 20px}}
+.hp{position:absolute;left:-9999px}
+.linkbtn{background:none;border:0;color:var(--gold);font:inherit;font-weight:700;cursor:pointer;padding:0;text-decoration:underline}
+</style>
+<style id="mnav">.nav-toggle{display:none;background:none;border:1px solid var(--border,#2a2a40);color:var(--text,#fff);border-radius:10px;width:42px;height:42px;font-size:22px;line-height:1;cursor:pointer}
+@media(max-width:900px){nav:not([aria-label]){flex-wrap:wrap;gap:0}nav:not([aria-label]) .nav-toggle{display:block}nav:not([aria-label]) .nav-links{display:none!important;width:100%;flex-direction:column;align-items:stretch;gap:0;padding:8px 0 4px;margin:0;order:3}nav.open .nav-links{display:flex!important}nav:not([aria-label]) .nav-links li{list-style:none;display:block;width:100%;margin:0;padding:0;text-align:left}nav:not([aria-label]) .nav-links a{display:block;width:100%;box-sizing:border-box;text-align:left;padding:13px 4px;border-bottom:1px solid var(--border,#2a2a40);font-size:16px;white-space:normal}nav:not([aria-label]) .nav-links li:last-child a{border:0;margin-top:10px;text-align:center!important;border-radius:10px;padding:13px 16px!important}}</style>
+</head>
+<body>
+<nav><a href="/" class="nav-logo">🛡️ Zroppix</a><button class="nav-toggle" id="navtg" type="button" aria-label="Menu" aria-expanded="false">☰</button><ul class="nav-links"><li><a href="/deals">Deals</a></li><li><a href="/blog">Blog</a></li><li><a href="/protect" style="color:var(--gold)!important">Protect</a></li><li><a href="/black-friday">Black Friday</a></li><li><a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="nav-cta">Add to Chrome — Free</a></li></ul></nav>
+<main>
+<h1>Bought something? See if you can get money back</h1>
+<p class="lead">Enter your purchase. We show the store's reported adjustment window and your deadline, look for a lower dated price at that store, and write the claim message. We never promise a store will approve a claim.</p>
+
+<div class="card" id="c1"><div class="step"><span class="n">1</span><b>Your purchase</b></div>
+<form id="f" autocomplete="off">
+<label for="store">Store</label><select id="store"></select>
+<div class="g2"><div><label for="prod">Product</label><input id="prod" maxlength="100" placeholder="e.g. Apple AirPods Pro 3" required></div><div><label for="paid">You paid (USD)</label><input id="paid" inputmode="decimal" placeholder="229.00" required></div></div>
+<div class="g2"><div><label for="date">Purchase date</label><input id="date" type="date" required></div><div><label for="ord">Order number (optional, stays in your browser)</label><input id="ord" maxlength="40" placeholder="for your message"></div></div>
+<button class="btn" id="go" type="submit">Check my purchase</button>
+<div class="fine">Nothing is saved on our servers except a price lookup for the product name. Free: window, deadline, claim message and calendar reminder, plus one price lookup per browser.</div>
+</form></div>
+<div id="out" aria-live="polite"></div>
+
+<section>
+<h2>Store rules at a glance</h2>
+<div class="card tw"><table id="tbl"><thead><tr><th>Store</th><th>After-purchase rule</th><th>Limits</th><th>Source</th></tr></thead><tbody></tbody></table></div>
+<p class="sub">Last checked Oct 30, 2026. Most of these come from news and consumer sites, not the retailers' own pages, and policies change, especially around the holidays. Confirm on the store's page before you rely on one. If something here is out of date or wrong, tell us and we will correct it.</p>
+<h2>How to claim</h2>
+<ul>
+<li>Keep the receipt or order number. You will need it.</li>
+<li>Check the lower price live at the same store. Match the exact item: model number, colour and seller.</li>
+<li>Ask inside the window, in store, by chat or by phone, depending on the store.</li>
+<li>If refused, check your credit card's price protection, which some cards offer, or return and rebuy where the store allows it.</li>
+</ul>
+<p class="sub" style="margin-top:12px">Zroppix is independent and not affiliated with any store. We make a price-checking tool, so weigh our advice accordingly. See our <a href="/privacy" style="text-decoration:underline">privacy policy</a>.</p>
+</section>
+</main>
+<footer><div class="footer-bottom"><div class="footer-copy">© 2026 Zroppix. All rights reserved.</div><div class="footer-links-row"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/deals">All Deals</a></div></div></footer>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var POL = {
+    bestbuy: { name: 'Best Buy', days: 15, kind: 'adjust', rule: '15 days, or 30 for My Best Buy Plus and Total members. Best Buy ties it to its return and exchange period.', limits: 'Its own lower price on the identical item. Excludes marketplace sellers, clearance, open-box and special-event pricing.', src: 'Best Buy price matching page (read Oct 30, 2026); day count from Priceva, updated May 14, 2026', url: 'https://www.bestbuy.com/site/help-topics/price-matching/pcmcat297300050000.c', home: 'https://www.bestbuy.com/', note: '30 for some members' },
+    target: { name: 'Target', days: 14, kind: 'adjust', rule: '14 days, on Target\'s own price drop.', limits: 'Excludes clearance and refurbished items. No screenshots. Cannot be combined with coupons. Target no longer matches Amazon or Walmart.', src: 'ConsumerAffairs, Oct 9, 2026', url: 'https://www.consumeraffairs.com/news/bought-something-at-target-this-little-known-14-day-rule-could-get-you-money-back-100926.html', home: 'https://www.target.com/', note: '' },
+    costco: { name: 'Costco', days: 30, kind: 'adjust', rule: '30 days. Online purchases online, in-store purchases in person.', limits: 'Match the exact item.', src: 'Consumer Reports via KRGV, Jan 7, 2026', url: 'https://www.krgv.com/news/consumer-reports-price-match-vs-price-adjustment/', home: 'https://www.costco.com/', note: '' },
+    walmart: { name: 'Walmart', days: 0, kind: 'none', rule: 'We found no source for an after-purchase window. Walmart matches its own Walmart.com price in store only.', limits: 'Does not match competitors. You ask in person.', src: 'Consumer Reports via KRGV, Jan 7, 2026', url: 'https://www.krgv.com/news/consumer-reports-price-match-vs-price-adjustment/', home: 'https://www.walmart.com/', note: '' },
+    amazon: { name: 'Amazon', days: 0, kind: 'none', rule: 'No standard price adjustment. Pre-orders are charged the lowest price in the window. You may be able to return and rebuy within the return window if returns are free for the item. Agents can offer a credit at their discretion.', limits: 'Third-party sellers rarely qualify.', src: 'DealNews, updated Jul 27, 2026', url: 'https://dealnews.com/', home: 'https://www.amazon.com/', note: '' },
+    other: { name: 'Another store', days: 0, kind: 'none', rule: 'Check the store\'s price adjustment or price guarantee page for a window.', limits: '', src: '', url: '', home: '', note: '' }
+  };
+  var ORDER = ['bestbuy', 'target', 'costco', 'walmart', 'amazon', 'other'];
+  function h(tag, props) {
+    var e = document.createElement(tag);
+    for (var k in (props || {})) { var v = props[k]; if (v == null || v === false) continue; if (k === 'class') e.className = v; else if (k === 'text') e.textContent = v; else if (k.slice(0, 2) === 'on') e.addEventListener(k.slice(2), v); else e.setAttribute(k, v); }
+    for (var i = 2; i < arguments.length; i++) add(e, arguments[i]);
+    return e;
+  }
+  function add(e, c) { if (c == null || c === false) return; if (Array.isArray(c)) { c.forEach(function (x) { add(e, x); }); return; } e.appendChild(c.nodeType ? c : document.createTextNode(String(c))); }
+  function safeUrl(u) { try { var x = new URL(u); return x.protocol === 'https:' ? x.href : null; } catch (_) { return null; } }
+  function ext(u, text, cls) { var s = safeUrl(u); return s ? h('a', { href: s, target: '_blank', rel: 'noopener nofollow noreferrer', class: cls }, text) : h('span', {}, text); }
+  function usd(n) { return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(n); }
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function dstr(d) { return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate()); }
+  function parse(s) { return new Date(s + 'T00:00:00Z'); }
+  function nice(d) { return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }); }
+  function todayUtc() { var n = new Date(); return new Date(Date.UTC(n.getFullYear(), n.getMonth(), n.getDate())); }
+  function lsGet(k) { try { return localStorage.getItem(k); } catch (_) { return null; } }
+  function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (_) {} }
+  function rid() { var a = new Uint8Array(18); try { crypto.getRandomValues(a); } catch (_) { for (var i = 0; i < a.length; i++) a[i] = Math.floor(Math.random() * 256); } return Array.prototype.map.call(a, function (b) { return ('0' + b.toString(16)).slice(-2); }).join(''); }
+  var visitor = lsGet('zx_vid'); if (!visitor || !/^[A-Za-z0-9_-]{16,64}$/.test(visitor)) { visitor = rid(); lsSet('zx_vid', visitor); }
+  function api(path, body) {
+    var ctl = new AbortController(); var t = setTimeout(function () { ctl.abort(); }, 70000);
+    body.visitor = visitor;
+    return fetch('/api/' + path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: ctl.signal })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { status: r.status, json: j }; }); })
+      .catch(function () { return { status: 0, json: { error: 'network' } }; }).then(function (x) { clearTimeout(t); return x; });
+  }
+  var pro = null; api('pro', { action: 'status' }).then(function (r) { if (r.status === 200 && r.json && r.json.pro) pro = { email: r.json.email }; });
+
+  // store list + table
+  ORDER.forEach(function (k) { $('store').appendChild(h('option', { value: k }, POL[k].name)); });
+  var tb = $('tbl').querySelector('tbody');
+  ORDER.filter(function (k) { return k !== 'other'; }).forEach(function (k) { var p = POL[k]; tb.appendChild(h('tr', {}, h('td', {}, h('b', {}, p.name)), h('td', {}, p.rule), h('td', {}, p.limits), h('td', {}, p.url ? ext(p.url, p.src, '') : p.src))); });
+  tb.querySelectorAll('a').forEach(function (a) { a.style.textDecoration = 'underline'; });
+
+  // defaults and prefill
+  var q = new URLSearchParams(location.search);
+  var today = todayUtc(); $('date').max = dstr(today); var min = new Date(today); min.setUTCDate(min.getUTCDate() - 120); $('date').min = dstr(min); $('date').value = dstr(today);
+  if (q.get('p')) $('prod').value = String(q.get('p')).slice(0, 100);
+  var sv = lsGet('zx_prot_store'); if (sv && POL[sv]) $('store').value = sv;
+
+  function claimText(p, prod, paid, date, ord, found) {
+    var o = ord ? ord : '______';
+    var s = 'Hello, I bought ' + prod + ' on ' + nice(date) + ' for ' + usd(paid) + ' (order #' + o + ').';
+    if (found && found.price < paid) {
+      s += ' The current price at ' + p.name + ' is ' + usd(found.price) + (found.url ? ' (link: ' + found.url + ')' : '') + ', seen ' + found.dateHuman + '.';
+      s += ' Under your price adjustment policy I\'d like to request the ' + usd(Math.round((paid - found.price) * 100) / 100) + ' difference. Thank you.';
+    } else {
+      s += ' I believe the price has dropped since my purchase. Under your price adjustment policy, could you please check and adjust it? Thank you.';
+    }
+    return s;
+  }
+  function ics(title, d) {
+    var s = dstr(d).replace(/-/g, ''), e = new Date(d); e.setUTCDate(e.getUTCDate() + 1);
+    var lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Zroppix//Protect//EN', 'BEGIN:VEVENT', 'UID:' + rid() + '@zroppix.com', 'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z', 'DTSTART;VALUE=DATE:' + s, 'DTEND;VALUE=DATE:' + dstr(e).replace(/-/g, ''), 'SUMMARY:' + title.replace(/[,;\n]/g, ' '), 'DESCRIPTION:Check the price and ask for the adjustment before the window closes. Confirm the policy on the store page.', 'END:VEVENT', 'END:VCALENDAR'];
+    var blob = new Blob([lines.join('\r\n')], { type: 'text/calendar' });
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'price-adjustment-reminder.ics'; document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  }
+
+  $('f').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var key = $('store').value, p = POL[key], prod = $('prod').value.trim(), paid = parseFloat(String($('paid').value).replace(/[^0-9.]/g, '')), ds = $('date').value, ord = $('ord').value.trim().replace(/[<>]/g, '');
+    if (prod.length < 2 || !(paid > 0) || !ds) return;
+    lsSet('zx_prot_store', key);
+    var date = parse(ds), now = todayUtc();
+    var out = $('out'); out.textContent = '';
+    var left = null, deadline = null, elapsed = null;
+    if (p.days) { deadline = new Date(date); deadline.setUTCDate(deadline.getUTCDate() + p.days); left = Math.round((deadline - now) / 86400000); elapsed = Math.max(0, Math.min(1, (now - date) / (p.days * 86400000))); }
+    // card 2
+    var c2 = h('div', { class: 'card' });
+    var chip = p.days ? (left >= 0 ? h('span', { class: 'chip g' }, 'Window open') : h('span', { class: 'chip r' }, 'Window closed')) : h('span', { class: 'chip y' }, p.kind === 'none' && key !== 'other' ? 'No standard window' : 'Window not confirmed');
+    c2.appendChild(h('div', { class: 'step' }, h('span', { class: 'n' }, '2'), h('b', {}, 'What we found'), ' ', chip));
+    if (p.days) {
+      c2.appendChild(h('div', { class: 'row' }, h('span', {}, h('b', {}, p.name + ' price adjustment: ' + p.days + ' days')), h('span', { class: 'sub' }, p.note)));
+      c2.appendChild(h('div', { class: 'prog' }, h('i', { style: 'width:' + Math.round(elapsed * 100) + '%' })));
+      c2.appendChild(h('div', { class: 'row sub' }, h('span', {}, 'Bought ' + nice(date)), h('span', {}, left >= 0 ? [h('b', { style: 'color:#fff' }, left === 0 ? 'Last day' : left + (left === 1 ? ' day left' : ' days left')), ' · deadline ' + nice(deadline)] : 'ended ' + Math.abs(left) + (Math.abs(left) === 1 ? ' day ago' : ' days ago'))));
+      c2.appendChild(h('div', { class: 'fine' }, 'Source: ' + p.src + '. These are secondary sources: confirm on the store\'s page before you claim.'));
+    } else {
+      c2.appendChild(h('p', { style: 'font-size:14.5px;color:var(--subtle)' }, p.rule));
+      if (p.src) c2.appendChild(h('div', { class: 'fine' }, 'Source: ' + p.src + '.'));
+    }
+    var lowerBox = h('div', {});
+    c2.appendChild(lowerBox);
+    out.appendChild(c2);
+    var claimHolder = h('div', {}); out.appendChild(claimHolder);
+    function drawClaim(found) {
+      claimHolder.textContent = '';
+      if (p.kind !== 'adjust') {
+        if (key === 'amazon') claimHolder.appendChild(h('div', { class: 'card' }, h('p', { style: 'font-size:14.5px;color:var(--subtle)' }, 'Amazon has no standard price adjustment. If the price is lower now, check whether this item can be returned for free, and whether a return and rebuy is allowed. Confirm on the order page before you return anything.'), ext('https://www.amazon.com/gp/css/order-history', 'Open your Amazon orders', 'btn o')));
+        return;
+      }
+      var text = claimText(p, prod, paid, date, ord, found);
+      var card = h('div', { class: 'card pro' }, h('div', { class: 'step' }, h('span', { class: 'n' }, '3'), h('b', {}, 'Your claim message is ready')), h('div', { class: 'msg', id: 'msgbox' }, text));
+      var copy = h('button', { class: 'btn g', type: 'button', onclick: function () { try { navigator.clipboard.writeText(text).then(function () { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy message'; }, 1800); }); } catch (_) { var r = document.createRange(); r.selectNodeContents($('msgbox')); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); } } }, 'Copy message');
+      var open = ext(p.url && key === 'bestbuy' ? p.url : p.home, key === 'bestbuy' ? 'Open Best Buy price match page' : 'Open ' + p.name, 'btn o');
+      card.appendChild(h('div', { class: 'g2' }, copy, open));
+      if (deadline && left >= 0) card.appendChild(h('button', { class: 'btn o', type: 'button', onclick: function () { var rd = new Date(deadline); rd.setUTCDate(rd.getUTCDate() - 3); if (rd < now) rd = now; ics('Price adjustment deadline: ' + prod + ' at ' + p.name + ' (' + nice(deadline) + ')', rd); } }, '📅 Add a reminder to my calendar (3 days before)'));
+      card.appendChild(h('div', { class: 'fine' }, 'Fill in your order number before you send it. Ask inside the window, with the exact item. We can\'t promise the store will approve a claim.'));
+      claimHolder.appendChild(card);
+    }
+    // card 4 (watch)
+    var wcard = h('div', { class: 'card' }, h('div', { class: 'row' }, h('b', {}, deadline && left >= 0 ? 'Daily price watch until ' + nice(deadline) : 'Daily price watch'), h('span', { class: 'chip y' }, 'Pro')),
+      h('div', { class: 'sub', style: 'margin:4px 0 12px' }, 'We search every day and email you only when a lower dated price appears, so you do not have to remember to check.'));
+    var wmsg = h('div', { class: 'fine', 'aria-live': 'polite' });
+    if (pro) {
+      var wb = h('button', { class: 'btn', type: 'button', onclick: function () { wb.disabled = true; api('watch', { action: 'add', candidate: { name: prod, variant: '' } }).then(function (r) { wb.disabled = false; var j = r.json || {}; wmsg.textContent = r.status === 200 && j.ok ? 'We are watching this product and will email ' + (j.email || 'you') + ' when a lower dated price appears.' : j.error === 'limit' ? 'You are already watching the most products Pro allows.' : 'We could not set that up right now. Please try again in a few minutes.'; }); } }, 'Watch this product');
+      wcard.appendChild(wb);
+    } else {
+      wcard.appendChild(h('a', { class: 'btn', href: '/pro?src=protect&q=' + encodeURIComponent(prod) }, 'Get Pro · $14/month'));
+      wcard.appendChild(h('div', { class: 'fine', style: 'text-align:center' }, '3-day money-back guarantee. We can\'t promise any store will refund you. ', h('a', { href: '/find', style: 'text-decoration:underline' }, 'Already Pro? Sign in on the Find page.')));
+    }
+    wcard.appendChild(wmsg);
+    // lookup
+    if (key === 'other') { lowerBox.appendChild(h('div', { class: 'line', style: 'margin-top:12px' }, h('b', {}, 'Lower price'), h('span', {}, 'We can compare Best Buy, Target, Walmart, Costco and Amazon. For other stores, check the price yourself.'))); drawClaim(null); out.appendChild(wcard); return; }
+    if (p.days && left < 0) {
+      lowerBox.appendChild(h('div', { class: 'warn' }, 'The reported window has ended, so a claim is unlikely. Some members get longer, and a card\'s price protection may still help. Check the store\'s own page.'));
+      drawClaim(null); out.appendChild(wcard); return;
+    }
+    lowerBox.appendChild(h('div', { class: 'line', style: 'margin-top:12px' }, h('b', {}, 'Lower price at ' + p.name), h('span', {}, 'Searching…')));
+    drawClaim(null); out.appendChild(wcard);
+    api('protect', { store: key, product: prod, paid: paid, date: ds }).then(function (r) {
+      var j = r.json || {}; lowerBox.textContent = '';
+      function line(a, b, strong) { lowerBox.appendChild(h('div', { class: 'line' }, h('b', {}, a), h('span', strong ? { style: 'color:var(--green);font-size:15px;font-weight:800' } : {}, b))); }
+      if (r.status === 402) { line('Lower price at ' + p.name, 'Your free lookup is used'); lowerBox.appendChild(h('div', { class: 'fine' }, 'Pro checks again every day until your deadline.')); return; }
+      if (r.status === 429) { line('Lower price at ' + p.name, 'Too many lookups today. Try again tomorrow.'); return; }
+      if (r.status !== 200 || j.lookup === 'unavailable') { line('Lower price at ' + p.name, 'We could not search right now. Check the store directly.'); return; }
+      if (j.found && j.diff > 0) {
+        lowerBox.appendChild(h('div', { class: 'line' }, h('b', {}, 'Lower price found'), h('span', {}, h('b', { style: 'color:var(--green)' }, usd(j.found.price)), ' · ' + j.found.dateHuman + ' · ', ext(j.found.sourceUrl, 'source', ''))));
+        line('Possible difference', usd(j.diff), true);
+        lowerBox.appendChild(h('div', { class: 'fine' }, 'Reported ' + j.found.dateHuman + '. Check the live price at ' + p.name + ' before you ask: the store will look at its own current price.'));
+        drawClaim(j.found);
+      } else if (j.found) {
+        line('Lower price at ' + p.name, 'None found. The dated price we found is ' + usd(j.found.price) + ' (' + j.found.dateHuman + ').');
+      } else {
+        line('Lower price at ' + p.name, 'No dated price from this store passed our checks.');
+        lowerBox.appendChild(h('div', { class: 'fine' }, 'That does not mean the price has not dropped. Check ' + p.name + ' yourself, or let a daily watch look for you.'));
+      }
+    });
+    out.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  if (q.get('p')) $('paid').focus();
+})();
+</script>
+<script>(function(){var n=document.querySelector("nav:not([aria-label])"),b=document.getElementById("navtg");if(!n||!b)return;b.addEventListener("click",function(){var o=n.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false");b.textContent=o?"\u2715":"\u2630";});})();</script>
+</body>
+</html>
