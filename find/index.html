@@ -720,7 +720,7 @@ html.embed .rp .stickb{display:none}
     var foundEl = h('div', { class: 'hsub' }, 'Found: ', found.length === 2 ? [found[0], ' and ', found[1]] : found, ', all dated within 30 days.');
     var ship = rep.lowest.shipState === 'free' ? 'Delivered, free shipping' : rep.lowest.shipState === 'paid' ? 'Price plus shipping' : 'Price, shipping not stated';
     var box = h('div', { class: 'hero' }, h('div', { class: 'hk' }, 'PRO FOUND A LOWER TOTAL'),
-      h('div', { class: 'hh' }, usd2(rep.gap, rep.currency) + ' less than the free offer'),
+      h('div', { class: 'hh' }, usd2(rep.gap, rep.currency) + ' less than the free offer' + (rep.gapUncertain ? ', before shipping' : '')),
       h('div', { class: 'cmp2' },
         h('div', {}, h('small', {}, 'Free shows'), h('b', {}, usd2(rep.freeTotal, rep.currency)), h('span', { class: 'mut' }, free.store + ' · reported ' + free.dateHuman)),
         h('div', { class: 'p' }, h('small', { style: 'color:var(--green)' }, 'Pro found'), h('b', { style: 'color:var(--green)' }, usd2(rep.lowest.total, rep.currency)), h('span', { class: 'mut' }, (rep.afterCoupon ? 'Delivered, after ' + usd2(rep.couponOff, rep.currency) + ' coupon' : ship) + ' · ' + rep.lowest.dateHuman))),
@@ -740,7 +740,7 @@ html.embed .rp .stickb{display:none}
     var fr = (rep.rows || []).filter(function (x) { return x.free; })[0];
     var shipSt = rep.nearlyEqual && fr ? fr.shipState : rep.lowest.shipState;
     var box = h('div', { class: 'hero' }, h('div', { class: 'hk' }, single ? 'THE ONLY STORE PRICE WE FOUND' : pro ? 'LOWEST TOTAL WE FOUND' : rep.nearlyEqual ? 'ABOUT THE LOWEST WE FOUND' : 'THE FREE OFFER IS THE LOWEST WE FOUND'),
-      h('div', { class: 'hh' }, usd2(L, cur)));
+      h('div', { class: 'hh' }, !pro && rep.histLowest && L > rep.histLowest * 1.005 ? usd2(L - rep.histLowest, cur) + ' lower has been reported' : !pro && rep.listPrice && L < rep.listPrice * 0.995 && single ? usd2(rep.listPrice - L, cur) + ' below the list price' : usd2(L, cur)));
     if (!pro) {
       var right;
       if (rep.histLowest && L > rep.histLowest * 1.005) right = [h('small', { style: 'color:var(--green)' }, 'Lowest reported'), h('b', { style: 'color:var(--green)' }, usd2(rep.histLowest, cur)), h('span', { class: 'mut' }, usd2(L - rep.histLowest, cur) + ' lower, in our dated history')];
@@ -753,10 +753,10 @@ html.embed .rp .stickb{display:none}
     box.appendChild(h('div', { class: 'hsub' }, (pro ? free.store + ' · reported ' + free.dateHuman + ' · ' : '') + (pro && rep.afterCoupon ? 'after the ' + usd2(rep.couponOff, rep.currency) + ' coupon · ' : '') + (function (w) { return pro ? w : w.charAt(0).toUpperCase() + w.slice(1); })(shipWord(shipSt, null, rep.currency)) + '. ' + (single ? (rep.weakSource ? 'Reported on a price-listing site, not a store page.' : 'No other dated store price passed our checks.') : (rep.nearlyEqual ? 'Another store was ' + usd2(rep.smallGap, rep.currency) + ' lower, which is too small to count.' : 'No store offer we found was lower.'))));
     var extra = []; if (rep.coupons) extra.push(pluralN(rep.coupons, 'coupon', 'coupons')); if (rep.cashback) extra.push(rep.cashback + ' cashback'); if (rep.openbox) extra.push(pluralN(rep.openbox, 'open-box offer', 'open-box offers'));
     if (!pro) {
-      if (extra.length) box.appendChild(h('div', { class: 'hsub', style: 'margin-top:8px' }, 'Pro also found ', h('b', {}, extra.join(', ')), ', which could bring the total lower.'));
+      if (extra.length) box.appendChild(h('div', { class: 'hsub', style: 'margin-top:8px' }, 'Pro also found ', h('b', {}, extra.join(', ')), r.extra ? [', worth up to about ', h('b', {}, usd2(r.extra.usd, r.extra.currency)), ' off. They may not combine.'] : ', which could bring the total lower.'));
       else if (single) box.appendChild(h('div', { class: 'hsub', style: 'margin-top:8px' }, h('b', {}, 'Only one price found, so there is nothing to compare it with. '), 'Pro searches every store every day and emails you when a lower dated price appears.'));
       else box.appendChild(h('div', { class: 'hsub', style: 'margin-top:8px' }, 'Prices change. ', h('b', {}, 'Pro searches every day'), ' for up to 20 products and emails you when a lower dated price appears. Free watches 1 product.'));
-      warm(); box.appendChild(rbtn(extra.length ? 'See them · Pro $14/month' : single ? 'Compare every store · Pro $14/month' : 'Get alerts when it drops · Pro $14/month', 'big', function () { openPro('hero'); }));
+      warm(); box.appendChild(rbtn(extra.length ? (r.extra ? 'Unlock the ' + usd2(r.extra.usd, r.extra.currency) + ' in extras · Pro $14/month' : 'See them · Pro $14/month') : rep.histLowest && L > rep.histLowest * 1.005 ? 'Alert me if it drops · Pro $14/month' : single ? 'Compare every store · Pro $14/month' : 'Get alerts when it drops · Pro $14/month', 'big', function () { openPro('hero'); }));
       box.appendChild(h('div', { class: 'fine', style: 'text-align:center' }, '3-day money-back guarantee · Cancel in one click'));
     }
     return box;
@@ -968,6 +968,12 @@ html.embed .rp .stickb{display:none}
     showCard(wrap, j.product.name, usd2(rep.lowest.total, rep.currency));
   }
 
+  function lockedSaveText(ls) {
+    var m = money(ls.usd, ls.currency);
+    if (ls.vs === 'last') return [' If one is still available, you could save up to about ', h('b', {}, m), ' compared with the last report shown above.'];
+    if (ls.vs === 'history') return [' Its lowest price in our dated history is about ', h('b', {}, m), ' below the last report shown above. Pro watches for it.'];
+    return [' If one is still available, you could save up to about ', h('b', {}, m + ' off the regular price'), '.'];
+  }
   function renderFallback(j) {
     var r = j.result, pro = j.tier === 'pro';
     var down = r.reason === 'search_unavailable' || r.reason === 'unreadable';
@@ -984,7 +990,7 @@ html.embed .rp .stickb{display:none}
         h('div', { class: 'cmp2' },
           h('div', {}, h('small', {}, 'Free shows'), h('b', {}, 'None'), h('span', { class: 'mut' }, 'Checked today, nothing passed')),
           h('div', { class: 'p' }, hl ? [h('small', { style: 'color:var(--green)' }, 'Lowest reported'), h('b', { style: 'color:var(--green)' }, usd2(hl, 'USD')), h('span', { class: 'mut' }, 'in our dated history. Pro watches for it')] : [h('small', { style: 'color:var(--green)' }, lsn ? 'Last report' : 'Pro watches'), h('b', { style: 'color:var(--green)' }, lsn ? money(lsn.price, lsn.currency) : 'Daily'), h('span', { class: 'mut' }, lsn ? lsn.store + ' · ' + lsn.dateHuman + ' (old)' : 'Emails you when a dated offer appears')])));
-      if (r.lockedSave && !pro) hero.appendChild(h('div', { class: 'hsub' }, 'Older reports Pro holds show up to about ', h('b', {}, money(r.lockedSave.usd, r.lockedSave.currency) + ' off the regular price'), '. They may no longer apply.'));
+      if (r.lockedSave && !pro) hero.appendChild(h('div', { class: 'hsub' }, r.lockedSave.vs === 'history' ? '' : 'Reports Pro holds could mean savings.', lockedSaveText(r.lockedSave), r.lockedSave.vs === 'history' ? '' : ' They may no longer apply.'));
       if (!pro) {
         hero.appendChild(h('div', { class: 'hsub' }, h('b', {}, 'Prices change. '), 'Pro searches this product every day and emails you the moment a dated offer passes our checks, so you do not have to keep coming back.'));
         warm(); hero.appendChild(rbtn('Watch it for me · Pro $14/month', 'big', function () { openPro('fallback_hero'); }));
@@ -1002,7 +1008,7 @@ html.embed .rp .stickb{display:none}
     if (!pro && !down) {
       var pc = h('div', { class: 'rc gold' }, h('h2', { class: 'rk' }, 'Pro adds'));
       if (lockedN) {
-        pc.appendChild(h('div', { class: 'hsub' }, 'Pro found ' + pluralN(lockedN, 'more report', 'more reports') + ' for this product.' + (r.lockedSave ? ' If one is still available, you could save up to about ' + money(r.lockedSave.usd, r.lockedSave.currency) + ' off the regular price.' : '')));
+        pc.appendChild(h('div', { class: 'hsub' }, 'Pro found ' + pluralN(lockedN, 'more report', 'more reports') + ' for this product.', r.lockedSave ? lockedSaveText(r.lockedSave) : ' Pro shows each store, price and age, so you can check which are still available.'));
         var lockRow = function (sub) { return h('div', { class: 'tr' }, h('span', {}, h('b', { class: 'lk', 'aria-hidden': 'true' }, 'Store name ▒▒'), h('br'), h('span', { class: 'mut' }, sub)), h('span', { class: 'lk', 'aria-hidden': 'true' }, '$▒▒▒.▒▒'), h('span', { class: 'lk', 'aria-hidden': 'true' }, '$▒▒▒.▒▒')); };
         pc.appendChild(h('div', { class: 'tr th' }, h('span', {}, 'Store'), h('span', {}, 'Price'), h('span', {}, 'Total')));
         for (var ui = 0; ui < Math.min(r.undatedCount || 0, 2); ui++) pc.appendChild(lockRow('Undated store listing'));

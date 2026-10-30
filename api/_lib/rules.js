@@ -322,7 +322,8 @@ function buildReport(accepted, shown, ctx, hist) {
   const gapRaw = freeTotal != null && lowTotal != null && lowTotal < freeTotal ? r2(freeTotal - lowTotal) : 0;
   const lowShip = low && low.shipping ? low.shipping.state : 'not_stated';
   // A gap is claimed only when it is worth the name, and when the cheaper offer's own shipping is known.
-  const gap = gapRaw >= minGap(freeTotal) && (lowShip === 'free' || lowShip === 'paid' || low === shown) ? gapRaw : 0;
+  const gap = gapRaw >= minGap(freeTotal) ? gapRaw : 0;
+  const gapUncertain = gap > 0 && low !== shown && !(lowShip === 'free' || lowShip === 'paid'); // the cheaper offer's shipping is not stated: the gap is before shipping
   const listPrice = modeOf(pool.map((a) => a.listPrice).filter(Boolean));
   const srcKind = shown ? (ctx && ctx.productName ? storeTarget(shown, ctx.productName, ctx.country).kind : 'article') : null;
   const refs = accepted.filter((a) => a.kind === 'refurb');
@@ -333,7 +334,7 @@ function buildReport(accepted, shown, ctx, hist) {
     lowest: low ? { total: lowTotal, price: low.price, dateHuman: low.dateHuman, ageDays: low.ageDays, shipState: (low.shipping && low.shipping.state) || 'not_stated' } : null,
     gap, freeIsLowest: !gap,
     spread: sorted.length > 1 ? r2((tot(sorted[sorted.length - 1]) - lowTotal) / tot(sorted[sorted.length - 1])) : null,
-    freeCouponOff: shown && shown.kind === 'price' ? couponOff(shown, accepted) : 0, nearlyEqual: gapRaw > 0 && gap === 0, smallGap: gapRaw > 0 && gap === 0 ? gapRaw : 0, afterCoupon: !!(low && couponOff(low, accepted) > 0), couponOff: low ? couponOff(low, accepted) : 0,
+    freeCouponOff: shown && shown.kind === 'price' ? couponOff(shown, accepted) : 0, gapUncertain, nearlyEqual: gapRaw > 0 && gap === 0, smallGap: gapRaw > 0 && gap === 0 ? gapRaw : 0, afterCoupon: !!(low && couponOff(low, accepted) > 0), couponOff: low ? couponOff(low, accepted) : 0,
     heldStores: held.length, heldCheaper: gap ? held.filter((a) => tot(a) < freeTotal).length : 0,
     openbox: refs.length, coupons: coupons.length, cashback: accepted.filter((a) => a.kind === 'cashback').length, couponEnds: exp,
     weakSource: srcKind === 'article' ? 'price_site' : null,
@@ -522,12 +523,18 @@ function matchDeal(name, index) {
   return bs >= 0.75 ? { slug: best.slug, title: best.title, lowest: best.lowest || null, average: best.average || null, updated: best.updated || null, points: Array.isArray(best.points) ? best.points : null } : null;
 }
 
-function lockedSaving(items) {
+function lockedSaving(items, ref, histLowest) {
+  const rough = (d) => (d >= 20 ? Math.floor(d / 5) * 5 : Math.floor(d));
   let best = null;
   (items || []).forEach((x) => { const d = x.listPrice > x.price ? x.listPrice - x.price : 0; if (d > 0 && (!best || d > best.d)) best = { d, currency: x.currency }; });
-  if (!best) return undefined;
-  const rough = best.d >= 20 ? Math.floor(best.d / 5) * 5 : Math.floor(best.d);
-  return rough >= 5 ? { usd: rough, currency: best.currency } : undefined;
+  if (best && rough(best.d) >= 5) return { usd: rough(best.d), currency: best.currency, vs: 'list' };
+  // No stated list price on the held-back reports: compare them with the last report the shopper can see.
+  if (ref && ref.price > 0) {
+    const same = (items || []).filter((x) => x.price > 0 && x.currency === ref.currency);
+    if (same.length) { const d = ref.price - Math.min.apply(null, same.map((x) => x.price)); if (d > 0 && rough(d) >= 5) return { usd: rough(d), currency: ref.currency, vs: 'last' }; }
+    if (histLowest && (!ref.currency || ref.currency === 'USD')) { const d = ref.price - histLowest; if (d > 0 && rough(d) >= 5) return { usd: rough(d), currency: 'USD', vs: 'history' }; }
+  }
+  return undefined;
 }
 
 function buildFallback({ productName, country, stale, deal, newer, hadSearchError, unreadable, tier, undated }) {
@@ -542,7 +549,7 @@ function buildFallback({ productName, country, stale, deal, newer, hadSearchErro
     // Free users see only that more old reports exist; Pro sees them.
     olderCount: more.length,
     // One rough figure from the LOCKED items only (older reports and undated listings), never from the free last report.
-    lockedSave: tier !== 'pro' ? lockedSaving(more.concat(undated || [])) : undefined,
+    lockedSave: tier !== 'pro' ? lockedSaving(more.concat(undated || []), lastSeen, deal && deal.lowest) : undefined,
     olderOldestDays: more.length ? more[more.length - 1].ageDays : undefined,
     older: tier === 'pro' ? more.map(view) : undefined,
     undated: tier === 'pro' && (undated || []).length ? undated.map((u) => ({ store: u.store, kind: u.kind, price: u.price, currency: u.currency, saveUsd: u.listPrice > u.price ? r2(u.listPrice - u.price) : undefined, condition: u.condition, sourceUrl: u.sourceUrl, sourceTitle: u.sourceTitle })) : undefined,
