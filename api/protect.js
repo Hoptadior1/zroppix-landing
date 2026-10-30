@@ -10,6 +10,7 @@ const { within, refund } = require('./_lib/limits');
 const R = require('./_lib/rules');
 const RS = require('./_lib/research');
 const PRO = require('./_lib/pro');
+let DEALS; try { DEALS = require('./_lib/deals_index.json'); } catch (_) { DEALS = []; }
 
 const STORES = { amazon: 'amazon', bestbuy: 'best buy', target: 'target', walmart: 'walmart', costco: 'costco' };
 const r2 = (n) => Math.round(n * 100) / 100;
@@ -63,6 +64,8 @@ module.exports = async (req, res) => {
     const low = mine[0] || null;
     const tgt = low ? R.storeTarget(low, name, 'US') : null;
     const out = { ok: true, lookup: 'done', cached, store: STORES[key], checkedAt: new Date().toISOString() };
+    const dl = R.matchDeal(name, DEALS) || R.matchDeal(name.replace(/\b\d+(\.\d+)?[- ]?(inch|in|gb|tb)\b/gi, ' ').replace(/\s+/g, ' '), DEALS); // size and storage words do not change which product's history applies
+    if (dl && dl.average > 0 && dl.lowest > 0) out.typical = { average: dl.average, lowest: dl.lowest };
     if (low) {
       out.found = { price: low.price, dateHuman: low.dateHuman, ageDays: low.ageDays, sourceUrl: low.sourceUrl, sourceTitle: low.sourceTitle, url: tgt && tgt.kind !== 'article' ? tgt.url : null };
       out.diff = low.price < paid ? r2(paid - low.price) : 0;

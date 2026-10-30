@@ -223,10 +223,15 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:30px 48p
       lowerBox.appendChild(h('div', { class: 'warn' }, 'The reported window has ended, so a claim is unlikely. Some members get longer, and a card\'s price protection may still help. Check the store\'s own page.'));
       drawClaim(null); out.appendChild(wcard); return;
     }
-    lowerBox.appendChild(h('div', { class: 'line', style: 'margin-top:12px' }, h('b', {}, 'Lower price at ' + p.name), h('span', {}, 'Searching…')));
+    var wait = h('span', {}, 'Searching…');
+    lowerBox.appendChild(h('div', { class: 'line', style: 'margin-top:12px' }, h('b', {}, 'Lower price at ' + p.name), wait));
+    lowerBox.appendChild(h('div', { class: 'fine', id: 'srchnote' }, 'We are reading current pages for this product. This usually takes 20 to 40 seconds, and the answer appears here.'));
+    var t0 = Date.now(); var tick = setInterval(function () { var s = Math.round((Date.now() - t0) / 1000); wait.textContent = s > 25 ? 'Still searching… ' + s + 's' : 'Searching… ' + s + 's'; }, 1000);
     drawClaim(null); out.appendChild(wcard);
     api('protect', { store: key, product: prod, paid: paid, date: ds }).then(function (r) {
+      clearInterval(tick);
       var j = r.json || {}; lowerBox.textContent = '';
+      if (j.typical && paid > j.typical.average * 1.6) lowerBox.appendChild(h('div', { class: 'warn' }, 'You entered ' + usd(paid) + '. Our dated history for this product averages about ' + usd(j.typical.average) + ' (lowest ' + usd(j.typical.lowest) + '). Check the amount you paid before you send a claim.'));
       function line(a, b, strong) { lowerBox.appendChild(h('div', { class: 'line' }, h('b', {}, a), h('span', strong ? { style: 'color:var(--green);font-size:15px;font-weight:800' } : {}, b))); }
       if (r.status === 402) { line('Lower price at ' + p.name, 'Your free lookup is used'); lowerBox.appendChild(h('div', { class: 'fine' }, 'Pro checks again every day until your deadline.')); return; }
       if (r.status === 429) { line('Lower price at ' + p.name, 'Too many lookups today. Try again tomorrow.'); return; }
