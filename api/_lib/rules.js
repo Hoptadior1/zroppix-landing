@@ -548,7 +548,7 @@ function buildFallback({ productName, country, stale, deal, newer, hadSearchErro
     undated: tier === 'pro' && (undated || []).length ? undated.map((u) => ({ store: u.store, kind: u.kind, price: u.price, currency: u.currency, saveUsd: u.listPrice > u.price ? r2(u.listPrice - u.price) : undefined, condition: u.condition, sourceUrl: u.sourceUrl, sourceTitle: u.sourceTitle })) : undefined,
     undatedCount: tier !== 'pro' && (undated || []).length ? undated.length : undefined,
     links: storeLinks(productName, country),
-    history: deal ? { url: '/deals/' + deal.slug, title: deal.title } : null,
+    history: deal ? { url: '/deals/' + deal.slug, title: deal.title, lowest: deal.lowest || null, average: deal.average || null } : null,
     newer: newer || [],
   };
 }
