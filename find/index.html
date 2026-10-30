@@ -806,14 +806,14 @@ html.embed .rp .stickb{display:none}
         var tot = free.total != null ? free.total : free.price;
         card.appendChild(h('div', { class: 'tr best' }, h('span', {}, h('b', {}, free.store), rows.length > 1 ? [' ', h('span', { class: 'pill g' }, 'Free')] : null, h('br'), h('span', { class: 'mut' }, free.dateHuman + ' · ' + shipWord(free.shipping && free.shipping.state, free.shipping && free.shipping.cost, free.currency))),
           h('span', {}, usd2(free.price, free.currency)), h('span', {}, h('b', {}, usd2(tot, free.currency)))));
-        card.appendChild(whyBox(free, rep, j));
-        var cb = checkBtn(free);
-        if (cb) { var w = h('div', { style: 'padding:6px 0 4px' }, cb, h('div', { class: 'fine', style: 'text-align:center' }, 'Opens in a new tab. Reported ' + free.dateHuman + ', so check the live price and seller before you buy.')); card.appendChild(w); }
       } else {
         fakeN++;
         card.appendChild(h('div', { class: 'tr' }, h('span', {}, h('b', { class: 'lk', 'aria-hidden': 'true' }, 'Store name ▒▒'), h('br'), h('span', { class: 'mut' }, x.dateHuman + ' · ' + shipWord(x.shipState, null, rep.currency))), lk('$▒▒▒.▒▒'), lk('$▒▒▒.▒▒')));
       }
     });
+    card.appendChild(whyBox(free, rep, j));
+    var cb = checkBtn(free);
+    if (cb) card.appendChild(h('div', { style: 'padding:6px 0 4px' }, cb, h('div', { class: 'fine', style: 'text-align:center' }, 'Opens in a new tab. Reported ' + free.dateHuman + ', so check the live price and seller before you buy.')));
     card.appendChild(h('div', { class: 'nudge' }, h('div', {}, h('b', { style: 'color:#fff' }, 'Bought it? '), 'If the price drops you may be able to claim the difference. ', h('a', { href: protectUrl(j.product.name), style: 'color:var(--gold);font-weight:800' }, 'Protect this purchase →'))));
     card.appendChild(h('div', { class: 'fine' }, (rows.length === 1 ? 'This is the only dated store price we found. ' : rep.freeIsLowest ? 'The free offer is the lowest total we found. ' : 'The free offer is not the cheapest. Pro shows the ' + (rep.heldCheaper === 1 ? 'lower one' : rep.heldCheaper + ' lower ones') + '. ') + 'Total = price + shipping, only where the page states it. Customs and VAT may be added in your country.'));
     return card;
