@@ -394,10 +394,10 @@ html.embed .rp .stickb{display:none}
   }
 
   var STEPS = ['Searching stores, coupon pages and cashback sites', 'Reading the pages and their dates', 'Rejecting anything old, undated or for a different model', 'Double-checking the best offers'];
-  function runCheck(cand, pass2) {
+  function runCheck(cand, pass2, more) {
     if (state.busy && !pass2) return; state.busy = true; goBtn.disabled = true; track(pass2 ? 'find_check_pass2' : 'find_check');
     var lis = STEPS.map(function (s, i) { return h('li', { class: i === 0 ? 'on' : '' }, i === 0 ? h('span', { class: 'spin' }) : h('span', { style: 'width:14px' }), s); });
-    transient(h('div', { class: 'card' }, h('h2', {}, pass2 ? 'Looking a second way…' : 'Checking ' + cand.name + '…'), h('div', { class: 'sub' }, pass2 ? 'Nothing fresh on the first search, so we are trying different search words. This did not use a check.' : 'This can take up to a minute.'), h('ul', { class: 'steps' }, lis)));
+    transient(h('div', { class: 'card' }, h('h2', {}, pass2 ? (more ? 'Looking for more ways to save…' : 'Looking a second way…') : 'Checking ' + cand.name + '…'), h('div', { class: 'sub' }, pass2 ? (more ? 'The first search found little to save, so we are searching other stores, coupons and cashback. This did not use a check.' : 'Nothing fresh on the first search, so we are trying different search words. This did not use a check.') : 'This can take up to a minute.'), h('ul', { class: 'steps' }, lis)));
     var n = 0; var tm = setInterval(function () { if (n < lis.length - 1) { lis[n].className = 'done'; lis[n].firstChild.replaceWith(document.createTextNode('✓')); n++; lis[n].className = 'on'; lis[n].firstChild.replaceWith(h('span', { class: 'spin' })); } }, 9000);
     state.cur = { name: cand.name, variant: cand.variant || '' };
     api('check', { candidate: { name: cand.name, variant: cand.variant }, pass: pass2 ? 2 : 1 }).then(function (r) {
@@ -408,6 +408,7 @@ html.embed .rp .stickb{display:none}
       if (r.status === 503) return transient(msgCard(r.json.error === 'busy' ? 'We\'re busy today' : 'Search is paused', 'We cap how much the tool can run each day so it stays free. Please try again tomorrow.', storeLinksClient(cand.name)));
       if (r.status !== 200) return transient(msgCard('Something went wrong', 'The check did not finish and was not used. Please try again.'));
       var j = r.json;
+      if (!pass2 && j.status === 'more') return runCheck(cand, true, true);
       if (!pass2 && j.status !== 'ok' && j.result && j.result.retry) return runCheck(cand, true);
       if (j.status === 'ok') { track('find_result_ok', { cached: !!j.cached }); renderResult(j); } else { track('find_result_fallback'); renderFallback(j); }
     });
@@ -721,7 +722,7 @@ html.embed .rp .stickb{display:none}
       h('div', { class: 'hh' }, usd2(rep.gap, rep.currency) + ' less than the free offer'),
       h('div', { class: 'cmp2' },
         h('div', {}, h('small', {}, 'Free shows'), h('b', {}, usd2(rep.freeTotal, rep.currency)), h('span', { class: 'mut' }, free.store + ' · reported ' + free.dateHuman)),
-        h('div', { class: 'p' }, h('small', { style: 'color:var(--green)' }, 'Pro found'), h('b', { style: 'color:var(--green)' }, usd2(rep.lowest.total, rep.currency)), h('span', { class: 'mut' }, ship + ' · ' + rep.lowest.dateHuman))),
+        h('div', { class: 'p' }, h('small', { style: 'color:var(--green)' }, 'Pro found'), h('b', { style: 'color:var(--green)' }, usd2(rep.lowest.total, rep.currency)), h('span', { class: 'mut' }, (rep.afterCoupon ? 'Delivered, after ' + usd2(rep.couponOff, rep.currency) + ' coupon' : ship) + ' · ' + rep.lowest.dateHuman))),
       foundEl);
     var more = [];
     if (rep.gap > 14) more.push('That is more than one month of Pro, from this one report. ');
@@ -734,8 +735,10 @@ html.embed .rp .stickb{display:none}
   }
   function lowestHero(r, rep, free, pro) {
     var single = rep.rows && rep.rows.length === 1;
-    var L = rep.lowest.total, cur = rep.currency;
-    var box = h('div', { class: 'hero' }, h('div', { class: 'hk' }, single ? 'THE ONLY STORE PRICE WE FOUND' : pro ? 'LOWEST TOTAL WE FOUND' : 'THE FREE OFFER IS THE LOWEST WE FOUND'),
+    var L = rep.nearlyEqual && rep.freeTotal != null ? rep.freeTotal : rep.lowest.total, cur = rep.currency;
+    var fr = (rep.rows || []).filter(function (x) { return x.free; })[0];
+    var shipSt = rep.nearlyEqual && fr ? fr.shipState : rep.lowest.shipState;
+    var box = h('div', { class: 'hero' }, h('div', { class: 'hk' }, single ? 'THE ONLY STORE PRICE WE FOUND' : pro ? 'LOWEST TOTAL WE FOUND' : rep.nearlyEqual ? 'ABOUT THE LOWEST WE FOUND' : 'THE FREE OFFER IS THE LOWEST WE FOUND'),
       h('div', { class: 'hh' }, usd2(L, cur)));
     if (!pro) {
       var right;
@@ -746,7 +749,7 @@ html.embed .rp .stickb{display:none}
         h('div', {}, h('small', {}, 'Free shows'), h('b', {}, usd2(L, cur)), h('span', { class: 'mut' }, free.store + ' · reported ' + free.dateHuman)),
         h('div', { class: 'p' }, right)));
     }
-    box.appendChild(h('div', { class: 'hsub' }, (pro ? free.store + ' · reported ' + free.dateHuman + ' · ' : '') + (pro ? '' : 'Shipping: ') + shipWord(rep.lowest.shipState, null, rep.currency) + '. ' + (single ? (rep.weakSource ? 'Reported on a price-listing site, not a store page.' : 'No other dated store price passed our checks.') : 'No store offer we found was lower.')));
+    box.appendChild(h('div', { class: 'hsub' }, (pro ? free.store + ' · reported ' + free.dateHuman + ' · ' : '') + (function (w) { return pro ? w : w.charAt(0).toUpperCase() + w.slice(1); })(shipWord(shipSt, null, rep.currency)) + '. ' + (single ? (rep.weakSource ? 'Reported on a price-listing site, not a store page.' : 'No other dated store price passed our checks.') : (rep.nearlyEqual ? 'Another store was ' + usd2(rep.smallGap, rep.currency) + ' lower, which is too small to count.' : 'No store offer we found was lower.'))));
     var extra = []; if (rep.coupons) extra.push(pluralN(rep.coupons, 'coupon', 'coupons')); if (rep.cashback) extra.push(rep.cashback + ' cashback'); if (rep.openbox) extra.push(pluralN(rep.openbox, 'open-box offer', 'open-box offers'));
     if (!pro) {
       if (extra.length) box.appendChild(h('div', { class: 'hsub', style: 'margin-top:8px' }, 'Pro also found ', h('b', {}, extra.join(', ')), ', which could bring the total lower.'));
@@ -768,7 +771,7 @@ html.embed .rp .stickb{display:none}
     card.appendChild(h('div', { class: 'vrow' }, h('span', { class: 'vcall', style: 'color:' + col }, v.call), h('span', {}, chips)));
     card.appendChild(h('div', { class: 'vtxt' }, v.text));
     if (v.bar) {
-      card.appendChild(h('div', { class: 'bar' }, h('div', { class: 'pin' + (v.bar.pos > 70 ? ' r' : v.bar.pos < 30 ? ' l' : ''), style: 'left:' + v.bar.pos + '%' }, h('span', {}, v.bar.pin)), h('span', { class: 'tick', style: 'left:0;transform:none' }, v.bar.lowLabel), h('span', { class: 'tick', style: 'right:0;left:auto;transform:none' }, v.bar.highLabel)));
+      card.appendChild(h('div', { class: 'bar' }, h('div', { class: 'pin' + (v.bar.pos > 70 ? ' r' : v.bar.pos < 30 ? ' l' : ''), style: 'left:' + v.bar.pos + '%' }, h('span', {}, v.bar.pin)), v.bar.mid ? h('span', { class: 'tick', style: 'left:' + Math.max(12, Math.min(88, v.bar.mid.pos)) + '%;transform:translateX(-50%);color:#fff;font-weight:700' }, '▲ ' + v.bar.mid.label) : null, v.bar.mid ? null : h('span', { class: 'tick', style: 'left:0;transform:none' }, v.bar.lowLabel), v.bar.mid ? null : h('span', { class: 'tick', style: 'right:0;left:auto;transform:none' }, v.bar.highLabel)));
     }
     if (rep.timeline && rep.timeline.length) {
       var tl = h('div', { class: 'tl' });

@@ -280,15 +280,49 @@ function pickFree(accepted, ctx) {
   return use.slice().sort((a, b) => storeRank(a.store) - storeRank(b.store) || a.price - b.price)[0];
 }
 function modeOf(list) { const c = {}; list.forEach((x) => { c[x] = (c[x] || 0) + 1; }); const k = Object.keys(c).sort((a, b) => c[b] - c[a] || Number(b) - Number(a))[0]; return k == null ? null : Number(k); }
+// A coupon counts toward an offer's total only when it is for the same store, states an amount, and has not ended.
+function couponOff(a, accepted) {
+  if (!a || !(a.price > 0)) return 0;
+  const today = new Date().toISOString().slice(0, 10);
+  const mine = normName(a.store || '');
+  let best = 0;
+  for (const c of accepted) {
+    if (c.kind !== 'coupon' || !c.store || !mine) continue;
+    const cs = normName(c.store);
+    if (!(cs && (mine.includes(cs) || cs.includes(mine)))) continue;
+    if (c.expiresIso && c.expiresIso < today) continue;
+    const v = valueOf(c, a.price);
+    if (v && v > best) best = v;
+  }
+  return best;
+}
+const totalAfter = (a, accepted) => (a && a.price != null ? r2(Math.max(0, comparable(a) - couponOff(a, accepted))) : null);
+const MIN_SAVING_USD = 5;
+const minGap = (total) => Math.max(MIN_SAVING_USD, (total || 0) * 0.02);
+// How much a shopper could still save against the first offer: the spread between offers, plus a stated coupon. Used to decide on a second search.
+function savingPotential(accepted) {
+  const prices = accepted.filter((a) => a.kind === 'price' && a.price > 0);
+  if (!prices.length) return 0;
+  const cnt = {}; prices.forEach((p) => { cnt[p.currency] = (cnt[p.currency] || 0) + 1; });
+  const cur = Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a])[0];
+  const t = prices.filter((p) => p.currency === cur).map((p) => totalAfter(p, accepted));
+  const spread = t.length > 1 ? Math.max.apply(null, t) - Math.min.apply(null, t) : 0;
+  const low = prices.filter((p) => p.currency === cur).sort((a, b) => totalAfter(a, accepted) - totalAfter(b, accepted))[0];
+  return r2(spread + (low ? couponOff(low, accepted) : 0));
+}
 function buildReport(accepted, shown, ctx, hist) {
   const cur = shown ? shown.currency : null;
   const pool = accepted.filter((a) => a.kind === 'price' && a.price > 0 && a.currency === cur);
-  const sorted = pool.slice().sort((a, b) => comparable(a) - comparable(b));
+  const tot = (a) => totalAfter(a, accepted);
+  const sorted = pool.slice().sort((a, b) => tot(a) - tot(b));
   const low = sorted[0] || null;
-  const freeTotal = shown && shown.kind === 'price' ? comparable(shown) : null;
+  const freeTotal = shown && shown.kind === 'price' ? comparable(shown) : null; // the free offer's own total: coupons are Pro's, so they never lower it
   const held = pool.filter((a) => a !== shown);
-  const lowTotal = low ? comparable(low) : null;
-  const gap = freeTotal != null && lowTotal != null && lowTotal < freeTotal ? r2(freeTotal - lowTotal) : 0;
+  const lowTotal = low ? tot(low) : null;
+  const gapRaw = freeTotal != null && lowTotal != null && lowTotal < freeTotal ? r2(freeTotal - lowTotal) : 0;
+  const lowShip = low && low.shipping ? low.shipping.state : 'not_stated';
+  // A gap is claimed only when it is worth the name, and when the cheaper offer's own shipping is known.
+  const gap = gapRaw >= minGap(freeTotal) && (lowShip === 'free' || lowShip === 'paid' || low === shown) ? gapRaw : 0;
   const listPrice = modeOf(pool.map((a) => a.listPrice).filter(Boolean));
   const srcKind = shown ? (ctx && ctx.productName ? storeTarget(shown, ctx.productName, ctx.country).kind : 'article') : null;
   const refs = accepted.filter((a) => a.kind === 'refurb');
@@ -298,8 +332,9 @@ function buildReport(accepted, shown, ctx, hist) {
     currency: cur, listPrice, freeTotal,
     lowest: low ? { total: lowTotal, price: low.price, dateHuman: low.dateHuman, ageDays: low.ageDays, shipState: (low.shipping && low.shipping.state) || 'not_stated' } : null,
     gap, freeIsLowest: !gap,
-    spread: sorted.length > 1 ? r2((comparable(sorted[sorted.length - 1]) - lowTotal) / comparable(sorted[sorted.length - 1])) : null,
-    heldStores: held.length, heldCheaper: gap ? held.filter((a) => comparable(a) < freeTotal).length : 0,
+    spread: sorted.length > 1 ? r2((tot(sorted[sorted.length - 1]) - lowTotal) / tot(sorted[sorted.length - 1])) : null,
+    nearlyEqual: gapRaw > 0 && gap === 0, smallGap: gapRaw > 0 && gap === 0 ? gapRaw : 0, afterCoupon: !!(low && couponOff(low, accepted) > 0), couponOff: low ? couponOff(low, accepted) : 0,
+    heldStores: held.length, heldCheaper: gap ? held.filter((a) => tot(a) < freeTotal).length : 0,
     openbox: refs.length, coupons: coupons.length, cashback: accepted.filter((a) => a.kind === 'cashback').length, couponEnds: exp,
     weakSource: srcKind === 'article' ? 'price_site' : null,
     histLowest: hist && hist.lowest && (!cur || cur === 'USD') ? hist.lowest : null,
@@ -334,23 +369,27 @@ function verdictOf(L, rep, hist, cur) {
     if (L <= av * 1.02) return { call: 'FAIR', chip: 'Lower prices have been reported', basis: 'history', text: (L < av * 0.95 ? 'Below its usual price in our dated history' : 'About its usual price in our dated history') + ', but lower prices have been reported before.' + lower + ' Buy now if you need it, or set an alert.' + weak + upd, bar };
     return { call: 'WAIT', chip: 'Above its usual price', basis: 'history', text: 'Above its usual price in our dated history, and lower prices have been reported before.' + lower + ' If you can wait, set an alert.' + weak + upd, bar };
   }
+  // With only one reference point the bar shows it as a tick and the pin shows where the lowest we found sits against it.
+  const oneRef = (ref, label) => { const lo = Math.min(L, ref) * 0.85, hi = Math.max(L, ref) * 1.15; const at = (x) => Math.max(0, Math.min(100, Math.round(((x - lo) / ((hi - lo) || 1)) * 100))); return { pos: at(L), lowLabel: 'lower', highLabel: 'higher', pin: money0(L) + ' lowest found', mid: { pos: at(ref), label: money0(ref) + ' ' + label } }; };
   if (hasL) {
     const lo = hist.lowest, pct = Math.round(((L - lo) / lo) * 100);
-    if (L <= lo * 1.05) return { call: cap('BUY'), chip: 'Near its lowest on record', basis: 'history', text: 'The lowest price in our dated history is ' + money0(lo) + ', and the lowest we found is within 5% of it.' + lower + weak + upd };
-    if (L >= lo * 1.35) return { call: 'WAIT', chip: 'Well above its lowest', basis: 'history', text: 'The lowest price in our dated history is ' + money0(lo) + '. The lowest we found is about ' + pct + '% above it.' + lower + ' If you can wait, set an alert.' + weak + upd };
-    return { call: 'FAIR', chip: 'Above its lowest on record', basis: 'history', text: 'The lowest price in our dated history is ' + money0(lo) + '. The lowest we found is about ' + pct + '% above it.' + lower + ' Buy now if you need it, or set an alert.' + weak + upd };
+    var barL = oneRef(lo, 'lowest on record');
+    if (L <= lo * 1.05) return { call: cap('BUY'), chip: 'Near its lowest on record', basis: 'history', text: 'The lowest price in our dated history is ' + money0(lo) + ', and the lowest we found is within 5% of it.' + lower + weak + upd, bar: barL };
+    if (L >= lo * 1.35) return { call: 'WAIT', chip: 'Well above its lowest', basis: 'history', text: 'The lowest price in our dated history is ' + money0(lo) + '. The lowest we found is about ' + pct + '% above it.' + lower + ' If you can wait, set an alert.' + weak + upd, bar: barL };
+    return { call: 'FAIR', chip: 'Above its lowest on record', basis: 'history', text: 'The lowest price in our dated history is ' + money0(lo) + '. The lowest we found is about ' + pct + '% above it.' + lower + ' Buy now if you need it, or set an alert.' + weak + upd, bar: barL };
   }
   if (hasA) {
     const av = hist.average, pct = Math.round(((L - av) / av) * 100);
-    if (L <= av * 0.9) return { call: cap('BUY'), chip: 'Below its usual price', basis: 'history', text: 'The average price in our dated history is ' + money0(av) + ', and the lowest we found is about ' + Math.abs(pct) + '% below it.' + lower + weak + upd };
-    if (L <= av * 1.05) return { call: 'FAIR', chip: 'About its usual price', basis: 'history', text: 'The average price in our dated history is ' + money0(av) + ', and the lowest we found is about the same.' + lower + ' Buy now if you need it, or set an alert.' + weak + upd };
-    return { call: 'WAIT', chip: 'Above its usual price', basis: 'history', text: 'The average price in our dated history is ' + money0(av) + ', and the lowest we found is about ' + pct + '% above it.' + lower + ' If you can wait, set an alert.' + weak + upd };
+    const barA = oneRef(av, 'average');
+    if (L <= av * 0.9) return { call: cap('BUY'), chip: 'Below its usual price', basis: 'history', text: 'The average price in our dated history is ' + money0(av) + ', and the lowest we found is about ' + Math.abs(pct) + '% below it.' + lower + weak + upd, bar: barA };
+    if (L <= av * 1.05) return { call: 'FAIR', chip: 'About its usual price', basis: 'history', text: 'The average price in our dated history is ' + money0(av) + ', and the lowest we found is about the same.' + lower + ' Buy now if you need it, or set an alert.' + weak + upd, bar: barA };
+    return { call: 'WAIT', chip: 'Above its usual price', basis: 'history', text: 'The average price in our dated history is ' + money0(av) + ', and the lowest we found is about ' + pct + '% above it.' + lower + ' If you can wait, set an alert.' + weak + upd, bar: barA };
   }
   if (rep.listPrice) {
     const d = 1 - L / rep.listPrice, pct = Math.round(d * 100);
-    const bar = { pos: Math.max(0, Math.min(100, Math.round((L / rep.listPrice) * 100))), lowLabel: '$0', highLabel: money0(rep.listPrice) + ' list', pin: money0(L) + ' lowest found' };
-    if (d >= 0.25) return { call: cap('BUY'), chip: 'Based on the list price', basis: 'list', text: 'The lowest we found is about ' + pct + '% below the ' + money0(rep.listPrice) + ' list price the pages state. We have no price history for this product, so we can\'t say if it was cheaper before.' + lower + weak, bar };
-    if (d >= 0.10) return { call: 'FAIR', chip: 'Based on the list price', basis: 'list', text: 'The lowest we found is about ' + pct + '% below the ' + money0(rep.listPrice) + ' list price the pages state. We have no price history for this product, so we can\'t say if it was cheaper before.' + lower + ' Buy now if you need it, or set an alert.' + weak, bar };
+    const bar = { pos: Math.max(0, Math.min(100, Math.round((L / rep.listPrice) * 100))), lowLabel: '', highLabel: money0(rep.listPrice) + ' list', pin: money0(L) + ' lowest found' };
+    if (d >= 0.25) return { call: cap('BUY'), chip: 'Based on the list price', basis: 'list', text: 'The lowest we found is about ' + pct + '% below the ' + money0(rep.listPrice) + ' list price the pages state. We have no price history for this product yet.' + lower + weak, bar };
+    if (d >= 0.10) return { call: 'FAIR', chip: 'Based on the list price', basis: 'list', text: 'The lowest we found is about ' + pct + '% below the ' + money0(rep.listPrice) + ' list price the pages state. We have no price history for this product yet.' + lower + ' Buy now if you need it, or set an alert.' + weak, bar };
     return { call: 'WAIT', chip: 'Little or no discount', basis: 'list', text: d > 0.005 ? 'The lowest we found is only about ' + pct + '% below the ' + money0(rep.listPrice) + ' list price the pages state.' + lower + ' If you can wait, set an alert.' + weak : 'The prices we found match the ' + money0(rep.listPrice) + ' list price. We found no discount.' + lower + ' If you can wait, set an alert.' + weak, bar };
   }
   const n = (rep.rows || []).length;
@@ -358,7 +397,7 @@ function verdictOf(L, rep, hist, cur) {
     if (rep.spread <= 0.10) return { call: 'FAIR', chip: 'Limited data', basis: 'stores', text: 'The ' + n + ' dated store prices we found are within ' + Math.max(1, Math.round(rep.spread * 100)) + '% of each other, so no store looks like an overcharge. We have no price history or list price to say if it is low.' + lower + ' Buy now if you need it, or set an alert.' + weak };
     return { call: 'WAIT', chip: 'Limited data', basis: 'stores', text: 'The ' + n + ' dated store prices we found differ by about ' + Math.round(rep.spread * 100) + '%, and we have no price history or list price to say which is fair.' + lower + ' Compare the stores below, or set an alert before you buy.' + weak };
   }
-  return { call: 'WAIT', chip: 'Compare first', basis: 'none', text: 'We found one dated store price and nothing to compare it with: no price history and no list price. One price can\'t show a good deal, so compare the stores or set an alert before you buy.' + weak };
+  return { call: 'WAIT', chip: 'Compare first', basis: 'none', text: 'We found one dated store price and nothing to compare it with: no price history and no list price. Compare the stores or set an alert before you buy.' + weak };
 }
 const money0 = (n) => '$' + (n % 1 ? n.toFixed(2) : String(n));
 
@@ -514,4 +553,4 @@ function buildFallback({ productName, country, stale, deal, newer, hadSearchErro
   };
 }
 
-module.exports = { storeTarget, rejectedOut, rejCat, parseDate, parseExpiry, ageDays, normalizeFinding, evaluate, pickBest, shape, storeLinks, matchDeal, buildFallback, normUrl, PREDICT, human, iso };
+module.exports = { savingPotential, MIN_SAVING_USD, storeTarget, rejectedOut, rejCat, parseDate, parseExpiry, ageDays, normalizeFinding, evaluate, pickBest, shape, storeLinks, matchDeal, buildFallback, normUrl, PREDICT, human, iso };

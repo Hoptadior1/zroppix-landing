@@ -74,7 +74,7 @@ module.exports = async (req, res) => {
       ran = true; ev = r1.out; judged = r1.didJudge; hadSearchError = r1.searchErr; parsed = r1.ok;
       // Cache only runs we could read. A run that found offers is kept for the full time; a clean "nothing found" only briefly.
       if (parsed && judged && !hadSearchError && r1.hadResults) { await store.setJson(cacheKey, ev, (ev.accepted.length ? c.cacheHours * 3600 : 1800)); stored = true; }
-    } else if (body.pass === 2 && !ev.pass2 && !hasOffers(ev)) {
+    } else if (body.pass === 2 && !ev.pass2 && (!hasOffers(ev) || R.savingPotential(ev.accepted) < c.minSaving)) {
       // Second search: different wording, merged with the first result. Only after a first search that found no offers, and only once.
       if (!unmetered && !(await within('check2', ipHash(req), c.checkPerIpDay, 'day'))) return send(res, 429, { error: 'daily_limit' });
       const r2 = await RS.research({ product, country, pass: 2, started, now });
@@ -106,6 +106,12 @@ module.exports = async (req, res) => {
       await trackProduct(product.name, false); await trackCountry(country, 'n'); await trackVisitor('uvc', visitor);
       return send(res, 200, { status: 'fallback', tier, product, country, checkedAt: now.toISOString(), cached, judged, remaining: { left: al.left, total: al.total, next: al.nextFree || undefined },
         result: Object.assign(R.buildFallback({ productName: product.name, country, stale: ev.stale, deal, newer: ev.accepted.filter((a) => a.kind === 'newer_model').slice(0, 1), unreadable: !parsed, tier, undated: ev.undated || [] }), R.rejectedOut(ev.rejected, tier === 'pro'), { retry: !!(stored && parsed && judged && !ev.pass2 && body.pass !== 2) }) });
+    }
+    // Offers were found but the most a shopper could save is small: search a second way first, before a check is used.
+    // Only once per product (ev.pass2), only when the first result is saved, and never again if the second search fails.
+    if (c.autoPass2 && body.pass !== 2 && stored && parsed && judged && !ev.pass2 && R.savingPotential(ev.accepted) < c.minSaving) {
+      bump('check_more');
+      return send(res, 200, { status: 'more', tier, product, country });
     }
     // Real offers are shown: this is where a check is used.
     let left = al.left;
