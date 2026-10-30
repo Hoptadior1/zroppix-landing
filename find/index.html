@@ -733,9 +733,20 @@ html.embed .rp .stickb{display:none}
     return box;
   }
   function lowestHero(r, rep, free, pro) {
-    var box = h('div', { class: 'hero' }, h('div', { class: 'hk' }, rep.rows && rep.rows.length === 1 ? 'THE ONLY STORE PRICE WE FOUND' : pro ? 'LOWEST TOTAL WE FOUND' : 'THE FREE OFFER IS THE LOWEST WE FOUND'),
-      h('div', { class: 'hh' }, usd2(rep.lowest.total, rep.currency)),
-      h('div', { class: 'hsub' }, free.store + ' · reported ' + free.dateHuman + ' · ' + shipWord(rep.lowest.shipState, null, rep.currency) + '. ' + (rep.rows && rep.rows.length === 1 ? (rep.weakSource ? 'Reported on a price-listing site, not a store page.' : 'No other dated store price passed our checks.') : 'No store offer we found was lower.')));
+    var single = rep.rows && rep.rows.length === 1;
+    var L = rep.lowest.total, cur = rep.currency;
+    var box = h('div', { class: 'hero' }, h('div', { class: 'hk' }, single ? 'THE ONLY STORE PRICE WE FOUND' : pro ? 'LOWEST TOTAL WE FOUND' : 'THE FREE OFFER IS THE LOWEST WE FOUND'),
+      h('div', { class: 'hh' }, usd2(L, cur)));
+    if (!pro) {
+      var right;
+      if (rep.histLowest && L > rep.histLowest * 1.005) right = [h('small', { style: 'color:var(--green)' }, 'Lowest reported'), h('b', { style: 'color:var(--green)' }, usd2(rep.histLowest, cur)), h('span', { class: 'mut' }, usd2(L - rep.histLowest, cur) + ' lower, in our dated history')];
+      else if (rep.listPrice && L < rep.listPrice * 0.995) right = [h('small', { style: 'color:var(--green)' }, 'List price'), h('b', { style: 'color:var(--green)' }, usd2(rep.listPrice, cur)), h('span', { class: 'mut' }, 'This is ' + usd2(rep.listPrice - L, cur) + ' below it')];
+      else right = [h('small', { style: 'color:var(--green)' }, 'Pro watches'), h('b', { style: 'color:var(--green)' }, 'Daily'), h('span', { class: 'mut' }, 'Emails you when a lower dated price appears')];
+      box.appendChild(h('div', { class: 'cmp2' },
+        h('div', {}, h('small', {}, 'Free shows'), h('b', {}, usd2(L, cur)), h('span', { class: 'mut' }, free.store + ' · reported ' + free.dateHuman)),
+        h('div', { class: 'p' }, right)));
+    }
+    box.appendChild(h('div', { class: 'hsub' }, (pro ? free.store + ' · reported ' + free.dateHuman + ' · ' : '') + (pro ? '' : 'Shipping: ') + shipWord(rep.lowest.shipState, null, rep.currency) + '. ' + (single ? (rep.weakSource ? 'Reported on a price-listing site, not a store page.' : 'No other dated store price passed our checks.') : 'No store offer we found was lower.')));
     var extra = []; if (rep.coupons) extra.push(pluralN(rep.coupons, 'coupon', 'coupons')); if (rep.cashback) extra.push(rep.cashback + ' cashback'); if (rep.openbox) extra.push(pluralN(rep.openbox, 'open-box offer', 'open-box offers'));
     if (!pro) {
       if (extra.length) box.appendChild(h('div', { class: 'hsub', style: 'margin-top:8px' }, 'Pro also found ', h('b', {}, extra.join(', ')), ', which could bring the total lower.'));
@@ -951,7 +962,16 @@ html.embed .rp .stickb{display:none}
     stack.push(head);
     var title = r.reason === 'search_unavailable' ? 'We couldn\'t search right now' : r.reason === 'unreadable' ? 'We couldn\'t read the results' : r.lastSeen ? 'No fresh offer found' : 'No current offer passed our checks';
     var body = r.reason === 'search_unavailable' ? 'The search didn\'t finish, so we can\'t say anything about prices. This did not use a check. Compare on the stores below.' : r.reason === 'unreadable' ? 'The search ran but we couldn\'t read what came back, so we can\'t say anything about prices. This did not use a check. Please try again, or compare on the stores below.' : 'We searched stores, coupons and cashback and found nothing dated within the last 30 days that passed our rules. This did not use a check.';
-    stack.push(h('div', { class: 'rc', style: 'border-color:rgba(29,158,117,.5)' }, h('div', { class: 'rk', style: 'color:var(--green)' }, down ? 'NO RESULT' : 'NO CURRENT OFFER FOUND'), h('div', { style: 'font-size:19px;font-weight:800;margin:6px 0' }, title), h('div', { style: 'font-size:14px;color:var(--subtle)' }, body)));
+    if (down) stack.push(h('div', { class: 'rc', style: 'border-color:rgba(29,158,117,.5)' }, h('div', { class: 'rk', style: 'color:var(--green)' }, down ? 'NO RESULT' : 'NO CURRENT OFFER FOUND'), h('div', { style: 'font-size:19px;font-weight:800;margin:6px 0' }, title), h('div', { style: 'font-size:14px;color:var(--subtle)' }, body)));
+    if (!down) {
+      var lsn = r.lastSeen;
+      var hero = h('div', { class: 'hero' }, h('div', { class: 'hk' }, 'NOTHING CURRENT TO COMPARE'), h('div', { class: 'hh' }, 'No dated offer in the last 30 days'), h('div', { class: 'hsub' }, 'We searched stores, coupons and cashback. Nothing passed our rules. This did not use a check.'),
+        h('div', { class: 'cmp2' },
+          h('div', {}, h('small', {}, 'Free shows'), h('b', {}, 'None'), h('span', { class: 'mut' }, 'Checked today, nothing passed')),
+          h('div', { class: 'p' }, h('small', { style: 'color:var(--green)' }, lsn ? 'Last report' : 'Pro watches'), h('b', { style: 'color:var(--green)' }, lsn ? money(lsn.price, lsn.currency) : 'Daily'), h('span', { class: 'mut' }, lsn ? lsn.store + ' · ' + lsn.dateHuman + ' (old)' : 'Emails you when a dated offer appears'))));
+      if (r.lockedSave && !pro) hero.appendChild(h('div', { class: 'hsub' }, 'Older reports Pro holds show up to about ', h('b', {}, money(r.lockedSave.usd, r.lockedSave.currency) + ' off the regular price'), '. They may no longer apply.'));
+      stack.push(hero);
+    }
     if (r.lastSeen) {
       var rr = function (x, first) { return h('div', { class: 'ln' }, h('b', {}, (first ? 'Last report: ' : '') + x.store), h('span', {}, money(x.price, x.currency) + ' · ' + x.dateHuman + ' (' + x.ageDays + ' days ago) ', ext(x.sourceUrl, 'Source'))); };
       var old = h('div', { class: 'rc' }, h('h2', { class: 'rk' }, 'Older reports'), h('div', { class: 'fine', style: 'margin:0 0 6px' }, 'These are old and may no longer apply. Check the store before you buy.'), rr(r.lastSeen, true));

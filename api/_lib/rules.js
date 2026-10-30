@@ -302,10 +302,13 @@ function buildReport(accepted, shown, ctx, hist) {
     heldStores: held.length, heldCheaper: gap ? held.filter((a) => comparable(a) < freeTotal).length : 0,
     openbox: refs.length, coupons: coupons.length, cashback: accepted.filter((a) => a.kind === 'cashback').length, couponEnds: exp,
     weakSource: srcKind === 'article' ? 'price_site' : null,
+    histLowest: hist && hist.lowest && (!cur || cur === 'USD') ? hist.lowest : null,
+    histAverage: hist && hist.average && (!cur || cur === 'USD') ? hist.average : null,
     regularPrice: !!(listPrice && lowTotal != null && lowTotal >= listPrice * 0.995),
     rows: sorted.map((a) => ({ free: a === shown, dateHuman: a.dateHuman, ageDays: a.ageDays, shipState: (a.shipping && a.shipping.state) || 'not_stated' })),
   };
   rep.verdict = verdictOf(lowTotal, rep, hist, cur);
+  if (rep.verdict && /earlier version/.test(rep.verdict.text || '')) { rep.histLowest = null; rep.histAverage = null; }
   rep.timeline = hist && Array.isArray(hist.points) ? hist.points.slice(0, 4).map((x) => ({ d: x.d, t: x.t, s: x.s })) : null;
   return rep;
 }
@@ -345,9 +348,10 @@ function verdictOf(L, rep, hist, cur) {
   }
   if (rep.listPrice) {
     const d = 1 - L / rep.listPrice, pct = Math.round(d * 100);
-    if (d >= 0.25) return { call: cap('BUY'), chip: 'Based on the list price', basis: 'list', text: 'The lowest we found is about ' + pct + '% below the ' + money0(rep.listPrice) + ' list price the pages state. We have no price history for this product, so we can\'t say if it was cheaper before.' + lower + weak };
-    if (d >= 0.10) return { call: 'FAIR', chip: 'Based on the list price', basis: 'list', text: 'The lowest we found is about ' + pct + '% below the ' + money0(rep.listPrice) + ' list price the pages state. We have no price history for this product, so we can\'t say if it was cheaper before.' + lower + ' Buy now if you need it, or set an alert.' + weak };
-    return { call: 'WAIT', chip: 'Little or no discount', basis: 'list', text: d > 0.005 ? 'The lowest we found is only about ' + pct + '% below the ' + money0(rep.listPrice) + ' list price the pages state.' + lower + ' If you can wait, set an alert.' + weak : 'The prices we found match the ' + money0(rep.listPrice) + ' list price. We found no discount.' + lower + ' If you can wait, set an alert.' + weak };
+    const bar = { pos: Math.max(0, Math.min(100, Math.round((L / rep.listPrice) * 100))), lowLabel: '$0', highLabel: money0(rep.listPrice) + ' list', pin: money0(L) + ' lowest found' };
+    if (d >= 0.25) return { call: cap('BUY'), chip: 'Based on the list price', basis: 'list', text: 'The lowest we found is about ' + pct + '% below the ' + money0(rep.listPrice) + ' list price the pages state. We have no price history for this product, so we can\'t say if it was cheaper before.' + lower + weak, bar };
+    if (d >= 0.10) return { call: 'FAIR', chip: 'Based on the list price', basis: 'list', text: 'The lowest we found is about ' + pct + '% below the ' + money0(rep.listPrice) + ' list price the pages state. We have no price history for this product, so we can\'t say if it was cheaper before.' + lower + ' Buy now if you need it, or set an alert.' + weak, bar };
+    return { call: 'WAIT', chip: 'Little or no discount', basis: 'list', text: d > 0.005 ? 'The lowest we found is only about ' + pct + '% below the ' + money0(rep.listPrice) + ' list price the pages state.' + lower + ' If you can wait, set an alert.' + weak : 'The prices we found match the ' + money0(rep.listPrice) + ' list price. We found no discount.' + lower + ' If you can wait, set an alert.' + weak, bar };
   }
   const n = (rep.rows || []).length;
   if (n >= 2 && rep.spread != null) {
