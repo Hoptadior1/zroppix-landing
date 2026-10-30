@@ -812,6 +812,11 @@ html.embed .rp .stickb{display:none}
     return rlink(o.sourceUrl, 'Read the source →', 'o');
   }
 
+  function shipUnknown(free, rows) { return !(free.shipping && (free.shipping.state === 'free' || free.shipping.state === 'paid')) || (rows || []).some(function (x) { return !x.free && x.shipState === 'not_stated'; }); }
+  function totalLabel(price, total, shipState, cur) {
+    var t = total != null ? total : price;
+    return shipState === 'not_stated' || !shipState ? [h('b', {}, usd2(t, cur)), h('br'), h('span', { class: 'mut', style: 'font-size:11px' }, '+ shipping')] : h('b', {}, usd2(t, cur));
+  }
   function offersCardFree(j, rep, free) {
     var rows = rep.rows || [];
     var card = h('div', { class: 'rc tbl' }, h('h2', { class: 'rk' }, 'All offers we found'),
@@ -822,11 +827,11 @@ html.embed .rp .stickb{display:none}
       if (x.free) {
         var tot = free.total != null ? free.total : free.price;
         card.appendChild(h('div', { class: 'tr best' }, h('span', {}, h('b', {}, free.store), rows.length > 1 ? [' ', h('span', { class: 'pill g' }, 'Free')] : null, h('br'), h('span', { class: 'mut' }, free.dateHuman + ' · ' + shipWord(free.shipping && free.shipping.state, free.shipping && free.shipping.cost, free.currency))),
-          h('span', {}, usd2(free.price, free.currency)), h('span', {}, h('b', {}, usd2(tot, free.currency)))));
+          h('span', {}, usd2(free.price, free.currency)), h('span', {}, totalLabel(free.price, tot, free.shipping && free.shipping.state, free.currency))));
         var tz = ((j.result && j.result.teasers) || []).filter(function (t) { return t.kind === 'coupon' || t.kind === 'cashback'; });
         if (tz.length) {
           var hasC = rep.freeCouponOff > 0, hasB = tz.filter(function (t) { return t.kind === 'cashback'; })[0];
-          if (hasC || hasB) card.appendChild(h('div', { class: 'tr' }, h('span', {}, h('b', {}, 'With ' + (hasC && hasB ? 'coupon + cashback' : hasC ? 'a coupon' : 'cashback'), ' ', h('span', { class: 'protag' }, 'PRO')), h('br'), h('span', { class: 'mut' }, (hasC ? 'after a code' : '') + (hasC && hasB ? ' · ' : '') + (hasB ? (hasB.percent ? hasB.percent + '% back later' : 'cashback later') : ''))), h('span', {}, ''), lk('$▒▒▒.▒▒')));
+          if (hasC || hasB) card.appendChild(h('div', { class: 'tr' }, h('span', {}, h('b', {}, (hasC && hasB ? 'Coupon + cashback' : hasC ? 'Coupon' : 'Cashback'), ' ', h('span', { class: 'protag' }, 'PRO')), h('br'), h('span', { class: 'mut' }, (hasC ? 'after a code' : '') + (hasC && hasB ? ' · ' : '') + (hasB ? (hasB.percent ? hasB.percent + '% back later' : 'cashback later') : ''))), h('span', {}, ''), lk('$▒▒▒.▒▒')));
         }
       } else {
         fakeN++;
@@ -837,6 +842,8 @@ html.embed .rp .stickb{display:none}
     var cb = checkBtn(free);
     if (cb) card.appendChild(h('div', { style: 'padding:6px 0 4px' }, cb, h('div', { class: 'fine', style: 'text-align:center' }, 'Opens in a new tab. Reported ' + free.dateHuman + ', so check the live price and seller before you buy.')));
     card.appendChild(h('div', { class: 'nudge' }, h('div', {}, h('b', { style: 'color:#fff' }, 'Bought it? '), 'If the price drops you may be able to claim the difference. ', h('a', { href: protectUrl(j.product.name), style: 'color:var(--gold);font-weight:800' }, 'Protect this purchase →'))));
+    function shipNote(anyUnknown, store) { return anyUnknown ? h('div', { class: 'fine' }, 'Shipping is not stated on the source page, so those totals show the price only, marked "+ shipping". Big stores often ship free above a minimum order, but we only count shipping a page states. Check the shipping cost at checkout.' + (/best buy/i.test(store || '') ? ' ' : ''), /best buy/i.test(store || '') ? h('a', { href: 'https://www.bestbuy.com/site/help-topics/free-shipping/pcmcat276800050002.c?id=pcmcat276800050002', target: '_blank', rel: 'noopener nofollow noreferrer', style: 'color:var(--gold);font-weight:700' }, 'Best Buy shipping page →') : null) : null; }
+    var unk = shipUnknown(free, rows); var sn = shipNote(unk, free.store); if (sn) card.appendChild(sn);
     card.appendChild(h('div', { class: 'fine' }, (rows.length === 1 ? 'This is the only dated store price we found. ' : rep.freeIsLowest ? 'The free offer is the lowest total we found. ' : 'The free offer is not the cheapest. Pro shows the ' + (rep.heldCheaper === 1 ? 'lower one' : rep.heldCheaper + ' lower ones') + '. ') + 'Total = price + shipping, only where the page states it. Customs and VAT may be added in your country.'));
     return card;
   }
@@ -854,12 +861,14 @@ html.embed .rp .stickb{display:none}
       if (o.ships === 'no') bits.push('⚠ may not ship to your country');
       if (o.seller === 'third_party') bits.push('⚠ third-party seller');
       (i < SHOW ? card : more).appendChild(h('div', { class: 'tr' + (i === 0 ? ' best' : '') }, h('span', {}, h('b', {}, o.store), h('br'), h('span', { class: 'mut' }, bits.join(' · '))),
-        h('span', {}, usd2(o.price, o.currency)), h('span', {}, h('b', {}, o.total != null ? usd2(o.total, o.currency) : 'n/a'))));
+        h('span', {}, usd2(o.price, o.currency)), h('span', {}, o.total != null ? totalLabel(o.price, o.total, sh.state, o.currency) : h('b', {}, 'n/a'))));
       if (i === 0) card.appendChild(whyBox(o, rep, j));
       var b = checkBtn(o); if (b) (i < SHOW ? card : more).appendChild(h('div', { style: 'padding:4px 0 8px' }, b, i === 0 ? h('div', { class: 'fine', style: 'text-align:center' }, 'Opens in a new tab. Reported ' + o.dateHuman + ', so check the live price and seller before you buy.') : null));
     });
     if (list.length > SHOW) { card.appendChild(more); var mb = rbtn('Show ' + (list.length - SHOW) + ' more ' + (list.length - SHOW === 1 ? 'offer' : 'offers'), 'o', function () { more.style.display = 'block'; mb.style.display = 'none'; }); mb.style.marginTop = '8px'; card.appendChild(mb); }
     card.appendChild(h('div', { class: 'nudge' }, h('div', {}, h('b', { style: 'color:#fff' }, 'Bought it? '), 'If the price drops you may be able to claim the difference. ', h('a', { href: protectUrl(j.product.name), style: 'color:var(--gold);font-weight:800' }, 'Protect this purchase →'))));
+    function shipNote(anyUnknown, store) { return anyUnknown ? h('div', { class: 'fine' }, 'Shipping is not stated on the source page, so those totals show the price only, marked "+ shipping". Big stores often ship free above a minimum order, but we only count shipping a page states. Check the shipping cost at checkout.' + (/best buy/i.test(store || '') ? ' ' : ''), /best buy/i.test(store || '') ? h('a', { href: 'https://www.bestbuy.com/site/help-topics/free-shipping/pcmcat276800050002.c?id=pcmcat276800050002', target: '_blank', rel: 'noopener nofollow noreferrer', style: 'color:var(--gold);font-weight:700' }, 'Best Buy shipping page →') : null) : null; }
+    var unkP = list.some(function (o) { return !o.shipping || o.shipping.state === 'not_stated'; }); var snP = shipNote(unkP, list[0] && list[0].store); if (snP) card.appendChild(snP);
     card.appendChild(h('div', { class: 'fine' }, 'Total = price + shipping, only where the page states it. Customs and VAT may be added in your country.'));
     return card;
   }
@@ -916,6 +925,8 @@ html.embed .rp .stickb{display:none}
       if (sm.match) card.appendChild(h('div', { class: 'rj' }, h('b', {}, 'Rejected'), ' · ' + pluralN(sm.match, 'page', 'pages') + ' not clearly the same product'));
       if (sm.other) card.appendChild(h('div', { class: 'rj' }, h('b', {}, 'Rejected'), ' · ' + pluralN(sm.other, 'page', 'pages') + ' that failed a basic check'));
     }
+    if (r.oldLower) card.appendChild(h('div', { class: 'why', style: 'margin:10px 0 4px' }, h('div', { class: 'wk' }, 'COULD THESE SAVE YOU MONEY?'),
+      h('div', { style: 'font-size:13.5px;color:var(--subtle);line-height:1.5' }, pluralN(r.oldLower.n, 'of the old reports was', 'of the old reports were') + ' priced up to about ', h('b', { style: 'color:var(--green)' }, money(r.oldLower.usd, r.oldLower.currency)), ' below today\'s lowest. They are too old to show as offers, but if a store prices it that way again, that is your saving.' + (pro ? '' : ' Pro shows which store, what price and when, and watches for it.'))));
     card.appendChild(h('div', { class: 'fine' }, 'This is why you can trust what\'s left.' + (pro ? '' : ' Pro shows each rejected report with its store, price and age.')));
     return card;
   }
@@ -970,9 +981,9 @@ html.embed .rp .stickb{display:none}
 
   function lockedSaveText(ls) {
     var m = money(ls.usd, ls.currency);
-    if (ls.vs === 'last') return [' If one is still available, you could save up to about ', h('b', {}, m), ' compared with the last report shown above.'];
+    if (ls.vs === 'last') return [' One of them was about ', h('b', {}, m), ' lower than the last report shown above. It is old, so it may no longer be available.'];
     if (ls.vs === 'history') return [' Its lowest price in our dated history is about ', h('b', {}, m), ' below the last report shown above. Pro watches for it.'];
-    return [' If one is still available, you could save up to about ', h('b', {}, m + ' off the regular price'), '.'];
+    return [' One of them was priced about ', h('b', {}, m), ' below the regular price. It is old, so it may no longer be available.'];
   }
   function renderFallback(j) {
     var r = j.result, pro = j.tier === 'pro';
@@ -990,7 +1001,7 @@ html.embed .rp .stickb{display:none}
         h('div', { class: 'cmp2' },
           h('div', {}, h('small', {}, 'Free shows'), h('b', {}, 'None'), h('span', { class: 'mut' }, 'Checked today, nothing passed')),
           h('div', { class: 'p' }, hl ? [h('small', { style: 'color:var(--green)' }, 'Lowest reported'), h('b', { style: 'color:var(--green)' }, usd2(hl, 'USD')), h('span', { class: 'mut' }, 'in our dated history. Pro watches for it')] : [h('small', { style: 'color:var(--green)' }, lsn ? 'Last report' : 'Pro watches'), h('b', { style: 'color:var(--green)' }, lsn ? money(lsn.price, lsn.currency) : 'Daily'), h('span', { class: 'mut' }, lsn ? lsn.store + ' · ' + lsn.dateHuman + ' (old)' : 'Emails you when a dated offer appears')])));
-      if (r.lockedSave && !pro) hero.appendChild(h('div', { class: 'hsub' }, r.lockedSave.vs === 'history' ? '' : 'Reports Pro holds could mean savings.', lockedSaveText(r.lockedSave), r.lockedSave.vs === 'history' ? '' : ' They may no longer apply.'));
+      if (r.lockedSave && !pro) hero.appendChild(h('div', { class: 'hsub' }, r.lockedSave.vs === 'history' ? '' : 'Pro also found ' + pluralN((r.olderCount || 0) + (r.undatedCount || 0), 'older report', 'older reports') + ' for this product.', lockedSaveText(r.lockedSave)));
       if (!pro) {
         hero.appendChild(h('div', { class: 'hsub' }, h('b', {}, 'Prices change. '), 'Pro searches this product every day and emails you the moment a dated offer passes our checks, so you do not have to keep coming back.'));
         warm(); hero.appendChild(rbtn('Watch it for me · Pro $14/month', 'big', function () { openPro('fallback_hero'); }));
@@ -1008,7 +1019,7 @@ html.embed .rp .stickb{display:none}
     if (!pro && !down) {
       var pc = h('div', { class: 'rc gold' }, h('h2', { class: 'rk' }, 'Pro adds'));
       if (lockedN) {
-        pc.appendChild(h('div', { class: 'hsub' }, 'Pro found ' + pluralN(lockedN, 'more report', 'more reports') + ' for this product.', r.lockedSave ? lockedSaveText(r.lockedSave) : ' Pro shows each store, price and age, so you can check which are still available.'));
+        pc.appendChild(h('div', { class: 'hsub' }, 'Pro found ' + pluralN(lockedN, 'more older report', 'more older reports') + ' for this product.', r.lockedSave ? lockedSaveText(r.lockedSave) : ' Pro shows each store, price and age, so you can check which are still available.'));
         var lockRow = function (sub) { return h('div', { class: 'tr' }, h('span', {}, h('b', { class: 'lk', 'aria-hidden': 'true' }, 'Store name ▒▒'), h('br'), h('span', { class: 'mut' }, sub)), h('span', { class: 'lk', 'aria-hidden': 'true' }, '$▒▒▒.▒▒'), h('span', { class: 'lk', 'aria-hidden': 'true' }, '$▒▒▒.▒▒')); };
         pc.appendChild(h('div', { class: 'tr th' }, h('span', {}, 'Store'), h('span', {}, 'Price'), h('span', {}, 'Total')));
         for (var ui = 0; ui < Math.min(r.undatedCount || 0, 2); ui++) pc.appendChild(lockRow('Undated store listing'));

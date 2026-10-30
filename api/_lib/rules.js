@@ -430,6 +430,16 @@ function shape(ev, tier, extras, ctx) {
     counts: { coupon: ev.accepted.filter((a) => a.kind === 'coupon').length, cashback: ev.accepted.filter((a) => a.kind === 'cashback').length },
     proof: ev.proof || null,
   };
+  // Old reports (past the freshness limit) that were priced below today's lowest total: a real price some store has charged before.
+  if (out.report && out.report.lowest) {
+    const lowT = out.report.lowest.total, cur0 = out.report.currency;
+    const lower = (ev.stale || []).filter((x) => x.kind === 'price' && x.price > 0 && (!x.currency || x.currency === cur0) && x.price < lowT * 0.97);
+    if (lower.length) {
+      const d = lowT - Math.min.apply(null, lower.map((x) => x.price));
+      const rough = d >= 20 ? Math.floor(d / 5) * 5 : Math.floor(d);
+      if (rough >= 5) out.oldLower = { n: lower.length, usd: rough, currency: cur0 };
+    }
+  }
   // Safety information is never locked.
   if (best && best.seller === 'third_party') out.warnings.push('This offer is from a third-party seller, not the manufacturer or the store itself. Check the seller rating and return terms before you buy.');
   if (best && best.ships === 'no') out.warnings.push('The store may not ship to your country. Check before you rely on this price.');
