@@ -8,6 +8,7 @@ const { reserve, settle, bump } = require('./spend');
 const ai = require('./anthropic');
 const P = require('./prompts');
 const R = require('./rules');
+const S = require('./sources');
 
 const OFFER_KINDS = new Set(['price', 'coupon', 'cashback', 'refurb']);
 const hasOffers = (ev) => !!ev && ev.accepted.some((x) => OFFER_KINDS.has(x.kind));
@@ -36,23 +37,39 @@ async function research({ product, country, pass, started, now, source }) {
   let cost = 0; let settled = false;
   const done = async () => { if (!settled) { settled = true; await settle(ticket, cost); } };
   try {
-    let gather;
-    try {
-      gather = await ai.call({
-        model: c.gatherModel, system: P.GATHER_SYSTEM,
-        messages: [{ role: 'user', content: (pass === 2 ? P.gatherUser2 : P.gatherUser)(product, country, now.toISOString().slice(0, 10)) }],
-        tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: c.maxSearches, user_location: { type: 'approximate', country } }],
-        maxTokens: 12000, deadline: started + 38000,
-      });
-      cost += gather.costUsd;
-    } catch (e) {
-      await done(); bump('check_ai_error');
-      return { failed: true };
-    }
+    // The searches, and the stores' own product data, all start at the same moment.
+    const today = now.toISOString().slice(0, 10);
+    const split = c.parallelGather && pass !== 2 && c.maxSearches >= 2; // pass 2 keeps its own wording
+    const per = split ? Math.max(2, Math.ceil(c.maxSearches / 2)) : c.maxSearches;
+    const userMsg = (pass === 2 ? P.gatherUser2 : P.gatherUser)(product, country, today);
+    const run = (focus) => ai.call({
+      model: c.gatherModel, system: P.GATHER_SYSTEM,
+      messages: [{ role: 'user', content: userMsg + (focus || '') }],
+      tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: per, user_location: { type: 'approximate', country } }],
+      maxTokens: 12000, deadline: started + 38000,
+    });
+    const apiP = pass === 2 ? Promise.resolve({ findings: [], results: [] }) : S.fetchAll(product, country, now);
+    const runs = await Promise.allSettled(split ? [run(P.FOCUS_PRICES), run(P.FOCUS_EXTRAS)] : [run('')]);
+    const api = await apiP;
+    const okRuns = runs.filter((x) => x.status === 'fulfilled').map((x) => x.value);
+    if (!okRuns.length) { await done(); bump('check_ai_error'); return { failed: true }; }
+    const gather = {
+      text: okRuns.map((g) => g.text).join('\n'), costUsd: okRuns.reduce((n, g) => n + g.costUsd, 0),
+      results: okRuns.reduce((a, g) => a.concat(g.results), []), searchErrors: okRuns.reduce((n, g) => n + g.searchErrors, 0) + (split ? runs.length - okRuns.length : 0),
+      stop: okRuns[0].stop, blockTypes: okRuns[0].blockTypes,
+      usage: { server_tool_use: { web_search_requests: okRuns.reduce((n, g) => n + ((g.usage.server_tool_use || {}).web_search_requests || 0), 0) } },
+    };
+    cost += gather.costUsd;
     const searchErr = gather.searchErrors > 0;
-    const gj = ai.extractJson(gather.text);
-    const ok = !!(gj && Array.isArray(gj.findings));
-    const rawFindings = (ok ? gj.findings.slice(0, 12) : []).map((x, i) => (x && typeof x === 'object' && pass === 2 ? Object.assign({}, x, { id: 'p2_' + (i + 1) }) : x));
+    let ok = false; let rawFindings = [];
+    okRuns.forEach((g, k) => {
+      const gj = ai.extractJson(g.text);
+      if (gj && Array.isArray(gj.findings)) {
+        ok = true;
+        gj.findings.slice(0, split ? 8 : 12).forEach((x, n) => rawFindings.push(x && typeof x === 'object' ? Object.assign({}, x, { id: (pass === 2 ? 'p2_' : split ? 'w' + (k + 1) + '_' : '') + (n + 1) }) : x));
+      }
+    });
+    if (api.findings.length) { ok = true; rawFindings = rawFindings.concat(api.findings); bump('api_findings', api.findings.length); }
     const norm = rawFindings.map((x, i) => R.normalizeFinding(x, i));
     let verdicts = {}; let didJudge = true;
     if (norm.length) {
@@ -73,7 +90,7 @@ async function research({ product, country, pass, started, now, source }) {
     await done();
     bump(source === 'watch' ? 'watch_ai' : 'check_ai'); bump('cost_micro', Math.round(cost * 1e6)); bump('searches', (gather.usage.server_tool_use || {}).web_search_requests || 0);
     if (pass === 2 && source !== 'watch') bump('check_pass2');
-    const out = R.evaluate(rawFindings, { now, maxAgeDays: c.maxAgeDays, staleMaxDays: c.staleMaxDays, cashbackMaxDays: c.cashbackMaxDays, results: gather.results, judge: verdicts });
+    const out = R.evaluate(rawFindings, { now, maxAgeDays: c.maxAgeDays, staleMaxDays: c.staleMaxDays, cashbackMaxDays: c.cashbackMaxDays, results: gather.results.concat(api.results), judge: verdicts });
     out.proof = { pages: gather.results.length, sites: new Set(gather.results.map((r) => { try { return new URL(r.url).hostname.replace(/^www\./, ''); } catch (_) { return ''; } }).filter(Boolean)).size, rejected: out.rejected.length };
     await logDebug({ t: now.toISOString(), pass, source: source || 'check', product: product.name + (product.variant ? ' / ' + product.variant : ''), country, stop: gather.stop, blocks: gather.blockTypes, usage: gather.usage, searches: (gather.usage.server_tool_use || {}).web_search_requests || 0, searchErrors: gather.searchErrors,
       results: gather.results.length, resultUrls: gather.results.slice(0, 8).map((r) => r.url), textLen: gather.text.length, textHead: gather.text.slice(0, 700), textTail: gather.text.slice(-300),

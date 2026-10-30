@@ -38,6 +38,10 @@ function cfg() {
     emailBonus: num(e.FIND_EMAIL_BONUS, 2),
     weeklyRefill: num(e.FIND_WEEKLY_REFILL, 1),
     autoPass2: e.FIND_AUTO_PASS2 !== '0',
+    parallelGather: e.FIND_PARALLEL !== '0', // two searches at the same time (prices; coupons and cashback) instead of one long one
+    bestBuyKey: e.BESTBUY_API_KEY || '',
+    ebayId: e.EBAY_CLIENT_ID || '',
+    ebaySecret: e.EBAY_CLIENT_SECRET || '',
     minSaving: num(e.FIND_MIN_SAVING, 5),
     protectFree: num(e.FIND_PROTECT_FREE, 1),
     protectPerIpDay: num(e.FIND_PROTECT_PER_IP_DAY, 4),

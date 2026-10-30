@@ -55,4 +55,10 @@ const gatherUser2 = (p, country, today) => `Today is ${today}. Shopper's country
 Product: ${p.name}${p.variant ? ' (' + p.variant + ')' : ''}.
 A first search found no usable dated offers. Search again in a different way: try the product name with "price", "deal" and "sale", the model number alone, and the big retailers' names (Amazon, Best Buy, Walmart, Target) together with deal-roundup and news sites that print a date. Also search cashback and coupon sites and deal forums for this product and for each big retailer's current promo codes. Also look for the manufacturer's refurbished or outlet store (for example Apple Certified Refurbished, Sony or Dell outlet) and report any unit of this exact model with its printed page date. Prefer pages that show a date. Still report a store's listed price if the page shows none, with page_date null.`;
 
-module.exports = { MATCH_SYSTEM, matchUser, GATHER_SYSTEM, gatherUser, gatherUser2, JUDGE_SYSTEM, judgeUser };
+// Two searches run at the same time, each with its own focus, then their findings are merged.
+const FOCUS_PRICES = `
+Focus for THIS search: current retail prices at the big retailers for this exact model (each with its shipping if printed), refurbished or open-box units from the manufacturer's outlet store, and any newer model. Do not spend searches on coupons or cashback.`;
+const FOCUS_EXTRAS = `
+Focus for THIS search: ways to pay less for this product on top of the shelf price: coupon codes with their printed expiry date, cashback rates on cashback sites, store credit-card or gift-card promotions, deal-forum and deal-roundup posts with a printed date, and free-shipping offers. Do not spend searches on plain shelf prices.`;
+
+module.exports = { FOCUS_PRICES, FOCUS_EXTRAS, MATCH_SYSTEM, matchUser, GATHER_SYSTEM, gatherUser, gatherUser2, JUDGE_SYSTEM, judgeUser };
