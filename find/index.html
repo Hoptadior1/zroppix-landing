@@ -933,6 +933,9 @@ html.embed .rp .stickb{display:none}
   function missCard(r, rep) {
     var lines = [];
     if (rep.gap > 0) lines.push(['The lowest total', usd2(rep.lowest.total, rep.currency) + ' vs ' + usd2(rep.freeTotal, rep.currency)]);
+    if (!(rep.gap > 0) && r.extra) lines.push(['Coupons and cashback', 'worth up to about ' + usd2(r.extra.usd, r.extra.currency) + ' off']);
+    if (!(rep.gap > 0) && r.cheaper && r.cheaper.kind === 'refurb') lines.push(['Open-box price', 'about ' + r.cheaper.pct + '% below']);
+    if (r.oldLower) lines.push(['Older reports priced lower', 'up to about ' + money(r.oldLower.usd, r.oldLower.currency) + ' below']);
     if (rep.heldStores > 0) lines.push(['Every store and link', rep.heldStores + ' held back']);
     if (rep.coupons > 0) lines.push(['Codes with expiry dates', rep.couponEnds ? pluralN(rep.coupons, 'found', 'found') + ' · ends ' + fmtDay(rep.couponEnds) : pluralN(rep.coupons, 'found', 'found')]);
     if (rep.openbox > 0) lines.push(['Open-box offer', pluralN(rep.openbox, 'found', 'found')]);
