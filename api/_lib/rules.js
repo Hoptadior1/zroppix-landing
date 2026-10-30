@@ -339,13 +339,15 @@ function buildReport(accepted, shown, ctx, hist) {
     openbox: refs.length, coupons: coupons.length, cashback: accepted.filter((a) => a.kind === 'cashback').length, couponEnds: exp,
     weakSource: srcKind === 'article' ? 'price_site' : null,
     histLowest: hist && hist.lowest && (!cur || cur === 'USD') ? hist.lowest : null,
+    histLowestWhere: (() => { const pts = hist && Array.isArray(hist.points) ? hist.points : []; const m = pts.filter((q) => hist.lowest && Math.abs(q.p - hist.lowest) < 0.01 && q.d)[0]; return m ? { text: String(m.t || '').slice(0, 140), source: String(m.s || '').slice(0, 40) } : null; })(), // Pro only: where that price was reported
+    histUrl: hist && hist.url ? hist.url : null,
     histLowestDate: (() => { const pts = hist && Array.isArray(hist.points) ? hist.points : []; const m = pts.filter((q) => hist.lowest && Math.abs(q.p - hist.lowest) < 0.01 && q.d)[0]; return m ? String(m.d).slice(0, 20) : null; })(),
     histAverage: hist && hist.average && (!cur || cur === 'USD') ? hist.average : null,
     regularPrice: !!(listPrice && lowTotal != null && lowTotal >= listPrice * 0.995),
     rows: sorted.map((a) => ({ free: a === shown, dateHuman: a.dateHuman, ageDays: a.ageDays, shipState: (a.shipping && a.shipping.state) || 'not_stated' })),
   };
   rep.verdict = verdictOf(lowTotal, rep, hist, cur);
-  if (rep.verdict && /earlier version/.test(rep.verdict.text || '')) { rep.histLowest = null; rep.histAverage = null; rep.histLowestDate = null; }
+  if (rep.verdict && /earlier version/.test(rep.verdict.text || '')) { rep.histLowest = null; rep.histAverage = null; rep.histLowestDate = null; rep.histLowestWhere = null; }
   rep.timeline = hist && Array.isArray(hist.points) ? hist.points.slice(0, 4).map((x) => ({ d: x.d, t: x.t, s: x.s })) : null;
   return rep;
 }
@@ -441,6 +443,7 @@ function shape(ev, tier, extras, ctx) {
       if (rough >= 5) out.oldLower = { n: lower.length, usd: rough, currency: cur0 };
     }
   }
+  if (!pro && out.report) delete out.report.histLowestWhere; // where the lowest price was reported is a Pro detail
   // Safety information is never locked.
   if (best && best.seller === 'third_party') out.warnings.push('This offer is from a third-party seller, not the manufacturer or the store itself. Check the seller rating and return terms before you buy.');
   if (best && best.ships === 'no') out.warnings.push('The store may not ship to your country. Check before you rely on this price.');
