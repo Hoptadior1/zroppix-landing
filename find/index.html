@@ -744,7 +744,7 @@ html.embed .rp .stickb{display:none}
       h('div', { class: 'hh' }, !pro && rep.histLowest && L > rep.histLowest * 1.005 ? usd2(L - rep.histLowest, cur) + ' lower has been reported' : !pro && rep.listPrice && L < rep.listPrice * 0.995 && single ? usd2(rep.listPrice - L, cur) + ' below the list price' : usd2(L, cur)));
     if (!pro) {
       var right;
-      if (rep.histLowest && L > rep.histLowest * 1.005) right = [h('small', { style: 'color:var(--green)' }, 'Lowest reported'), h('b', { style: 'color:var(--green)' }, usd2(rep.histLowest, cur)), h('span', { class: 'mut' }, usd2(L - rep.histLowest, cur) + ' lower, in our dated history')];
+      if (rep.histLowest && L > rep.histLowest * 1.005) right = [h('small', { style: 'color:var(--green)' }, 'Lowest reported'), h('b', { style: 'color:var(--green)' }, usd2(rep.histLowest, cur)), h('span', { class: 'mut' }, usd2(L - rep.histLowest, cur) + ' lower, in our dated history' + (rep.histLowestDate ? ' (' + rep.histLowestDate + ')' : '') + '. It may not be available now.')];
       else if (rep.listPrice && L < rep.listPrice * 0.995) right = [h('small', { style: 'color:var(--green)' }, 'List price'), h('b', { style: 'color:var(--green)' }, usd2(rep.listPrice, cur)), h('span', { class: 'mut' }, 'This is ' + usd2(rep.listPrice - L, cur) + ' below it')];
       else right = [h('small', { style: 'color:var(--green)' }, 'Pro watches'), h('b', { style: 'color:var(--green)' }, 'Daily'), h('span', { class: 'mut' }, 'Emails you when a lower dated price appears')];
       box.appendChild(h('div', { class: 'cmp2' },

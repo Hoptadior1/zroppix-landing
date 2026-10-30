@@ -339,12 +339,13 @@ function buildReport(accepted, shown, ctx, hist) {
     openbox: refs.length, coupons: coupons.length, cashback: accepted.filter((a) => a.kind === 'cashback').length, couponEnds: exp,
     weakSource: srcKind === 'article' ? 'price_site' : null,
     histLowest: hist && hist.lowest && (!cur || cur === 'USD') ? hist.lowest : null,
+    histLowestDate: (() => { const pts = hist && Array.isArray(hist.points) ? hist.points : []; const m = pts.filter((q) => hist.lowest && Math.abs(q.p - hist.lowest) < 0.01 && q.d)[0]; return m ? String(m.d).slice(0, 20) : null; })(),
     histAverage: hist && hist.average && (!cur || cur === 'USD') ? hist.average : null,
     regularPrice: !!(listPrice && lowTotal != null && lowTotal >= listPrice * 0.995),
     rows: sorted.map((a) => ({ free: a === shown, dateHuman: a.dateHuman, ageDays: a.ageDays, shipState: (a.shipping && a.shipping.state) || 'not_stated' })),
   };
   rep.verdict = verdictOf(lowTotal, rep, hist, cur);
-  if (rep.verdict && /earlier version/.test(rep.verdict.text || '')) { rep.histLowest = null; rep.histAverage = null; }
+  if (rep.verdict && /earlier version/.test(rep.verdict.text || '')) { rep.histLowest = null; rep.histAverage = null; rep.histLowestDate = null; }
   rep.timeline = hist && Array.isArray(hist.points) ? hist.points.slice(0, 4).map((x) => ({ d: x.d, t: x.t, s: x.s })) : null;
   return rep;
 }
@@ -518,7 +519,7 @@ function matchDeal(name, index) {
   const a = tokens(name);
   if (a.length < 2 || !Array.isArray(index)) return null;
   const A = new Set(a);
-  let best = null; let bs = 0;
+  let best = null; let bs = 0; let bi = 0;
   for (const d of index) {
     const b = tokens(d.title);
     if (!b.length) continue;
@@ -528,7 +529,11 @@ function matchDeal(name, index) {
     // model numbers (tokens with digits) must all match
     const ma = a.filter((t) => /\d/.test(t)); const mb = new Set(b.filter((t) => /\d/.test(t)));
     const modelsOk = ma.length === 0 || ma.every((t) => mb.has(t));
-    if (modelsOk && score > bs) { bs = score; best = d; }
+    // A different edition is a different product: "Sonos Arc" is not "Sonos Arc Ultra", "Echo Dot" is not "Echo Dot Max", "Galaxy S25" is not "S25 Ultra".
+    // Every word of the history title (except the brand, its first word) must be in what the shopper typed.
+    const extra = b.filter((t, i) => i > 0 && !A.has(t));
+    if (extra.length) continue;
+    if (modelsOk && (score > bs || (score === bs && best && inter > bi))) { bs = score; bi = inter; best = d; } // on a tie, the title that matches more of the words wins ("iPhone 17 Pro Max" over "iPhone 17")
   }
   return bs >= 0.75 ? { slug: best.slug, title: best.title, lowest: best.lowest || null, average: best.average || null, updated: best.updated || null, points: Array.isArray(best.points) ? best.points : null } : null;
 }
