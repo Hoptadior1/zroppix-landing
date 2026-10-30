@@ -754,8 +754,9 @@ html.embed .rp .stickb{display:none}
     var extra = []; if (rep.coupons) extra.push(pluralN(rep.coupons, 'coupon', 'coupons')); if (rep.cashback) extra.push(rep.cashback + ' cashback'); if (rep.openbox) extra.push(pluralN(rep.openbox, 'open-box offer', 'open-box offers'));
     if (!pro) {
       if (extra.length) box.appendChild(h('div', { class: 'hsub', style: 'margin-top:8px' }, 'Pro also found ', h('b', {}, extra.join(', ')), ', which could bring the total lower.'));
+      else if (single) box.appendChild(h('div', { class: 'hsub', style: 'margin-top:8px' }, h('b', {}, 'Only one price found, so there is nothing to compare it with. '), 'Pro searches every store every day and emails you when a lower dated price appears.'));
       else box.appendChild(h('div', { class: 'hsub', style: 'margin-top:8px' }, 'Prices change. ', h('b', {}, 'Pro searches every day'), ' for up to 20 products and emails you when a lower dated price appears. Free watches 1 product.'));
-      warm(); box.appendChild(rbtn(extra.length ? 'See them · Pro $14/month' : 'Get alerts when it drops · Pro $14/month', 'big', function () { openPro('hero'); }));
+      warm(); box.appendChild(rbtn(extra.length ? 'See them · Pro $14/month' : single ? 'Compare every store · Pro $14/month' : 'Get alerts when it drops · Pro $14/month', 'big', function () { openPro('hero'); }));
       box.appendChild(h('div', { class: 'fine', style: 'text-align:center' }, '3-day money-back guarantee · Cancel in one click'));
     }
     return box;
@@ -984,6 +985,11 @@ html.embed .rp .stickb{display:none}
           h('div', {}, h('small', {}, 'Free shows'), h('b', {}, 'None'), h('span', { class: 'mut' }, 'Checked today, nothing passed')),
           h('div', { class: 'p' }, hl ? [h('small', { style: 'color:var(--green)' }, 'Lowest reported'), h('b', { style: 'color:var(--green)' }, usd2(hl, 'USD')), h('span', { class: 'mut' }, 'in our dated history. Pro watches for it')] : [h('small', { style: 'color:var(--green)' }, lsn ? 'Last report' : 'Pro watches'), h('b', { style: 'color:var(--green)' }, lsn ? money(lsn.price, lsn.currency) : 'Daily'), h('span', { class: 'mut' }, lsn ? lsn.store + ' · ' + lsn.dateHuman + ' (old)' : 'Emails you when a dated offer appears')])));
       if (r.lockedSave && !pro) hero.appendChild(h('div', { class: 'hsub' }, 'Older reports Pro holds show up to about ', h('b', {}, money(r.lockedSave.usd, r.lockedSave.currency) + ' off the regular price'), '. They may no longer apply.'));
+      if (!pro) {
+        hero.appendChild(h('div', { class: 'hsub' }, h('b', {}, 'Prices change. '), 'Pro searches this product every day and emails you the moment a dated offer passes our checks, so you do not have to keep coming back.'));
+        warm(); hero.appendChild(rbtn('Watch it for me · Pro $14/month', 'big', function () { openPro('fallback_hero'); }));
+        hero.appendChild(h('div', { class: 'fine', style: 'text-align:center' }, '3-day money-back guarantee · Cancel in one click · We can\'t promise a price will drop'));
+      }
       stack.push(hero);
     }
     if (r.lastSeen) {
@@ -1003,6 +1009,7 @@ html.embed .rp .stickb{display:none}
         for (var oi = 0; oi < Math.min(r.olderCount || 0, 3); oi++) pc.appendChild(lockRow('Older than 30 days' + (oi === Math.min(r.olderCount, 3) - 1 && r.olderOldestDays ? ' · oldest ' + r.olderOldestDays + ' days' : '')));
         pc.appendChild(h('div', { class: 'fine' }, 'Prices in blurred rows are hidden until you unlock. Pro shows each store, price and link, marked old or undated.'));
       }
+      pc.appendChild(h('div', { class: 'why', style: 'margin:10px 0' }, h('div', { class: 'wk' }, 'EXAMPLE OF THE EMAIL YOU\'D GET'), h('div', { style: 'font-size:13.5px;color:var(--subtle);line-height:1.5' }, h('b', { style: 'color:#fff' }, 'A dated offer for ' + j.product.name + ' passed our checks.'), h('br'), '[Store] · [price] · reported today · with the source link. You open the page and check the live price.'), h('div', { class: 'fine' }, 'Example only. Real emails show the store, price and date from the page.')));
       pc.appendChild(h('div', { class: 'ln' }, h('b', {}, 'Daily watch'), h('span', {}, 'we check this product every day, up to 20 products')));
       pc.appendChild(h('div', { class: 'ln' }, h('b', {}, 'Email when it appears'), h('span', {}, 'the moment a dated offer shows up')));
       pc.appendChild(h('div', { class: 'ln' }, h('b', {}, 'Checks'), h('span', {}, 'unlimited (free: 1 a week)')));
@@ -1022,6 +1029,7 @@ html.embed .rp .stickb{display:none}
     stack.push(afterBuyCard(j));
     stack.push(h('p', { class: 'micro' }, 'Prices change. Try again in a few days, or ', ext(CWS, 'add the free extension to see the history on the page.')));
     stack.push(againBox('Search a different product'));
+    if (!pro && !down) stack.push(h('div', { class: 'stickb' }, h('span', {}, h('b', {}, 'We can keep looking'), ' every day for you'), h('a', { href: '#', onclick: function (e) { e.preventDefault(); openPro('fallback_sticky'); } }, 'Watch · $14/mo')));
     showCard(h('div', { class: 'rp' }, stack), j.product.name, 'no current offer');
   }
 
