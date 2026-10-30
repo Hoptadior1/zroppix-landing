@@ -172,7 +172,7 @@ html:not(.embed) .fcard .meta>span:first-child{white-space:normal!important}
 .rp .bar{position:relative;height:10px;border-radius:6px;background:linear-gradient(90deg,var(--green),var(--gold) 55%,var(--red));margin:50px 0 26px}
 .rp .pin{position:absolute;top:-28px;width:2px;height:30px;background:#fff;transform:translateX(-50%)}
 .rp .pin span{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:800;white-space:nowrap}
-.rp .pin.r span{left:auto;right:-4px;transform:none}.rp .pin.l span{left:-4px;transform:none}
+.rp .pin.r span{left:auto;right:0;transform:none}.rp .pin.l span{left:-4px;transform:none}
 .rp .tl{border-left:2px solid var(--border);margin:6px 0 0 6px;padding-left:14px}
 .rp .tl div{position:relative;padding:4px 0;font-size:13.5px;color:var(--subtle)}
 .rp .tl div:before{content:"";position:absolute;left:-20px;top:11px;width:10px;height:10px;border-radius:50%;background:var(--gold)}
@@ -662,7 +662,7 @@ html.embed .rp .stickb{display:none}
     var pl = proofLine(r.proof); if (pl) card.appendChild(pl);
     card.appendChild(bestBlock(b, pro, r.history));
     (r.warnings || []).forEach(function (w) { card.appendChild(h('div', { class: 'warn' }, '⚠ ' + w)); });
-    (r.newer || []).forEach(function (nw) { card.appendChild(h('div', { class: 'note' }, h('b', {}, 'Newer model: '), nw.title + ' · ' + nw.store + ', reported ' + when(nw) + '. ', ext(nw.sourceUrl, 'Source'))); });
+    (r.newer || []).forEach(function (nw) { card.appendChild(h('div', { class: 'note' }, h('b', {}, 'Newer model: '), nw.title + (nw.store ? ' · ' + nw.store : '') + ', reported ' + when(nw) + '. ', ext(nw.sourceUrl, 'Source'))); });
     var stack = [card];
     if (pro) {
       var cur = b.currency, base = b.kind === 'price' ? b.price : null;
@@ -931,7 +931,7 @@ html.embed .rp .stickb{display:none}
     if (!cc) { var sl = statusLine(r.counts); if (sl) stack.push(sl); }
     var ub = undatedBox(r.undated); if (ub) stack.push(ub);
     var rc = rejectedCard(r, pro); if (rc) stack.push(rc);
-    (r.newer || []).forEach(function (nw) { stack.push(h('div', { class: 'note' }, h('b', {}, 'Newer model: '), nw.title + ' · ' + nw.store + ', reported ' + when(nw) + '. ', ext(nw.sourceUrl, 'Source'))); });
+    (r.newer || []).forEach(function (nw) { stack.push(h('div', { class: 'note' }, h('b', {}, 'Newer model: '), nw.title + (nw.store ? ' · ' + nw.store : '') + ', reported ' + when(nw) + '. ', ext(nw.sourceUrl, 'Source'))); });
     if (!pro) { var mc = missCard(r, rep); if (mc) stack.push(mc); }
     stack.push(afterBuyCard(j));
     stack.push(againBox('Search a different product'));
@@ -974,7 +974,7 @@ html.embed .rp .stickb{display:none}
       stack.push(pc);
     }
     if (r.reason === 'no_current_offer') stack.push(watchBox(j.product, 'empty', lockedN > 0));
-    (r.newer || []).forEach(function (nw) { stack.push(h('div', { class: 'note' }, h('b', {}, 'Newer model: '), nw.title + ' · ' + nw.store + ', reported ' + nw.dateHuman + '. ', ext(nw.sourceUrl, 'Source'))); });
+    (r.newer || []).forEach(function (nw) { stack.push(h('div', { class: 'note' }, h('b', {}, 'Newer model: '), nw.title + (nw.store ? ' · ' + nw.store : '') + ', reported ' + nw.dateHuman + '. ', ext(nw.sourceUrl, 'Source'))); });
     var cmp = h('div', { class: 'rc' }, h('h2', { class: 'rk' }, 'Compare on these stores'));
     var links = h('div', { class: 'links' }); (r.links || []).forEach(function (l) { links.appendChild(ext(l.url, l.store)); }); cmp.appendChild(links);
     if (r.history) cmp.appendChild(h('p', { style: 'margin-top:12px' }, h('a', { href: r.history.url, style: 'color:var(--gold);font-weight:700' }, 'See our dated price history →')));

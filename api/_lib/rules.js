@@ -315,9 +315,11 @@ function verdictOf(L, rep, hist, cur) {
   if (L == null) return { call: 'WAIT', chip: 'No store price', text: 'No store price passed our checks, so there is nothing to buy at yet. Coupons, cashback or open-box offers are listed below, or set a watch and we search again every day.' };
   const usd = !cur || cur === 'USD';
   const lower = rep.freeIsLowest ? '' : ' It is judged on the lowest offer we found, not the free one.';
-  const weak = rep.weakSource ? ' The price comes from a price-listing site, not a store page, so check the live price first.' : '';
+  let weak = rep.weakSource ? ' The price comes from a price-listing site, not a store page, so check the live price first.' : '';
   const cap = (call) => (rep.weakSource && call === 'BUY' ? 'FAIR' : call);
-  const hasL = !!(hist && hist.lowest && usd), hasA = !!(hist && hist.average && usd);
+  let hasL = !!(hist && hist.lowest && usd), hasA = !!(hist && hist.average && usd);
+  // A price far above the whole history usually means the history is for an earlier version of the product, so it is not used.
+  if ((hasA && L > hist.average * 1.6) || (hasL && !hasA && L > hist.lowest * 1.8)) { hasL = false; hasA = false; weak += ' Our price history is far below this price, so it may be for an earlier version, and we did not use it.'; }
   const upd = hist && hist.updated && /^\d{4}-\d{2}-\d{2}$/.test(hist.updated) ? ' (history updated ' + new Date(hist.updated + 'T00:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) + ')' : '';
   if (hasL && hasA) {
     const lo = hist.lowest, av = hist.average;
