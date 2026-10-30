@@ -716,6 +716,7 @@ html.embed .rp .stickb{display:none}
     var found = [];
     if (n) found.push(h('b', {}, pluralN(n, 'cheaper store offer', 'cheaper store offers')));
     if (ob) found.push(h('b', {}, pluralN(ob, 'open-box offer', 'open-box offers')));
+    if (rep.afterCoupon && !n) found.unshift(h('b', {}, 'a coupon for the same store'));
     var foundEl = h('div', { class: 'hsub' }, 'Found: ', found.length === 2 ? [found[0], ' and ', found[1]] : found, ', all dated within 30 days.');
     var ship = rep.lowest.shipState === 'free' ? 'Delivered, free shipping' : rep.lowest.shipState === 'paid' ? 'Price plus shipping' : 'Price, shipping not stated';
     var box = h('div', { class: 'hero' }, h('div', { class: 'hk' }, 'PRO FOUND A LOWER TOTAL'),
@@ -821,6 +822,11 @@ html.embed .rp .stickb{display:none}
         var tot = free.total != null ? free.total : free.price;
         card.appendChild(h('div', { class: 'tr best' }, h('span', {}, h('b', {}, free.store), rows.length > 1 ? [' ', h('span', { class: 'pill g' }, 'Free')] : null, h('br'), h('span', { class: 'mut' }, free.dateHuman + ' · ' + shipWord(free.shipping && free.shipping.state, free.shipping && free.shipping.cost, free.currency))),
           h('span', {}, usd2(free.price, free.currency)), h('span', {}, h('b', {}, usd2(tot, free.currency)))));
+        var tz = ((j.result && j.result.teasers) || []).filter(function (t) { return t.kind === 'coupon' || t.kind === 'cashback'; });
+        if (tz.length) {
+          var hasC = rep.freeCouponOff > 0, hasB = tz.filter(function (t) { return t.kind === 'cashback'; })[0];
+          if (hasC || hasB) card.appendChild(h('div', { class: 'tr' }, h('span', {}, h('b', {}, 'With ' + (hasC && hasB ? 'coupon + cashback' : hasC ? 'a coupon' : 'cashback'), ' ', h('span', { class: 'protag' }, 'PRO')), h('br'), h('span', { class: 'mut' }, (hasC ? 'after a code' : '') + (hasC && hasB ? ' · ' : '') + (hasB ? (hasB.percent ? hasB.percent + '% back later' : 'cashback later') : ''))), h('span', {}, ''), lk('$▒▒▒.▒▒')));
+        }
       } else {
         fakeN++;
         card.appendChild(h('div', { class: 'tr' }, h('span', {}, h('b', { class: 'lk', 'aria-hidden': 'true' }, 'Store name ▒▒'), h('br'), h('span', { class: 'mut' }, x.dateHuman + ' · ' + shipWord(x.shipState, null, rep.currency))), lk('$▒▒▒.▒▒'), lk('$▒▒▒.▒▒')));
@@ -840,16 +846,18 @@ html.embed .rp .stickb{display:none}
     var card = h('div', { class: 'rc tbl' }, h('h2', { class: 'rk' }, 'All offers we found ', h('span', { class: 'protag' }, 'PRO')),
       h('div', { class: 'mut', style: 'margin:-4px 0 6px' }, pluralN(list.length, 'offer', 'offers') + ' · cheapest total first'));
     card.appendChild(h('div', { class: 'tr th' }, h('span', {}, 'Store'), h('span', {}, 'Price'), h('span', {}, 'Total')));
+    var SHOW = 3, more = h('div', { style: 'display:none' });
     list.forEach(function (o, i) {
       var sh = o.shipping || { state: 'not_stated' };
       var bits = [o.dateHuman, shipWord(sh.state, sh.cost, o.currency)];
       if (o.ships === 'no') bits.push('⚠ may not ship to your country');
       if (o.seller === 'third_party') bits.push('⚠ third-party seller');
-      card.appendChild(h('div', { class: 'tr' + (i === 0 ? ' best' : '') }, h('span', {}, h('b', {}, o.store), h('br'), h('span', { class: 'mut' }, bits.join(' · '))),
+      (i < SHOW ? card : more).appendChild(h('div', { class: 'tr' + (i === 0 ? ' best' : '') }, h('span', {}, h('b', {}, o.store), h('br'), h('span', { class: 'mut' }, bits.join(' · '))),
         h('span', {}, usd2(o.price, o.currency)), h('span', {}, h('b', {}, o.total != null ? usd2(o.total, o.currency) : 'n/a'))));
       if (i === 0) card.appendChild(whyBox(o, rep, j));
-      var b = checkBtn(o); if (b) card.appendChild(h('div', { style: 'padding:4px 0 8px' }, b, i === 0 ? h('div', { class: 'fine', style: 'text-align:center' }, 'Opens in a new tab. Reported ' + o.dateHuman + ', so check the live price and seller before you buy.') : null));
+      var b = checkBtn(o); if (b) (i < SHOW ? card : more).appendChild(h('div', { style: 'padding:4px 0 8px' }, b, i === 0 ? h('div', { class: 'fine', style: 'text-align:center' }, 'Opens in a new tab. Reported ' + o.dateHuman + ', so check the live price and seller before you buy.') : null));
     });
+    if (list.length > SHOW) { card.appendChild(more); var mb = rbtn('Show ' + (list.length - SHOW) + ' more ' + (list.length - SHOW === 1 ? 'offer' : 'offers'), 'o', function () { more.style.display = 'block'; mb.style.display = 'none'; }); mb.style.marginTop = '8px'; card.appendChild(mb); }
     card.appendChild(h('div', { class: 'nudge' }, h('div', {}, h('b', { style: 'color:#fff' }, 'Bought it? '), 'If the price drops you may be able to claim the difference. ', h('a', { href: protectUrl(j.product.name), style: 'color:var(--gold);font-weight:800' }, 'Protect this purchase →'))));
     card.appendChild(h('div', { class: 'fine' }, 'Total = price + shipping, only where the page states it. Customs and VAT may be added in your country.'));
     return card;
@@ -860,7 +868,10 @@ html.embed .rp .stickb{display:none}
       var sv = (r.coupons || []).concat(r.cashbacks || []);
       if (!sv.length) return null;
       var c = h('div', { class: 'rc' }, h('h2', { class: 'rk' }, 'Coupons and cashback ', h('span', { class: 'protag' }, 'PRO')));
-      sv.forEach(function (o) { c.appendChild(savingRow(o, base, cur)); });
+      sv.forEach(function (o) {
+        var m = o.kind === 'coupon' ? (r.offers || []).filter(function (x) { var a = String(x.store || '').toLowerCase(), b = String(o.store || '').toLowerCase(); return x.kind === 'price' && a && b && (a.indexOf(b) >= 0 || b.indexOf(a) >= 0); })[0] : null;
+        c.appendChild(savingRow(o, m ? m.price : base, cur));
+      });
       c.appendChild(h('div', { class: 'fine' }, 'Offers may not combine. Terms are on each store\'s page.'));
       return c;
     }
@@ -986,8 +997,11 @@ html.embed .rp .stickb{display:none}
       var pc = h('div', { class: 'rc gold' }, h('h2', { class: 'rk' }, 'Pro adds'));
       if (lockedN) {
         pc.appendChild(h('div', { class: 'hsub' }, 'Pro found ' + pluralN(lockedN, 'more report', 'more reports') + ' for this product.' + (r.lockedSave ? ' If one is still available, you could save up to about ' + money(r.lockedSave.usd, r.lockedSave.currency) + ' off the regular price.' : '')));
-        if (r.undatedCount) pc.appendChild(h('div', { class: 'ln' }, h('b', {}, pluralN(r.undatedCount, 'store listing', 'store listings')), h('span', {}, 'price and store in Pro, marked undated')));
-        if (r.olderCount) pc.appendChild(h('div', { class: 'ln' }, h('b', {}, pluralN(r.olderCount, 'older report', 'older reports')), h('span', {}, 'store, price and link in Pro')));
+        var lockRow = function (sub) { return h('div', { class: 'tr' }, h('span', {}, h('b', { class: 'lk', 'aria-hidden': 'true' }, 'Store name ▒▒'), h('br'), h('span', { class: 'mut' }, sub)), h('span', { class: 'lk', 'aria-hidden': 'true' }, '$▒▒▒.▒▒'), h('span', { class: 'lk', 'aria-hidden': 'true' }, '$▒▒▒.▒▒')); };
+        pc.appendChild(h('div', { class: 'tr th' }, h('span', {}, 'Store'), h('span', {}, 'Price'), h('span', {}, 'Total')));
+        for (var ui = 0; ui < Math.min(r.undatedCount || 0, 2); ui++) pc.appendChild(lockRow('Undated store listing'));
+        for (var oi = 0; oi < Math.min(r.olderCount || 0, 3); oi++) pc.appendChild(lockRow('Older than 30 days' + (oi === Math.min(r.olderCount, 3) - 1 && r.olderOldestDays ? ' · oldest ' + r.olderOldestDays + ' days' : '')));
+        pc.appendChild(h('div', { class: 'fine' }, 'Prices in blurred rows are hidden until you unlock. Pro shows each store, price and link, marked old or undated.'));
       }
       pc.appendChild(h('div', { class: 'ln' }, h('b', {}, 'Daily watch'), h('span', {}, 'we check this product every day, up to 20 products')));
       pc.appendChild(h('div', { class: 'ln' }, h('b', {}, 'Email when it appears'), h('span', {}, 'the moment a dated offer shows up')));
