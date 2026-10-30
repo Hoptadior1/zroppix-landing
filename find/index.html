@@ -747,13 +747,14 @@ html.embed .rp .stickb{display:none}
   }
 
   function verdictCard(j, rep, r, pro) {
-    var v = rep.verdict || { call: 'NOCALL', text: '' };
+    var v = rep.verdict || { call: 'WAIT', chip: 'Compare first', text: 'We found one dated price and nothing to compare it with. Compare the stores or set an alert before you buy.' };
+    if (v.call === 'NOCALL') v = { call: 'WAIT', chip: 'Compare first', text: 'We found one dated price and nothing to compare it with. Compare the stores or set an alert before you buy.' };
     var col = v.call === 'BUY' ? 'var(--green)' : v.call === 'WAIT' ? 'var(--red)' : 'var(--gold)';
     var card = h('div', { class: 'rc' }, h('h2', { class: 'rk' }, 'Buy or wait?'));
     var chips = [];
     if (!pro && !rep.freeIsLowest) chips.push(h('span', { class: 'pill y' }, 'A lower total exists'));
     else if (v.chip) chips.push(h('span', { class: 'pill ' + (v.call === 'BUY' ? 'g' : v.call === 'WAIT' ? 'r' : 'y') }, v.chip));
-    card.appendChild(h('div', { class: 'vrow' }, h('span', { class: 'vcall', style: 'color:' + col }, v.call === 'NOCALL' ? 'NO CALL' : v.call), h('span', {}, chips)));
+    card.appendChild(h('div', { class: 'vrow' }, h('span', { class: 'vcall', style: 'color:' + col }, v.call), h('span', {}, chips)));
     card.appendChild(h('div', { class: 'vtxt' }, v.text));
     if (v.bar) {
       card.appendChild(h('div', { class: 'bar' }, h('div', { class: 'pin' + (v.bar.pos > 70 ? ' r' : v.bar.pos < 30 ? ' l' : ''), style: 'left:' + v.bar.pos + '%' }, h('span', {}, v.bar.pin)), h('span', { class: 'tick', style: 'left:0;transform:none' }, v.bar.lowLabel), h('span', { class: 'tick', style: 'right:0;left:auto;transform:none' }, v.bar.highLabel)));
@@ -942,38 +943,48 @@ html.embed .rp .stickb{display:none}
   }
 
   function renderFallback(j) {
-    var r = j.result;
-    var card = h('div', { class: 'card' });
-    card.appendChild(h('h2', {}, j.product.name + (j.product.variant ? ' · ' + j.product.variant : '')));
-    card.appendChild(h('div', { class: 'sub' }, cname(j.country)));
-    card.appendChild(h('div', { class: 'best', style: 'border-color:var(--border);background:var(--bg3)' }, h('h3', {}, r.reason === 'search_unavailable' ? 'We couldn\'t search right now' : r.reason === 'unreadable' ? 'We couldn\'t read the results' : r.lastSeen ? 'No fresh offer found' : 'No current offer passed our checks'),
-      h('p', {}, r.reason === 'search_unavailable' ? 'The search didn\'t finish, so we can\'t say anything about prices. This did not use a check. Here is where to compare yourself.' : r.reason === 'unreadable' ? 'The search ran but we couldn\'t read what came back, so we can\'t say anything about prices. This did not use a check. Please try again, or compare on the stores below.' : 'We found no price, coupon or cashback dated within the last 30 days that passed our rules. This did not use a check.')));
+    var r = j.result, pro = j.tier === 'pro';
+    var down = r.reason === 'search_unavailable' || r.reason === 'unreadable';
+    var stack = [];
+    var head = h('div', { class: 'rc' }, h('span', { class: 'pill' }, (j.cached ? 'Saved result from earlier today' : 'Checked just now') + (pro ? ' · Pro view' : '')),
+      h('h2', { class: 'ttl' }, j.product.name + (j.product.variant ? ' · ' + j.product.variant : '')), h('div', { class: 'mut' }, cname(j.country) + ' · Every offer we show is dated'));
+    stack.push(head);
+    var title = r.reason === 'search_unavailable' ? 'We couldn\'t search right now' : r.reason === 'unreadable' ? 'We couldn\'t read the results' : r.lastSeen ? 'No fresh offer found' : 'No current offer passed our checks';
+    var body = r.reason === 'search_unavailable' ? 'The search didn\'t finish, so we can\'t say anything about prices. This did not use a check. Compare on the stores below.' : r.reason === 'unreadable' ? 'The search ran but we couldn\'t read what came back, so we can\'t say anything about prices. This did not use a check. Please try again, or compare on the stores below.' : 'We searched stores, coupons and cashback and found nothing dated within the last 30 days that passed our rules. This did not use a check.';
+    stack.push(h('div', { class: 'rc', style: 'border-color:rgba(29,158,117,.5)' }, h('div', { class: 'rk', style: 'color:var(--green)' }, down ? 'NO RESULT' : 'NO CURRENT OFFER FOUND'), h('div', { style: 'font-size:19px;font-weight:800;margin:6px 0' }, title), h('div', { style: 'font-size:14px;color:var(--subtle)' }, body)));
     if (r.lastSeen) {
-      var rep = function (x, first) { return h('div', { class: 'note' }, h('b', {}, first ? 'Last report we found: ' : ''), money(x.price, x.currency) + ' at ' + x.store + ', ' + x.dateHuman + ' (' + x.ageDays + ' days ago). ', ext(x.sourceUrl, 'Source'), x.saveUsd ? ' \u00b7 it was ' + money(x.saveUsd, x.currency) + ' off the regular price then' : ''); };
-      card.appendChild(h('p', { style: 'margin:14px 0 6px;font-size:14px' }, 'These reports are old and may no longer apply. Check the store before you buy.'));
-      card.appendChild(rep(r.lastSeen, true));
-      (r.older || []).forEach(function (x) { card.appendChild(rep(x, false)); });
-      var lockedN = (r.olderCount || 0) + (r.undatedCount || 0);
-      if (!r.older && lockedN) {
-        var pb = h('div', { class: 'pro', style: 'margin-top:12px' }, h('h3', {}, 'Pro found ' + lockedN + ' more ' + (lockedN === 1 ? 'thing' : 'things') + ' for this product'));
-        pb.appendChild(h('p', { style: 'font-size:14px;color:var(--subtle);margin-bottom:8px' }, r.lockedSave ? ['If one is still available, you could save up to about ', h('b', { style: 'color:var(--gold)' }, money(r.lockedSave.usd, r.lockedSave.currency) + ' off the regular price'), '. Pro shows the store and link for each, with its age, so you can check fast.'] : 'Pro shows the store, price and link for each, with its age, so you can check fast.'));
-        if (r.undatedCount) pb.appendChild(row(r.undatedCount + (r.undatedCount === 1 ? ' store listing' : ' store listings'), 'Prices and stores shown in Pro, clearly marked as undated', 'prices in Pro'));
-        if (r.olderCount) pb.appendChild(row(r.olderCount + ' more older ' + (r.olderCount === 1 ? 'report' : 'reports'), 'The store and price we found, so you know where to look first' + (r.olderOldestDays ? ' \u00b7 oldest is ' + (r.olderOldestDays >= 60 ? Math.round(r.olderOldestDays / 30) + ' months' : r.olderOldestDays + ' days') + ' old' : ''), 'prices in Pro'));
-        pb.appendChild(proCta(r.lockedSave ? 'Show me where to save' : 'Show me what Pro found', 'fallback'));
-        card.appendChild(pb);
-      }
+      var rr = function (x, first) { return h('div', { class: 'ln' }, h('b', {}, (first ? 'Last report: ' : '') + x.store), h('span', {}, money(x.price, x.currency) + ' · ' + x.dateHuman + ' (' + x.ageDays + ' days ago) ', ext(x.sourceUrl, 'Source'))); };
+      var old = h('div', { class: 'rc' }, h('h2', { class: 'rk' }, 'Older reports'), h('div', { class: 'fine', style: 'margin:0 0 6px' }, 'These are old and may no longer apply. Check the store before you buy.'), rr(r.lastSeen, true));
+      (r.older || []).forEach(function (x) { old.appendChild(rr(x, false)); });
+      stack.push(old);
     }
-    if (r.reason === 'no_current_offer') card.appendChild(watchBox(j.product, 'empty', !r.older && ((r.olderCount || 0) + (r.undatedCount || 0)) > 0));
-    (r.newer || []).forEach(function (nw) { card.appendChild(h('div', { class: 'note' }, h('b', {}, 'Newer model: '), nw.title + ' · ' + nw.store + ', reported ' + nw.dateHuman + '. ', ext(nw.sourceUrl, 'Source'))); });
-    if (r.reason === 'no_current_offer') { var sl0 = statusLine({ coupon: 0, cashback: 0 }); if (sl0) { sl0.style.marginTop = '12px'; card.appendChild(sl0); } }
-    card.appendChild(h('h3', { style: 'margin-top:16px' }, 'Compare on these stores'));
-    var links = h('div', { class: 'links' }); (r.links || []).forEach(function (l) { links.appendChild(ext(l.url, l.store)); }); card.appendChild(links);
-    if (r.history) card.appendChild(h('p', { style: 'margin-top:14px' }, h('a', { href: r.history.url, style: 'color:var(--gold);font-weight:700' }, 'See our dated price history →')));
-    var ub = undatedBox(r.undated); if (ub) card.appendChild(ub);
-    var rb = rejectedBox(r.rejected, r.rejectedSummary); if (rb) card.appendChild(rb);
-    card.appendChild(h('p', { class: 'micro', style: 'margin-top:12px' }, 'Prices change. Try again in a few days, or ', ext(CWS, 'add the free extension to see the history on the page.')));
-    card.appendChild(againBox('Search a different product'));
-    showCard(card, j.product.name, 'no current offer');
+    var lockedN = r.lastSeen && !r.older ? (r.olderCount || 0) + (r.undatedCount || 0) : 0;
+    if (!pro && !down) {
+      var pc = h('div', { class: 'rc gold' }, h('h2', { class: 'rk' }, 'Pro adds'));
+      if (lockedN) {
+        pc.appendChild(h('div', { class: 'hsub' }, 'Pro found ' + pluralN(lockedN, 'more report', 'more reports') + ' for this product.' + (r.lockedSave ? ' If one is still available, you could save up to about ' + money(r.lockedSave.usd, r.lockedSave.currency) + ' off the regular price.' : '')));
+        if (r.undatedCount) pc.appendChild(h('div', { class: 'ln' }, h('b', {}, pluralN(r.undatedCount, 'store listing', 'store listings')), h('span', {}, 'price and store in Pro, marked undated')));
+        if (r.olderCount) pc.appendChild(h('div', { class: 'ln' }, h('b', {}, pluralN(r.olderCount, 'older report', 'older reports')), h('span', {}, 'store, price and link in Pro')));
+      }
+      pc.appendChild(h('div', { class: 'ln' }, h('b', {}, 'Daily watch'), h('span', {}, 'we check this product every day, up to 20 products')));
+      pc.appendChild(h('div', { class: 'ln' }, h('b', {}, 'Email when it appears'), h('span', {}, 'the moment a dated offer shows up')));
+      pc.appendChild(h('div', { class: 'ln' }, h('b', {}, 'Checks'), h('span', {}, 'unlimited (free: 1 a week)')));
+      warm(); pc.appendChild(rbtn(lockedN ? 'Show me what Pro found · $14/month' : 'Watch this product daily · Pro $14/month', 'big', function () { openPro('fallback'); }));
+      pc.appendChild(h('div', { class: 'fine', style: 'text-align:center' }, '3-day money-back guarantee · Cancel in one click · We can\'t promise a price will drop'));
+      stack.push(pc);
+    }
+    if (r.reason === 'no_current_offer') stack.push(watchBox(j.product, 'empty', lockedN > 0));
+    (r.newer || []).forEach(function (nw) { stack.push(h('div', { class: 'note' }, h('b', {}, 'Newer model: '), nw.title + ' · ' + nw.store + ', reported ' + nw.dateHuman + '. ', ext(nw.sourceUrl, 'Source'))); });
+    var cmp = h('div', { class: 'rc' }, h('h2', { class: 'rk' }, 'Compare on these stores'));
+    var links = h('div', { class: 'links' }); (r.links || []).forEach(function (l) { links.appendChild(ext(l.url, l.store)); }); cmp.appendChild(links);
+    if (r.history) cmp.appendChild(h('p', { style: 'margin-top:12px' }, h('a', { href: r.history.url, style: 'color:var(--gold);font-weight:700' }, 'See our dated price history →')));
+    stack.push(cmp);
+    var ub = undatedBox(r.undated); if (ub) stack.push(ub);
+    var rb = rejectedBox(r.rejected, r.rejectedSummary); if (rb) stack.push(rb);
+    stack.push(afterBuyCard(j));
+    stack.push(h('p', { class: 'micro' }, 'Prices change. Try again in a few days, or ', ext(CWS, 'add the free extension to see the history on the page.')));
+    stack.push(againBox('Search a different product'));
+    showCard(h('div', { class: 'rp' }, stack), j.product.name, 'no current offer');
   }
 
   // ---------- Pro sign-in ----------
