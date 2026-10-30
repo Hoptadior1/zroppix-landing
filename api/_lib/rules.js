@@ -533,6 +533,24 @@ function matchDeal(name, index) {
   return bs >= 0.75 ? { slug: best.slug, title: best.title, lowest: best.lowest || null, average: best.average || null, updated: best.updated || null, points: Array.isArray(best.points) ? best.points : null } : null;
 }
 
+// A different model in the same line (for example another MacBook Pro), from our dated history. Shown only as a related model, never as this product's price.
+function relatedDeal(name, index, exact) {
+  const a = tokens(name).filter((t) => !/^\d+$/.test(t) && t.length > 1);
+  if (a.length < 2 || !Array.isArray(index)) return null;
+  let best = null;
+  // Two words that name the product line. The brand may not be in our titles ("Apple"), so try the next pair too.
+  for (const key of [a.slice(0, 2), a.slice(1, 3)]) {
+    if (key.length < 2 || best) continue;
+    for (const d of index) {
+      if (exact && d.slug === exact.slug) continue;
+      const b = new Set(tokens(d.title));
+      if (!key.every((t) => b.has(t)) || !(d.lowest > 0) || !(d.average > 0)) continue;
+      if (!best || String(d.updated || '') > String(best.updated || '')) best = d;
+    }
+  }
+  return best ? { name: best.title.replace(/\s*price history\s*$/i, ''), lowest: best.lowest, average: best.average, updated: best.updated || null, url: '/deals/' + best.slug } : null;
+}
+
 function lockedSaving(items, ref, histLowest) {
   const rough = (d) => (d >= 20 ? Math.floor(d / 5) * 5 : Math.floor(d));
   let best = null;
@@ -547,7 +565,7 @@ function lockedSaving(items, ref, histLowest) {
   return undefined;
 }
 
-function buildFallback({ productName, country, stale, deal, newer, hadSearchError, unreadable, tier, undated }) {
+function buildFallback({ productName, country, stale, deal, newer, hadSearchError, unreadable, tier, undated, related }) {
   const sorted = (stale || []).slice().sort((a, b) => a.ageDays - b.ageDays);
   const lastSeen = sorted[0] || null;
   const saveOf = (x) => (x.listPrice > x.price ? r2(x.listPrice - x.price) : 0);
@@ -567,7 +585,8 @@ function buildFallback({ productName, country, stale, deal, newer, hadSearchErro
     links: storeLinks(productName, country),
     history: deal ? { url: '/deals/' + deal.slug, title: deal.title, lowest: deal.lowest || null, average: deal.average || null } : null,
     newer: newer || [],
+    sibling: !deal && related ? related : undefined,
   };
 }
 
-module.exports = { savingPotential, MIN_SAVING_USD, storeTarget, rejectedOut, rejCat, parseDate, parseExpiry, ageDays, normalizeFinding, evaluate, pickBest, shape, storeLinks, matchDeal, buildFallback, normUrl, PREDICT, human, iso };
+module.exports = { relatedDeal, savingPotential, MIN_SAVING_USD, storeTarget, rejectedOut, rejCat, parseDate, parseExpiry, ageDays, normalizeFinding, evaluate, pickBest, shape, storeLinks, matchDeal, buildFallback, normUrl, PREDICT, human, iso };

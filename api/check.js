@@ -105,7 +105,7 @@ module.exports = async (req, res) => {
       if (ran) await trackLatency(Date.now() - started);
       await trackProduct(product.name, false); await trackCountry(country, 'n'); await trackVisitor('uvc', visitor);
       return send(res, 200, { status: 'fallback', tier, product, country, checkedAt: now.toISOString(), cached, judged, remaining: { left: al.left, total: al.total, next: al.nextFree || undefined },
-        result: Object.assign(R.buildFallback({ productName: product.name, country, stale: ev.stale, deal, newer: ev.accepted.filter((a) => a.kind === 'newer_model').slice(0, 1), unreadable: !parsed, tier, undated: ev.undated || [] }), R.rejectedOut(ev.rejected, tier === 'pro'), { retry: !!(stored && parsed && judged && !ev.pass2 && body.pass !== 2) }) });
+        result: Object.assign(R.buildFallback({ productName: product.name, country, stale: ev.stale, deal, newer: ev.accepted.filter((a) => a.kind === 'newer_model').slice(0, 1), unreadable: !parsed, tier, undated: ev.undated || [], related: deal ? null : R.relatedDeal(product.name, DEALS, null) }), R.rejectedOut(ev.rejected, tier === 'pro'), { retry: !!(stored && parsed && judged && !ev.pass2 && body.pass !== 2) }) });
     }
     // Offers were found but the most a shopper could save is small: search a second way first, before a check is used.
     // Only once per product (ev.pass2), only when the first result is saved, and never again if the second search fails.

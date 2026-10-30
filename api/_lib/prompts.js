@@ -53,6 +53,6 @@ const judgeUser = (p, today, findings) => `Today is ${today}. Shopper chose: ${p
 
 const gatherUser2 = (p, country, today) => `Today is ${today}. Shopper's country: ${country}.
 Product: ${p.name}${p.variant ? ' (' + p.variant + ')' : ''}.
-A first search found no usable dated offers. Search again in a different way: try the product name with "price", "deal" and "sale", the model number alone, and the big retailers' names (Amazon, Best Buy, Walmart, Target) together with deal-roundup and news sites that print a date. Also search cashback and coupon sites and deal forums for this product and for each big retailer's current promo codes. Prefer pages that show a date. Still report a store's listed price if the page shows none, with page_date null.`;
+A first search found no usable dated offers. Search again in a different way: try the product name with "price", "deal" and "sale", the model number alone, and the big retailers' names (Amazon, Best Buy, Walmart, Target) together with deal-roundup and news sites that print a date. Also search cashback and coupon sites and deal forums for this product and for each big retailer's current promo codes. Also look for the manufacturer's refurbished or outlet store (for example Apple Certified Refurbished, Sony or Dell outlet) and report any unit of this exact model with its printed page date. Prefer pages that show a date. Still report a store's listed price if the page shows none, with page_date null.`;
 
 module.exports = { MATCH_SYSTEM, matchUser, GATHER_SYSTEM, gatherUser, gatherUser2, JUDGE_SYSTEM, judgeUser };

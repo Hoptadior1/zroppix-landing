@@ -193,6 +193,7 @@ html.embed .rp .stickb{display:none}
 @media(max-width:600px){.rp .hh{font-size:26px}.rp .cmp2 b{font-size:22px}.rp .tr{grid-template-columns:1.25fr .85fr .9fr;font-size:13px}}
 
 
+  .steps3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:12px 0}.steps3 div{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:8px}.steps3 small{display:block;font-size:10.5px;color:var(--gold);font-weight:800;letter-spacing:.04em;text-transform:uppercase}.steps3 span{font-size:12px;color:var(--subtle);line-height:1.35;display:block;margin-top:2px}.freeln{display:block;text-align:center;margin:10px 0 2px;font-size:13px;color:var(--subtle);text-decoration:underline}
 </style>
 <style id="mnav">.nav-toggle{display:none;background:none;border:1px solid var(--border,#2a2a40);color:var(--text,#fff);border-radius:10px;width:42px;height:42px;font-size:22px;line-height:1;cursor:pointer}
 @media(max-width:900px){nav:not([aria-label]){flex-wrap:wrap;gap:0}nav:not([aria-label]) .nav-toggle{display:block}nav:not([aria-label]) .nav-links{display:none!important;width:100%;flex-direction:column;align-items:stretch;gap:0;padding:8px 0 4px;margin:0;order:3}nav.open .nav-links{display:flex!important}nav:not([aria-label]) .nav-links li{list-style:none;display:block;width:100%;margin:0;padding:0;text-align:left}nav:not([aria-label]) .nav-links a{display:block;width:100%;box-sizing:border-box;text-align:left;padding:13px 4px;border-bottom:1px solid var(--border,#2a2a40);font-size:16px;white-space:normal}nav:not([aria-label]) .nav-links li:last-child a{border:0;margin-top:10px;text-align:center!important;border-radius:10px;padding:13px 16px!important}}</style></head>
@@ -584,7 +585,7 @@ html.embed .rp .stickb{display:none}
     var pro = !!state.pro;
     var title = kind === 'empty' ? (quiet ? 'Not ready? We\'ll email you when a dated offer appears' : 'We\'ll keep looking for you') : 'Want to know when it gets cheaper?';
     var lead = kind === 'empty' && !quiet ? 'Nothing real has turned up yet. ' : '';
-    var box = h('div', { class: 'best', style: 'margin-top:14px;border-color:' + (quiet ? 'var(--border)' : 'var(--gold)') + ';background:var(--bg3)' }, h('h3', { style: 'margin-bottom:6px' }, title));
+    var box = h('div', { id: 'wbox', class: 'best', style: 'margin-top:14px;border-color:' + (quiet ? 'var(--border)' : 'var(--gold)') + ';background:var(--bg3)' }, h('h3', { style: 'margin-bottom:6px' }, title));
     var msg = h('div', { 'aria-live': 'polite' });
     function finish(nodes, head) { box.textContent = ''; box.appendChild(h('h3', { style: 'margin-bottom:6px' }, head || '✓ We\'re watching this one')); nodes.forEach(function (n) { box.appendChild(n); }); }
     function fail(text) { msg.textContent = text; msg.className = 'micro'; }
@@ -1006,8 +1007,12 @@ html.embed .rp .stickb{display:none}
           h('div', { class: 'p' }, hl ? [h('small', { style: 'color:var(--green)' }, 'Lowest reported'), h('b', { style: 'color:var(--green)' }, usd2(hl, 'USD')), h('span', { class: 'mut' }, 'in our dated history. Pro watches for it')] : [h('small', { style: 'color:var(--green)' }, lsn ? 'Last report' : 'Pro watches'), h('b', { style: 'color:var(--green)' }, lsn ? money(lsn.price, lsn.currency) : 'Daily'), h('span', { class: 'mut' }, lsn ? lsn.store + ' · ' + lsn.dateHuman + ' (old)' : 'Emails you when a dated offer appears')])));
       if (r.lockedSave && !pro) hero.appendChild(h('div', { class: 'hsub' }, r.lockedSave.vs === 'history' ? '' : 'Pro also found ' + pluralN((r.olderCount || 0) + (r.undatedCount || 0), 'older report', 'older reports') + ' for this product.', lockedSaveText(r.lockedSave)));
       if (!pro) {
+        hero.appendChild(h('div', { class: 'steps3' }, [['Today', 'Added to the daily watch'], ['Every day', 'Stores, coupons and cashback searched'], ['The moment one passes', 'We email you the dated offer']].map(function (x, i) { return h('div', {}, h('small', {}, (i + 1) + ' · ' + x[0]), h('span', {}, x[1])); })));
+      }
+      if (!pro) {
         hero.appendChild(h('div', { class: 'hsub' }, h('b', {}, 'Prices change. '), 'Pro searches this product every day and emails you the moment a dated offer passes our checks, so you do not have to keep coming back.'));
-        warm(); hero.appendChild(rbtn('Watch it for me · Pro $14/month', 'big', function () { openPro('fallback_hero'); }));
+        warm(); hero.appendChild(rbtn('Start watching today · Pro $14/month', 'big', function () { openPro('fallback_hero'); }));
+        hero.appendChild(h('a', { href: '#wbox', class: 'freeln', onclick: function (e) { var el = document.getElementById('wbox'); if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } } }, 'Not ready? Email me once, free'));
         hero.appendChild(h('div', { class: 'fine', style: 'text-align:center' }, '3-day money-back guarantee · Cancel in one click · We can\'t promise a price will drop'));
       }
       stack.push(hero);
@@ -1018,6 +1023,7 @@ html.embed .rp .stickb{display:none}
       (r.older || []).forEach(function (x) { old.appendChild(rr(x, false)); });
       stack.push(old);
     }
+    if (r.sibling) stack.push(h('div', { class: 'rc' }, h('h2', { class: 'rk' }, 'Related model, dated history'), h('div', { class: 'ln' }, h('b', {}, r.sibling.name), h('span', {}, 'lowest dated price ' + money(r.sibling.lowest, 'USD') + ' · average ' + money(r.sibling.average, 'USD'))), h('div', { class: 'fine' }, 'This is a different model. It shows where prices for this line have gone before. ', h('a', { href: r.sibling.url, style: 'color:var(--gold);font-weight:700' }, 'See the dated history →'))));
     var lockedN = r.lastSeen && !r.older ? (r.olderCount || 0) + (r.undatedCount || 0) : 0;
     if (!pro && !down) {
       var pc = h('div', { class: 'rc gold' }, h('h2', { class: 'rk' }, 'Pro adds'));
