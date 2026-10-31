@@ -194,6 +194,7 @@ html.embed .rp .stickb{display:none}
 
 
   .steps3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:12px 0}.steps3 div{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:8px}.steps3 small{display:block;font-size:10.5px;color:var(--gold);font-weight:800;letter-spacing:.04em;text-transform:uppercase}.steps3 span{font-size:12px;color:var(--subtle);line-height:1.35;display:block;margin-top:2px}.freeln{display:block;text-align:center;margin:10px 0 2px;font-size:13px;color:var(--subtle);text-decoration:underline}
+  .sb{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;border-radius:6px;padding:1px 6px;margin-left:6px;border:1px solid var(--border);color:var(--subtle);vertical-align:middle}.sb.verified{color:var(--green);border-color:rgba(29,158,117,.5)}.sb.available{color:#9fb0c8}.sb.conditional{color:var(--gold);border-color:rgba(201,168,76,.5)}.sb.expired,.sb.unverified{color:#e24b4a;border-color:rgba(226,75,74,.4)}.cmb .ln b{font-weight:600}.cmb .tot{border-top:1px solid var(--border);margin-top:4px;padding-top:6px}.cmb ol{margin:8px 0 4px 18px;padding:0;font-size:13.5px;color:var(--subtle);line-height:1.5}.cmb .chips span{display:inline-block;font-size:11px;border:1px solid var(--border);border-radius:999px;padding:1px 8px;margin:2px 4px 0 0;color:var(--subtle)}
 </style>
 <style id="mnav">.nav-toggle{display:none;background:none;border:1px solid var(--border,#2a2a40);color:var(--text,#fff);border-radius:10px;width:42px;height:42px;font-size:22px;line-height:1;cursor:pointer}
 @media(max-width:900px){nav:not([aria-label]){flex-wrap:wrap;gap:0}nav:not([aria-label]) .nav-toggle{display:block}nav:not([aria-label]) .nav-links{display:none!important;width:100%;flex-direction:column;align-items:stretch;gap:0;padding:8px 0 4px;margin:0;order:3}nav.open .nav-links{display:flex!important}nav:not([aria-label]) .nav-links li{list-style:none;display:block;width:100%;margin:0;padding:0;text-align:left}nav:not([aria-label]) .nav-links a{display:block;width:100%;box-sizing:border-box;text-align:left;padding:13px 4px;border-bottom:1px solid var(--border,#2a2a40);font-size:16px;white-space:normal}nav:not([aria-label]) .nav-links li:last-child a{border:0;margin-top:10px;text-align:center!important;border-radius:10px;padding:13px 16px!important}}</style></head>
@@ -573,11 +574,17 @@ html.embed .rp .stickb{display:none}
     return h('div', { class: 'prow' }, h('div', {}, title, h('small', {}, bits.join(' · ') + ' · ', ext(o.sourceUrl, 'source', 'l'))),
       h('div', { class: 'val' }, o.total != null ? money(o.total, o.currency) : 'total unknown', [h('br'), h('small', {}, o.total != null ? 'total' : '')]));
   }
+  var STATUS_TEXT = { verified: 'Verified', available: 'Available', conditional: 'Conditional', expired: 'Expired', unverified: 'Unverified' };
+  var STATUS_HELP = { verified: 'Read from the store\'s own product data today', available: 'Published with a date by a credible page. We have not tested it', conditional: 'Needs eligibility or other conditions', expired: 'No longer valid', unverified: 'Not enough evidence' };
+  var COND_TEXT = { new_customer: 'new customers only', min_purchase: 'minimum spend', account_required: 'account or card needed', membership: 'membership needed', excludes_product: 'some products excluded', app_only: 'app only', limited_stock: 'limited stock', not_stackable: 'cannot be combined', eligibility: 'eligibility needed', points: 'rewards points, not cash', in_store_only: 'in store only' };
+  var PROMO_TEXT = { card: 'Card offer', rebate: 'Manufacturer rebate', trade_in: 'Trade-in credit', gift_card: 'Gift-card offer', eligibility: 'Eligibility discount', loyalty: 'Loyalty or member offer', bundle: 'Bundle', price_protection: 'Price protection', payment: 'Payment offer', other: 'Other offer' };
+  function badge(st) { return st ? h('span', { class: 'sb ' + st, title: STATUS_HELP[st] || '' }, STATUS_TEXT[st] || st) : null; }
+  function condChips(o) { var c = (o.conditions || []).map(function (k) { return COND_TEXT[k]; }).filter(Boolean); return c.length ? h('div', { class: 'chips' }, c.map(function (t) { return h('span', {}, t); })) : null; }
   function savingRow(o, base, cur) {
     var label = o.kind === 'coupon' ? [h('span', {}, 'Coupon '), o.code ? h('b', { style: 'color:var(--gold)' }, o.code) : null, ' ' + (o.percent ? '· ' + o.percent + '% off ' : '') + 'at ' + o.store]
-      : 'Cashback · ' + o.percent + '% at ' + o.store;
+      : 'Cashback · ' + o.percent + '% at ' + o.store + (o.provider ? ' via ' + o.provider : '');
     var small = (o.kind === 'coupon' && o.expires ? 'valid until ' + fmtDate(o.expires) + ' · ' : '') + (o.dateHuman ? 'reported ' + o.dateHuman : 'rate shown on the page, no date. Confirm it on the site') + ' · ';
-    return h('div', { class: 'prow' }, h('div', {}, label, h('small', {}, small, ext(o.sourceUrl, 'source', 'l'))),
+    return h('div', { class: 'prow' }, h('div', {}, label, badge(o.status), h('small', {}, small, ext(o.sourceUrl, 'source', 'l')), condChips(o)),
       h('div', { class: 'val' }, o.valueUsd ? '≈ ' + money(o.valueUsd, cur) + (o.kind === 'coupon' ? ' off' : ' back') : '', o.valueUsd && base ? [h('br'), h('small', {}, 'on the ' + money(base, cur) + ' offer')] : null));
   }
   // ---- watching a product (price alerts) ----
@@ -730,6 +737,7 @@ html.embed .rp .stickb{display:none}
     if (rep.gap > 14) more.push('That is more than one month of Pro, from this one report. ');
     if (rep.couponEnds) more.push('A coupon\'s source shows it ends ' + fmtDay(rep.couponEnds) + '.');
     if (more.length) box.appendChild(h('div', { class: 'hsub', style: 'margin-top:6px' }, more.join('')));
+    if (r.combo && r.combo.moreUsd >= 3) box.appendChild(h('div', { class: 'hsub', style: 'margin-top:6px' }, 'Cashback and other offers that can be used with it could take about ', h('b', { style: 'color:var(--green)' }, usd2(r.combo.moreUsd, r.combo.currency)), ' more. Pro shows exactly how.'));
     warm();
     box.appendChild(rbtn('Unlock the ' + usd2(rep.lowest.total, rep.currency) + ' offer · Pro $14/month', 'big', function () { openPro('hero'); }));
     box.appendChild(h('div', { class: 'fine', style: 'text-align:center' }, '3-day money-back guarantee · Cancel in one click · We can\'t promise any store will honor a price'));
@@ -753,12 +761,13 @@ html.embed .rp .stickb{display:none}
     }
     box.appendChild(h('div', { class: 'hsub' }, (pro ? free.store + ' · reported ' + free.dateHuman + ' · ' : '') + (pro && rep.afterCoupon ? 'after the ' + usd2(rep.couponOff, rep.currency) + ' coupon · ' : '') + (function (w) { return pro ? w : w.charAt(0).toUpperCase() + w.slice(1); })(shipWord(shipSt, null, rep.currency)) + '. ' + (single ? (rep.weakSource ? 'Reported on a price-listing site, not a store page.' : 'No other dated store price passed our checks.') : (rep.nearlyEqual ? 'Another store was ' + usd2(rep.smallGap, rep.currency) + ' lower, which is too small to count.' : 'No store offer we found was lower.'))));
     if (pro && rep.histLowest && L > rep.histLowest * 1.005) box.appendChild(h('div', { class: 'hsub', style: 'margin-top:8px' }, h('b', {}, 'Lowest in our dated history: ' + usd2(rep.histLowest, cur)), rep.histLowestDate ? ' · ' + rep.histLowestDate : '', rep.histLowestWhere && rep.histLowestWhere.source ? ' · reported by ' + rep.histLowestWhere.source : '', '. That is ' + usd2(L - rep.histLowest, cur) + ' lower than this. It may not be available now. We watch for it every day. ', rep.histUrl ? h('a', { href: rep.histUrl, style: 'color:var(--gold);font-weight:700' }, 'See the history →') : ''));
-    var extra = []; if (rep.coupons) extra.push(pluralN(rep.coupons, 'coupon', 'coupons')); if (rep.cashback) extra.push(rep.cashback + ' cashback'); if (rep.openbox) extra.push(pluralN(rep.openbox, 'open-box offer', 'open-box offers'));
+    var extra = []; if (rep.coupons) extra.push(pluralN(rep.coupons, 'coupon', 'coupons')); if (rep.cashback) extra.push(rep.cashback + ' cashback'); if (rep.openbox) extra.push(pluralN(rep.openbox, 'open-box offer', 'open-box offers')); if (rep.promos) extra.push(pluralN(rep.promos, 'other savings offer', 'other savings offers'));
+    var xs = r.combo && r.combo.saveUsd >= 1 ? r.combo : r.extra; // the combination that can really be used together, when we have one
     if (!pro) {
-      if (extra.length) box.appendChild(h('div', { class: 'hsub', style: 'margin-top:8px' }, 'Pro also found ', h('b', {}, extra.join(', ')), r.extra ? [', worth up to about ', h('b', {}, usd2(r.extra.usd, r.extra.currency)), ' off. They may not combine.'] : ', which could bring the total lower.'));
+      if (extra.length) box.appendChild(h('div', { class: 'hsub', style: 'margin-top:8px' }, 'Pro also found ', h('b', {}, extra.join(', ')), xs ? [r.combo && xs === r.combo ? ', which can be used together for about ' : ', worth up to about ', h('b', {}, usd2(xs.saveUsd != null ? xs.saveUsd : xs.usd, xs.currency)), ' off.' + (r.combo && xs === r.combo ? ' Pro shows exactly how to get it.' : ' They may not combine.')] : ', which could bring the total lower.'));
       else if (single) box.appendChild(h('div', { class: 'hsub', style: 'margin-top:8px' }, h('b', {}, 'Only one price found, so there is nothing to compare it with. '), 'Pro searches every store every day and emails you when a lower dated price appears.'));
       else box.appendChild(h('div', { class: 'hsub', style: 'margin-top:8px' }, 'Prices change. ', h('b', {}, 'Pro searches every day'), ' for up to 20 products and emails you when a lower dated price appears. Free watches 1 product.'));
-      warm(); box.appendChild(rbtn(extra.length ? (r.extra ? 'Unlock the ' + usd2(r.extra.usd, r.extra.currency) + ' in extras · Pro $14/month' : 'See them · Pro $14/month') : rep.histLowest && L > rep.histLowest * 1.005 ? 'Alert me if it drops · Pro $14/month' : single ? 'Compare every store · Pro $14/month' : 'Get alerts when it drops · Pro $14/month', 'big', function () { openPro('hero'); }));
+      warm(); box.appendChild(rbtn(extra.length ? (xs ? 'Unlock the ' + usd2(xs.saveUsd != null ? xs.saveUsd : xs.usd, xs.currency) + ' in extras · Pro $14/month' : 'See them · Pro $14/month') : rep.histLowest && L > rep.histLowest * 1.005 ? 'Alert me if it drops · Pro $14/month' : single ? 'Compare every store · Pro $14/month' : 'Get alerts when it drops · Pro $14/month', 'big', function () { openPro('hero'); }));
       box.appendChild(h('div', { class: 'fine', style: 'text-align:center' }, '3-day money-back guarantee · Cancel in one click'));
     }
     return box;
@@ -884,18 +893,45 @@ html.embed .rp .stickb{display:none}
         var m = o.kind === 'coupon' ? (r.offers || []).filter(function (x) { var a = String(x.store || '').toLowerCase(), b = String(o.store || '').toLowerCase(); return x.kind === 'price' && a && b && (a.indexOf(b) >= 0 || b.indexOf(a) >= 0); })[0] : null;
         c.appendChild(savingRow(o, m ? m.price : base, cur));
       });
-      c.appendChild(h('div', { class: 'fine' }, 'Offers may not combine. Terms are on each store\'s page.'));
+      c.appendChild(h('div', { class: 'fine' }, 'Available means a credible page published it with a date. We have not tested the code. Cashback is advertised, not guaranteed. Terms are on each store\'s page.'));
       return c;
     }
-    var tz = (r.teasers || []).filter(function (t) { return t.kind === 'coupon' || t.kind === 'cashback'; });
+    var tz = (r.teasers || []).filter(function (t) { return t.kind === 'coupon' || t.kind === 'cashback' || t.kind === 'promo'; });
     if (!tz.length) return null;
-    var card = h('div', { class: 'rc' }, h('h2', { class: 'rk' }, 'Coupons and cashback'));
+    var card = h('div', { class: 'rc' }, h('h2', { class: 'rk' }, 'Coupons, cashback and other savings'));
     tz.forEach(function (t) {
-      card.appendChild(h('div', { class: 'ln' }, h('b', { class: 'lk', 'aria-hidden': 'true' }, t.kind === 'coupon' ? 'Code ▒▒▒▒▒' : 'Cashback site'),
-        h('span', {}, (t.kind === 'coupon' ? (t.percent ? t.percent + '% off' : 'coupon') : (t.percent ? t.percent + '% back' : 'cashback')) + (t.expires ? ' · ends ' + fmtDay(t.expires) : t.kind === 'cashback' ? ' · rate shown on the page' : ''))));
+      card.appendChild(h('div', { class: 'ln' }, h('b', { class: 'lk', 'aria-hidden': 'true' }, t.kind === 'coupon' ? 'Code ▒▒▒▒▒' : t.kind === 'promo' ? (PROMO_TEXT[t.promoType] || 'Offer') + ' ▒▒▒' : 'Cashback site'),
+        h('span', {}, t.kind === 'promo' ? 'conditions shown with Pro' : (t.kind === 'coupon' ? (t.percent ? t.percent + '% off' : 'coupon') : (t.percent ? t.percent + '% back' : 'cashback')) + (t.expires ? ' · ends ' + fmtDay(t.expires) : t.kind === 'cashback' ? ' · rate shown on the page' : ''))));
     });
     card.appendChild(h('div', { class: 'fine' }, 'Codes unlock with Pro. Expiry dates come from the source page. Offers may not combine.'));
     return card;
+  }
+  function comboCardPro(r) {
+    var b = r.combo; if (!b || !(b.components || []).length) return null;
+    var cur = 'USD', ln = function (a, v, strong, extra) { return h('div', { class: 'ln' + (strong ? ' tot' : '') }, h('b', {}, a, extra || null), h('span', {}, v)); };
+    var c = h('div', { class: 'rc cmb' }, h('h2', { class: 'rk' }, 'Best way to buy this ', h('span', { class: 'protag' }, 'PRO')),
+      h('div', { class: 'fine', style: 'margin:0 0 6px' }, 'The cheapest legitimate way we found to buy this exact product at ' + b.store + ', and how to get that price. We only combine offers that can be used together.'));
+    c.appendChild(ln('Listed price', usd2(b.price, cur)));
+    b.components.filter(function (x) { return x.type === 'coupon'; }).forEach(function (x) { c.appendChild(ln('− ' + x.label, '−' + usd2(x.usd, cur), false, badge(x.status))); });
+    c.appendChild(ln('Checkout price' + (b.shipKnown ? '' : ' (shipping not stated)'), usd2(b.checkout, cur), true));
+    b.components.filter(function (x) { return x.type === 'cashback'; }).forEach(function (x) { c.appendChild(ln('− ' + x.label, '−' + usd2(x.usd, cur), false, badge(x.status))); });
+    b.components.filter(function (x) { return x.type === 'promo' && !x.ifEligible; }).forEach(function (x) { c.appendChild(ln('− ' + x.label, '−' + usd2(x.usd, cur), false, badge(x.status))); });
+    c.appendChild(ln('Estimated effective cost', usd2(b.effective, cur), true));
+    b.components.filter(function (x) { return x.ifEligible; }).forEach(function (x) { c.appendChild(ln('If you qualify: ' + x.label, 'up to −' + usd2(x.usd, cur), false, badge('conditional'))); });
+    c.appendChild(h('h2', { class: 'rk', style: 'margin-top:14px' }, 'How to get this price'));
+    c.appendChild(h('ol', {}, (b.steps || []).map(function (t) { return h('li', {}, t); })));
+    c.appendChild(h('div', { class: 'fine' }, (b.notes || []).join(' ')));
+    return c;
+  }
+  function promosCardPro(r) {
+    var ps = r.promos || []; if (!ps.length) return null;
+    var c = h('div', { class: 'rc' }, h('h2', { class: 'rk' }, 'Other ways to save ', h('span', { class: 'protag' }, 'PRO')));
+    ps.forEach(function (o) {
+      c.appendChild(h('div', { class: 'prow' }, h('div', {}, h('b', {}, PROMO_TEXT[o.promoType] || 'Offer'), ' · ' + o.store, badge(o.status), h('small', {}, (o.title ? o.title + ' · ' : '') + (o.expires ? 'valid until ' + fmtDate(o.expires) + ' · ' : '') + (o.dateHuman ? 'reported ' + o.dateHuman + ' · ' : ''), ext(o.sourceUrl, 'source', 'l')), condChips(o)),
+        h('div', { class: 'val' }, o.amount ? '≈ ' + usd2(o.amount, 'USD') + ' off' : '')));
+    });
+    c.appendChild(h('div', { class: 'fine' }, 'Offers that need a card, an account or eligibility are marked Conditional and are never counted in the estimated cost. Rewards points are not counted as cash.'));
+    return c;
   }
   function openBoxCard(r, pro) {
     if (pro) {
@@ -968,7 +1004,9 @@ html.embed .rp .stickb{display:none}
     (r.warnings || []).forEach(function (w) { stack.push(h('div', { class: 'warn' }, '⚠ ' + w)); });
     stack.push(verdictCard(j, rep, r, pro));
     stack.push(pro ? offersCardPro(j, rep, r) : offersCardFree(j, rep, b));
+    if (pro) { var cbc = comboCardPro(r); if (cbc) stack.push(cbc); }
     var cc = couponsCard(r, pro, b.price, b.currency); if (cc) stack.push(cc);
+    if (pro) { var pcd = promosCardPro(r); if (pcd) stack.push(pcd); }
     var ob = openBoxCard(r, pro); if (ob) stack.push(ob);
     if (!cc) { var sl = statusLine(r.counts); if (sl) stack.push(sl); }
     var ub = undatedBox(r.undated); if (ub) stack.push(ub);

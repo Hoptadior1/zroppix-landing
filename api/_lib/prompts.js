@@ -30,10 +30,13 @@ Rules:
 - Match the exact model and variant. A different model, bundle, accessory or used item is a different finding or is left out.
 - A refurbished or open-box unit of the SAME model is a "refurb" finding. In condition, say what it is and anything it lacks, in a few words (for example "refurbished, no case").
 - If a newer model of this product has launched, include one "newer_model" finding: title is the newer model's name, a printed page date, a quote saying it launched, and no price is needed. Include it even when the other searches found little.
+- store is the retailer where the offer applies. For a cashback, provider is the cashback site or app (for example Rakuten) and store is the retailer it applies to.
+- kind "promo" is any other stated way to pay less for THIS product at a named store or with a named payment method: a credit-card or payment statement credit, a manufacturer rebate, a trade-in credit, a gift-card bonus, a member, loyalty, student, military or teacher discount, a bundle. promo_type is one of: card, rebate, trade_in, gift_card, eligibility, loyalty, bundle, price_protection, payment, other. amount_usd is the stated dollar amount (or use percent). Never guess an amount: if the page states none, leave the finding out. Rewards points are not dollars; leave points offers out unless the page states a cash value.
+- conditions lists what the offer needs, using only: new_customer, min_purchase, account_required, membership, excludes_product, app_only, limited_stock, not_stackable, eligibility, points, in_store_only. If a minimum spend is printed, put it in min_purchase. A coupon listed on several coupon sites is still only what the pages print: do not call anything verified.
 - At most 10 findings, the most useful first. Keep each note short. If you find nothing reliable, return an empty list.
 - Reply with the JSON object only: no introduction, no markdown fences, no text after it.
 Reply with JSON only:
-{"findings":[{"id":"f1","kind":"price|coupon|cashback|refurb|newer_model","store":"","title":"","price":null,"list_price":null,"currency":"USD","percent":null,"code":"","expires":null,"page_date":null,"source_url":"","source_title":"","quote":"","condition":"","seller":"manufacturer|retailer|third_party|unknown","ships":"yes|no|unknown","shipping":"free|paid|not_stated","shipping_cost":null,"delivery":"","note":"max 100 characters, facts only"}]}
+{"findings":[{"id":"f1","kind":"price|coupon|cashback|refurb|newer_model|promo","store":"","title":"","price":null,"list_price":null,"currency":"USD","percent":null,"code":"","expires":null,"page_date":null,"source_url":"","source_title":"","quote":"","condition":"","seller":"manufacturer|retailer|third_party|unknown","ships":"yes|no|unknown","shipping":"free|paid|not_stated","shipping_cost":null,"delivery":"","provider":"","promo_type":"","amount_usd":null,"min_purchase":null,"conditions":[],"note":"max 100 characters, facts only"}]}
 Never write predictions, urgency, or advice to buy.`;
 
 const gatherUser = (p, country, today) => `Today is ${today}. Shopper's country: ${country}.
@@ -59,6 +62,9 @@ A first search found no usable dated offers. Search again in a different way: tr
 const FOCUS_PRICES = `
 Focus for THIS search: current retail prices at the big retailers for this exact model (each with its shipping if printed), refurbished or open-box units from the manufacturer's outlet store, and any newer model. Do not spend searches on coupons or cashback.`;
 const FOCUS_EXTRAS = `
-Focus for THIS search: ways to pay less for this product on top of the shelf price: coupon codes with their printed expiry date, cashback rates on cashback sites, store credit-card or gift-card promotions, deal-forum and deal-roundup posts with a printed date, and free-shipping offers. Do not spend searches on plain shelf prices.`;
+Focus for THIS search: ways to pay less for this exact product on top of the shelf price. Investigate, for the product and the big retailers that sell it: coupon codes with their printed expiry (including product-specific, newsletter or first-order, app-only and creator codes), cashback rates on cashback sites and apps, store credit-card and payment-provider offers, gift-card promotions, manufacturer rebates, trade-in credits, member, student, military or teacher discounts, bundles, clearance, and deal-forum or deal-roundup posts with a printed date. Search the manufacturer's own promotions page too. Use the exact model name and any model number given. Do not spend searches on plain shelf prices.`;
 
-module.exports = { FOCUS_PRICES, FOCUS_EXTRAS, MATCH_SYSTEM, matchUser, GATHER_SYSTEM, gatherUser, gatherUser2, JUDGE_SYSTEM, judgeUser };
+// Added to the extras search when the store's own product data gave identifiers.
+const idsLine = (ids) => ids && (ids.model || ids.upc) ? '\nIdentifiers from a retailer listing: ' + [ids.model ? 'model number ' + ids.model : '', ids.upc ? 'UPC ' + ids.upc : ''].filter(Boolean).join(', ') + '. Use them in queries to match the exact product.' : '';
+
+module.exports = { idsLine, FOCUS_PRICES, FOCUS_EXTRAS, MATCH_SYSTEM, matchUser, GATHER_SYSTEM, gatherUser, gatherUser2, JUDGE_SYSTEM, judgeUser };

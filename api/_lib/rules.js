@@ -36,7 +36,8 @@ function ageDays(d, now) { return Math.floor(((now || new Date()).getTime() - d.
 function iso(d) { return d.toISOString().slice(0, 10); }
 function human(d) { return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }); }
 
-const KINDS = new Set(['price', 'coupon', 'cashback', 'refurb', 'newer_model']);
+const KINDS = new Set(['price', 'coupon', 'cashback', 'refurb', 'newer_model', 'promo']);
+const OF = require('./offers');
 const SELLERS = new Set(['manufacturer', 'retailer', 'third_party', 'unknown']);
 const PREDICT = /\b(will (drop|fall|go down|be cheaper|get cheaper)|expected to (drop|fall)|going to (drop|fall)|predict(ed|s|ion)?|forecast|hurry|act now|last chance|selling fast|don'?t miss|guaranteed|best price ever|lowest ever)\b/i;
 
@@ -72,6 +73,12 @@ function normalizeFinding(raw, i) {
     note: clean(raw.note, 140),
     shipping: shipInfo(raw),
     delivery: clean(raw.delivery, 40),
+    provider: clean(raw.provider, 40),
+    promoType: OF.PROMO_TYPES.has(clean(raw.promo_type, 20).toLowerCase()) ? clean(raw.promo_type, 20).toLowerCase() : (clean(raw.kind, 20).toLowerCase() === 'promo' ? 'other' : ''),
+    amount: num(raw.amount_usd),
+    minPurchase: num(raw.min_purchase),
+    conditions: (Array.isArray(raw.conditions) ? raw.conditions : []).slice(0, 6).map((c) => clean(c, 24).toLowerCase()).filter((c) => OF.CONDS.has(c)),
+    verified: raw._api === true, // set only by our own store-data code, never by the AI or by a web page
   };
 }
 
@@ -114,6 +121,7 @@ function evaluate(rawFindings, ctx) {
     const what = f.kind === 'price' || f.kind === 'refurb' ? (f.price != null ? who + ' ' + f.currency + ' ' + f.price : who)
       : f.kind === 'cashback' ? who + (f.percent != null ? ' ' + f.percent + '% cashback' : ' cashback')
       : f.kind === 'coupon' ? who + (f.code ? ' code ' + f.code : ' coupon')
+      : f.kind === 'promo' ? who + ' ' + (f.promoType || 'offer').replace('_', ' ') + (f.amount ? ' $' + f.amount : '')
       : (f.title ? (f.title.toLowerCase().startsWith(who.toLowerCase()) ? '' : who + ' ') + shortTitle(f.title) : who);
     const rej = (why) => rejected.push({ id: f.id, what: clean(what, 90), why: clean(why, 140) });
 
@@ -158,6 +166,16 @@ function evaluate(rawFindings, ctx) {
       if (exd.getTime() < Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())) return rej('coupon expired ' + human(exd));
       f.expiresIso = iso(exd);
     }
+    if (f.kind === 'promo') {
+      // Card credits, rebates, trade-in, gift-card and eligibility offers: only with a stated dollar amount, and an expiry date if one is printed.
+      if (!(f.amount > 0 && f.amount < 5000)) return rej('no stated amount, so it cannot be counted');
+      if (f.expires) {
+        const exd = parseExpiry(f.expires);
+        if (exd && exd.getTime() < Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())) return rej('offer expired ' + human(exd));
+        if (exd) f.expiresIso = iso(exd);
+      }
+      limit = ctx.promoMaxDays || 60;
+    }
     if (f.kind === 'newer_model' && !f.title) return rej('no model named');
 
     // AI judge (advisory but binding on rejection)
@@ -166,6 +184,7 @@ function evaluate(rawFindings, ctx) {
     if (j && ((f.kind !== 'newer_model' && j.same_product === false) || j.verdict === 'reject')) return rej(j.reason || 'not the same product');
 
     const item = Object.assign({}, f, { date: noDate ? null : iso(d), dateHuman: noDate ? null : human(d), ageDays: age, expiresIso: f.expiresIso || null });
+    item.status = OF.statusOf(item, now);
     if (age != null && age > limit) {
       rej('page dated ' + human(d) + ', ' + age + ' days old (limit ' + limit + ')');
       if (age <= staleMax && (f.kind === 'price' || f.kind === 'refurb')) stale.push(item);
@@ -233,6 +252,8 @@ function valueOf(a, base) {
   if (!base || !(base > 0)) return null;
   if ((a.kind === 'coupon' || a.kind === 'cashback') && a.percent > 0) return r2(base * a.percent / 100);
   if (a.kind === 'coupon' && a.price > 0 && a.price < base) return r2(a.price); // a fixed amount off
+  if (a.kind === 'promo' && a.amount > 0 && a.amount < base) return r2(a.amount);
+  if (a.kind === 'promo' && a.percent > 0) return r2(base * a.percent / 100);
   return null;
 }
 
@@ -336,7 +357,7 @@ function buildReport(accepted, shown, ctx, hist) {
     spread: sorted.length > 1 ? r2((tot(sorted[sorted.length - 1]) - lowTotal) / tot(sorted[sorted.length - 1])) : null,
     freeCouponOff: shown && shown.kind === 'price' ? couponOff(shown, accepted) : 0, gapUncertain, nearlyEqual: gapRaw > 0 && gap === 0, smallGap: gapRaw > 0 && gap === 0 ? gapRaw : 0, afterCoupon: !!(low && couponOff(low, accepted) > 0), couponOff: low ? couponOff(low, accepted) : 0,
     heldStores: held.length, heldCheaper: gap ? held.filter((a) => tot(a) < freeTotal).length : 0,
-    openbox: refs.length, coupons: coupons.length, cashback: accepted.filter((a) => a.kind === 'cashback').length, couponEnds: exp,
+    openbox: refs.length, promos: accepted.filter((a) => a.kind === 'promo').length, coupons: coupons.length, cashback: accepted.filter((a) => a.kind === 'cashback').length, couponEnds: exp,
     weakSource: srcKind === 'article' ? 'price_site' : null,
     histLowest: hist && hist.lowest && (!cur || cur === 'USD') ? hist.lowest : null,
     histLowestWhere: (() => { const pts = hist && Array.isArray(hist.points) ? hist.points : []; const m = pts.filter((q) => hist.lowest && Math.abs(q.p - hist.lowest) < 0.01 && q.d)[0]; return m ? { text: String(m.t || '').slice(0, 140), source: String(m.s || '').slice(0, 40) } : null; })(), // Pro only: where that price was reported
@@ -416,6 +437,7 @@ function shape(ev, tier, extras, ctx) {
       id: a.id, kind: a.kind, store: a.store, title: a.title, price: a.price, currency: a.currency, percent: a.percent,
       listPrice: a.listPrice || null, saveUsd: a.listPrice ? r2(a.listPrice - a.price) : null, savePct: a.listPrice ? Math.round((1 - a.price / a.listPrice) * 100) : null,
       expires: a.expiresIso, date: a.date, dateHuman: a.dateHuman, ageDays: a.ageDays,
+      status: a.status || OF.statusOf(a, ctx && ctx.now), conditions: OF.conditionsOf(a), promoType: a.promoType || undefined, provider: a.provider || undefined, amount: a.amount || undefined, minPurchase: a.minPurchase || undefined,
       sourceUrl: a.sourceUrl, sourceTitle: a.sourceTitle, seller: a.seller, condition: a.condition, ships: a.ships, note: a.note,
       target: ctx && ctx.productName ? storeTarget(a, ctx.productName, ctx.country) : { url: a.sourceUrl, kind: 'article' },
     };
@@ -461,6 +483,8 @@ function shape(ev, tier, extras, ctx) {
     out.offers = offers;
     out.coupons = ev.accepted.filter((a) => a.kind === 'coupon').map((a) => pub(a, true));
     out.cashbacks = ev.accepted.filter((a) => a.kind === 'cashback').map((a) => pub(a, true));
+    out.promos = ev.accepted.filter((a) => a.kind === 'promo').map((a) => pub(a, true));
+    out.combo = OF.bestCombo(ev.accepted, ctx && ctx.now);
   } else {
     // Teasers: what exists and what it is worth, with the code, store, link and shipping withheld.
     const teasers = [];
@@ -468,11 +492,15 @@ function shape(ev, tier, extras, ctx) {
       if (a.kind === 'coupon') teasers.push({ kind: 'coupon', percent: a.percent, valueUsd: valueOf(a, base), expires: a.expiresIso, ageDays: a.ageDays });
       else if (a.kind === 'cashback') teasers.push({ kind: 'cashback', percent: a.percent, valueUsd: valueOf(a, base), ageDays: a.ageDays });
       else if (a.kind === 'refurb') teasers.push({ kind: 'refurb', backed: a.seller === 'manufacturer', ageDays: a.ageDays });
+      else if (a.kind === 'promo') teasers.push({ kind: 'promo', promoType: a.promoType, valueUsd: OF.conditionsOf(a).length ? null : valueOf(a, base), ageDays: a.ageDays });
       else if (a.kind === 'price') teasers.push({ kind: 'price', ageDays: a.ageDays });
     });
     out.teasers = teasers.slice(0, 6).map((t) => { const c = Object.assign({}, t); delete c.valueUsd; return c; }); // dollar values stay on the server
     // The most the shopper could take off the best price with the coupon and cashback we found (they may not combine, so the page says "up to").
-    const extraUsd = r2(teasers.reduce((n, t) => n + ((t.kind === 'coupon' || t.kind === 'cashback') && t.valueUsd ? t.valueUsd : 0), 0));
+    const extraUsd = r2(teasers.reduce((n, t) => n + ((t.kind === 'coupon' || t.kind === 'cashback' || t.kind === 'promo') && t.valueUsd ? t.valueUsd : 0), 0));
+    const cmb = OF.bestCombo(ev.accepted, ctx && ctx.now);
+    // Free users see only how much the best combination takes off, rounded down. The steps, codes and stores are Pro.
+    if (cmb && cmb.saveUsd >= 1) out.combo = { saveUsd: cmb.saveUsd >= 20 ? Math.floor(cmb.saveUsd / 5) * 5 : Math.floor(cmb.saveUsd), moreUsd: Math.floor(cmb.cashbackEst + cmb.credits), currency: 'USD' }; // moreUsd: what cashback and credits add beyond a coupon
     // Real gaps between offers, from the prices we read (same currency only). The prices themselves stay locked.
     if (base) {
       const others = rest.filter((a) => (a.kind === 'price' || a.kind === 'refurb') && a.currency === best.currency && a.price > 0);

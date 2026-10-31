@@ -38,6 +38,10 @@ function cfg() {
     emailBonus: num(e.FIND_EMAIL_BONUS, 2),
     weeklyRefill: num(e.FIND_WEEKLY_REFILL, 1),
     autoPass2: e.FIND_AUTO_PASS2 !== '0',
+    judgeEasyModel: e.FIND_JUDGE_EASY_MODEL || e.FIND_GATHER_MODEL || 'claude-haiku-5-5', // coupons, cashback and other savings: is the quote saying what is claimed?
+    memory: e.FIND_MEMORY !== '0', // remember coupons, cashback and other savings between searches
+    extrasFreshHours: num(e.FIND_EXTRAS_FRESH_HOURS, 48), // the coupon, cashback and savings search is skipped while a search this recent is remembered
+    extrasFreshWatchHours: num(e.FIND_EXTRAS_FRESH_WATCH_HOURS, 12), // the daily watch refreshes it more often
     parallelGather: e.FIND_PARALLEL !== '0', // two searches at the same time (prices; coupons and cashback) instead of one long one
     bestBuyKey: e.BESTBUY_API_KEY || '',
     ebayId: e.EBAY_CLIENT_ID || '',
