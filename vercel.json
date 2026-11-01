@@ -133,7 +133,7 @@
     },
     {
       "source": "/blog/prime-day-2026-back-to-school-deals",
-      "destination": "/blog/best-back-to-school-tech-deals-2026",
+      "destination": "/blog/black-friday-2026-amazon-deals",
       "permanent": true
     },
     {
@@ -724,6 +724,16 @@
     {
       "source": "/blog/best-free-amazon-deal-checker",
       "destination": "/blog/amazon-deal-checker",
+      "permanent": true
+    },
+    {
+      "source": "/blog/best-back-to-school-tech-deals-2026",
+      "destination": "/blog/black-friday-2026-amazon-deals",
+      "permanent": true
+    },
+    {
+      "source": "/blog/next-amazon-sale-2026-calendar",
+      "destination": "/blog/black-friday-2026-dates-cyber-monday",
       "permanent": true
     },
     {
