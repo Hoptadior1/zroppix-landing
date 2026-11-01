@@ -1227,21 +1227,16 @@ html.embed .rp .stickb{display:none}
     }
     if (r.sibling) stack.push(h('div', { class: 'rc' }, h('h2', { class: 'rk' }, 'Related model, dated history'), h('div', { class: 'ln' }, h('b', {}, r.sibling.name), h('span', {}, 'lowest dated price ' + money(r.sibling.lowest, 'USD') + ' · average ' + money(r.sibling.average, 'USD'))), h('div', { class: 'fine' }, 'This is a different model. It shows where prices for this line have gone before. ', h('a', { href: r.sibling.url, style: 'color:var(--gold);font-weight:700' }, 'See the dated history →'))));
     var lockedN = r.lastSeen && !r.older ? (r.olderCount || 0) + (r.undatedCount || 0) : 0;
-    if (!pro && !down) {
+    if (!pro && !down && lockedN) { // only when Pro holds something back; the daily-watch pitch lives in the card above
       var pc = h('div', { class: 'rc gold' }, h('h2', { class: 'rk' }, 'Pro adds'));
-      if (lockedN) {
-        pc.appendChild(h('div', { class: 'hsub' }, 'Pro found ' + pluralN(lockedN, 'more older report', 'more older reports') + ' for this product.', r.lockedSave ? lockedSaveText(r.lockedSave) : ' Pro shows each store, price and age, so you can check which are still available.'));
-        var lockRow = function (sub) { return h('div', { class: 'tr' }, h('span', {}, h('b', { class: 'lk', 'aria-hidden': 'true' }, 'Store name ▒▒'), h('br'), h('span', { class: 'mut' }, sub)), h('span', { class: 'lk', 'aria-hidden': 'true' }, '$▒▒▒.▒▒'), h('span', { class: 'lk', 'aria-hidden': 'true' }, '$▒▒▒.▒▒')); };
-        pc.appendChild(h('div', { class: 'tr th' }, h('span', {}, 'Store'), h('span', {}, 'Price'), h('span', {}, 'Total')));
-        for (var ui = 0; ui < Math.min(r.undatedCount || 0, 2); ui++) pc.appendChild(lockRow('Undated store listing'));
-        for (var oi = 0; oi < Math.min(r.olderCount || 0, 3); oi++) pc.appendChild(lockRow('Older than 30 days' + (oi === Math.min(r.olderCount, 3) - 1 && r.olderOldestDays ? ' · oldest ' + r.olderOldestDays + ' days' : '')));
-        pc.appendChild(h('div', { class: 'fine' }, 'Prices in blurred rows are hidden until you unlock. Pro shows each store, price and link, marked old or undated.'));
-      }
+      pc.appendChild(h('div', { class: 'hsub' }, 'Pro found ' + pluralN(lockedN, 'more older report', 'more older reports') + ' for this product.', r.lockedSave ? lockedSaveText(r.lockedSave) : ' Pro shows each store, price and age, so you can check which are still available.'));
+      var lockRow = function (sub) { return h('div', { class: 'tr' }, h('span', {}, h('b', { class: 'lk', 'aria-hidden': 'true' }, 'Store name ▒▒'), h('br'), h('span', { class: 'mut' }, sub)), h('span', { class: 'lk', 'aria-hidden': 'true' }, '$▒▒▒.▒▒'), h('span', { class: 'lk', 'aria-hidden': 'true' }, '$▒▒▒.▒▒')); };
+      pc.appendChild(h('div', { class: 'tr th' }, h('span', {}, 'Store'), h('span', {}, 'Price'), h('span', {}, 'Total')));
+      for (var ui = 0; ui < Math.min(r.undatedCount || 0, 2); ui++) pc.appendChild(lockRow('Undated store listing'));
+      for (var oi = 0; oi < Math.min(r.olderCount || 0, 3); oi++) pc.appendChild(lockRow('Older than 30 days' + (oi === Math.min(r.olderCount, 3) - 1 && r.olderOldestDays ? ' · oldest ' + r.olderOldestDays + ' days' : '')));
+      pc.appendChild(h('div', { class: 'fine' }, 'Prices in blurred rows are hidden until you unlock. Pro shows each store, price and link, marked old or undated.'));
       pc.appendChild(h('div', { class: 'why', style: 'margin:10px 0' }, h('div', { class: 'wk' }, 'EXAMPLE OF THE EMAIL YOU\'D GET'), h('div', { style: 'font-size:13.5px;color:var(--subtle);line-height:1.5' }, h('b', { style: 'color:#fff' }, 'A dated offer for ' + j.product.name + ' passed our checks.'), h('br'), '[Store] · [price] · reported today · with the source link. You open the page and check the live price.'), h('div', { class: 'fine' }, 'Example only. Real emails show the store, price and date from the page.')));
-      pc.appendChild(h('div', { class: 'ln' }, h('b', {}, 'Daily watch'), h('span', {}, 'we check this product every day, up to 20 products')));
-      pc.appendChild(h('div', { class: 'ln' }, h('b', {}, 'Email when it appears'), h('span', {}, 'the moment a dated offer shows up')));
-      pc.appendChild(h('div', { class: 'ln' }, h('b', {}, 'Checks'), h('span', {}, 'unlimited (free: 1 a week)')));
-      warm(); pc.appendChild(rbtn(lockedN ? 'Show me what Pro found · $14/month' : 'Watch it for me · Pro $14/month', 'big', function () { openPro('fallback'); }));
+      warm(); pc.appendChild(rbtn('Show me what Pro found · $14/month', 'big', function () { openPro('fallback'); }));
       pc.appendChild(h('div', { class: 'fine', style: 'text-align:center' }, '3-day money-back guarantee · Cancel in one click · We can\'t promise a price will drop'));
       stack.push(pc);
     }
