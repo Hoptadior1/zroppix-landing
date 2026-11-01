@@ -10,6 +10,7 @@ const P = require('./prompts');
 const R = require('./rules');
 const S = require('./sources');
 const OF = require('./offers');
+const OFC = require('./official');
 
 const OFFER_KINDS = new Set(['price', 'coupon', 'cashback', 'refurb']);
 const hasOffers = (ev) => !!ev && ev.accepted.some((x) => OFFER_KINDS.has(x.kind));
@@ -95,6 +96,17 @@ async function research({ product, country, pass, started, now, source }) {
         });
       }
     });
+    // Brand pages that print no date: we load them now, so the price is true today. Code checks everything; the small model only reads text when no structured data exists.
+    let off = { findings: [], results: [] };
+    if (c.officialLive && pass !== 2) {
+      try {
+        const t0 = Date.now();
+        off = await OFC.collect({ product, country, results: gather.results, now, maxPages: c.officialMaxPages, budgetMs: 7000,
+          callAi: async ({ system, user }) => { const r = await timed('official_read', c.matchModel, ai.call({ model: c.matchModel, system, messages: [{ role: 'user', content: user }], maxTokens: 500, deadline: started + 50000 })); cost += r.costUsd; return { text: r.text, costUsd: 0 }; } });
+        meter.official = { tried: off.tried.length, found: off.findings.length, ms: Date.now() - t0, pages: off.tried };
+        if (off.findings.length) { ok = true; rawFindings = off.findings.concat(rawFindings); bump('official_findings', off.findings.length); }
+      } catch (_) { /* the normal search still stands */ }
+    }
     if (api.findings.length) { ok = true; rawFindings = rawFindings.concat(api.findings); bump('api_findings', api.findings.length); }
 
     // Code, not the AI: drop repeats and anything already rejected for this product in a recent search.
@@ -110,7 +122,8 @@ async function research({ product, country, pass, started, now, source }) {
     let verdicts = {}; let didJudge = true;
     const easy = []; const hard = [];
     norm.forEach((f) => {
-      if (f.verified && OF.modelMatches(product.name + ' ' + (product.variant || ''), f.title)) { verdicts[f.id] = { same_product: true, verdict: 'accept', reason: 'model number matches the store listing' }; meter.shortcut++; }
+      if (f.live) { verdicts[f.id] = { same_product: true, verdict: 'accept', reason: 'read live from the manufacturer page and matched by code' }; meter.shortcut++; }
+      else if (f.verified && OF.modelMatches(product.name + ' ' + (product.variant || ''), f.title)) { verdicts[f.id] = { same_product: true, verdict: 'accept', reason: 'model number matches the store listing' }; meter.shortcut++; }
       else if (['coupon', 'cashback', 'promo'].includes(f.kind)) easy.push(f); else hard.push(f);
     });
     const judge = async (step, model, list) => {
@@ -127,7 +140,7 @@ async function research({ product, country, pass, started, now, source }) {
     await done();
     bump(source === 'watch' ? 'watch_ai' : 'check_ai'); bump('cost_micro', Math.round(cost * 1e6)); bump('searches', meter.searches); bump('tok_in', meter.tokensIn); bump('tok_out', meter.tokensOut);
     if (pass === 2 && source !== 'watch') bump('check_pass2');
-    const out = R.evaluate(rawFindings, { now, maxAgeDays: c.maxAgeDays, staleMaxDays: c.staleMaxDays, cashbackMaxDays: c.cashbackMaxDays, results: gather.results.concat(api.results), judge: verdicts });
+    const out = R.evaluate(rawFindings, { now, maxAgeDays: c.maxAgeDays, staleMaxDays: c.staleMaxDays, cashbackMaxDays: c.cashbackMaxDays, results: gather.results.concat(api.results, off.results), judge: verdicts });
 
     // Bring back what is remembered (each item is re-checked by code: its own expiry and the age of its source), without repeating anything found just now.
     if (remembered.length) {
@@ -149,7 +162,7 @@ async function research({ product, country, pass, started, now, source }) {
     await logDebug({ t: now.toISOString(), pass, source: source || 'check', product: product.name + (product.variant ? ' / ' + product.variant : ''), country, stop: gather.stop, blocks: gather.blockTypes, usage: gather.usage, searches: meter.searches, searchErrors: gather.searchErrors, meter,
       results: gather.results.length, resultUrls: gather.results.slice(0, 8).map((r) => r.url), textLen: gather.text.length, textHead: gather.text.slice(0, 700), textTail: gather.text.slice(-300),
       parsed: ok, findings: rawFindings.length, accepted: out.accepted.length, undated: (out.undated || []).length, rejected: out.rejected.slice(0, 8), judged: didJudge, costUsd: Math.round(cost * 10000) / 10000 });
-    return { out, ok, didJudge, searchErr, hadResults: gather.results.length > 0 || api.findings.length > 0 || remembered.length > 0, costUsd: cost, meter };
+    return { out, ok, didJudge, searchErr, hadResults: gather.results.length > 0 || api.findings.length > 0 || off.findings.length > 0 || remembered.length > 0, costUsd: cost, meter };
   } catch (e) { await done(); throw e; }
 }
 

@@ -578,7 +578,8 @@ html.embed .rp .stickb{display:none}
     if (o.ships === 'no') bits.push('⚠ may not ship to your country');
     if (o.seller === 'third_party') bits.push('⚠ third-party seller');
     if (o.kind === 'refurb') bits.push('check the warranty terms');
-    bits.push('reported ' + o.dateHuman);
+    bits.push(o.live ? 'checked by Zroppix today' : 'reported ' + o.dateHuman);
+    if (o.live) bits.push(o.stock === 'in_stock' ? 'in stock' : 'availability not stated, check the page');
     return h('div', { class: 'prow' }, h('div', {}, title, h('small', {}, bits.join(' · ') + ' · ', ext(o.sourceUrl, 'source', 'l'))),
       h('div', { class: 'val' }, o.total != null ? money(o.total, o.currency) : 'total unknown', [h('br'), h('small', {}, o.total != null ? 'total' : '')]));
   }
@@ -702,7 +703,8 @@ html.embed .rp .stickb{display:none}
     var ub = undatedBox(r.undated); if (ub) stack.push(ub);
     var rb = rejectedBox(r.rejected, r.rejectedSummary); if (rb) stack.push(rb);
     if (r.history) stack.push(h('p', {}, h('a', { href: r.history.url, style: 'color:var(--gold);font-weight:700' }, 'See the full price history →')));
-    stack.push(pro ? h('div', { class: 'card', style: 'background:var(--bg3)' }, watchBox(j.product, 'drop')) : nextCard(j.product));
+    if (b && b.price > 0) stack.push(pro ? proMonitor(j, r, { price: b.price, currency: b.currency || 'USD' }) : targetBox(j, r, { price: b.price, currency: b.currency || 'USD' }));
+    else stack.push(pro ? h('div', { class: 'card', style: 'background:var(--bg3)' }, watchBox(j.product, 'drop')) : nextCard(j.product));
     stack.push(againBox('Search a different product'));
     var wrap = h('div', { style: 'display:flex;flex-direction:column;gap:16px' }, stack);
     showCard(wrap, j.product.name, offerLine(b));
@@ -738,7 +740,7 @@ html.embed .rp .stickb{display:none}
     var box = h('div', { class: 'hero' }, h('div', { class: 'hk' }, 'PRO FOUND A LOWER TOTAL'),
       h('div', { class: 'hh' }, usd2(rep.gap, rep.currency) + ' less than the free offer' + (rep.gapUncertain ? ', before shipping' : '')),
       h('div', { class: 'cmp2' },
-        h('div', {}, h('small', {}, 'Free shows'), h('b', {}, usd2(rep.freeTotal, rep.currency)), h('span', { class: 'mut' }, free.store + ' · reported ' + free.dateHuman)),
+        h('div', {}, h('small', {}, 'Free shows'), h('b', {}, usd2(rep.freeTotal, rep.currency)), h('span', { class: 'mut' }, free.store + ' · ' + (free.live ? 'checked by Zroppix today' : 'reported ' + free.dateHuman))),
         h('div', { class: 'p' }, h('small', { style: 'color:var(--green)' }, 'Pro found'), h('b', { style: 'color:var(--green)' }, usd2(rep.lowest.total, rep.currency)), h('span', { class: 'mut' }, (rep.afterCoupon ? 'Delivered, after ' + usd2(rep.couponOff, rep.currency) + ' coupon' : ship) + ' · ' + rep.lowest.dateHuman))),
       foundEl);
     var more = [];
@@ -764,7 +766,7 @@ html.embed .rp .stickb{display:none}
       else if (rep.listPrice && L < rep.listPrice * 0.995) right = [h('small', { style: 'color:var(--green)' }, 'List price'), h('b', { style: 'color:var(--green)' }, usd2(rep.listPrice, cur)), h('span', { class: 'mut' }, 'This is ' + usd2(rep.listPrice - L, cur) + ' below it')];
       else right = [h('small', { style: 'color:var(--green)' }, 'Pro watches'), h('b', { style: 'color:var(--green)' }, 'Daily'), h('span', { class: 'mut' }, 'Emails you when a lower dated price appears')];
       box.appendChild(h('div', { class: 'cmp2' },
-        h('div', {}, h('small', {}, 'Free shows'), h('b', {}, usd2(L, cur)), h('span', { class: 'mut' }, free.store + ' · reported ' + free.dateHuman)),
+        h('div', {}, h('small', {}, 'Free shows'), h('b', {}, usd2(L, cur)), h('span', { class: 'mut' }, free.store + ' · ' + (free.live ? 'checked by Zroppix today' : 'reported ' + free.dateHuman))),
         h('div', { class: 'p' }, right)));
     }
     box.appendChild(h('div', { class: 'hsub' }, (pro ? free.store + ' · reported ' + free.dateHuman + ' · ' : '') + (pro && rep.afterCoupon ? 'after the ' + usd2(rep.couponOff, rep.currency) + ' coupon · ' : '') + (function (w) { return pro ? w : w.charAt(0).toUpperCase() + w.slice(1); })(shipWord(shipSt, null, rep.currency)) + '. ' + (single ? (rep.weakSource ? 'Reported on a price-listing site, not a store page.' : 'No other dated store price passed our checks.') : (rep.nearlyEqual ? 'Another store was ' + usd2(rep.smallGap, rep.currency) + ' lower, which is too small to count.' : 'No store offer we found was lower.'))));
@@ -813,7 +815,7 @@ html.embed .rp .stickb{display:none}
   function whyBox(o, rep, j) {
     var items = [
       ['✓', ['Same model confirmed: ', j.product.name + (j.product.variant ? ', ' + j.product.variant : '')]],
-      ['✓', ['Dated ', h('b', {}, o.dateHuman), ', ' + o.ageDays + (o.ageDays === 1 ? ' day' : ' days') + ' old (limit is 30)']],
+      o.live ? ['✓', ['Read from the manufacturer’s own page by Zroppix ', h('b', {}, 'today'), (o.stock === 'in_stock' ? ', shown in stock' : ', availability not stated on the page, so check it before you buy')]] : ['✓', ['Dated ', h('b', {}, o.dateHuman), ', ' + o.ageDays + (o.ageDays === 1 ? ' day' : ' days') + ' old (limit is 30)']],
       ['✓', ['Price stated on the source page']],
       ['✓', ['Source: ', h('a', { href: safeUrl(o.sourceUrl) || '#', target: '_blank', rel: 'noopener nofollow noreferrer', style: 'text-decoration:underline' }, (o.sourceTitle || 'the page').slice(0, 60)), ' (opens the page)']]
     ];
@@ -876,7 +878,8 @@ html.embed .rp .stickb{display:none}
     var SHOW = 3, more = h('div', { style: 'display:none' });
     list.forEach(function (o, i) {
       var sh = o.shipping || { state: 'not_stated' };
-      var bits = [o.dateHuman, shipWord(sh.state, sh.cost, o.currency)];
+      var bits = [o.live ? 'checked by Zroppix today' : o.dateHuman, shipWord(sh.state, sh.cost, o.currency)];
+      if (o.live && o.stock !== 'in_stock') bits.push('availability not stated');
       if (o.ships === 'no') bits.push('⚠ may not ship to your country');
       if (o.seller === 'third_party') bits.push('⚠ third-party seller');
       (i < SHOW ? card : more).appendChild(h('div', { class: 'tr' + (i === 0 ? ' best' : '') }, h('span', {}, h('b', {}, o.store), h('br'), h('span', { class: 'mut' }, bits.join(' · '))),
@@ -1021,6 +1024,8 @@ html.embed .rp .stickb{display:none}
     var rc = rejectedCard(r, pro); if (rc) stack.push(rc);
     (r.newer || []).forEach(function (nw) { stack.push(h('div', { class: 'note' }, h('b', {}, 'Newer model: '), nw.title + (nw.store ? ' · ' + nw.store : '') + ', reported ' + when(nw) + '. ', ext(nw.sourceUrl, 'Source'))); });
     if (!pro) { var mc = missCard(r, rep); if (mc) stack.push(mc); }
+    var tfo = { price: b.price, currency: b.currency || 'USD' };
+    stack.push(pro ? proMonitor(j, r, tfo) : targetBox(j, r, tfo));
     stack.push(afterBuyCard(j));
     stack.push(againBox('Search a different product'));
     if (!pro) {
@@ -1049,20 +1054,24 @@ html.embed .rp .stickb{display:none}
     if (j.error === 'limit') return 'You are already watching the most products Pro allows (' + (j.limit || 20) + '). Stop one in "My watches" first.';
     return null;
   }
-  function targetBox(j, r) {
-    var cur = (r.lastSeen && r.lastSeen.currency) || 'USD';
-    var hl = r.history && r.history.lowest && cur === 'USD' ? r.history.lowest : null, hd = r.history && r.history.lowestDate ? r.history.lowestDate : null;
+  function targetBox(j, r, fo) {
+    var cur = fo ? fo.currency : (r.lastSeen && r.lastSeen.currency) || 'USD';
+    var hl = !fo && r.history && r.history.lowest && cur === 'USD' ? r.history.lowest : null, hd = r.history && r.history.lowestDate ? r.history.lowestDate : null;
     var box = h('div', { id: 'wbox', class: 'rc gold' });
     var msg = h('div', { 'aria-live': 'polite', class: 'micro' });
     var warnEl = h('div', { class: 'tw', 'aria-live': 'polite' });
-    var inp = h('input', { type: 'text', inputmode: 'decimal', placeholder: hl ? '' : 'e.g. 250', 'aria-label': 'The price you would pay', maxlength: '9', value: hl ? String(Math.round(hl)) : '' });
+    var inp = h('input', { type: 'text', inputmode: 'decimal', placeholder: hl ? '' : fo ? 'e.g. ' + Math.floor(fo.price * 0.9) : 'e.g. 250', 'aria-label': 'The price you would pay', maxlength: '9', value: hl ? String(Math.round(hl)) : '' });
     var email = h('input', { type: 'email', placeholder: 'your email', 'aria-label': 'Your email', required: 'required', maxlength: '254', autocomplete: 'email', style: 'width:100%;margin-top:8px' });
     var hp = h('input', { class: 'hp', type: 'text', name: 'website', tabindex: '-1', autocomplete: 'off', 'aria-hidden': 'true' });
     var mk = h('input', { type: 'checkbox', id: 'wmk', style: 'margin-top:3px;flex:none' });
     var btn = h('button', { class: 'rb big', type: 'submit', style: 'margin-top:12px;width:100%' }, '');
     function label() {
       var v = numOf(inp.value);
-      btn.textContent = v >= 1 ? 'Email me once if it reaches ' + money(v, cur) + ' · Free' : 'Email me once when a dated offer appears · Free';
+      var already = fo && v >= fo.price;
+      btn.disabled = !!already;
+      btn.textContent = already ? 'Set a price below ' + money(fo.price, cur) : v >= 1 ? 'Email me once if it reaches ' + money(v, cur) + ' · Free' : fo ? 'Enter your price' : 'Email me once when a dated offer appears · Free';
+      if (fo && v < 1) btn.disabled = true;
+      if (already) { warnEl.textContent = 'The offer above is already ' + money(fo.price, cur) + ', so this alert would fire straight away. Set a price below it to wait for a drop.'; return; }
       warnEl.textContent = hl && v >= 1 && v < hl ? 'That is lower than any price in our dated history. It may take a long time or never appear. We will still email you if it does.' : '';
     }
     inp.addEventListener('input', label); label();
@@ -1076,8 +1085,8 @@ html.embed .rp .stickb{display:none}
       card.appendChild(rbtn('No thanks, search another product', 'o', toSearch));
       if (box.parentNode) box.parentNode.insertBefore(card, box.nextSibling);
     }
-    box.appendChild(h('h2', { class: 'rk' }, 'Set the price you\'d buy at'));
-    box.appendChild(h('div', { class: 'hsub' }, 'Tell us your price and we will search this product again every day. If a dated store price reaches it, you get one email. We can\'t promise one will appear.'));
+    box.appendChild(h('h2', { class: 'rk' }, fo ? 'Want it cheaper? Set your price' : 'Set the price you\'d buy at'));
+    box.appendChild(h('div', { class: 'hsub' }, 'Tell us your price and we will search this product again every day. If a dated store price reaches it, you get one email. ' + (fo ? 'The best offer today is ' + money(fo.price, cur) + '. ' : '') + ' We can\'t promise one will appear.'));
     if (hl) box.appendChild(h('div', { class: 'refrow' }, h('span', {}, 'Lowest in our dated history'), h('b', {}, usd2(hl, 'USD') + (hd ? ' · ' + hd : ''))));
     box.appendChild(h('div', { class: 'tin' }, cur === 'USD' ? h('span', {}, '$') : null, inp, h('span', {}, cur)));
     box.appendChild(warnEl);
@@ -1107,9 +1116,9 @@ html.embed .rp .stickb{display:none}
     box.appendChild(h('div', { class: 'fine', style: 'text-align:center' }, 'One email. No payment. No offer is guaranteed to appear. We use your address for this alert, and for deals only if you tick the box.'));
     return box;
   }
-  function proMonitor(j, r) {
+  function proMonitor(j, r, fo) {
     var wrap = h('div', { id: 'wbox' });
-    var cur = (r.lastSeen && r.lastSeen.currency) || 'USD';
+    var cur = fo ? fo.currency : (r.lastSeen && r.lastSeen.currency) || 'USD';
     var cand = { name: j.product.name, variant: j.product.variant };
     function load() {
       api('watch', { action: 'status', candidate: cand }).then(function (x) {
@@ -1118,11 +1127,12 @@ html.embed .rp .stickb{display:none}
       });
     }
     function proAdd(s) {
-      var card = h('div', { class: 'rc gold' }, h('h2', { class: 'rk' }, 'Monitor this product'), h('div', { class: 'tgh' }, 'We haven\'t found a verified deal yet'));
+      var card = h('div', { class: 'rc gold' }, h('h2', { class: 'rk' }, 'Monitor this product'), h('div', { class: 'tgh' }, fo ? 'Get emailed when it drops further' : 'We haven\'t found a verified deal yet'));
       var inp = h('input', { type: 'text', inputmode: 'decimal', placeholder: 'Optional: the price you would pay', 'aria-label': 'Optional target price', maxlength: '9', style: 'width:100%' });
       var msg = h('div', { class: 'micro', 'aria-live': 'polite' });
       var go = h('button', { type: 'button', class: 'rb big', style: 'margin-top:10px;width:100%', onclick: function () {
         go.disabled = true; msg.textContent = ''; var v = numOf(inp.value);
+        if (fo && v >= fo.price) { go.disabled = false; msg.textContent = 'The offer above is already ' + money(fo.price, cur) + '. Set a price below it to wait for a drop.'; return; }
         api('watch', { action: 'add', candidate: cand, target: v >= 1 ? { price: v, currency: cur } : undefined }).then(function (y) {
           go.disabled = false; var jj = y.json || {};
           if (y.status === 200 && jj.ok) { track('find_watch_added'); if (jj.target) track('find_target_set'); return load(); }
@@ -1136,7 +1146,7 @@ html.embed .rp .stickb{display:none}
     function monitorCard(s) {
       var it = s.item; var card = h('div', { class: 'rc gold' });
       card.appendChild(h('div', { style: 'display:flex;align-items:center;justify-content:flex-start;margin-bottom:8px;text-align:left' }, h('span', { class: 'mdot' }), h('b', {}, 'Monitoring is on'), h('span', { class: 'pill', style: 'margin-left:8px' }, 'PRO')));
-      card.appendChild(h('div', { class: 'tgh' }, 'No qualifying offer yet. We\'re still watching.'));
+      card.appendChild(h('div', { class: 'tgh' }, fo ? 'We\'re watching for a lower price.' : 'No qualifying offer yet. We\'re still watching.'));
       var ln = function (a, b) { return h('div', { class: 'ln' }, h('b', {}, a), h('span', {}, b)); };
       card.appendChild(ln('Watching since', fmtDayTs(it.created) + (it.checks ? ' · ' + pluralN(it.checks, 'daily check', 'daily checks') : ' · first check runs with the next daily search')));
       card.appendChild(ln('Last check', it.lastCheck ? fmtWhen(it.lastCheck) : 'not yet'));

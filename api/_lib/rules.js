@@ -78,6 +78,8 @@ function normalizeFinding(raw, i) {
     amount: num(raw.amount_usd),
     minPurchase: num(raw.min_purchase),
     conditions: (Array.isArray(raw.conditions) ? raw.conditions : []).slice(0, 6).map((c) => clean(c, 24).toLowerCase()).filter((c) => OF.CONDS.has(c)),
+    live: raw._live === true && raw._api === true, // read by our own code from the brand's own page during this search
+    stock: ['in_stock','out_of_stock','unknown'].includes(raw.stock) ? raw.stock : '',
     verified: raw._api === true, // set only by our own store-data code, never by the AI or by a web page
   };
 }
@@ -352,7 +354,7 @@ function buildReport(accepted, shown, ctx, hist) {
   const exp = coupons.map((c) => c.expiresIso).filter(Boolean).sort()[0] || null;
   const rep = {
     currency: cur, listPrice, freeTotal,
-    lowest: low ? { total: lowTotal, price: low.price, dateHuman: low.dateHuman, ageDays: low.ageDays, shipState: (low.shipping && low.shipping.state) || 'not_stated' } : null,
+    lowest: low ? { total: lowTotal, price: low.price, dateHuman: low.live ? 'checked today' : low.dateHuman, ageDays: low.ageDays, shipState: (low.shipping && low.shipping.state) || 'not_stated' } : null,
     gap, freeIsLowest: !gap,
     spread: sorted.length > 1 ? r2((tot(sorted[sorted.length - 1]) - lowTotal) / tot(sorted[sorted.length - 1])) : null,
     freeCouponOff: shown && shown.kind === 'price' ? couponOff(shown, accepted) : 0, gapUncertain, nearlyEqual: gapRaw > 0 && gap === 0, smallGap: gapRaw > 0 && gap === 0 ? gapRaw : 0, afterCoupon: !!(low && couponOff(low, accepted) > 0), couponOff: low ? couponOff(low, accepted) : 0,
@@ -365,7 +367,7 @@ function buildReport(accepted, shown, ctx, hist) {
     histLowestDate: (() => { const pts = hist && Array.isArray(hist.points) ? hist.points : []; const m = pts.filter((q) => hist.lowest && Math.abs(q.p - hist.lowest) < 0.01 && q.d)[0]; return m ? String(m.d).slice(0, 20) : null; })(),
     histAverage: hist && hist.average && (!cur || cur === 'USD') ? hist.average : null,
     regularPrice: !!(listPrice && lowTotal != null && lowTotal >= listPrice * 0.995),
-    rows: sorted.map((a) => ({ free: a === shown, dateHuman: a.dateHuman, ageDays: a.ageDays, shipState: (a.shipping && a.shipping.state) || 'not_stated' })),
+    rows: sorted.map((a) => ({ free: a === shown, dateHuman: a.live ? 'checked today' : a.dateHuman, ageDays: a.ageDays, shipState: (a.shipping && a.shipping.state) || 'not_stated' })),
   };
   rep.verdict = verdictOf(lowTotal, rep, hist, cur);
   if (rep.verdict && /earlier version/.test(rep.verdict.text || '')) { rep.histLowest = null; rep.histAverage = null; rep.histLowestDate = null; rep.histLowestWhere = null; }
@@ -438,7 +440,7 @@ function shape(ev, tier, extras, ctx) {
       listPrice: a.listPrice || null, saveUsd: a.listPrice ? r2(a.listPrice - a.price) : null, savePct: a.listPrice ? Math.round((1 - a.price / a.listPrice) * 100) : null,
       expires: a.expiresIso, date: a.date, dateHuman: a.dateHuman, ageDays: a.ageDays,
       status: a.status || OF.statusOf(a, ctx && ctx.now), conditions: OF.conditionsOf(a), promoType: a.promoType || undefined, provider: a.provider || undefined, amount: a.amount || undefined, minPurchase: a.minPurchase || undefined,
-      sourceUrl: a.sourceUrl, sourceTitle: a.sourceTitle, seller: a.seller, condition: a.condition, ships: a.ships, note: a.note,
+      sourceUrl: a.sourceUrl, sourceTitle: a.sourceTitle, seller: a.seller, condition: a.condition, ships: a.ships, note: a.note, live: a.live || undefined, stock: a.stock || undefined,
       target: ctx && ctx.productName ? storeTarget(a, ctx.productName, ctx.country) : { url: a.sourceUrl, kind: 'article' },
     };
     if (full) {

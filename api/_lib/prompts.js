@@ -60,7 +60,7 @@ A first search found no usable dated offers. Search again in a different way: tr
 
 // Two searches run at the same time, each with its own focus, then their findings are merged.
 const FOCUS_PRICES = `
-Focus for THIS search: current retail prices at the big retailers for this exact model (each with its shipping if printed), refurbished or open-box units from the manufacturer's outlet store, and any newer model. Do not spend searches on coupons or cashback.`;
+Focus for THIS search: current retail prices at the big retailers for this exact model (each with its shipping if printed), refurbished or open-box units from the manufacturer's outlet store, the manufacturer's own product and store pages (include their web addresses even when no date is printed), and any newer model. Do not spend searches on coupons or cashback.`;
 const FOCUS_EXTRAS = `
 Focus for THIS search: ways to pay less for this exact product on top of the shelf price. Investigate, for the product and the big retailers that sell it: coupon codes with their printed expiry (including product-specific, newsletter or first-order, app-only and creator codes), cashback rates on cashback sites and apps, store credit-card and payment-provider offers, gift-card promotions, manufacturer rebates, trade-in credits, member, student, military or teacher discounts, bundles, clearance, and deal-forum or deal-roundup posts with a printed date. Search the manufacturer's own promotions page too. Use the exact model name and any model number given. Do not spend searches on plain shelf prices.`;
 

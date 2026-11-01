@@ -34,6 +34,8 @@ function cfg() {
     maxAgeDays: num(e.FIND_MAX_AGE_DAYS, 30),
     staleMaxDays: num(e.FIND_STALE_MAX_DAYS, 180),
     cashbackMaxDays: num(e.FIND_CASHBACK_MAX_DAYS, 120),
+    officialLive: e.FIND_OFFICIAL !== '0', // read the brand's own product pages live during a search
+    officialMaxPages: num(e.FIND_OFFICIAL_PAGES, 3),
     freeChecks: num(e.FIND_FREE_CHECKS, 1),
     emailBonus: num(e.FIND_EMAIL_BONUS, 2),
     weeklyRefill: num(e.FIND_WEEKLY_REFILL, 1),
