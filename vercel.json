@@ -272,11 +272,6 @@
       "permanent": true
     },
     {
-      "source": "/deals/dyson-v15-detect-price-history",
-      "destination": "/deals/dyson-v11-price-history",
-      "permanent": true
-    },
-    {
       "source": "/deals/abccanopy-gazebo-price-history",
       "destination": "/deals/outdoor",
       "permanent": true
