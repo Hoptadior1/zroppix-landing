@@ -193,6 +193,14 @@ html.embed .rp .stickb{display:none}
 @media(max-width:600px){.rp .hh{font-size:26px}.rp .cmp2 b{font-size:22px}.rp .tr{grid-template-columns:1.25fr .85fr .9fr;font-size:13px}}
 
 
+
+  .rp .tgh{font-size:22px;font-weight:900;line-height:1.2;margin:2px 0 8px}.rp .refrow{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--subtle);margin:10px 0}.rp .refrow b{color:var(--green)}
+  .rp .tin{display:flex;gap:8px;align-items:center;margin:8px 0 0}.rp .tin input,.rp .rc input[type=text]{flex:1;min-width:0;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;color:var(--text);font-size:15px}.rp .ln input{padding:8px 10px;font-size:14px}.rp .tin span{color:var(--muted);font-size:14px}
+  .rp .evc{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}.rp .evc span{font-size:12px;color:var(--subtle);border:1px solid var(--border);border-radius:999px;padding:4px 10px}
+  .rp .cols2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}.rp .cols2>div{border:1px solid var(--border);border-radius:12px;padding:12px}.rp .cols2 .p{border-color:rgba(201,168,76,.5)}.rp .cols2 h4{margin:0 0 6px;font-size:12px;color:var(--muted);letter-spacing:.6px}.rp .cols2 .p h4{color:var(--gold)}.rp .cols2 ul{margin:0;padding-left:16px;color:var(--subtle);font-size:13px;line-height:1.7}
+  .rp .mdot{width:10px;height:10px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(29,158,117,.2);display:inline-block;margin-right:8px}.rp .bar8{height:8px;background:var(--bg);border-radius:99px;overflow:hidden;margin:8px 0}.rp .bar8 i{display:block;height:100%;background:var(--gold)}
+  .rp .tw{font-size:12.5px;color:var(--gold);margin-top:6px;line-height:1.5}.rp .edl{background:none;border:0;color:var(--gold);font-size:12px;font-weight:800;text-decoration:underline;cursor:pointer;padding:0 0 0 6px}
+  @media(max-width:520px){.rp .cols2{grid-template-columns:1fr}}
   .steps3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:12px 0}.steps3 div{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:8px}.steps3 small{display:block;font-size:10.5px;color:var(--gold);font-weight:800;letter-spacing:.04em;text-transform:uppercase}.steps3 span{font-size:12px;color:var(--subtle);line-height:1.35;display:block;margin-top:2px}.freeln{display:block;text-align:center;margin:10px 0 2px;font-size:13px;color:var(--subtle);text-decoration:underline}
   .sb{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;border-radius:6px;padding:1px 6px;margin-left:6px;border:1px solid var(--border);color:var(--subtle);vertical-align:middle}.sb.verified{color:var(--green);border-color:rgba(29,158,117,.5)}.sb.available{color:#9fb0c8}.sb.conditional{color:var(--gold);border-color:rgba(201,168,76,.5)}.sb.expired,.sb.unverified{color:#e24b4a;border-color:rgba(226,75,74,.4)}.cmb .ln b{font-weight:600}.cmb .tot{border-top:1px solid var(--border);margin-top:4px;padding-top:6px}.cmb ol{margin:8px 0 4px 18px;padding:0;font-size:13.5px;color:var(--subtle);line-height:1.5}.cmb .chips span{display:inline-block;font-size:11px;border:1px solid var(--border);border-radius:999px;padding:1px 8px;margin:2px 4px 0 0;color:var(--subtle)}
 </style>
@@ -1025,8 +1033,149 @@ html.embed .rp .stickb{display:none}
   function lockedSaveText(ls) {
     var m = money(ls.usd, ls.currency);
     if (ls.vs === 'last') return [' One of them was about ', h('b', {}, m), ' lower than the last report shown above. It is old, so it may no longer be available.'];
-    if (ls.vs === 'history') return [' Its lowest price in our dated history is about ', h('b', {}, m), ' below the last report shown above. Pro watches for it.'];
+    if (ls.vs === 'history') return [' Its lowest price in our dated history is about ', h('b', {}, m), ' below the last report shown below. Pro watches for it.'];
     return [' One of them was priced about ', h('b', {}, m), ' below the regular price. It is old, so it may no longer be available.'];
+  }
+
+  // ---- target price ----
+  function fmtWhen(ts) { try { return new Date(ts).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }); } catch (_) { return ''; } }
+  function fmtDayTs(ts) { try { return new Date(ts).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }); } catch (_) { return ''; } }
+  function numOf(s) { var n = parseFloat(String(s == null ? '' : s).replace(/[^0-9.]/g, '')); return isFinite(n) ? n : 0; }
+  function toSearch() { var i = document.querySelector('.again input'); if (i) { i.scrollIntoView({ behavior: 'smooth', block: 'center' }); i.focus(); } }
+  function tgError(j) {
+    if (j.error === 'bad_target') return 'Enter a price of at least 1.';
+    if (j.error === 'bad_currency') return 'That price is not in the currency we read offers in for this product.';
+    if (j.error === 'bad_email') return 'That doesn\'t look like an email address.';
+    if (j.error === 'limit') return 'You are already watching the most products Pro allows (' + (j.limit || 20) + '). Stop one in "My watches" first.';
+    return null;
+  }
+  function targetBox(j, r) {
+    var cur = (r.lastSeen && r.lastSeen.currency) || 'USD';
+    var hl = r.history && r.history.lowest && cur === 'USD' ? r.history.lowest : null, hd = r.history && r.history.lowestDate ? r.history.lowestDate : null;
+    var box = h('div', { id: 'wbox', class: 'rc gold' });
+    var msg = h('div', { 'aria-live': 'polite', class: 'micro' });
+    var warnEl = h('div', { class: 'tw', 'aria-live': 'polite' });
+    var inp = h('input', { type: 'text', inputmode: 'decimal', placeholder: hl ? '' : 'e.g. 250', 'aria-label': 'The price you would pay', maxlength: '9', value: hl ? String(Math.round(hl)) : '' });
+    var email = h('input', { type: 'email', placeholder: 'your email', 'aria-label': 'Your email', required: 'required', maxlength: '254', autocomplete: 'email', style: 'width:100%;margin-top:8px' });
+    var hp = h('input', { class: 'hp', type: 'text', name: 'website', tabindex: '-1', autocomplete: 'off', 'aria-hidden': 'true' });
+    var mk = h('input', { type: 'checkbox', id: 'wmk', style: 'margin-top:3px;flex:none' });
+    var btn = h('button', { class: 'rb big', type: 'submit', style: 'margin-top:12px;width:100%' }, '');
+    function label() {
+      var v = numOf(inp.value);
+      btn.textContent = v >= 1 ? 'Email me once if it reaches ' + money(v, cur) + ' · Free' : 'Email me once when a dated offer appears · Free';
+      warnEl.textContent = hl && v >= 1 && v < hl ? 'That is lower than any price in our dated history. It may take a long time or never appear. We will still email you if it does.' : '';
+    }
+    inp.addEventListener('input', label); label();
+    function upsell(done) {
+      var card = h('div', { class: 'rc gold' }, h('h2', { class: 'rk' }, 'Free alert or Pro monitoring'),
+        h('div', { style: 'font-size:18px;font-weight:800;margin:2px 0 6px' }, 'The free alert runs once, then stops'),
+        h('div', { class: 'hsub' }, 'A price can reach your target tomorrow, next week, or not at all. Pro searches every day and emails you each time a dated offer passes our checks, so you do not have to remember to come back.'),
+        h('div', { class: 'cols2' }, h('div', {}, h('h4', {}, 'YOUR FREE ALERT'), h('ul', {}, h('li', {}, 'One email'), h('li', {}, 'One product'))), h('div', { class: 'p' }, h('h4', {}, 'PRO · $14/MONTH'), h('ul', {}, h('li', {}, 'Searched every day'), h('li', {}, 'Up to 20 products'), h('li', {}, 'An email each time an offer passes')))));
+      warm(); card.appendChild(rbtn('Keep watching this every day · Pro $14/month', 'big', function () { track('find_after_alert_pro'); openPro('after_alert'); }));
+      card.appendChild(h('div', { class: 'fine', style: 'text-align:center' }, '3-day money-back guarantee · Cancel in one click · We can\'t promise a price will drop'));
+      card.appendChild(rbtn('No thanks, search another product', 'o', toSearch));
+      if (box.parentNode) box.parentNode.insertBefore(card, box.nextSibling);
+    }
+    box.appendChild(h('h2', { class: 'rk' }, 'Set the price you\'d buy at'));
+    box.appendChild(h('div', { class: 'hsub' }, 'Tell us your price and we will search this product again every day. If a dated store price reaches it, you get one email. We can\'t promise one will appear.'));
+    if (hl) box.appendChild(h('div', { class: 'refrow' }, h('span', {}, 'Lowest in our dated history'), h('b', {}, usd2(hl, 'USD') + (hd ? ' · ' + hd : ''))));
+    box.appendChild(h('div', { class: 'tin' }, cur === 'USD' ? h('span', {}, '$') : null, inp, h('span', {}, cur)));
+    box.appendChild(warnEl);
+    var f = h('form', { class: 'form', style: 'margin:0', onsubmit: function (e) {
+      e.preventDefault(); btn.disabled = true; msg.textContent = '';
+      var v = numOf(inp.value);
+      api('watch', { action: 'add', candidate: { name: j.product.name, variant: j.product.variant }, email: email.value, hp: hp.value, marketing: !!mk.checked, target: v >= 1 ? { price: v, currency: cur } : undefined }).then(function (x) {
+        btn.disabled = false; var jj = x.json || {};
+        if (x.status === 200 && jj.ok) {
+          track('find_watch_requested'); if (jj.target) track('find_target_set');
+          box.textContent = '';
+          box.appendChild(h('span', { class: 'pill' }, '✓ Almost done'));
+          box.appendChild(h('div', { class: 'tgh', style: 'margin-top:8px' }, 'Confirm your email to start the alert'));
+          box.appendChild(h('div', { class: 'hsub' }, 'We sent a link to ' + email.value + '. Click it and we start watching' + (jj.target ? ' for a dated store price of ' + money(jj.target.price, jj.target.currency) + ' or less' : ' for a dated offer') + '. You get one email, with the store, price and date.'));
+          box.appendChild(h('div', { class: 'fine' }, 'Nothing arrived? Look in spam or promotions. The link works for 7 days. Every email has a link to stop.'));
+          upsell();
+          return;
+        }
+        if (x.status === 429) return fail('Too many tries. Please wait a little and try again.');
+        var te = tgError(jj); fail(te || 'We couldn\'t set that up right now. Please try again in a few minutes.');
+      });
+    } }, email, hp, btn);
+    function fail(text) { msg.textContent = text; }
+    box.appendChild(f);
+    box.appendChild(h('label', { for: 'wmk', style: 'display:flex;gap:8px;align-items:flex-start;margin:10px 0 0;font-size:13px;color:var(--subtle)' }, mk, 'Also email me the best deals now and then (optional)'));
+    box.appendChild(msg);
+    box.appendChild(h('div', { class: 'fine', style: 'text-align:center' }, 'One email. No payment. No offer is guaranteed to appear. We use your address for this alert, and for deals only if you tick the box.'));
+    return box;
+  }
+  function proMonitor(j, r) {
+    var wrap = h('div', { id: 'wbox' });
+    var cur = (r.lastSeen && r.lastSeen.currency) || 'USD';
+    var cand = { name: j.product.name, variant: j.product.variant };
+    function load() {
+      api('watch', { action: 'status', candidate: cand }).then(function (x) {
+        var s = x.json || {}; wrap.textContent = '';
+        if (x.status === 200 && s.watching && s.item) wrap.appendChild(monitorCard(s)); else wrap.appendChild(proAdd(s));
+      });
+    }
+    function proAdd(s) {
+      var card = h('div', { class: 'rc gold' }, h('h2', { class: 'rk' }, 'Monitor this product'), h('div', { class: 'tgh' }, 'We haven\'t found a verified deal yet'));
+      var inp = h('input', { type: 'text', inputmode: 'decimal', placeholder: 'Optional: the price you would pay', 'aria-label': 'Optional target price', maxlength: '9', style: 'width:100%' });
+      var msg = h('div', { class: 'micro', 'aria-live': 'polite' });
+      var go = h('button', { type: 'button', class: 'rb big', style: 'margin-top:10px;width:100%', onclick: function () {
+        go.disabled = true; msg.textContent = ''; var v = numOf(inp.value);
+        api('watch', { action: 'add', candidate: cand, target: v >= 1 ? { price: v, currency: cur } : undefined }).then(function (y) {
+          go.disabled = false; var jj = y.json || {};
+          if (y.status === 200 && jj.ok) { track('find_watch_added'); if (jj.target) track('find_target_set'); return load(); }
+          msg.textContent = tgError(jj) || 'We couldn\'t set that up right now. Please try again in a few minutes.';
+        });
+      } }, 'Watch this product');
+      card.appendChild(h('div', { class: 'hsub' }, 'We search it again every day and email ' + (s.email || (state.pro && state.pro.email) || 'you') + ' when a dated offer passes our checks. Add a price and we email only when a dated store price reaches it.'));
+      card.appendChild(inp); card.appendChild(go); card.appendChild(msg);
+      return card;
+    }
+    function monitorCard(s) {
+      var it = s.item; var card = h('div', { class: 'rc gold' });
+      card.appendChild(h('div', { style: 'display:flex;align-items:center;justify-content:flex-start;margin-bottom:8px;text-align:left' }, h('span', { class: 'mdot' }), h('b', {}, 'Monitoring is on'), h('span', { class: 'pill', style: 'margin-left:8px' }, 'PRO')));
+      card.appendChild(h('div', { class: 'tgh' }, 'No qualifying offer yet. We\'re still watching.'));
+      var ln = function (a, b) { return h('div', { class: 'ln' }, h('b', {}, a), h('span', {}, b)); };
+      card.appendChild(ln('Watching since', fmtDayTs(it.created) + (it.checks ? ' · ' + pluralN(it.checks, 'daily check', 'daily checks') : ' · first check runs with the next daily search')));
+      card.appendChild(ln('Last check', it.lastCheck ? fmtWhen(it.lastCheck) : 'not yet'));
+      if (it.next) card.appendChild(ln('Next check', 'about ' + fmtWhen(it.next)));
+      var tv = h('span', {}); var tl = h('div', { class: 'ln' }, h('b', {}, 'Your target price'), tv); card.appendChild(tl);
+      var tmsg = h('div', { class: 'micro', 'aria-live': 'polite' });
+      function drawT() {
+        tv.textContent = '';
+        if (it.target) { tv.appendChild(document.createTextNode(money(it.target.price, it.target.currency))); tv.appendChild(h('button', { type: 'button', class: 'edl', onclick: editT }, 'edit')); tv.appendChild(h('button', { type: 'button', class: 'edl', onclick: function () { saveT(null); } }, 'remove')); }
+        else { tv.appendChild(document.createTextNode('none set')); tv.appendChild(h('button', { type: 'button', class: 'edl', onclick: editT }, 'set one')); }
+      }
+      function saveT(v) {
+        tmsg.textContent = '';
+        api('watch', { action: 'target', id: it.id, target: v ? { price: v, currency: (it.target && it.target.currency) || cur } : null }).then(function (y) {
+          var jj = y.json || {};
+          if (y.status === 200 && jj.ok) { it.target = jj.item.target; track(v ? 'find_target_edit' : 'find_target_remove'); drawT(); return; }
+          tmsg.textContent = tgError(jj) || 'We couldn\'t save that right now. Please try again.';
+        });
+      }
+      function editT() {
+        tv.textContent = '';
+        var i2 = h('input', { type: 'text', inputmode: 'decimal', maxlength: '9', 'aria-label': 'Target price', value: it.target ? String(it.target.price) : '', style: 'width:110px' });
+        tv.appendChild(i2); tv.appendChild(h('button', { type: 'button', class: 'edl', onclick: function () { var v = numOf(i2.value); if (v < 1) { tmsg.textContent = 'Enter a price of at least 1.'; return; } saveT(v); } }, 'save')); tv.appendChild(h('button', { type: 'button', class: 'edl', onclick: drawT }, 'cancel'));
+      }
+      drawT(); card.appendChild(tmsg);
+      card.appendChild(ln('Alerts', 'On, to ' + (s.email || 'your account email')));
+      if (it.lastRun) {
+        card.appendChild(h('div', { class: 'hsub', style: 'margin-top:12px' }, h('b', {}, 'What the last check covered')));
+        card.appendChild(ln('Pages reviewed', String(it.lastRun.found)));
+        card.appendChild(ln('Passed our checks', String(it.lastRun.passed)));
+        card.appendChild(ln('Rejected', String(it.lastRun.rejected)));
+      }
+      card.appendChild(h('div', { class: 'hsub', style: 'margin-top:12px' }, h('b', {}, 'Your watch list: '), s.used + ' of ' + s.limit + ' products'));
+      card.appendChild(h('div', { class: 'bar8' }, h('i', { style: 'width:' + Math.min(100, Math.round(100 * s.used / Math.max(1, s.limit))) + '%' })));
+      card.appendChild(rbtn('Add another product to watch', 'o', toSearch));
+      return card;
+    }
+    load();
+    return wrap;
   }
   function renderFallback(j) {
     var r = j.result, pro = j.tier === 'pro';
@@ -1039,22 +1188,36 @@ html.embed .rp .stickb{display:none}
     var body = r.reason === 'search_unavailable' ? 'The search didn\'t finish, so we can\'t say anything about prices. This did not use a check. Compare on the stores below.' : r.reason === 'unreadable' ? 'The search ran but we couldn\'t read what came back, so we can\'t say anything about prices. This did not use a check. Please try again, or compare on the stores below.' : 'We searched stores, coupons and cashback and found nothing dated within the last 30 days that passed our rules. This did not use a check.';
     if (down) stack.push(h('div', { class: 'rc', style: 'border-color:rgba(29,158,117,.5)' }, h('div', { class: 'rk', style: 'color:var(--green)' }, down ? 'NO RESULT' : 'NO CURRENT OFFER FOUND'), h('div', { style: 'font-size:19px;font-weight:800;margin:6px 0' }, title), h('div', { style: 'font-size:14px;color:var(--subtle)' }, body)));
     if (!down) {
-      var lsn = r.lastSeen; var hl = r.history && r.history.lowest ? r.history.lowest : null;
-      var hero = h('div', { class: 'hero' }, h('div', { class: 'hk' }, 'NOTHING CURRENT TO COMPARE'), h('div', { class: 'hh' }, 'No dated offer in the last 30 days'), h('div', { class: 'hsub' }, 'We searched stores, coupons and cashback. Nothing passed our rules. This did not use a check.'),
-        h('div', { class: 'cmp2' },
-          h('div', {}, h('small', {}, 'Free shows'), h('b', {}, 'None'), h('span', { class: 'mut' }, 'Checked today, nothing passed')),
-          h('div', { class: 'p' }, hl ? [h('small', { style: 'color:var(--green)' }, 'Lowest reported'), h('b', { style: 'color:var(--green)' }, usd2(hl, 'USD')), h('span', { class: 'mut' }, 'in our dated history. Pro watches for it')] : [h('small', { style: 'color:var(--green)' }, lsn ? 'Last report' : 'Pro watches'), h('b', { style: 'color:var(--green)' }, lsn ? money(lsn.price, lsn.currency) : 'Daily'), h('span', { class: 'mut' }, lsn ? lsn.store + ' · ' + lsn.dateHuman + ' (old)' : 'Emails you when a dated offer appears')])));
-      if (r.lockedSave && !pro) hero.appendChild(h('div', { class: 'hsub' }, r.lockedSave.vs === 'history' ? '' : 'Pro also found ' + pluralN((r.olderCount || 0) + (r.undatedCount || 0), 'older report', 'older reports') + ' for this product.', lockedSaveText(r.lockedSave)));
-      if (!pro) {
-        hero.appendChild(h('div', { class: 'steps3' }, [['Today', 'Added to the daily watch'], ['Every day', 'Stores, coupons and cashback searched'], ['The moment one passes', 'We email you the dated offer']].map(function (x, i) { return h('div', {}, h('small', {}, (i + 1) + ' · ' + x[0]), h('span', {}, x[1])); })));
+      var sm0 = r.rejectedSummary;
+      if (pro) {
+        stack.push(proMonitor(j, r));
+      } else {
+        // Top: say it plainly, show the real evidence, then the one free action, then free vs Pro.
+        var top = h('div', { class: 'rc gold' }, h('span', { class: 'pill' }, 'NO VERIFIED DEAL YET'),
+          h('div', { class: 'tgh', style: 'margin-top:8px' }, 'We haven\'t found a verified deal for this yet'),
+          h('div', { class: 'hsub' }, 'We searched stores, coupons and cashback. Nothing dated in the last 30 days passed our checks. This did not use a check.'));
+        if (r.lockedSave) top.appendChild(h('div', { class: 'hsub' }, r.lockedSave.vs === 'history' ? '' : 'Pro also found ' + pluralN((r.olderCount || 0) + (r.undatedCount || 0), 'older report', 'older reports') + ' for this product.', lockedSaveText(r.lockedSave)));
+        stack.push(top);
+        if (sm0 && sm0.count) {
+          var ev = h('div', { class: 'rc' }, h('h2', { class: 'rk' }, 'What we looked at'));
+          var evl = function (a, b) { return h('div', { class: 'ln' }, h('b', {}, a), h('span', {}, String(b))); };
+          ev.appendChild(evl('Pages reviewed', sm0.count));
+          if (sm0.undated) ev.appendChild(evl('Rejected: no date on the page', sm0.undated));
+          if (sm0.old) ev.appendChild(evl('Rejected: older than 30 days', sm0.old));
+          if (sm0.match) ev.appendChild(evl('Rejected: not the same product', sm0.match));
+          if (sm0.other) ev.appendChild(evl('Rejected: other reasons', sm0.other));
+          ev.appendChild(evl('Passed our checks', 0));
+          ev.appendChild(h('div', { class: 'fine' }, 'Counts come from this search. Pro shows each rejected page and why.'));
+          stack.push(ev);
+        }
+        stack.push(targetBox(j, r));
+        var fp = h('div', { class: 'rc' }, h('h2', { class: 'rk' }, 'Free alert or Pro monitoring?'),
+          h('div', { class: 'cols2' }, h('div', {}, h('h4', {}, 'FREE'), h('ul', {}, h('li', {}, 'One email when a dated offer reaches your price'), h('li', {}, 'One product'), h('li', {}, 'Stops after the email'))),
+            h('div', { class: 'p' }, h('h4', {}, 'PRO · $14/MONTH'), h('ul', {}, h('li', {}, 'Searched every day'), h('li', {}, 'Up to 20 products'), h('li', {}, 'Emailed each time a dated offer passes our checks'), h('li', {}, 'No need to come back and search')))));
+        warm(); fp.appendChild(rbtn('Watch this every day · Pro $14/month', 'big', function () { openPro('fallback_hero'); }));
+        fp.appendChild(h('div', { class: 'fine', style: 'text-align:center' }, '3-day money-back guarantee · Cancel in one click · We can\'t promise a price will drop'));
+        stack.push(fp);
       }
-      if (!pro) {
-        hero.appendChild(h('div', { class: 'hsub' }, h('b', {}, 'Prices change. '), 'Pro searches this product every day and emails you the moment a dated offer passes our checks, so you do not have to keep coming back.'));
-        warm(); hero.appendChild(rbtn('Start watching today · Pro $14/month', 'big', function () { openPro('fallback_hero'); }));
-        hero.appendChild(h('a', { href: '#wbox', class: 'freeln', onclick: function (e) { var el = document.getElementById('wbox'); if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } } }, 'Not ready? Email me once, free'));
-        hero.appendChild(h('div', { class: 'fine', style: 'text-align:center' }, '3-day money-back guarantee · Cancel in one click · We can\'t promise a price will drop'));
-      }
-      stack.push(hero);
     }
     if (r.lastSeen) {
       var rr = function (x, first) { return h('div', { class: 'ln' }, h('b', {}, (first ? 'Last report: ' : '') + x.store), h('span', {}, money(x.price, x.currency) + ' · ' + x.dateHuman + ' (' + x.ageDays + ' days ago) ', ext(x.sourceUrl, 'Source'))); };
@@ -1082,7 +1245,6 @@ html.embed .rp .stickb{display:none}
       pc.appendChild(h('div', { class: 'fine', style: 'text-align:center' }, '3-day money-back guarantee · Cancel in one click · We can\'t promise a price will drop'));
       stack.push(pc);
     }
-    if (r.reason === 'no_current_offer') stack.push(watchBox(j.product, 'empty', lockedN > 0));
     (r.newer || []).forEach(function (nw) { stack.push(h('div', { class: 'note' }, h('b', {}, 'Newer model: '), nw.title + (nw.store ? ' · ' + nw.store : '') + ', reported ' + nw.dateHuman + '. ', ext(nw.sourceUrl, 'Source'))); });
     var cmp = h('div', { class: 'rc' }, h('h2', { class: 'rk' }, 'Compare on these stores'));
     var links = h('div', { class: 'links' }); (r.links || []).forEach(function (l) { links.appendChild(ext(l.url, l.store)); }); cmp.appendChild(links);

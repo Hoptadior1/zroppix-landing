@@ -51,15 +51,15 @@ async function baselineFor(product, country) {
 }
 
 // Add an item to a subscriber record. Returns {ok} or {error}.
-async function addItem(sub, { name, variant, country, base }, now) {
+async function addItem(sub, { name, variant, country, base, target }, now) {
   const c = cfg();
   const key = itemKey({ name, variant }, country);
   sub.items = sub.items || [];
   const existing = sub.items.find((it) => it.key === key && active(it, now));
-  if (existing) return { ok: true, already: true, item: existing };
+  if (existing) { if (target) existing.target = target; return { ok: true, already: true, item: existing }; }
   if (activeItems(sub, now).length >= limitFor(sub)) return { error: 'limit' };
   const days = sub.plan === 'pro' ? c.watchDaysPro : c.watchDaysFree;
-  const item = { id: crypto.randomBytes(5).toString('hex'), key, name, variant, country, created: now, expires: now + days * DAY, base: base || null, last: null };
+  const item = { id: crypto.randomBytes(5).toString('hex'), key, name, variant, country, created: now, expires: now + days * DAY, base: base || null, last: null, target: target || null, checks: 0, lastCheck: null, lastRun: null };
   sub.items = sub.items.filter((it) => it.key !== key || active(it, now)).concat(item).slice(-60);
   return { ok: true, item };
 }
@@ -67,6 +67,14 @@ async function addItem(sub, { name, variant, country, base }, now) {
 // Decide whether today's result deserves an email for this item. Pro users hear about real improvements, free users about the first find.
 function shouldNotify(item, best, extras, plan, now) {
   const c = cfg();
+  if (item.target) { // a watch with a target price only speaks when a dated store price reaches it
+    if (!best || best.kind !== 'price' || !(best.price > 0) || !best.sourceUrl) return false;
+    if (best.currency !== item.target.currency || best.price > item.target.price) return false;
+    if (!item.last) return true;
+    if (plan !== 'pro') return false;
+    if (now - item.last.ts < c.watchMinGapDays * DAY) return false;
+    return best.price <= item.last.price * 0.97;
+  }
   if (!best || !(best.price > 0) || !best.sourceUrl) return false;
   const codes = (extras || []).filter((x) => x.code).map((x) => x.code);
   if (!item.last) {
@@ -80,4 +88,29 @@ function shouldNotify(item, best, extras, plan, now) {
   return lower || newCode;
 }
 
-module.exports = { subId, itemKey, sig, sigOk, stopLink, unsubLink, link, getSub, saveSub, active, activeItems, limitFor, baselineFor, addItem, shouldNotify, DAY };
+// A target price is a number the shopper chose. It must be a sensible amount, and in the currency the offers are read in.
+const MAX_TARGET = 100000;
+function parseTarget(raw, base) {
+  if (raw == null || raw === '') return null;
+  const t = typeof raw === 'object' ? raw : { price: raw };
+  const s = String(t.price == null ? '' : t.price).trim();
+  if (!/^[^\d-]{0,3}\d[\d,]*(\.\d+)?\s*$/.test(s)) return { error: 'bad_target' }; // digits only, with at most a currency sign in front: no minus, no letters
+  const n = Number(s.replace(/[^0-9.]/g, ''));
+  const price = Math.round(n * 100) / 100;
+  if (!(price >= 1 && price <= MAX_TARGET)) return { error: 'bad_target' };
+  const cur = String(t.currency || (base && base.currency) || 'USD').toUpperCase();
+  if (!/^[A-Z]{3}$/.test(cur) || (base && base.currency && base.currency !== cur)) return { error: 'bad_currency' };
+  return { price, currency: cur };
+}
+// What one daily check saw, kept on the watch so the shopper can see real evidence. Only counts we really have.
+function recordCheck(item, ev, now) {
+  item.checks = (item.checks || 0) + 1;
+  item.lastCheck = now;
+  const acc = (ev && ev.accepted) || []; const rej = (ev && ev.rejected) || [];
+  item.lastRun = { found: acc.length + rej.length, passed: acc.length, rejected: rej.length };
+}
+// Vercel Cron runs /api/watchrun at 05:00 UTC every day (see vercel.json). Only watches that are active have a next check.
+const nextRun = (now) => { const d = new Date(now); d.setUTCHours(5, 0, 0, 0); if (d.getTime() <= now) d.setUTCDate(d.getUTCDate() + 1); return d.getTime(); };
+const view = (it, now) => ({ id: it.id, name: it.name, variant: it.variant, created: it.created, expires: it.expires, checks: it.checks || 0, lastCheck: it.lastCheck || null, lastRun: it.lastRun || null, target: it.target || null, last: it.last ? { price: it.last.price, store: it.last.store, ts: it.last.ts } : null, next: nextRun(now) });
+
+module.exports = { parseTarget, recordCheck, nextRun, view, subId, itemKey, sig, sigOk, stopLink, unsubLink, link, getSub, saveSub, active, activeItems, limitFor, baselineFor, addItem, shouldNotify, DAY };

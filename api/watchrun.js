@@ -76,8 +76,18 @@ async function processProduct(key, state) {
   }
   await store.set('wlast:' + key, '1', 20 * 3600);
   state.products++;
+  // Record what this check saw on every watch of the product, even when nothing passed. This is the evidence the shopper sees.
+  const nowTs = Date.now();
+  for (const ref of g.subs) {
+    const s0 = await W.getSub(ref.id);
+    const it0 = s0 && (s0.items || []).find((x) => x.id === ref.item);
+    if (!it0 || !W.active(it0, nowTs)) continue;
+    W.recordCheck(it0, ev, nowTs);
+    await W.saveSub(ref.id, s0);
+  }
   if (!RS.hasOffers(ev)) return;
   const best = R.pickBest(ev.accepted.filter((a) => a.kind === 'price' || a.kind === 'refurb'));
+  const bestPrice = R.pickBest(ev.accepted.filter((a) => a.kind === 'price')); // a watch with a target price only counts new, dated store prices
   const extras = ev.accepted.filter((a) => a.kind === 'coupon' || a.kind === 'cashback').map((a) => ({ kind: a.kind, store: a.store, code: a.code, percent: a.percent, expires: a.expiresIso }));
   for (const ref of g.subs) {
     if (state.emails >= c.watchMaxEmails) return;
@@ -86,12 +96,13 @@ async function processProduct(key, state) {
     const item = (sub.items || []).find((it) => it.id === ref.item);
     if (!item || !W.active(item, Date.now())) continue;
     const pro = sub.plan === 'pro';
-    if (!W.shouldNotify(item, best, extras, sub.plan, Date.now())) continue;
+    const use = item.target ? bestPrice : best;
+    if (!W.shouldNotify(item, use, extras, sub.plan, Date.now())) continue;
     const label = item.name + (item.variant ? ' (' + item.variant + ')' : '');
-    const m = watchAlertEmail({ name: label, best, extras, pro, findUrl: c.siteUrl + '/find?q=' + encodeURIComponent(item.name), stopUrl: W.stopLink(ref.id, item.id), unsubUrl: W.unsubLink(ref.id) });
+    const m = watchAlertEmail({ name: label, best: use, target: item.target, extras, pro, findUrl: c.siteUrl + '/find?q=' + encodeURIComponent(item.name), stopUrl: W.stopLink(ref.id, item.id), unsubUrl: W.unsubLink(ref.id) });
     const r = await sendEmail({ to: sub.email, subject: m.subject, html: m.html, text: m.text, headers: m.headers });
     if (!r.ok) continue; // not marked as sent, so tomorrow's run tries again
-    item.last = { price: best.price, store: best.store, ts: Date.now(), codes: extras.filter((x) => x.code).map((x) => x.code).slice(0, 10) };
+    item.last = { price: use.price, store: use.store, ts: Date.now(), codes: extras.filter((x) => x.code).map((x) => x.code).slice(0, 10) };
     if (!pro) item.done = true; // a free watch delivers its one alert and finishes
     await W.saveSub(ref.id, sub);
     state.emails++; bump('watch_sent');

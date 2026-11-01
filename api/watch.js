@@ -2,6 +2,8 @@
 // Price watches.
 //   POST /api/watch  {action:'add', candidate, email?, marketing?, visitor, country?, hp}   start watching a product
 //   POST /api/watch  {action:'list'} | {action:'remove', id}                                 Pro: my watches
+//   POST /api/watch  {action:'status', candidate} | {action:'target', id, target|null}         Pro: one product's monitoring status; set, change or clear its target price
+//   'add' also takes target:{price,currency}: the watch then emails only when a dated store price reaches it.
 //   GET|POST /api/watch?a=confirm&t=<token>                                                  confirm a watch (GET shows a page with a button, POST does it)
 //   GET|POST /api/watch?a=stop&w=<id>&i=<item>&s=<sig>                                       stop one watch (signed link from the alert email)
 //   GET|POST /api/watch?a=unsub&w=<id>&s=<sig>                                               stop all alerts (also the List-Unsubscribe one-click target)
@@ -42,7 +44,7 @@ async function linkActions(req, res, q) {
     if (!TOKEN_RE.test(t)) return page(res, 400, 'This link does not work', 'The link is incomplete. Open it again from the email.');
     const rec = await store.getJson('wpend:' + t);
     if (!rec) return page(res, 404, 'This link has expired', 'Confirmation links work for 7 days and once. Start the watch again from the Find it for less page.');
-    if (!post) return page(res, 200, 'Start watching ' + rec.item.name + '?', 'We will search for it again every day for ' + (c.watchDaysFree) + ' days and email <b>' + esc(rec.email) + '</b> once when a dated offer passes our checks.', { action: here, label: 'Yes, watch it' });
+    if (!post) return page(res, 200, 'Start watching ' + rec.item.name + '?', 'We will search for it again every day for ' + (c.watchDaysFree) + ' days and email <b>' + esc(rec.email) + '</b> once when ' + (rec.item.target ? 'a dated store price reaches <b>' + esc(rec.item.target.price) + ' ' + esc(rec.item.target.currency) + '</b>' : 'a dated offer passes our checks') + '.', { action: here, label: 'Yes, watch it' });
     await store.del('wpend:' + t);
     const id = W.subId(rec.email); const now = Date.now();
     const sub = (await W.getSub(id)) || { email: rec.email, plan: 'free', created: now, items: [] };
@@ -89,14 +91,36 @@ module.exports = async (req, res) => {
     const who = await PRO.whoIs(req).catch(() => null);
     const pro = !!(who && who.pro);
 
-    if (action === 'list' || action === 'remove') {
+    if (action === 'list' || action === 'remove' || action === 'status' || action === 'target') {
       if (!pro) return send(res, 401, { error: 'not_pro' });
-      const id = W.subId(who.email); const sub = await W.getSub(id);
+      const id = W.subId(who.email); const sub = await W.getSub(id); const now = Date.now();
       if (action === 'remove') {
         const item = clean(body.id, 20);
         if (sub && ITEM_RE.test(item)) { sub.items = (sub.items || []).map((it) => (it.id === item ? Object.assign({}, it, { stopped: true }) : it)); await W.saveSub(id, sub); }
       }
-      const items = W.activeItems(sub, Date.now()).map((it) => ({ id: it.id, name: it.name, variant: it.variant, created: it.created, expires: it.expires, last: it.last ? { price: it.last.price, store: it.last.store, ts: it.last.ts } : null }));
+      if (action === 'target') {
+        const item = clean(body.id, 20);
+        const it = sub && ITEM_RE.test(item) ? (sub.items || []).find((x) => x.id === item && W.active(x, now)) : null;
+        if (!it) return send(res, 404, { error: 'not_found' });
+        if (body.target == null || body.target === '') it.target = null;
+        else {
+          const tg = W.parseTarget(body.target, await W.baselineFor({ name: it.name, variant: it.variant }, it.country));
+          if (tg && tg.error) return send(res, 400, { error: tg.error });
+          it.target = tg;
+        }
+        await W.saveSub(id, sub); bump(it.target ? 'target_set' : 'target_cleared');
+        return send(res, 200, { ok: true, item: W.view(it, now) });
+      }
+      if (action === 'status') {
+        const cand = body.candidate && typeof body.candidate === 'object' ? body.candidate : {};
+        const name = clean(cand.name, 100); const variant = clean(cand.variant, 50);
+        if (name.length < 2) return send(res, 400, { error: 'no_product' });
+        const key = W.itemKey({ name, variant }, pickCountry(req, body));
+        const used = W.activeItems(sub, now);
+        const it = used.find((x) => x.key === key);
+        return send(res, 200, { ok: true, watching: !!it, item: it ? W.view(it, now) : null, used: used.length, limit: c.watchProItems, email: PRO.mask(who.email) });
+      }
+      const items = W.activeItems(sub, now).map((it) => W.view(it, now));
       return send(res, 200, { ok: true, items, limit: c.watchProItems });
     }
     if (action !== 'add') return send(res, 400, { error: 'bad_action' });
@@ -112,6 +136,8 @@ module.exports = async (req, res) => {
     if (name.length < 2) return send(res, 400, { error: 'no_product' });
     const country = pickCountry(req, body);
     const base = await W.baselineFor({ name, variant }, country);
+    const target = W.parseTarget(body.target, base);
+    if (target && target.error) return send(res, 400, { error: target.error });
     const now = Date.now();
     const label = name + (variant ? ' (' + variant + ')' : '');
 
@@ -119,23 +145,25 @@ module.exports = async (req, res) => {
       const id = W.subId(who.email);
       const sub = (await W.getSub(id)) || { email: who.email, created: now, items: [] };
       sub.plan = 'pro'; sub.unsubscribed = false;
-      const r = await W.addItem(sub, { name, variant, country, base }, now);
+      const r = await W.addItem(sub, { name, variant, country, base, target }, now);
       if (r.error === 'limit') return send(res, 200, { ok: false, error: 'limit', limit: c.watchProItems });
       await W.saveSub(id, sub);
       bump('watch_added_pro');
-      return send(res, 200, { ok: true, mode: 'direct', already: !!r.already, email: PRO.mask(who.email) });
+      if (target) bump('target_set');
+      return send(res, 200, { ok: true, mode: 'direct', already: !!r.already, email: PRO.mask(who.email), target: r.item.target || null });
     }
 
     const email = PRO.normEmail(body.email);
     if (!PRO.EMAIL_RE.test(email)) return send(res, 400, { error: 'bad_email' });
     if (!(await within('watchmail', W.subId(email), 3, 'hour')) || !(await within('watchmaild', W.subId(email), 5, 'day'))) return send(res, 200, { ok: true, mode: 'confirm' }); // same answer; no extra emails to one address
     const token = crypto.randomBytes(24).toString('base64url');
-    await store.setJson('wpend:' + token, { email, item: { name, variant, country, base }, marketing: body.marketing === true }, 7 * 86400);
+    await store.setJson('wpend:' + token, { email, item: { name, variant, country, base, target }, marketing: body.marketing === true }, 7 * 86400);
     bump('watch_requested');
-    const m = watchConfirmEmail({ link: c.siteUrl + '/api/watch?a=confirm&t=' + token, name: label, days: c.watchDaysFree });
+    if (target) bump('target_requested');
+    const m = watchConfirmEmail({ link: c.siteUrl + '/api/watch?a=confirm&t=' + token, name: label, days: c.watchDaysFree, target });
     const r = await sendEmail({ to: email, subject: m.subject, html: m.html, text: m.text });
     if (!r.ok) return send(res, 503, { error: 'email_unavailable' });
-    return send(res, 200, { ok: true, mode: 'confirm' });
+    return send(res, 200, { ok: true, mode: 'confirm', target: target || null });
   } catch (e) {
     return send(res, 503, { error: 'unavailable' });
   }

@@ -619,7 +619,7 @@ function buildFallback({ productName, country, stale, deal, newer, hadSearchErro
     undated: tier === 'pro' && (undated || []).length ? undated.map((u) => ({ store: u.store, kind: u.kind, price: u.price, currency: u.currency, saveUsd: u.listPrice > u.price ? r2(u.listPrice - u.price) : undefined, condition: u.condition, sourceUrl: u.sourceUrl, sourceTitle: u.sourceTitle })) : undefined,
     undatedCount: tier !== 'pro' && (undated || []).length ? undated.length : undefined,
     links: storeLinks(productName, country),
-    history: deal ? { url: '/deals/' + deal.slug, title: deal.title, lowest: deal.lowest || null, average: deal.average || null } : null,
+    history: deal ? { url: '/deals/' + deal.slug, title: deal.title, lowest: deal.lowest || null, average: deal.average || null, lowestDate: (() => { const pts = Array.isArray(deal.points) ? deal.points : []; const m = pts.filter((q) => deal.lowest && Math.abs(q.p - deal.lowest) < 0.01 && q.d)[0]; return m ? String(m.d).slice(0, 20) : null; })() } : null,
     newer: newer || [],
     sibling: !deal && related ? related : undefined,
   };
