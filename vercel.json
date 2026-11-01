@@ -725,6 +725,21 @@
       "source": "/blog/best-free-amazon-deal-checker",
       "destination": "/blog/amazon-deal-checker",
       "permanent": true
+    },
+    {
+      "source": "/blog/amazon-price-manipulation",
+      "destination": "/blog/how-does-amazon-dynamic-pricing-work",
+      "permanent": true
+    },
+    {
+      "source": "/blog/save-1000-amazon-year",
+      "destination": "/blog/how-to-never-overpay-amazon",
+      "permanent": true
+    },
+    {
+      "source": "/blog/should-i-buy-airpods-now-or-wait",
+      "destination": "/deals/airpods-pro-3-price-history",
+      "permanent": true
     }
   ],
   "headers": [
