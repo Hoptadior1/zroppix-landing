@@ -457,6 +457,19 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
 .find-cta{margin-top:26px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;align-items:center}
 .find-note{margin:16px auto 0;font-size:13px;color:var(--muted);max-width:640px}
 @media(max-width:800px){.find-grid,.find-fp{grid-template-columns:1fr}.findsec{padding:60px 20px}}
+</style><style>
+.protsec{padding:90px 20px;max-width:1040px;margin:0 auto;text-align:center}
+.prot-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;text-align:left;margin-bottom:22px}
+.prot-step{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px 20px}
+.prot-step .n{width:28px;height:28px;border-radius:50%;background:rgba(201,168,76,.15);color:var(--gold);font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:10px;font-size:14px}
+.prot-step b{display:block;font-size:16px;margin-bottom:4px}.prot-step span{font-size:14px;color:#ccc}
+.prot-tbl{background:var(--bg2);border:1px solid rgba(201,168,76,.35);border-radius:16px;padding:20px 22px;text-align:left}
+.prot-tbl .lab{font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--gold);margin-bottom:6px}
+.prot-tbl h3{font-size:19px;margin-bottom:10px}
+.pr{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);font-size:15px}
+.pr:last-of-type{border-bottom:0}.pr .k{font-weight:700}.pr .v{color:#ddd;text-align:right}.pr .v em{font-style:normal;color:var(--gold)}
+.prot-tbl .fine{font-size:12px;color:var(--muted);margin-top:10px}
+@media(max-width:800px){.prot-steps{grid-template-columns:1fr}.protsec{padding:60px 20px}}
 </style></head>
 <body>
 
@@ -607,6 +620,19 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
     <div class="step-card"><div class="step-num">2</div><h3>Protect what you bought</h3><p>Enter a purchase and see the store's reported price-adjustment window and your deadline, then get a ready claim message and a reminder. We cannot promise a store will approve a claim. <a href="/protect" style="color:#C9A84C;font-weight:700">Try Protect →</a></p></div>
     <div class="step-card"><div class="step-num">3</div><h3>Time it on Amazon</h3><p>The free Chrome extension adds a BUY or WAIT verdict and 90-day price history to Amazon product pages, and you can set a price alert. Verdicts are estimates, not guarantees.</p></div>
   </div>
+</section>
+
+<section class="protsec" id="protect" style="padding:70px 20px">
+  <div class="section-tag">Protect it after you buy</div>
+  <h2 class="section-h2">Price dropped after you bought?<br>You may still get money back.</h2>
+  <p class="section-sub" style="margin-bottom:30px">Some stores adjust the price, but only inside a short window (Target 14 days, Best Buy 15, Costco 30, as reported). Zroppix shows your deadline and writes the claim message.</p>
+  <div class="prot-steps" style="margin-bottom:26px">
+    <div class="prot-step"><div class="n">1</div><b>Enter your purchase</b><span>Store, product, price paid, date.</span></div>
+    <div class="prot-step"><div class="n">2</div><b>See your deadline</b><span>Plus a calendar reminder.</span></div>
+    <div class="prot-step"><div class="n">3</div><b>Check and claim</b><span>We look for a lower dated price and write the message.</span></div>
+  </div>
+  <div class="find-cta" style="margin-top:0"><a href="/protect" class="btn-gold btn-lg">🧾 Check a purchase free</a><a href="/pro?src=home-protect" style="color:var(--gold);font-weight:700;text-decoration:underline">Watch it daily with Pro</a></div>
+  <p class="find-note">No store is guaranteed to approve a claim. Store rules and the date we last checked them are on the <a href="/protect" style="color:var(--gold)">Protect page</a>.</p>
 </section>
 
 <section class="features-section" id="features">
