@@ -11,16 +11,16 @@
 <link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="#0d1423">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zroppix — AI Price Drop Predictor | Never Overpay on Amazon Again</title>
-<meta name="description" content="Zroppix uses AI to tell you exactly when to buy anything on Amazon. Get instant BUY or WAIT verdicts, price history and alerts when prices drop. Free Chrome extension.">
+<title>Zroppix: Find Lower Prices, Protect Purchases, BUY or WAIT</title>
+<meta name="description" content="Find a lower price across stores, coupons and cashback, check a store's price-adjustment window after you buy, and get BUY or WAIT verdicts on Amazon. Free to start.">
 <meta name="keywords" content="amazon price tracker, price drop alert, price history amazon, when to buy amazon, camelcamelcamel alternative, amazon price drop, AI price predictor, chrome extension price tracker, best time to buy amazon, price drop notifier">
 <link rel="canonical" href="https://zroppix.com">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Zroppix">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://zroppix.com">
-<meta property="og:title" content="Zroppix — The AI That Knows When To Buy">
-<meta property="og:description" content="Stop overpaying on Amazon. AI powered price analysis gives you instant BUY or WAIT verdicts. Free Chrome extension.">
+<meta property="og:title" content="Zroppix: Find lower prices, protect what you bought">
+<meta property="og:description" content="Search stores, coupons and cashback with a dated source on each offer, check price adjustments after you buy, and get BUY or WAIT on Amazon.">
 <meta property="og:image" content="https://zroppix.com/og-image.png">
 <meta property="og:site_name" content="Zroppix">
 <meta name="twitter:card" content="summary_large_image">
@@ -36,7 +36,7 @@
   "applicationCategory": "BrowserApplication",
   "applicationSubCategory": "ShoppingApplication",
   "operatingSystem": "Chrome, Brave",
-  "description": "AI powered price drop predictor for Amazon. Get instant BUY or WAIT verdicts, price history and automatic price alerts.",
+  "description": "Find lower prices across stores, check price-adjustment windows after you buy, and get BUY or WAIT verdicts and price alerts on Amazon.",
   "url": "https://zroppix.com",
   "downloadUrl": "https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf",
   "offers": [
@@ -432,13 +432,38 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
 .hx.in .hx-r2{transition-delay:.25s}.hx.in .hx-r3{transition-delay:.5s}.hx.in .hx-r4{transition-delay:.8s}.hx.in .hx-r5{transition-delay:1.1s}
 @media(max-width:600px){#lifetimeBanner{display:flex!important;flex-wrap:nowrap!important;align-items:center;justify-content:center;gap:10px;padding:11px 40px 11px 16px!important}#lifetimeBanner .lifetime-banner-text{display:block!important;text-align:left}#lifetimeBanner .lb-l,#lifetimeBanner .lifetime-banner-badge{display:none!important}#lifetimeBanner .lb-s{display:block;font-size:12.5px;line-height:1.35;color:#9a98b8}#lifetimeBanner .lb-s b{color:#C9A84C;font-size:13.5px}#lifetimeBanner .lifetime-banner-btn{padding:8px 12px!important;font-size:13px!important;white-space:nowrap;margin:0!important}#lifetimeBanner .lifetime-banner-close{position:absolute;right:12px;top:50%;transform:translateY(-50%)}.hero-trust{display:none}.hero-eyebrow{margin-bottom:22px}.hero{padding:34px 20px 40px}.hero h1{font-size:31px;letter-spacing:-.5px;line-height:1.16;margin-bottom:20px}.hs-l{display:none}.hs-s{display:block;color:#F1EFFA;font-weight:700;font-size:19px;line-height:1.4;max-width:320px;margin:0 auto;text-wrap:balance}.hero-subtitle{margin-bottom:30px}.hx{margin-top:44px}.hx-card{padding:18px 18px}.hx-row{font-size:15.5px}.hx-r2,.hx-r3,.hx-r6{padding:12px 0}.hx-price{font-size:24px}.hx-total{padding:13px 14px;font-size:16px}.hx-more{font-size:14px;margin-top:12px}.hx-fine{font-size:11.5px;margin-top:12px}}
 @media(prefers-reduced-motion:reduce){.hero::before{animation:none}.hx.pre .hx-r1,.hx.pre .hx-r2,.hx.pre .hx-r3,.hx.pre .hx-r4,.hx.pre .hx-r5{opacity:1;transform:none}}
+</style><style>
+.findsec{padding:90px 20px;max-width:1040px;margin:0 auto;text-align:center}
+.find-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:28px;text-align:left;align-items:stretch}
+.find-list{display:grid;gap:12px}
+.find-item{display:flex;gap:14px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px 18px}
+.find-item .fi{font-size:24px;line-height:1.2}
+.find-item b{display:block;font-size:16px;margin-bottom:2px}
+.find-item span{font-size:14px;color:#ccc}
+.find-card{background:var(--bg2);border:1px solid rgba(201,168,76,.35);border-radius:16px;padding:22px;display:flex;flex-direction:column}
+.find-card .lab{font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--gold);margin-bottom:10px}
+.find-card h3{font-size:19px;margin-bottom:12px}
+.fr{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px}
+.fr:last-of-type{border-bottom:0}
+.fr .k{color:var(--muted)} .fr .v{color:#fff;text-align:right}
+.fr .v em{font-style:normal;color:var(--gold)}
+.find-card .fine{font-size:12px;color:var(--muted);margin-top:auto;padding-top:12px}
+.find-fp{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px;text-align:left}
+.find-fp .b{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px 20px}
+.find-fp .b.pro{border-color:rgba(201,168,76,.5)}
+.find-fp h4{font-size:15px;margin-bottom:8px}.find-fp .b.pro h4{color:var(--gold)}
+.find-fp ul{list-style:none}.find-fp li{font-size:14px;color:#ccc;padding:3px 0 3px 22px;position:relative}
+.find-fp li::before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:800}
+.find-cta{margin-top:26px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;align-items:center}
+.find-note{margin:16px auto 0;font-size:13px;color:var(--muted);max-width:640px}
+@media(max-width:800px){.find-grid,.find-fp{grid-template-columns:1fr}.findsec{padding:60px 20px}}
 </style></head>
 <body>
 
 <div class="lifetime-banner" id="lifetimeBanner">
   <div class="lifetime-banner-text"><span class="lb-s">🏅 <b>Pay once, $149</b><br>Limited to 497 founding members</span>
     <span class="lifetime-banner-badge">🏅 Founding Member</span>
-    <span class="lb-l">Lifetime access for <strong>$149 — one payment, never pay again.</strong> Limited to 497 people ever.</span>
+    <span class="lb-l">Pro for life: <strong>$149 once.</strong> Limited to 497 people.</span>
   </div>
   <a href="/lifetime" class="lifetime-banner-btn">Lock It In →</a>
   <span class="lifetime-banner-close" onclick="document.getElementById('lifetimeBanner').style.display='none'">×</span>
@@ -450,7 +475,7 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
     <li><a href="#how">How it works</a></li>
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="/blog">Blog</a></li><li><a href="/black-friday">Black Friday</a></li>
-    <li><a href="/deals">Deals</a></li>
+    <li><a href="/deals">Deals</a></li><li><a href="/protect">Protect</a></li>
     <li><a href="/account">Account</a></li>
     <li><a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="btn-gold nav-cta">Add to Chrome — Free</a></li>
   </ul>
@@ -487,6 +512,37 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
     <div class="trust-item"><span class="trust-check">✓</span> Any product, any store</div>
     <div class="trust-item"><span class="trust-check">✓</span> Cancel Pro anytime</div>
   </div>
+</section>
+
+<section class="findsec" id="find">
+  <div class="section-tag">Find it for less</div>
+  <h2 class="section-h2">One search.<br>See what is cheaper, and where.</h2>
+  <p class="section-sub" style="margin-bottom:36px">Type any product. Find looks for a lower price, then shows each offer with its date and its source, so you can check it yourself before you buy.</p>
+  <div class="find-grid">
+    <div class="find-list">
+      <div class="find-item"><div class="fi">🛒</div><div><b>Offers from stores across the web</b><span>Current prices for the same product, including stores you may not have thought to check.</span></div></div>
+      <div class="find-item"><div class="fi">🏷️</div><div><b>Coupon codes</b><span>With the expiry date and where we found each one.</span></div></div>
+      <div class="find-item"><div class="fi">💵</div><div><b>Cashback</b><span>What cashback sites currently list for that store.</span></div></div>
+      <div class="find-item"><div class="fi">📦</div><div><b>Open-box and other deals</b><span>When a lower price exists in a different condition, we say which.</span></div></div>
+      <div class="find-item"><div class="fi">🚚</div><div><b>Shipping and total price</b><span>The cheapest listing is not always the cheapest once it arrives. Pro shows the total on each offer.</span></div></div>
+    </div>
+    <div class="find-card">
+      <div class="lab">HOW TO READ A RESULT</div>
+      <h3>Every offer is dated and sourced</h3>
+      <div class="fr"><span class="k">Store and price</span><span class="v">The offer we found</span></div>
+      <div class="fr"><span class="k">Date</span><span class="v">When the page was read</span></div>
+      <div class="fr"><span class="k">Source link</span><span class="v">Open it and check</span></div>
+      <div class="fr"><span class="k">Conditions</span><span class="v">Minimum spend, new customers, expiry</span></div>
+      <div class="fr"><span class="k">Offers we can’t date</span><span class="v"><em>Left out</em></span></div>
+      <div class="fine">Savings vary, offers may not combine, and some searches find nothing cheaper. When that happens, Find says so.</div>
+    </div>
+  </div>
+  <div class="find-fp">
+    <div class="b"><h4>Free</h4><ul><li>The best dated offer and its source</li><li>Free checks, no card needed</li><li>See the saving before you pay anything</li></ul></div>
+    <div class="b pro"><h4>Pro, $14 a month</h4><ul><li>Every offer we find, with store, price and link</li><li>Shipping and total price on each offer</li><li>Unlimited checks (fair use)</li><li>20 products searched again every day</li></ul></div>
+  </div>
+  <div class="find-cta"><a href="/find" class="btn-gold btn-lg">🔎 Try Find free</a><a href="/pro?src=home-find" style="color:var(--gold);font-weight:700;text-decoration:underline">Unlock every offer with Pro</a></div>
+  <p class="find-note">Find reads the web and some stores’ own data. It is a research tool, not a price guarantee.</p>
 </section>
 
 <div class="demo-wrapper">
@@ -543,13 +599,13 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
 <section class="how-section" id="how">
   <div style="text-align:center;margin-bottom:52px;">
     <div class="section-tag">How it works</div>
-    <h2 class="section-h2">Three steps to smarter shopping</h2>
-    <p class="section-sub">Zroppix works automatically while you browse. No setup required.</p>
+    <h2 class="section-h2">Find it. Protect it. Time it.</h2>
+    <p class="section-sub">Three tools for three moments: before you buy, after you buy, and while you shop on Amazon.</p>
   </div>
   <div class="steps-grid">
-    <div class="step-card"><div class="step-num">1</div><h3>Install in 10 seconds</h3><p>Add Zroppix to Chrome for free. No account required. No credit card. Just click install and it is ready to use immediately.</p></div>
-    <div class="step-card"><div class="step-num">2</div><h3>Browse Amazon normally</h3><p>Visit any product page on Amazon. Click the Zroppix icon in your toolbar. Instant price analysis appears — no waiting, no loading.</p></div>
-    <div class="step-card"><div class="step-num">3</div><h3>Buy at the perfect time</h3><p>Get a clear BUY or WAIT verdict. See your potential savings. Set a price alert and we email you the moment the price drops.</p></div>
+    <div class="step-card"><div class="step-num">1</div><h3>Find a lower price</h3><p>Type any product. We search stores, coupons, cashback and open-box offers and show each one with its date and source. Savings vary, and some searches find nothing cheaper. <a href="/find" style="color:#C9A84C;font-weight:700">Try Find →</a></p></div>
+    <div class="step-card"><div class="step-num">2</div><h3>Protect what you bought</h3><p>Enter a purchase and see the store's reported price-adjustment window and your deadline, then get a ready claim message and a reminder. We cannot promise a store will approve a claim. <a href="/protect" style="color:#C9A84C;font-weight:700">Try Protect →</a></p></div>
+    <div class="step-card"><div class="step-num">3</div><h3>Time it on Amazon</h3><p>The free Chrome extension adds a BUY or WAIT verdict and 90-day price history to Amazon product pages, and you can set a price alert. Verdicts are estimates, not guarantees.</p></div>
   </div>
 </section>
 
@@ -557,10 +613,13 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
   <div class="features-inner">
     <div style="text-align:center;margin-bottom:52px;">
       <div class="section-tag">Features</div>
-      <h2 class="section-h2">Everything you need to<br>never overpay again</h2>
-      <p class="section-sub">Powered by Claude AI — the most intelligent price predictor available.</p>
+      <h2 class="section-h2">Everything in one place,<br>before and after you buy</h2>
+      <p class="section-sub">Find, protect and time your purchases. AI drop predictions use Claude and are estimates, not guarantees.</p>
     </div>
     <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon">🔎</div><h3>Find it for less</h3><p>One search across stores, coupons, cashback and open-box offers. Every offer shows its date and source. Free shows the best dated offer; Pro shows every store, price and link.</p></div>
+      <div class="feature-card"><div class="feature-icon">🧾</div><h3>Price adjustment finder</h3><p>Enter what you bought. See the store's reported adjustment window, your deadline, and a claim message to send. We cannot promise a store will approve a claim.</p></div>
+      <div class="feature-card"><div class="feature-icon">👀</div><h3>Daily price watch</h3><p>Pro watches up to 20 products every day, including until your adjustment deadline, and emails you only when a lower dated price turns up.</p><span class="feature-tag">Pro</span></div>
       <div class="feature-card"><div class="feature-icon">🛡️</div><h3>BUY or WAIT Verdict</h3><p>One clear answer every time. No complex graphs to interpret. Just the decision you need to make.</p></div>
       <div class="feature-card"><div class="feature-icon">💰</div><h3>Potential Savings Amount</h3><p>See exactly how much you could save by waiting. Big bold number so you never miss a potential saving.</p></div>
       <div class="feature-card"><div class="feature-icon">👥</div><h3>What Others Paid</h3><p>Know what percentage of buyers paid less than you are about to. Never be the person who overpaid again.</p></div>
@@ -609,12 +668,12 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
     <div class="pricing-grid">
       <div class="price-card">
         <div class="price-plan">Free</div><div class="price-number">$0</div><div class="price-period">forever</div>
-        <ul class="price-list"><li class="grp">Chrome extension</li><li>BUY or WAIT verdict</li><li>Price history on Amazon</li><li>Overpay risk score</li><li>What others paid</li><li>Track up to 3 products</li><li>Email price alerts</li><li class="grp">Find it for less (web tool)</li><li>1 free check, 2 more with your email</li><li>See the best dated offer and its source</li></ul>
+        <ul class="price-list"><li class="grp">Chrome extension</li><li>BUY or WAIT verdict</li><li>Price history on Amazon</li><li>Overpay risk score</li><li>What others paid</li><li>Track up to 3 products</li><li>Email price alerts</li><li class="grp">Protect a purchase</li><li>Adjustment window, deadline and claim message</li><li>Calendar reminder</li><li>1 price lookup per browser</li><li class="grp">Find it for less (web tool)</li><li>1 free check, 2 more with your email</li><li>See the best dated offer and its source</li></ul>
         <a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="btn-outline" style="display:block;text-align:center;font-size:14px;padding:12px;">Install Free</a>
       </div>
       <div class="price-card">
         <div class="price-plan">Pro</div><div class="price-number">$14</div><div class="price-period">per month</div>
-        <ul class="price-list"><li>Everything in Free</li><li class="grp">Chrome extension</li><li class="pro-only">AI drop predictions</li><li class="pro-only">Why the price will drop</li><li class="pro-only">Drop timeframe</li><li class="pro-only">Confidence score</li><li>Works on Amazon</li><li>Unlimited tracking</li><li>Instant email alerts</li><li class="grp">Find it for less (web tool)</li><li class="pro-only">Every store, price and link we find</li><li class="pro-only">Shipping and total price</li><li class="pro-only">Unlimited checks (fair use)</li><li class="pro-only">Watch up to 20 products daily</li></ul>
+        <ul class="price-list"><li>Everything in Free</li><li class="grp">Chrome extension</li><li class="pro-only">AI drop predictions</li><li class="pro-only">Why the price will drop</li><li class="pro-only">Drop timeframe</li><li class="pro-only">Confidence score</li><li>Works on Amazon</li><li>Unlimited tracking</li><li>Instant email alerts</li><li class="grp">Protect a purchase</li><li class="pro-only">Daily price watch until your deadline</li><li class="grp">Find it for less (web tool)</li><li class="pro-only">Every store, price and link we find</li><li class="pro-only">Shipping and total price</li><li class="pro-only">Unlimited checks (fair use)</li><li class="pro-only">Watch up to 20 products daily</li></ul>
         <a href="#" onclick="openCheckout('pri_01krkmfh45bs9q5zhasvcdfpnb'); return false;" class="btn-outline" style="display:block;text-align:center;font-size:14px;padding:12px;">Get Pro</a>
       </div>
       <div class="price-card featured">
@@ -634,17 +693,17 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
       <div class="lifetime-pricing-card">
         <div class="lpc-left">
           <div class="lpc-badge">🏅 Founding Member</div>
-          <div class="lpc-title">Lifetime Access — Pay Once, Never Again</div>
-          <div class="lpc-sub">Everything in Pro, forever. No monthly fees. No renewals. Every future feature included. <strong>Limited to 497 people — ever.</strong> When these spots are gone this offer closes permanently.</div>
+          <div class="lpc-title">Zroppix Pro for life — pay once</div>
+          <div class="lpc-sub">Find, Protect and the extension, with no monthly fees or renewals. Pro features we add later are included. <strong>Limited to 497 people.</strong> We plan to close Lifetime when they are gone.</div>
         </div>
         <div class="lpc-right">
           <div class="lpc-price">
             <div class="lpc-price-num"><sup>$</sup>149</div>
-            <div class="lpc-price-label">one-time · yours forever</div>
+            <div class="lpc-price-label">one-time · no renewals</div>
           </div>
           <div>
             <a href="/lifetime" class="lpc-btn">Lock In Lifetime Access →</a>
-            <div class="lpc-spots">Limited to <strong>497 founding members</strong> — ever</div>
+            <div class="lpc-spots">Limited to <strong>497 founding members</strong></div>
           </div>
         </div>
       </div>
@@ -678,7 +737,7 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
   <div class="faq-list">
     <div class="faq-item"><div class="faq-question">Is Zroppix really free?<span class="faq-icon">+</span></div><div class="faq-answer">Yes. The free plan is free forever with no time limit and no credit card required. You get BUY or WAIT verdicts, price history, overpay score and up to 3 price alerts — all completely free.</div></div>
     <div class="faq-item"><div class="faq-question">How accurate are the predictions?<span class="faq-icon">+</span></div><div class="faq-answer">Zroppix gives a BUY or WAIT verdict from a product's 90-day price history. These are estimates, not guarantees, and we have not published an accuracy rate. Always check the live price and history before you buy.</div></div>
-    <div class="faq-item"><div class="faq-question">Which stores does it work on?<span class="faq-icon">+</span></div><div class="faq-answer">Zroppix currently works on Amazon. We are actively adding Walmart, Best Buy, Target, Nike, Adidas and more. Pro users get access to all new stores as they launch.</div></div>
+    <div class="faq-item"><div class="faq-question">Which stores does it work on?<span class="faq-icon">+</span></div><div class="faq-answer">Find searches stores, coupons and cashback for any product, and Protect covers the stores listed on its page. The Chrome extension verdicts and 90-day history work on Amazon today. We have not set dates for other stores.</div></div>
     <div class="faq-item"><div class="faq-question">Will it slow down my browser?<span class="faq-icon">+</span></div><div class="faq-answer">No. Zroppix only activates when you click the icon on a product page. It has zero impact on browsing speed or page load times.</div></div>
     <div class="faq-item"><div class="faq-question">Is my data private?<span class="faq-icon">+</span></div><div class="faq-answer">Yes. We only collect product prices — never your personal information, browsing history or purchase data. We never sell data to third parties. Ever.</div></div>
     <div class="faq-item"><div class="faq-question">How is Zroppix different from CamelCamelCamel?<span class="faq-icon">+</span></div><div class="faq-answer">CamelCamelCamel shows you price history graphs and lets you set alerts. Zroppix goes much further — it uses AI to analyze the data and tell you exactly what to do. BUY or WAIT. How much you could save. When the price will drop. What others paid.</div></div>
@@ -705,7 +764,7 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 4
 <section class="final-cta">
   <span class="final-cta-icon">🛡️</span>
   <h2>Start saving money today</h2>
-  <p>Free forever. No account needed. No credit card. Works in 10 seconds.</p>
+  <p>Search free, with no sign-up. Add the free Chrome extension in about 10 seconds. Pro is $14 a month, and you can cancel with one click.</p>
   <a href="https://chromewebstore.google.com/detail/zroppix-%E2%80%94-ai-price-predic/imklniieijfelodlaepelbkacbelmcnf" class="btn-gold btn-lg">🛡️ Add to Chrome — It's Free</a>
   <p class="final-cta-note">✓ Works on Chrome and Brave &nbsp;·&nbsp; ✓ Free forever &nbsp;·&nbsp; ✓ 10 second install</p>
 </section>
